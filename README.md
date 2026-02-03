@@ -1,32 +1,26 @@
 # Vistral Design System
 
-Sistema de diseño React con componentes sincronizados desde Figma.
+React design system with components synced from Figma.
 
-## 📦 Instalación
+## Installation
 
-### Opción 1: NPM (Recomendado)
+### Option 1: From GitHub (Recommended)
 
 ```bash
-npm install @vistral/design-system
+npm install git+https://github.com/angelvanegas1006/vistral-design-system.git
 ```
 
-### Opción 2: Desde GitHub
+### Option 2: Local link (development)
 
 ```bash
-npm install git+https://github.com/tu-org/vistral-design-system.git
-```
-
-### Opción 3: Link local (desarrollo)
-
-```bash
-# En el directorio del design system
+# In the design system directory
 npm link
 
-# En tu proyecto
+# In your project
 npm link @vistral/design-system
 ```
 
-## 🚀 Uso básico
+## Basic Usage
 
 ```tsx
 import { Button, Card, Input, PropertyCard } from '@vistral/design-system';
@@ -34,162 +28,164 @@ import { Button, Card, Input, PropertyCard } from '@vistral/design-system';
 function App() {
   return (
     <Card>
-      <Input label="Email" placeholder="tu@email.com" />
-      <Button>Enviar</Button>
+      <Input label="Email" placeholder="you@email.com" />
+      <Button>Submit</Button>
     </Card>
   );
 }
 ```
 
-## 📚 Componentes disponibles
+## Available Components
 
-### Básicos
-- `Button` - Botones con variantes (primary, secondary, ghost, destructive)
-- `Card` - Contenedor con header, body, footer
-- `Badge` - Etiquetas de estado
-- `Avatar` - Imágenes de perfil
-- `Alert` - Mensajes de alerta
-- `Divider` - Separadores
-- `Link` - Enlaces estilizados
+### Basic
+- `Button` - Buttons with variants (primary, secondary, ghost, destructive)
+- `Card` - Container with header, body, footer
+- `Badge` - Status labels
+- `Avatar` - Profile images
+- `Alert` - Alert messages
+- `Divider` - Separators
+- `Link` - Styled links
 
-### Formularios
-- `Input` - Campo de texto
-- `Textarea` - Área de texto
-- `Checkbox` - Casillas de verificación
-- `Switch` - Interruptores
-- `Radio` - Botones de radio
-- `Select` - Selectores
-- `Combobox` - Select con búsqueda
-- `Autocomplete` - Input con sugerencias
-- `Slider` - Control deslizante
-- `DatePicker` - Selector de fecha
-- `PhoneInput` - Input de teléfono internacional
-- `PinCode` - Input de código PIN
-- `TagInput` - Input de etiquetas múltiples
-- `NumberInput` - Input numérico con +/-
-- `SearchInput` - Campo de búsqueda
-- `ColorPicker` - Selector de color
-- `FileUpload` - Subida de archivos
+### Forms
+- `Input` - Text field
+- `Textarea` - Text area
+- `Checkbox` - Checkboxes
+- `Switch` - Toggle switches
+- `Radio` - Radio buttons
+- `Select` - Selectors
+- `Combobox` - Select with search
+- `Autocomplete` - Input with suggestions
+- `Slider` - Slider control
+- `DatePicker` - Date selector
+- `PhoneInput` - International phone input
+- `PinCode` - PIN code input
+- `TagInput` - Multiple tags input
+- `NumberInput` - Numeric input with +/-
+- `SearchInput` - Search field
+- `ColorPicker` - Color selector
+- `FileUpload` - File upload
 
 ### Feedback
-- `Progress` - Barras de progreso
-- `Skeleton` - Placeholders de carga
-- `Toast` - Notificaciones temporales
-- `EmptyState` - Estados vacíos
-- `Tooltip` - Tooltips informativos
-- `Banner` - Banners de notificación
+- `Progress` - Progress bars
+- `Skeleton` - Loading placeholders
+- `Toast` - Temporary notifications
+- `EmptyState` - Empty states
+- `Tooltip` - Informative tooltips
+- `Banner` - Notification banners
 
-### Navegación
-- `Navbar` - Barra de navegación superior
-- `BottomNav` - Navegación inferior (mobile)
-- `Tabs` - Pestañas
-- `Breadcrumb` - Migas de pan
-- `Pagination` - Paginación
-- `SideNav` - Navegación lateral
-- `Stepper` - Wizard de pasos
+### Navigation
+- `Navbar` - Top navigation bar
+- `BottomNav` - Bottom navigation (mobile)
+- `Tabs` - Tabs
+- `Breadcrumb` - Breadcrumbs
+- `Pagination` - Pagination
+- `SideNav` - Side navigation
+- `Stepper` - Step wizard
 
 ### Overlays
-- `Dialog` - Diálogos modales
-- `Popover` - Popovers flotantes
-- `DropdownMenu` - Menús desplegables
-- `ContextMenu` - Menú contextual
-- `Sheet` - Panel lateral deslizante
+- `Dialog` - Modal dialogs
+- `Popover` - Floating popovers
+- `DropdownMenu` - Dropdown menus
+- `ContextMenu` - Context menu
+- `Sheet` - Sliding side panel
 
 ### Layout
-- `Accordion` - Acordeones
-- `Table` - Tablas de datos
-- `List` / `ListItem` - Listas
-- `Carousel` - Carrusel de imágenes
-- `DataBlock` - Bloques de KPIs
-- `PageHeader` / `SectionHeader` - Encabezados
-- `FooterActions` - Acciones de pie
-- `Timeline` - Línea de tiempo
-- `ToggleGroup` - Grupos de toggle
+- `Accordion` - Accordions
+- `Table` - Data tables
+- `List` / `ListItem` - Lists
+- `Carousel` - Image carousel
+- `DataBlock` - KPI blocks
+- `PageHeader` / `SectionHeader` - Headers
+- `FooterActions` - Footer actions
+- `Timeline` - Timeline
+- `ToggleGroup` - Toggle groups
 
-### Especiales
+### Special
 - `Chip` - Chips/Tags
-- `Rating` - Estrellas de valoración
-- `Calendar` - Calendario
-- `Lightbox` - Visor de imágenes
-- `MediaHero` - Hero de galería de fotos
-- `PropertyCard` - Tarjeta de propiedad inmobiliaria
+- `Rating` - Star ratings
+- `Calendar` - Calendar
+- `Lightbox` - Image viewer
+- `MediaHero` - Photo gallery hero
+- `PropertyCard` - Real estate property card
 
-## 🎨 Tokens de diseño
+## Design Tokens
 
-### Usar tokens CSS
+### Use CSS tokens
 
 ```tsx
 import '@vistral/design-system/tokens.css';
 ```
 
-### Usar tokens en JS
+### Use JS tokens
 
 ```tsx
 import { BUTTON_TOKENS, CARD_TOKENS } from '@vistral/design-system';
 
-// Acceder a valores específicos
+// Access specific values
 console.log(BUTTON_TOKENS.primary.bg); // '#2050f6'
 ```
 
-## 📖 Storybook
+## Storybook
 
-Ver documentación interactiva:
+View interactive documentation:
 
 ```bash
-# Clonar el repositorio
-git clone https://github.com/tu-org/vistral-design-system.git
+# Clone the repository
+git clone https://github.com/angelvanegas1006/vistral-design-system.git
 cd vistral-design-system
 
-# Instalar dependencias
+# Install dependencies
 npm install
 
-# Iniciar Storybook
+# Start Storybook
 npm run storybook
 ```
 
-Abre http://localhost:6006
+Open http://localhost:6006
 
-## 🔧 Desarrollo
+Or view the live version at: https://vistral-design-system.vercel.app
 
-### Requisitos
+## Development
+
+### Requirements
 - Node.js 18+
 - React 19+
 
-### Comandos
+### Commands
 
 ```bash
-# Desarrollo con watch
+# Development with watch
 npm run dev
 
-# Build de producción
+# Production build
 npm run build
 
 # Storybook
 npm run storybook
 
-# Build Storybook estático
+# Build static Storybook
 npm run build-storybook
 
 # Type check
 npm run typecheck
 ```
 
-### Estructura del proyecto
+### Project Structure
 
 ```
 vistral-design-system/
 ├── src/
 │   ├── components/
-│   │   └── ui/           # Componentes React
+│   │   └── ui/           # React components
 │   ├── tokens/           # Design tokens
-│   └── index.ts          # Exports principales
-├── stories/              # Stories de Storybook
+│   └── index.ts          # Main exports
+├── stories/              # Storybook stories
 ├── lib/
-│   └── figma-sync/       # Sincronización con Figma
-└── dist/                 # Build de producción
+│   └── figma-sync/       # Figma synchronization
+└── dist/                 # Production build
 ```
 
-## 📝 Ejemplo completo
+## Complete Example
 
 ```tsx
 import {
@@ -210,29 +206,29 @@ function ContactForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Contacto</CardTitle>
-        <Badge variant="success">Nuevo</Badge>
+        <CardTitle>Contact</CardTitle>
+        <Badge variant="success">New</Badge>
       </CardHeader>
       <CardContent>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <Input 
-            label="Nombre" 
-            placeholder="Tu nombre" 
+            label="Name" 
+            placeholder="Your name" 
           />
           <Input 
             label="Email" 
             type="email" 
-            placeholder="tu@email.com" 
+            placeholder="you@email.com" 
           />
           <Select>
-            <SelectTrigger placeholder="Selecciona un tema" />
+            <SelectTrigger placeholder="Select a topic" />
             <SelectContent>
               <SelectItem value="general">General</SelectItem>
-              <SelectItem value="soporte">Soporte</SelectItem>
-              <SelectItem value="ventas">Ventas</SelectItem>
+              <SelectItem value="support">Support</SelectItem>
+              <SelectItem value="sales">Sales</SelectItem>
             </SelectContent>
           </Select>
-          <Button>Enviar mensaje</Button>
+          <Button>Send message</Button>
         </div>
       </CardContent>
     </Card>
@@ -240,7 +236,7 @@ function ContactForm() {
 }
 ```
 
-## 🏠 PropertyCard (Inmobiliaria)
+## PropertyCard (Real Estate)
 
 ```tsx
 import { PropertyCard } from '@vistral/design-system';
@@ -267,6 +263,6 @@ import { PropertyCard } from '@vistral/design-system';
 />
 ```
 
-## 📄 Licencia
+## License
 
-Privado - Vistral Lab © 2024
+Private - Vistral Lab © 2024
