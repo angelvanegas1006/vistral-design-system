@@ -1,0 +1,12 @@
+{
+  "name": "Vistral Design System Token Extractor",
+  "id": "vistral-token-extractor",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": ["figma"],
+  "networkAccess": {
+    "allowedDomains": ["none"]
+  },
+  "permissions": []
+}

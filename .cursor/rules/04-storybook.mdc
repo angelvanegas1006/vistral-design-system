@@ -1,0 +1,112 @@
+---
+version: 1.0
+owner: Vistral Lab
+lastUpdated: 2026-02-02
+glob: ["**/stories/**", "**/.storybook/**"]
+description: "Storybook configuration and story patterns"
+---
+
+# Vistral Design System - Storybook Rules
+
+## Storybook Configuration
+
+### Setup
+
+**Location:** `.storybook/main.ts` and `.storybook/preview.ts`
+
+**Essential addons:**
+- `@storybook/addon-essentials` - Controls, Actions, Docs
+- `@storybook/addon-viewport` - Responsive testing
+- `@storybook/addon-a11y` - Accessibility testing (recomendado)
+
+**Run:**
+```bash
+npm run storybook        # Development
+npm run build-storybook  # Build static
+```
+
+## Story Patterns
+
+### Basic Story Structure
+
+```typescript
+import type { Meta, StoryObj } from '@storybook/react'
+import { ComponentName } from '@/components/ui/component-name'
+
+const meta = {
+  title: 'UI/ComponentName',
+  component: ComponentName,
+  parameters: {
+    layout: 'centered',
+  },
+  tags: ['autodocs'],
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['default', 'secondary'],
+    },
+  },
+} satisfies Meta<typeof ComponentName>
+
+export default meta
+type Story = StoryObj<typeof meta>
+
+export const Default: Story = {
+  args: {
+    variant: 'default',
+  },
+}
+
+export const Secondary: Story = {
+  args: {
+    variant: 'secondary',
+  },
+}
+```
+
+### Story Organization
+
+**Structure:**
+- `stories/components/ui/` - Stories por componente
+- `stories/DesignTokens.stories.tsx` - Visualización de tokens
+- `stories/Introduction.stories.mdx` - Documentación principal
+
+**Naming:**
+- Story files: `ComponentName.stories.tsx`
+- Story titles: `UI/ComponentName` (categoría/componente)
+
+### Documentation
+
+**Use MDX for rich documentation:**
+```mdx
+import { Meta } from '@storybook/blocks'
+
+<Meta title="UI/ComponentName" />
+
+# ComponentName
+
+Description of the component...
+
+## Usage
+
+\`\`\`tsx
+<ComponentName variant="default">Content</ComponentName>
+\`\`\`
+```
+
+### Testing in Stories
+
+**Always include:**
+- All variants
+- Different sizes (if applicable)
+- Interactive states (hover, focus, disabled)
+- Responsive behavior
+- Accessibility examples
+
+### Best Practices
+
+- Keep stories focused and simple
+- Use controls for interactive testing
+- Document props and usage
+- Include examples of common use cases
+- Test edge cases (empty states, long text, etc.)

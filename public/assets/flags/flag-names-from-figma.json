@@ -1,0 +1,1376 @@
+{
+  "extractedAt": "2026-02-03T17:14:46.505Z",
+  "total": 274,
+  "flags": [
+    {
+      "name": "Abkhazia",
+      "code": "abkhazia",
+      "nodeId": "97:10406"
+    },
+    {
+      "name": "Afghanistan",
+      "code": "afghanistan",
+      "nodeId": "97:10423"
+    },
+    {
+      "name": "Aland Islands",
+      "code": "aland-islands",
+      "nodeId": "97:10430"
+    },
+    {
+      "name": "Albania",
+      "code": "albania",
+      "nodeId": "97:10438"
+    },
+    {
+      "name": "Algeria",
+      "code": "algeria",
+      "nodeId": "97:10441"
+    },
+    {
+      "name": "American Samoa",
+      "code": "american-samoa",
+      "nodeId": "97:10447"
+    },
+    {
+      "name": "Andorra",
+      "code": "andorra",
+      "nodeId": "97:10455"
+    },
+    {
+      "name": "Angola",
+      "code": "angola",
+      "nodeId": "97:10463"
+    },
+    {
+      "name": "Anguilla",
+      "code": "anguilla",
+      "nodeId": "97:10470"
+    },
+    {
+      "name": "Antigua And Barbuda",
+      "code": "antigua-and-barbuda",
+      "nodeId": "97:10485"
+    },
+    {
+      "name": "Argentina",
+      "code": "argentina",
+      "nodeId": "97:10493"
+    },
+    {
+      "name": "Armenia",
+      "code": "armenia",
+      "nodeId": "97:10499"
+    },
+    {
+      "name": "Aruba",
+      "code": "aruba",
+      "nodeId": "97:10503"
+    },
+    {
+      "name": "Australia",
+      "code": "australia",
+      "nodeId": "97:10511"
+    },
+    {
+      "name": "Austria",
+      "code": "austria",
+      "nodeId": "97:10527"
+    },
+    {
+      "name": "Azerbaijan",
+      "code": "azerbaijan",
+      "nodeId": "97:10532"
+    },
+    {
+      "name": "Azores Islands",
+      "code": "azores-islands",
+      "nodeId": "97:10539"
+    },
+    {
+      "name": "Bahamas",
+      "code": "bahamas",
+      "nodeId": "97:10553"
+    },
+    {
+      "name": "Bahrain",
+      "code": "bahrain",
+      "nodeId": "97:10559"
+    },
+    {
+      "name": "Balearic Islands",
+      "code": "balearic-islands",
+      "nodeId": "97:10562"
+    },
+    {
+      "name": "Bangladesh",
+      "code": "bangladesh",
+      "nodeId": "97:10571"
+    },
+    {
+      "name": "Barbados",
+      "code": "barbados",
+      "nodeId": "97:10574"
+    },
+    {
+      "name": "Basque Country",
+      "code": "basque-country",
+      "nodeId": "97:10580"
+    },
+    {
+      "name": "Belarus",
+      "code": "belarus",
+      "nodeId": "97:10593"
+    },
+    {
+      "name": "Belgium",
+      "code": "belgium",
+      "nodeId": "97:10604"
+    },
+    {
+      "name": "Belize",
+      "code": "belize",
+      "nodeId": "97:10608"
+    },
+    {
+      "name": "Benin",
+      "code": "benin",
+      "nodeId": "97:10618"
+    },
+    {
+      "name": "Bermuda",
+      "code": "bermuda",
+      "nodeId": "97:10622"
+    },
+    {
+      "name": "Bhutan",
+      "code": "bhutan",
+      "nodeId": "97:10638"
+    },
+    {
+      "name": "Bolivia",
+      "code": "bolivia",
+      "nodeId": "97:10643"
+    },
+    {
+      "name": "Bonaire",
+      "code": "bonaire",
+      "nodeId": "97:10647"
+    },
+    {
+      "name": "Bosnia And Herzegovina",
+      "code": "bosnia-and-herzegovina",
+      "nodeId": "97:10653"
+    },
+    {
+      "name": "Botswana",
+      "code": "botswana",
+      "nodeId": "97:10659"
+    },
+    {
+      "name": "Brazil",
+      "code": "brazil",
+      "nodeId": "97:10665"
+    },
+    {
+      "name": "British Columbia",
+      "code": "british-columbia",
+      "nodeId": "97:10672"
+    },
+    {
+      "name": "British Indian Ocean Territory",
+      "code": "british-indian-ocean-territory",
+      "nodeId": "97:10701"
+    },
+    {
+      "name": "British Virgin Islands",
+      "code": "british-virgin-islands",
+      "nodeId": "97:10730"
+    },
+    {
+      "name": "Brunei",
+      "code": "brunei",
+      "nodeId": "97:10752"
+    },
+    {
+      "name": "Bulgaria",
+      "code": "bulgaria",
+      "nodeId": "97:10765"
+    },
+    {
+      "name": "Burkina Faso",
+      "code": "burkina-faso",
+      "nodeId": "97:10769"
+    },
+    {
+      "name": "Burundi",
+      "code": "burundi",
+      "nodeId": "97:10773"
+    },
+    {
+      "name": "Cambodia",
+      "code": "cambodia",
+      "nodeId": "97:10786"
+    },
+    {
+      "name": "Cameroon",
+      "code": "cameroon",
+      "nodeId": "97:10792"
+    },
+    {
+      "name": "Canada",
+      "code": "canada",
+      "nodeId": "97:10797"
+    },
+    {
+      "name": "Canary Islands",
+      "code": "canary-islands",
+      "nodeId": "97:10803"
+    },
+    {
+      "name": "Cape Verde",
+      "code": "cape-verde",
+      "nodeId": "97:10807"
+    },
+    {
+      "name": "Cayman Islands",
+      "code": "cayman-islands",
+      "nodeId": "97:10824"
+    },
+    {
+      "name": "Central African Republic",
+      "code": "central-african-republic",
+      "nodeId": "97:10843"
+    },
+    {
+      "name": "Ceuta",
+      "code": "ceuta",
+      "nodeId": "97:10858"
+    },
+    {
+      "name": "Chad",
+      "code": "chad",
+      "nodeId": "97:10881"
+    },
+    {
+      "name": "Chile",
+      "code": "chile",
+      "nodeId": "97:10885"
+    },
+    {
+      "name": "China",
+      "code": "china",
+      "nodeId": "97:10890"
+    },
+    {
+      "name": "Cocos Island",
+      "code": "cocos-island",
+      "nodeId": "97:10898"
+    },
+    {
+      "name": "Colombia",
+      "code": "colombia",
+      "nodeId": "97:10910"
+    },
+    {
+      "name": "Comoros",
+      "code": "comoros",
+      "nodeId": "97:10914"
+    },
+    {
+      "name": "Cook Islands",
+      "code": "cook-islands",
+      "nodeId": "97:10926"
+    },
+    {
+      "name": "Corsica",
+      "code": "corsica",
+      "nodeId": "97:10944"
+    },
+    {
+      "name": "Costa Rica",
+      "code": "costa-rica",
+      "nodeId": "97:10948"
+    },
+    {
+      "name": "Croatia",
+      "code": "croatia",
+      "nodeId": "97:10954"
+    },
+    {
+      "name": "Cuba",
+      "code": "cuba",
+      "nodeId": "97:10979"
+    },
+    {
+      "name": "Curacao",
+      "code": "curacao",
+      "nodeId": "97:10988"
+    },
+    {
+      "name": "Cyprus",
+      "code": "cyprus",
+      "nodeId": "97:10996"
+    },
+    {
+      "name": "Czech Republic",
+      "code": "czech-republic",
+      "nodeId": "97:11000"
+    },
+    {
+      "name": "Democratic Republic Of Congo",
+      "code": "democratic-republic-of-congo",
+      "nodeId": "97:11004"
+    },
+    {
+      "name": "Denmark",
+      "code": "denmark",
+      "nodeId": "97:11011"
+    },
+    {
+      "name": "Djibouti",
+      "code": "djibouti",
+      "nodeId": "97:11018"
+    },
+    {
+      "name": "Dominica",
+      "code": "dominica",
+      "nodeId": "97:11023"
+    },
+    {
+      "name": "Dominican Republic",
+      "code": "dominican-republic",
+      "nodeId": "97:11053"
+    },
+    {
+      "name": "East Timor",
+      "code": "east-timor",
+      "nodeId": "97:11062"
+    },
+    {
+      "name": "Ecuador",
+      "code": "ecuador",
+      "nodeId": "97:11067"
+    },
+    {
+      "name": "Egypt",
+      "code": "egypt",
+      "nodeId": "97:11074"
+    },
+    {
+      "name": "El Salvador",
+      "code": "el-salvador",
+      "nodeId": "97:11079"
+    },
+    {
+      "name": "England",
+      "code": "england",
+      "nodeId": "97:11087"
+    },
+    {
+      "name": "Equatorial Guinea",
+      "code": "equatorial-guinea",
+      "nodeId": "97:11090"
+    },
+    {
+      "name": "Eritrea",
+      "code": "eritrea",
+      "nodeId": "97:11098"
+    },
+    {
+      "name": "Estonia",
+      "code": "estonia",
+      "nodeId": "97:11103"
+    },
+    {
+      "name": "Ethiopia",
+      "code": "ethiopia",
+      "nodeId": "97:11107"
+    },
+    {
+      "name": "European Union",
+      "code": "european-union",
+      "nodeId": "97:11115"
+    },
+    {
+      "name": "Falkland Islands",
+      "code": "falkland-islands",
+      "nodeId": "97:11126"
+    },
+    {
+      "name": "Faroe Islands",
+      "code": "faroe-islands",
+      "nodeId": "97:11140"
+    },
+    {
+      "name": "Fiji",
+      "code": "fiji",
+      "nodeId": "97:11144"
+    },
+    {
+      "name": "Finland",
+      "code": "finland",
+      "nodeId": "97:11158"
+    },
+    {
+      "name": "France",
+      "code": "france",
+      "nodeId": "97:11161"
+    },
+    {
+      "name": "French Polynesia",
+      "code": "french-polynesia",
+      "nodeId": "97:11165"
+    },
+    {
+      "name": "Gabon",
+      "code": "gabon",
+      "nodeId": "97:11176"
+    },
+    {
+      "name": "Galapagos Islands",
+      "code": "galapagos-islands",
+      "nodeId": "97:11180"
+    },
+    {
+      "name": "Gambia",
+      "code": "gambia",
+      "nodeId": "97:11184"
+    },
+    {
+      "name": "Georgia",
+      "code": "georgia",
+      "nodeId": "97:11189"
+    },
+    {
+      "name": "Germany",
+      "code": "germany",
+      "nodeId": "97:11197"
+    },
+    {
+      "name": "Ghana",
+      "code": "ghana",
+      "nodeId": "97:11201"
+    },
+    {
+      "name": "Gibraltar",
+      "code": "gibraltar",
+      "nodeId": "97:11206"
+    },
+    {
+      "name": "Greece",
+      "code": "greece",
+      "nodeId": "97:11212"
+    },
+    {
+      "name": "Greenland",
+      "code": "greenland",
+      "nodeId": "97:11220"
+    },
+    {
+      "name": "Grenada",
+      "code": "grenada",
+      "nodeId": "97:11225"
+    },
+    {
+      "name": "Guam",
+      "code": "guam",
+      "nodeId": "97:11248"
+    },
+    {
+      "name": "Guatemala",
+      "code": "guatemala",
+      "nodeId": "97:11259"
+    },
+    {
+      "name": "Guernsey",
+      "code": "guernsey",
+      "nodeId": "97:11266"
+    },
+    {
+      "name": "Guinea",
+      "code": "guinea",
+      "nodeId": "97:11277"
+    },
+    {
+      "name": "Guinea Bissau",
+      "code": "guinea-bissau",
+      "nodeId": "97:11270"
+    },
+    {
+      "name": "Guyana",
+      "code": "guyana",
+      "nodeId": "97:11281"
+    },
+    {
+      "name": "Haiti",
+      "code": "haiti",
+      "nodeId": "97:11288"
+    },
+    {
+      "name": "Hawaii",
+      "code": "hawaii",
+      "nodeId": "97:11297"
+    },
+    {
+      "name": "Honduras",
+      "code": "honduras",
+      "nodeId": "97:11305"
+    },
+    {
+      "name": "Hong Kong",
+      "code": "hong-kong",
+      "nodeId": "97:11315"
+    },
+    {
+      "name": "Hungary",
+      "code": "hungary",
+      "nodeId": "97:11323"
+    },
+    {
+      "name": "Iceland",
+      "code": "iceland",
+      "nodeId": "97:11327"
+    },
+    {
+      "name": "India",
+      "code": "india",
+      "nodeId": "97:11335"
+    },
+    {
+      "name": "Indonesia",
+      "code": "indonesia",
+      "nodeId": "97:11342"
+    },
+    {
+      "name": "Iran",
+      "code": "iran",
+      "nodeId": "97:11345"
+    },
+    {
+      "name": "Iraq",
+      "code": "iraq",
+      "nodeId": "97:11350"
+    },
+    {
+      "name": "Ireland",
+      "code": "ireland",
+      "nodeId": "97:11358"
+    },
+    {
+      "name": "Isle Of Man",
+      "code": "isle-of-man",
+      "nodeId": "97:11362"
+    },
+    {
+      "name": "Israel",
+      "code": "israel",
+      "nodeId": "97:11365"
+    },
+    {
+      "name": "Italy",
+      "code": "italy",
+      "nodeId": "97:11371"
+    },
+    {
+      "name": "Ivory Coast",
+      "code": "ivory-coast",
+      "nodeId": "97:11375"
+    },
+    {
+      "name": "Jamaica",
+      "code": "jamaica",
+      "nodeId": "97:11379"
+    },
+    {
+      "name": "Japan",
+      "code": "japan",
+      "nodeId": "97:11385"
+    },
+    {
+      "name": "Jersey",
+      "code": "jersey",
+      "nodeId": "97:11388"
+    },
+    {
+      "name": "Jordan",
+      "code": "jordan",
+      "nodeId": "97:11393"
+    },
+    {
+      "name": "Kazakhstan",
+      "code": "kazakhstan",
+      "nodeId": "97:11399"
+    },
+    {
+      "name": "Kenya",
+      "code": "kenya",
+      "nodeId": "97:11404"
+    },
+    {
+      "name": "Kiribati",
+      "code": "kiribati",
+      "nodeId": "97:11417"
+    },
+    {
+      "name": "Kosovo",
+      "code": "kosovo",
+      "nodeId": "97:11428"
+    },
+    {
+      "name": "Kuwait",
+      "code": "kuwait",
+      "nodeId": "97:11438"
+    },
+    {
+      "name": "Kyrgyzstan",
+      "code": "kyrgyzstan",
+      "nodeId": "97:11443"
+    },
+    {
+      "name": "Laos",
+      "code": "laos",
+      "nodeId": "97:11452"
+    },
+    {
+      "name": "Latvia",
+      "code": "latvia",
+      "nodeId": "97:11458"
+    },
+    {
+      "name": "Lebanon",
+      "code": "lebanon",
+      "nodeId": "97:11463"
+    },
+    {
+      "name": "Lesotho",
+      "code": "lesotho",
+      "nodeId": "97:11469"
+    },
+    {
+      "name": "Liberia",
+      "code": "liberia",
+      "nodeId": "97:11474"
+    },
+    {
+      "name": "Libya",
+      "code": "libya",
+      "nodeId": "97:11491"
+    },
+    {
+      "name": "Liechtenstein",
+      "code": "liechtenstein",
+      "nodeId": "97:11498"
+    },
+    {
+      "name": "Lithuania",
+      "code": "lithuania",
+      "nodeId": "97:11502"
+    },
+    {
+      "name": "Luxembourg",
+      "code": "luxembourg",
+      "nodeId": "97:11506"
+    },
+    {
+      "name": "Macao",
+      "code": "macao",
+      "nodeId": "97:11510"
+    },
+    {
+      "name": "Madagascar",
+      "code": "madagascar",
+      "nodeId": "97:11522"
+    },
+    {
+      "name": "Madeira",
+      "code": "madeira",
+      "nodeId": "97:11526"
+    },
+    {
+      "name": "Malawi",
+      "code": "malawi",
+      "nodeId": "97:11533"
+    },
+    {
+      "name": "Malaysia",
+      "code": "malaysia",
+      "nodeId": "97:11538"
+    },
+    {
+      "name": "Maldives",
+      "code": "maldives",
+      "nodeId": "97:11549"
+    },
+    {
+      "name": "Mali",
+      "code": "mali",
+      "nodeId": "97:11553"
+    },
+    {
+      "name": "Malta",
+      "code": "malta",
+      "nodeId": "97:11557"
+    },
+    {
+      "name": "Marshall Island",
+      "code": "marshall-island",
+      "nodeId": "97:11561"
+    },
+    {
+      "name": "Martinique",
+      "code": "martinique",
+      "nodeId": "97:11566"
+    },
+    {
+      "name": "Mauritania",
+      "code": "mauritania",
+      "nodeId": "97:11578"
+    },
+    {
+      "name": "Mauritius",
+      "code": "mauritius",
+      "nodeId": "97:11583"
+    },
+    {
+      "name": "Melilla",
+      "code": "melilla",
+      "nodeId": "97:11588"
+    },
+    {
+      "name": "Mexico",
+      "code": "mexico",
+      "nodeId": "97:11607"
+    },
+    {
+      "name": "Micronesia",
+      "code": "micronesia",
+      "nodeId": "97:11614"
+    },
+    {
+      "name": "Moldova",
+      "code": "moldova",
+      "nodeId": "97:11621"
+    },
+    {
+      "name": "Monaco",
+      "code": "monaco",
+      "nodeId": "97:11628"
+    },
+    {
+      "name": "Mongolia",
+      "code": "mongolia",
+      "nodeId": "97:11631"
+    },
+    {
+      "name": "Montenegro",
+      "code": "montenegro",
+      "nodeId": "97:11644"
+    },
+    {
+      "name": "Montserrat",
+      "code": "montserrat",
+      "nodeId": "97:11652"
+    },
+    {
+      "name": "Morocco",
+      "code": "morocco",
+      "nodeId": "97:11664"
+    },
+    {
+      "name": "Mozambique",
+      "code": "mozambique",
+      "nodeId": "97:11667"
+    },
+    {
+      "name": "Myanmar",
+      "code": "myanmar",
+      "nodeId": "97:11676"
+    },
+    {
+      "name": "Namibia",
+      "code": "namibia",
+      "nodeId": "97:11681"
+    },
+    {
+      "name": "Nato",
+      "code": "nato",
+      "nodeId": "97:11687"
+    },
+    {
+      "name": "Nauru",
+      "code": "nauru",
+      "nodeId": "97:11700"
+    },
+    {
+      "name": "Nepal",
+      "code": "nepal",
+      "nodeId": "97:11707"
+    },
+    {
+      "name": "Netherlands",
+      "code": "netherlands",
+      "nodeId": "97:11717"
+    },
+    {
+      "name": "New Zealand",
+      "code": "new-zealand",
+      "nodeId": "97:11721"
+    },
+    {
+      "name": "Nicaragua",
+      "code": "nicaragua",
+      "nodeId": "97:11734"
+    },
+    {
+      "name": "Niger",
+      "code": "niger",
+      "nodeId": "97:11743"
+    },
+    {
+      "name": "Nigeria",
+      "code": "nigeria",
+      "nodeId": "97:11749"
+    },
+    {
+      "name": "Niue",
+      "code": "niue",
+      "nodeId": "97:11754"
+    },
+    {
+      "name": "Norfolk Island",
+      "code": "norfolk-island",
+      "nodeId": "97:11771"
+    },
+    {
+      "name": "North Korea",
+      "code": "north-korea",
+      "nodeId": "97:11777"
+    },
+    {
+      "name": "Northern Cyprus",
+      "code": "northern-cyprus",
+      "nodeId": "97:11785"
+    },
+    {
+      "name": "Northern Marianas Islands",
+      "code": "northern-marianas-islands",
+      "nodeId": "97:11792"
+    },
+    {
+      "name": "Norway",
+      "code": "norway",
+      "nodeId": "97:11798"
+    },
+    {
+      "name": "Oman",
+      "code": "oman",
+      "nodeId": "97:11806"
+    },
+    {
+      "name": "Orkney Islands",
+      "code": "orkney-islands",
+      "nodeId": "97:11814"
+    },
+    {
+      "name": "Ossetia",
+      "code": "ossetia",
+      "nodeId": "97:11822"
+    },
+    {
+      "name": "Pakistan",
+      "code": "pakistan",
+      "nodeId": "97:11826"
+    },
+    {
+      "name": "Palau",
+      "code": "palau",
+      "nodeId": "97:11834"
+    },
+    {
+      "name": "Palestine",
+      "code": "palestine",
+      "nodeId": "97:11837"
+    },
+    {
+      "name": "Panama",
+      "code": "panama",
+      "nodeId": "97:11842"
+    },
+    {
+      "name": "Papua New Guinea",
+      "code": "papua-new-guinea",
+      "nodeId": "97:11848"
+    },
+    {
+      "name": "Paraguay",
+      "code": "paraguay",
+      "nodeId": "97:11858"
+    },
+    {
+      "name": "Peru",
+      "code": "peru",
+      "nodeId": "97:11864"
+    },
+    {
+      "name": "Philippines",
+      "code": "philippines",
+      "nodeId": "97:11869"
+    },
+    {
+      "name": "Pitcairn Islands",
+      "code": "pitcairn-islands",
+      "nodeId": "97:11878"
+    },
+    {
+      "name": "Poland",
+      "code": "poland",
+      "nodeId": "97:11891"
+    },
+    {
+      "name": "Portugal",
+      "code": "portugal",
+      "nodeId": "97:11894"
+    },
+    {
+      "name": "Puerto Rico",
+      "code": "puerto-rico",
+      "nodeId": "97:11900"
+    },
+    {
+      "name": "Qatar",
+      "code": "qatar",
+      "nodeId": "97:11908"
+    },
+    {
+      "name": "Rapa Nui",
+      "code": "rapa-nui",
+      "nodeId": "97:11911"
+    },
+    {
+      "name": "Republic Of Macedonia",
+      "code": "republic-of-macedonia",
+      "nodeId": "97:11914"
+    },
+    {
+      "name": "Republic Of The Congo",
+      "code": "republic-of-the-congo",
+      "nodeId": "97:11927"
+    },
+    {
+      "name": "Romania",
+      "code": "romania",
+      "nodeId": "97:11931"
+    },
+    {
+      "name": "Russia",
+      "code": "russia",
+      "nodeId": "97:11935"
+    },
+    {
+      "name": "Rwanda",
+      "code": "rwanda",
+      "nodeId": "97:11939"
+    },
+    {
+      "name": "Saba Island",
+      "code": "saba-island",
+      "nodeId": "97:11944"
+    },
+    {
+      "name": "Sahrawi Arab Democratic Republic",
+      "code": "sahrawi-arab-democratic-republic",
+      "nodeId": "97:11953"
+    },
+    {
+      "name": "Samoa",
+      "code": "samoa",
+      "nodeId": "97:11961"
+    },
+    {
+      "name": "San Marino",
+      "code": "san-marino",
+      "nodeId": "97:11970"
+    },
+    {
+      "name": "Sao Tome And Prince",
+      "code": "sao-tome-and-prince",
+      "nodeId": "97:11978"
+    },
+    {
+      "name": "Sardinia",
+      "code": "sardinia",
+      "nodeId": "97:11986"
+    },
+    {
+      "name": "Saudi Arabia",
+      "code": "saudi-arabia",
+      "nodeId": "97:12001"
+    },
+    {
+      "name": "Scotland",
+      "code": "scotland",
+      "nodeId": "97:12010"
+    },
+    {
+      "name": "Senegal",
+      "code": "senegal",
+      "nodeId": "97:12017"
+    },
+    {
+      "name": "Serbia",
+      "code": "serbia",
+      "nodeId": "97:12023"
+    },
+    {
+      "name": "Seychelles",
+      "code": "seychelles",
+      "nodeId": "97:12033"
+    },
+    {
+      "name": "Sierra Leone",
+      "code": "sierra-leone",
+      "nodeId": "97:12039"
+    },
+    {
+      "name": "Singapore",
+      "code": "singapore",
+      "nodeId": "97:12043"
+    },
+    {
+      "name": "Sint Eustatius",
+      "code": "sint-eustatius",
+      "nodeId": "97:12053"
+    },
+    {
+      "name": "Sint Maarten",
+      "code": "sint-maarten",
+      "nodeId": "97:12068"
+    },
+    {
+      "name": "Slovakia",
+      "code": "slovakia",
+      "nodeId": "97:12078"
+    },
+    {
+      "name": "Slovenia",
+      "code": "slovenia",
+      "nodeId": "97:12086"
+    },
+    {
+      "name": "Solomon Islands",
+      "code": "solomon-islands",
+      "nodeId": "97:12091"
+    },
+    {
+      "name": "Somalia",
+      "code": "somalia",
+      "nodeId": "97:12101"
+    },
+    {
+      "name": "Somaliland",
+      "code": "somaliland",
+      "nodeId": "97:12104"
+    },
+    {
+      "name": "South Africa",
+      "code": "south-africa",
+      "nodeId": "97:12115"
+    },
+    {
+      "name": "South Korea",
+      "code": "south-korea",
+      "nodeId": "97:12122"
+    },
+    {
+      "name": "South Sudan",
+      "code": "south-sudan",
+      "nodeId": "97:12144"
+    },
+    {
+      "name": "Spain",
+      "code": "spain",
+      "nodeId": "97:12151"
+    },
+    {
+      "name": "Sri Lanka",
+      "code": "sri-lanka",
+      "nodeId": "97:12156"
+    },
+    {
+      "name": "St Barts",
+      "code": "st-barts",
+      "nodeId": "97:12163"
+    },
+    {
+      "name": "St Lucia",
+      "code": "st-lucia",
+      "nodeId": "97:12172"
+    },
+    {
+      "name": "St Vincent And The Grenadines",
+      "code": "st-vincent-and-the-grenadines",
+      "nodeId": "97:12177"
+    },
+    {
+      "name": "Sudan",
+      "code": "sudan",
+      "nodeId": "97:12185"
+    },
+    {
+      "name": "Suriname",
+      "code": "suriname",
+      "nodeId": "97:12190"
+    },
+    {
+      "name": "Swaziland",
+      "code": "swaziland",
+      "nodeId": "97:12197"
+    },
+    {
+      "name": "Sweden",
+      "code": "sweden",
+      "nodeId": "97:12212"
+    },
+    {
+      "name": "Switzerland",
+      "code": "switzerland",
+      "nodeId": "97:12219"
+    },
+    {
+      "name": "Syria",
+      "code": "syria",
+      "nodeId": "97:12222"
+    },
+    {
+      "name": "Taiwan",
+      "code": "taiwan",
+      "nodeId": "97:12229"
+    },
+    {
+      "name": "Tajikistan",
+      "code": "tajikistan",
+      "nodeId": "97:12235"
+    },
+    {
+      "name": "Tanzania",
+      "code": "tanzania",
+      "nodeId": "97:12248"
+    },
+    {
+      "name": "Thailand",
+      "code": "thailand",
+      "nodeId": "97:12253"
+    },
+    {
+      "name": "Tibet",
+      "code": "tibet",
+      "nodeId": "97:12259"
+    },
+    {
+      "name": "Togo",
+      "code": "togo",
+      "nodeId": "97:12275"
+    },
+    {
+      "name": "Tokelau",
+      "code": "tokelau",
+      "nodeId": "97:12283"
+    },
+    {
+      "name": "Tonga",
+      "code": "tonga",
+      "nodeId": "97:12291"
+    },
+    {
+      "name": "Transnistria",
+      "code": "transnistria",
+      "nodeId": "97:12296"
+    },
+    {
+      "name": "Trinidad And Tobago",
+      "code": "trinidad-and-tobago",
+      "nodeId": "97:12301"
+    },
+    {
+      "name": "Tunisia",
+      "code": "tunisia",
+      "nodeId": "97:12307"
+    },
+    {
+      "name": "Turkey",
+      "code": "turkey",
+      "nodeId": "97:12313"
+    },
+    {
+      "name": "Turkmenistan",
+      "code": "turkmenistan",
+      "nodeId": "97:12318"
+    },
+    {
+      "name": "Turks And Caicos",
+      "code": "turks-and-caicos",
+      "nodeId": "97:12346"
+    },
+    {
+      "name": "Tuvalu",
+      "code": "tuvalu",
+      "nodeId": "97:12360"
+    },
+    {
+      "name": "Type=australia",
+      "code": "typeaustralia",
+      "nodeId": "97:10511"
+    },
+    {
+      "name": "Type=basque Country",
+      "code": "typebasque-country",
+      "nodeId": "97:10580"
+    },
+    {
+      "name": "Type=brazil",
+      "code": "typebrazil",
+      "nodeId": "97:10665"
+    },
+    {
+      "name": "Type=canada",
+      "code": "typecanada",
+      "nodeId": "97:10797"
+    },
+    {
+      "name": "Type=china",
+      "code": "typechina",
+      "nodeId": "97:10890"
+    },
+    {
+      "name": "Type=france",
+      "code": "typefrance",
+      "nodeId": "97:11161"
+    },
+    {
+      "name": "Type=germany",
+      "code": "typegermany",
+      "nodeId": "97:11197"
+    },
+    {
+      "name": "Type=italy",
+      "code": "typeitaly",
+      "nodeId": "97:11371"
+    },
+    {
+      "name": "Type=japan",
+      "code": "typejapan",
+      "nodeId": "97:11385"
+    },
+    {
+      "name": "Type=mexico",
+      "code": "typemexico",
+      "nodeId": "97:11607"
+    },
+    {
+      "name": "Type=pressed Flag",
+      "code": "typepressed-flag",
+      "nodeId": "726:5910"
+    },
+    {
+      "name": "Type=spain",
+      "code": "typespain",
+      "nodeId": "97:12151"
+    },
+    {
+      "name": "Type=united Kingdom",
+      "code": "typeunited-kingdom",
+      "nodeId": "97:12398"
+    },
+    {
+      "name": "Type=united States",
+      "code": "typeunited-states",
+      "nodeId": "97:12420"
+    },
+    {
+      "name": "Uganda",
+      "code": "uganda",
+      "nodeId": "97:12382"
+    },
+    {
+      "name": "Ukraine",
+      "code": "ukraine",
+      "nodeId": "97:12390"
+    },
+    {
+      "name": "United Arab Emirates",
+      "code": "united-arab-emirates",
+      "nodeId": "97:12393"
+    },
+    {
+      "name": "United Kingdom",
+      "code": "united-kingdom",
+      "nodeId": "97:12398"
+    },
+    {
+      "name": "United Nations",
+      "code": "united-nations",
+      "nodeId": "97:12415"
+    },
+    {
+      "name": "United States",
+      "code": "united-states",
+      "nodeId": "97:12420"
+    },
+    {
+      "name": "Uruguay",
+      "code": "uruguay",
+      "nodeId": "97:12428"
+    },
+    {
+      "name": "Uzbekistán",
+      "code": "uzbekistan",
+      "nodeId": "97:12438"
+    },
+    {
+      "name": "Vanuatu",
+      "code": "vanuatu",
+      "nodeId": "97:12459"
+    },
+    {
+      "name": "Vatican City",
+      "code": "vatican-city",
+      "nodeId": "97:12485"
+    },
+    {
+      "name": "Venezuela",
+      "code": "venezuela",
+      "nodeId": "97:12490"
+    },
+    {
+      "name": "Vietnam",
+      "code": "vietnam",
+      "nodeId": "97:12503"
+    },
+    {
+      "name": "Virgin Islands",
+      "code": "virgin-islands",
+      "nodeId": "97:12506"
+    },
+    {
+      "name": "Wales",
+      "code": "wales",
+      "nodeId": "97:12519"
+    },
+    {
+      "name": "Yemen",
+      "code": "yemen",
+      "nodeId": "97:12523"
+    },
+    {
+      "name": "Zambia",
+      "code": "zambia",
+      "nodeId": "97:12527"
+    },
+    {
+      "name": "Zimbabwe",
+      "code": "zimbabwe",
+      "nodeId": "97:12533"
+    }
+  ]
+}

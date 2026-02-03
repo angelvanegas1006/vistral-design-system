@@ -1,0 +1,96 @@
+---
+version: 1.0
+owner: Vistral Lab
+lastUpdated: 2026-02-02
+glob: "**/*"
+alwaysApply: true
+description: "Core rules - Stack, structure, security basics, and planning workflow"
+---
+
+# Vistral Design System - Core Rules
+
+## Stack y Dependencias Base
+
+- **Lenguaje:** TypeScript (strict)
+- **UI:** React 19, Radix UI, Tailwind CSS 4
+- **Formularios:** react-hook-form + @hookform/resolvers + Zod (cuando se necesiten)
+- **Estilos:** class-variance-authority (cva), clsx, tailwind-merge
+- **Build:** tsup (ESM + CJS)
+- **Package Manager:** npm/pnpm
+
+**Dependencias clave en `package.json`:**
+- `react`, `react-dom` (peer dependencies)
+- `@radix-ui/*` (dialog, dropdown-menu, label, select, etc.)
+- `class-variance-authority`, `clsx`, `tailwind-merge`
+- `@figma/rest-api-spec` (para sincronización)
+
+## Estructura de Carpetas
+
+```
+src/
+  components/
+    ui/          # Componentes React primitivos
+  tokens/        # Design tokens (JSON, CSS, TS)
+lib/
+  figma-sync/    # Scripts de sincronización con Figma
+  generators/    # Generadores de código (CSS, TS desde JSON)
+scripts/         # Scripts ejecutables (CLI)
+stories/         # Stories de Storybook
+  components/
+    ui/          # Stories por componente
+.cursor/
+  rules/         # Reglas modulares de Cursor (*.mdc)
+```
+
+- **Componentes:** `src/components/ui/` para primitivos
+- **Tokens:** `src/tokens/` para design tokens
+- **Scripts:** `lib/figma-sync/` para sincronización, `scripts/` para CLI
+- **Stories:** `stories/` para Storybook
+
+## SECURITY RULES (CRITICAL)
+
+**NEVER:**
+- Paste real secrets. Always use placeholders (e.g., `figd_...` → `figd_PLACEHOLDER`)
+- Read `.env*`, `*.pem`, `*.key`, or credentials files
+- Commit Figma tokens, even in `.env.example`
+- Expose `FIGMA_TOKEN` in client-side code or commits
+
+**ALWAYS:**
+- Use Figma token ONLY in `lib/figma-sync/` scripts
+- Verify secrets are not exposed in builds
+- Use environment variables from `.env.local`
+- Check `.cursorignore` excludes sensitive files
+
+## PROTECTED ZONES
+
+**Do not modify unless explicitly asked:**
+- `lib/figma-sync/config.ts` - Configuración de Figma (solo agregar nuevos archivos)
+- `src/tokens/vistral-tokens.json` - Tokens generados (solo actualizar vía sync)
+- `.cursorignore` - Cursor indexing exclusions
+
+## PLANNING WORKFLOW (MANDATORY)
+
+**Before coding:**
+1. Summarize intent - What are we trying to achieve?
+2. List steps - Break down into concrete steps
+3. Identify risks - What could go wrong?
+
+**After coding:**
+1. Summarize changes - What was modified/created?
+2. List risks introduced - Any new security/performance concerns?
+3. Suggest test cases or manual verification steps
+
+## Versioning
+
+Each rule file includes version, owner, and lastUpdated in frontmatter. When modifying rules:
+- Increment version for breaking changes
+- Update lastUpdated date
+- Document changes in commit message
+
+## Package Structure
+
+This is an npm package (`@vistral/design-system`):
+- Exports components from `src/components/ui/`
+- Exports tokens from `src/tokens/`
+- Builds to `dist/` with ESM and CJS formats
+- TypeScript types included in build

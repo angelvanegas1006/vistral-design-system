@@ -1,0 +1,148 @@
+---
+version: 1.0
+owner: Vistral Lab
+lastUpdated: 2026-02-02
+glob: ["**/components/**", "**/tokens/**", "**/*.css"]
+description: "Design system rules - Vistral tokens, component patterns, and styling"
+---
+
+# Vistral Design System - Design System Rules
+
+## Vistral Design System
+
+### Storybook Reference
+
+**Local Storybook:** `npm run storybook` (http://localhost:6006)
+
+Use Storybook to:
+- Check component variants and props
+- See usage examples
+- Understand design patterns
+- Verify accessibility features
+- Test components in isolation
+
+### Design Tokens
+
+**Location:** `src/tokens/vistral-tokens.json` (fuente de verdad)
+**Generated:** `src/tokens/vistral-tokens.css` (CSS variables)
+**Types:** `src/tokens/types.ts` (TypeScript types)
+
+**Variables CSS:** Prefijo `--vistral-*`
+- Colors: `--vistral-primary-500`, `--vistral-gray-900`
+- Spacing: `--vistral-spacing-md`, `--vistral-spacing-lg`
+- Radius: `--vistral-radius-lg`
+- Typography: Defined in tokens JSON
+
+**Usage:**
+- Import CSS: `import '@vistral/design-system/tokens.css'`
+- Use CSS variables for dynamic values
+- Use Tailwind classes when possible
+- Import TypeScript types: `import type { VistralTokens } from '@vistral/design-system/tokens'`
+
+### Token Synchronization
+
+**Sync from Figma:**
+```bash
+npm run figma:sync:tokens    # Solo tokens
+npm run figma:sync:components # Solo componentes
+npm run figma:sync:all       # Todo
+```
+
+**Generate outputs:**
+```bash
+npm run tokens:generate      # Genera CSS y TS desde JSON
+```
+
+**Workflow:**
+1. Diseñador actualiza tokens en Figma
+2. Developer ejecuta `npm run figma:sync:tokens`
+3. Script genera `vistral-tokens.json`
+4. Developer ejecuta `npm run tokens:generate`
+5. CSS y TypeScript types actualizados
+
+## Component Patterns
+
+### Class Utilities
+
+**Always use `cn()` from `@/lib/utils`:**
+```typescript
+import { cn } from "@/lib/utils"
+
+// ✅ CORRECT
+<div className={cn("base-class", condition && "conditional-class")}>
+
+// ❌ WRONG
+<div className={"base-class " + (condition ? "conditional-class" : "")}>
+```
+
+### Component Variants (CVA)
+
+**Pattern for variant-based components:**
+```typescript
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "@/lib/utils"
+
+const componentVariants = cva(
+  "base-classes",
+  {
+    variants: {
+      variant: {
+        default: "default-classes",
+        secondary: "secondary-classes",
+      },
+      size: {
+        sm: "small-classes",
+        md: "medium-classes",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "md",
+    },
+  }
+)
+
+interface ComponentProps extends VariantProps<typeof componentVariants> {
+  className?: string
+  // ... other props
+}
+
+export function Component({ variant, size, className, ...props }: ComponentProps) {
+  return (
+    <div className={cn(componentVariants({ variant, size, className }))} {...props} />
+  )
+}
+```
+
+### Refs
+
+**Components wrapping native elements MUST use `forwardRef`:**
+```typescript
+import { forwardRef } from "react"
+
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <button ref={ref} className={cn(buttonVariants({ className }))} {...props} />
+    )
+  }
+)
+Button.displayName = "Button"
+```
+
+### Accessibility
+
+- Use Radix UI primitives for keyboard navigation, focus management, ARIA
+- Don't reinvent modals, selects, dropdowns - use Radix components
+- Ensure proper focus order and keyboard shortcuts
+- Test with screen readers
+
+### Testing Expectations
+
+When modifying components:
+- Verify responsive behavior at different breakpoints
+- Check dark mode appearance (if supported)
+- Test keyboard navigation
+- Verify ARIA attributes are correct
+- Create/update Storybook stories
+- Suggest manual visual testing for UI changes

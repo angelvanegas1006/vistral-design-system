@@ -1,0 +1,220 @@
+{
+  "components": {
+    "button": {
+      "primary": {
+        "bg-default": {
+          "$type": "color",
+          "$value": "{color.action.primary.bg}"
+        },
+        "bg-hover": {
+          "$type": "color",
+          "$value": "{color.action.primary.bg-hover}"
+        },
+        "bg-active": {
+          "$type": "color",
+          "$value": "{color.action.primary.bg-active}"
+        },
+        "fg": {
+          "$type": "color",
+          "$value": "{color.action.primary.fg}"
+        }
+      },
+      "secondary": {
+        "bg-default": {
+          "$type": "color",
+          "$value": "{color.action.secondary.bg}"
+        },
+        "bg-hover": {
+          "$type": "color",
+          "$value": "{color.action.secondary.bg-hover}"
+        },
+        "bg-active": {
+          "$type": "color",
+          "$value": "{color.action.secondary.bg-active}"
+        },
+        "fg": {
+          "$type": "color",
+          "$value": "{color.action.secondary.fg}"
+        },
+        "fg-active": {
+          "$type": "color",
+          "$value": "{color.action.secondary.fg-active}"
+        }
+      },
+      "ghost": {
+        "bg-hover": {
+          "$type": "color",
+          "$value": "{components.button.secondary.bg-hover}"
+        },
+        "bg-active": {
+          "$type": "color",
+          "$value": "{components.button.secondary.bg-active}"
+        },
+        "fg": {
+          "$type": "color",
+          "$value": "{components.button.secondary.fg}"
+        },
+        "fg-active": {
+          "$type": "color",
+          "$value": "{color.action.secondary.fg-active}"
+        }
+      },
+      "destructive": {
+        "bg-default": {
+          "$type": "color",
+          "$value": "{color.action.destructive.bg}"
+        },
+        "bg-hover": {
+          "$type": "color",
+          "$value": "{color.action.destructive.bg-hover}"
+        },
+        "bg-active": {
+          "$type": "color",
+          "$value": "{color.action.destructive.bg-active}"
+        },
+        "fg": {
+          "$type": "color",
+          "$value": "{color.action.destructive.fg}"
+        }
+      },
+      "destructive-ghost": {
+        "bg-hover": {
+          "$type": "color",
+          "$value": "{color.action.destructive.ghost-bg-hover}"
+        },
+        "bg-active": {
+          "$type": "color",
+          "$value": "{color.action.destructive.ghost-bg-active}"
+        },
+        "fg": {
+          "$type": "color",
+          "$value": "{color.action.destructive.ghost-fg}"
+        }
+      },
+      "disabled": {
+        "bg-default": {
+          "$type": "color",
+          "$value": "{color.action.disabled.bg}"
+        },
+        "fg": {
+          "$type": "color",
+          "$value": "{color.action.disabled.fg}"
+        }
+      }
+    },
+    "card": {
+      "bg": {
+        "$type": "color",
+        "$value": "{color.bg.card}"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "{color.border.elevated}"
+      },
+      "radius": {
+        "$type": "dimension",
+        "$value": "{radius.card}"
+      }
+    },
+    "input": {
+      "bg": {
+        "$type": "color",
+        "$value": "{color.bg.page}"
+      },
+      "bg-hover": {
+        "$type": "color",
+        "$value": "{color.bg.disabled}"
+      },
+      "bg-active": {
+        "$type": "color",
+        "$value": "{color.bg.elevated}"
+      },
+      "border": {
+        "$type": "color",
+        "$value": "{color.border.default}"
+      },
+      "border-primary": {
+        "$type": "color",
+        "$value": "{color.border.brand}"
+      },
+      "border-focus": {
+        "$type": "color",
+        "$value": "{color.border.focus}"
+      },
+      "fg": {
+        "$type": "color",
+        "$value": "{color.fg.primary}"
+      },
+      "fg-placeholder": {
+        "$type": "color",
+        "$value": "{color.fg.tertiary}"
+      },
+      "fg-disabled": {
+        "$type": "color",
+        "$value": "{color.fg.disabled}"
+      },
+      "bg-disabled": {
+        "$type": "color",
+        "$value": "{color.bg.elevated}"
+      },
+      "border-error": {
+        "$type": "color",
+        "$value": "{color.border.error}"
+      },
+      "radius": {
+        "$type": "dimension",
+        "$value": "{radius.card}"
+      }
+    },
+    "alert": {
+      "success-bg": {
+        "$type": "color",
+        "$value": "{color.bg.success-alt}"
+      },
+      "success-fg": {
+        "$type": "color",
+        "$value": "{color.fg.success}"
+      },
+      "success-border": {
+        "$type": "color",
+        "$value": "{primitives.color.green.200}"
+      },
+      "error-bg": {
+        "$type": "color",
+        "$value": "{color.bg.error-alt}"
+      },
+      "error-fg": {
+        "$type": "color",
+        "$value": "{color.fg.error}"
+      },
+      "error-border": {
+        "$type": "color",
+        "$value": "{primitives.color.red.200}"
+      },
+      "warning-bg": {
+        "$type": "color",
+        "$value": "{color.bg.warning-alt}"
+      },
+      "warning-fg": {
+        "$type": "color",
+        "$value": "{color.fg.warning}"
+      },
+      "warning-border": {
+        "$type": "color",
+        "$value": "{primitives.color.orange.200}"
+      },
+      "info-bg": {
+        "$type": "color",
+        "$value": "{primitives.color.spaceblue.50}"
+      },
+      "info-fg": {
+        "$type": "color",
+        "$value": "{primitives.color.spaceblue.800}"
+      },
+      "info-border": {
+        "$type": "color",
+        "$value": "{primitives.color.spaceblue.200}"
+      }
+    }
+  }
+}

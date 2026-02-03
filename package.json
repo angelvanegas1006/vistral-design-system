@@ -1,0 +1,87 @@
+{
+  "name": "@vistral/design-system",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Vistral Design System - Componentes React sincronizados desde Figma",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./tokens.css": "./src/tokens/vistral-tokens.css"
+  },
+  "files": [
+    "dist",
+    "src/tokens/vistral-tokens.css"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "figma:test": "tsx scripts/test-figma-connection.ts",
+    "figma:sync:tokens": "tsx scripts/sync-figma.ts tokens",
+    "figma:sync:components": "tsx scripts/sync-figma.ts components",
+    "figma:sync:all": "tsx scripts/sync-figma.ts all",
+    "tokens:generate": "tsx lib/generators/token-generator.ts",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "keywords": [
+    "design-system",
+    "react",
+    "components",
+    "figma",
+    "vistral"
+  ],
+  "author": "Vistral Lab",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vistral-lab/design-system.git"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.2.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.563.0",
+    "tailwind-merge": "^3.4.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/addon-viewport": "^8.6.15",
+    "@storybook/react": "^8.0.0",
+    "@storybook/react-webpack5": "^8.6.15",
+    "@storybook/test": "^8.6.15",
+    "@tailwindcss/postcss": "^4.1.18",
+    "@types/node": "^20",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "autoprefixer": "^10.4.24",
+    "dotenv": "^16.6.1",
+    "eslint": "^9.39.1",
+    "postcss": "^8.5.6",
+    "postcss-loader": "^8.2.0",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "storybook": "^8.0.0",
+    "tailwindcss": "^4.1.18",
+    "ts-loader": "^9.5.4",
+    "tsup": "^8.0.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5",
+    "webpack": "^5.104.1",
+    "zod": "^4.1.13"
+  }
+}

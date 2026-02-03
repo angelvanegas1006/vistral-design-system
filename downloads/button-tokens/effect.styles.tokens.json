@@ -1,0 +1,138 @@
+{
+  "Focus-button": {
+    "$type": "shadow",
+    "$value": [
+      {
+        "offsetX": "0px",
+        "offsetY": "0px",
+        "blur": "0px",
+        "spread": "{primitives.border-w.2}",
+        "color": "{primitives.color.alpha.black.60}"
+      }
+    ]
+  },
+  "Shadows": {
+    "Level-1": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": "0px",
+          "offsetY": "0px",
+          "blur": "{elevation.blur-bg.3}",
+          "spread": "0px",
+          "color": "{primitives.color.alpha.black.10}"
+        }
+      ]
+    },
+    "Level-2": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": "0px",
+          "offsetY": "0px",
+          "blur": "{elevation.blur-bg.3}",
+          "spread": "0px",
+          "color": "#0000001a"
+        }
+      ]
+    },
+    "Level-3": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": "0px",
+          "offsetY": "0px",
+          "blur": "{elevation.blur-bg.4}",
+          "spread": "0px",
+          "color": "#00000029"
+        }
+      ]
+    },
+    "Level-4": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "offsetX": "0px",
+          "offsetY": "0px",
+          "blur": "{elevation.blur-bg.5}",
+          "spread": "0px",
+          "color": "#00000033"
+        }
+      ]
+    }
+  },
+  "Blur-bg": {
+    "Level-1": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "backgroundBlur": true,
+          "blur": "{elevation.blur-bg.1}"
+        }
+      ]
+    },
+    "Level-2": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "backgroundBlur": true,
+          "blur": "{elevation.blur-bg.2}"
+        }
+      ]
+    },
+    "Level-3": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "backgroundBlur": true,
+          "blur": "{elevation.blur-bg.3}"
+        }
+      ]
+    },
+    "Level-4": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "backgroundBlur": true,
+          "blur": "{elevation.blur-bg.4}"
+        }
+      ]
+    },
+    "Level-5": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "backgroundBlur": true,
+          "blur": "{elevation.blur-bg.5}"
+        }
+      ]
+    },
+    "Level-6": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "backgroundBlur": true,
+          "blur": "{elevation.blur-bg.6}"
+        }
+      ]
+    },
+    "Level-7": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "backgroundBlur": true,
+          "blur": "{elevation.blur-bg.7}"
+        }
+      ]
+    },
+    "Level-8": {
+      "$type": "shadow",
+      "$value": [
+        {
+          "backgroundBlur": true,
+          "blur": "{elevation.blur-bg.8}"
+        }
+      ]
+    }
+  }
+}

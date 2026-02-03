@@ -1,0 +1,114 @@
+---
+version: 1.0
+owner: Vistral Lab
+lastUpdated: 2026-02-02
+glob: ["**/lib/figma-sync/**", "**/scripts/**"]
+description: "Figma synchronization rules and patterns"
+---
+
+# Vistral Design System - Figma Sync Rules
+
+## Figma API Integration
+
+### Configuration
+
+**Location:** `lib/figma-sync/config.ts`
+
+**Required environment variables:**
+- `FIGMA_TOKEN` - Personal Access Token de Figma
+- `FIGMA_FILE_ID` - ID del archivo principal (opcional, puede estar en config)
+
+**Pattern:**
+```typescript
+import { z } from "zod"
+
+const configSchema = z.object({
+  token: z.string().min(1, "FIGMA_TOKEN is required"),
+  fileId: z.string().min(1, "FIGMA_FILE_ID is required"),
+})
+
+export const figmaConfig = configSchema.parse({
+  token: process.env.FIGMA_TOKEN,
+  fileId: process.env.FIGMA_FILE_ID || "i0plqavJ8VqpKeqr6TkLtD",
+})
+```
+
+### Client Pattern
+
+**Always use retry logic and error handling:**
+```typescript
+async function fetchWithRetry<T>(
+  fn: () => Promise<T>,
+  maxRetries = 3
+): Promise<T> {
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await fn()
+    } catch (error) {
+      if (i === maxRetries - 1) throw error
+      await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)))
+    }
+  }
+  throw new Error("Max retries exceeded")
+}
+```
+
+### Token Extraction
+
+**Structure:**
+- Read styles from Figma API
+- Map to standard token structure
+- Validate with Zod schema
+- Generate JSON file
+
+**Output format:**
+```json
+{
+  "colors": {
+    "primary": { "50": "#...", "500": "#...", "900": "#..." },
+    "semantic": { "success": "#...", "error": "#..." }
+  },
+  "typography": {
+    "fontFamily": { "sans": "...", "mono": "..." },
+    "fontSize": { "xs": "12px", "sm": "14px" }
+  },
+  "spacing": { "xs": "4px", "sm": "8px" },
+  "radius": { "sm": "4px", "md": "8px" }
+}
+```
+
+### Component Synchronization
+
+**Process:**
+1. Read component from Figma
+2. Extract variants and properties
+3. Map Figma properties → React props
+4. Generate component code with templates
+5. Generate Storybook story automatically
+6. Validate naming and structure
+
+**Template system:**
+- Templates en `lib/figma-sync/templates/`
+- Placeholders inteligentes: `{{COMPONENT_NAME}}`, `{{VARIANTS}}`, etc.
+- Soporte para diferentes tipos de componentes
+
+### Caching
+
+**Always cache API responses:**
+- Cache tokens para evitar re-extracción
+- Cache components para sincronización incremental
+- Invalidar cache cuando hay cambios en Figma
+- Store cache en `.figma-cache/` (gitignored)
+
+### Error Handling
+
+**Always handle:**
+- Network errors (retry logic)
+- API rate limits (exponential backoff)
+- Invalid responses (validation with Zod)
+- Missing data (graceful degradation)
+
+**Error messages:**
+- Clear and actionable
+- Include context (file ID, component name, etc.)
+- Suggest solutions

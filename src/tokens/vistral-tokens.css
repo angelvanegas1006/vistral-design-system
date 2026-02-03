@@ -1,0 +1,208 @@
+/* Vistral Design Tokens - CSS Variables */
+/* Generated from vistral-tokens.json */
+/* Do not edit manually - use npm run tokens:generate */
+
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Font Family */
+  --vistral-font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --vistral-font-family-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
+  
+  /* Font Size - 9 step scale */
+  --vistral-font-size-1: 12px;
+  --vistral-font-size-2: 14px;
+  --vistral-font-size-3: 16px;
+  --vistral-font-size-4: 18px;
+  --vistral-font-size-5: 20px;
+  --vistral-font-size-6: 24px;
+  --vistral-font-size-7: 30px;
+  --vistral-font-size-8: 36px;
+  --vistral-font-size-9: 48px;
+  
+  /* Font Size - Semantic */
+  --vistral-font-size-sm: 12px;
+  --vistral-font-size-md: 14px;
+  --vistral-font-size-lg: 16px;
+  --vistral-font-size-header-sm: 18px;
+  --vistral-font-size-header-md: 20px;
+  --vistral-font-size-header-lg: 24px;
+  --vistral-font-size-header-xl: 30px;
+  --vistral-font-size-header-2xl: 36px;
+  --vistral-font-size-header-3xl: 48px;
+  
+  /* Font Weight */
+  --vistral-font-weight-regular: 400;
+  --vistral-font-weight-medium: 500;
+  --vistral-font-weight-semibold: 600;
+  
+  /* Line Height - 9 step scale */
+  --vistral-line-height-1: 16px;
+  --vistral-line-height-2: 20px;
+  --vistral-line-height-3: 24px;
+  --vistral-line-height-4: 26px;
+  --vistral-line-height-5: 28px;
+  --vistral-line-height-6: 32px;
+  --vistral-line-height-7: 38px;
+  --vistral-line-height-8: 44px;
+  --vistral-line-height-9: 58px;
+  
+  /* Letter Spacing - 9 step scale */
+  --vistral-letter-spacing-1: -0.2px;
+  --vistral-letter-spacing-2: -0.5px;
+  --vistral-letter-spacing-3: -0.7px;
+  --vistral-letter-spacing-4: -1px;
+  --vistral-letter-spacing-5: -1.2px;
+  --vistral-letter-spacing-6: -1.5px;
+  --vistral-letter-spacing-7: -2px;
+  --vistral-letter-spacing-8: -2px;
+  --vistral-letter-spacing-9: -3px;
+  
+  /* Spacing */
+  --vistral-spacing-0: 0px;
+  --vistral-spacing-1: 4px;
+  --vistral-spacing-2: 8px;
+  --vistral-spacing-3: 12px;
+  --vistral-spacing-4: 16px;
+  --vistral-spacing-5: 20px;
+  --vistral-spacing-6: 24px;
+  --vistral-spacing-7: 28px;
+  --vistral-spacing-8: 32px;
+  --vistral-spacing-9: 36px;
+  --vistral-spacing-10: 40px;
+  --vistral-spacing-11: 44px;
+  --vistral-spacing-12: 48px;
+  --vistral-spacing-14: 56px;
+  --vistral-spacing-16: 64px;
+  --vistral-spacing-20: 80px;
+  --vistral-spacing-24: 96px;
+  
+  /* Radius */
+  --vistral-radius-0: 0px;
+  --vistral-radius-1: 4px;
+  --vistral-radius-2: 8px;
+  --vistral-radius-3: 12px;
+  --vistral-radius-4: 16px;
+  --vistral-radius-5: 20px;
+  --vistral-radius-6: 24px;
+  --vistral-radius-full: 9999px;
+  
+  /* Breakpoints - 6 responsive breakpoints */
+  --vistral-breakpoint-xs: 0px;
+  --vistral-breakpoint-sm: 577px;
+  --vistral-breakpoint-md: 769px;
+  --vistral-breakpoint-lg: 993px;
+  --vistral-breakpoint-xl: 1201px;
+  --vistral-breakpoint-xxl: 1401px;
+  
+  /* Grid System - Margins per breakpoint */
+  --vistral-grid-margin-xs: 20px;
+  --vistral-grid-margin-sm: 32px;
+  --vistral-grid-margin-md: 40px;
+  --vistral-grid-margin-lg: 80px;
+  --vistral-grid-margin-xl: 100px;
+  --vistral-grid-margin-xxl: 112px;
+  
+  /* Grid System - Gutters per breakpoint */
+  --vistral-grid-gutter-xs: 12px;
+  --vistral-grid-gutter-sm: 12px;
+  --vistral-grid-gutter-md: 16px;
+  --vistral-grid-gutter-lg: 28px;
+  --vistral-grid-gutter-xl: 32px;
+  --vistral-grid-gutter-xxl: 32px;
+  
+  /* Layout Spacing */
+  --vistral-layout-navbar-to-content: 16px;
+  --vistral-layout-content-heading-to-main: 24px;
+  --vistral-layout-section-gap: 32px;
+  
+  /* Layout - Sidebar */
+  --vistral-layout-sidebar-width: 240px;
+  
+  /* Layout - Container */
+  --vistral-layout-container-max-width: 1400px;
+  
+  /* Shadows */
+  --vistral-shadow-focus: 0px 0px 0px 2px #00000052;
+  --vistral-shadow-level-1: 0px 0px 16px 0px #0000000a;
+  --vistral-shadow-level-2: 0px 0px 16px 0px #0000001a;
+  --vistral-shadow-level-3: 0px 0px 24px 0px #00000029;
+  --vistral-shadow-level-4: 0px 0px 32px 0px #00000033;
+  
+  /* ========================================
+     BUTTON TOKENS (from Figma Design System)
+     ======================================== */
+  
+  /* Spaceblue Brand Colors */
+  --vistral-spaceblue-50: #eef4ff;
+  --vistral-spaceblue-100: #d9e7ff;
+  --vistral-spaceblue-200: #cfe1ff;
+  --vistral-spaceblue-600: #2050f6;
+  --vistral-spaceblue-700: #1337e2;
+  --vistral-spaceblue-800: #162eb7;
+  --vistral-spaceblue-900: #182c90;
+  
+  /* Button - Primary */
+  --vistral-button-primary-bg: var(--vistral-spaceblue-600);
+  --vistral-button-primary-bg-hover: var(--vistral-spaceblue-700);
+  --vistral-button-primary-bg-active: var(--vistral-spaceblue-800);
+  --vistral-button-primary-fg: #ffffff;
+  
+  /* Button - Secondary */
+  --vistral-button-secondary-bg: var(--vistral-spaceblue-100);
+  --vistral-button-secondary-bg-hover: var(--vistral-spaceblue-50);
+  --vistral-button-secondary-bg-active: var(--vistral-spaceblue-200);
+  --vistral-button-secondary-fg: var(--vistral-spaceblue-800);
+  --vistral-button-secondary-fg-active: var(--vistral-spaceblue-900);
+  
+  /* Button - Ghost */
+  --vistral-button-ghost-bg: transparent;
+  --vistral-button-ghost-bg-hover: var(--vistral-spaceblue-50);
+  --vistral-button-ghost-bg-active: var(--vistral-spaceblue-200);
+  --vistral-button-ghost-fg: var(--vistral-spaceblue-800);
+  --vistral-button-ghost-fg-active: var(--vistral-spaceblue-900);
+  
+  /* Button - Destructive */
+  --vistral-button-destructive-bg: #dc2626;
+  --vistral-button-destructive-bg-hover: #b91c1c;
+  --vistral-button-destructive-bg-active: #991b1b;
+  --vistral-button-destructive-fg: #ffffff;
+  
+  /* Button - Destructive Ghost */
+  --vistral-button-destructive-ghost-bg: transparent;
+  --vistral-button-destructive-ghost-bg-hover: #f4f4f5;
+  --vistral-button-destructive-ghost-bg-active: #e4e4e7;
+  --vistral-button-destructive-ghost-fg: #b91c1c;
+  
+  /* Button - Disabled */
+  --vistral-button-disabled-bg: #e5e5e5;
+  --vistral-button-disabled-fg: #737373;
+  
+  /* Button - Focus Ring */
+  --vistral-button-focus-ring: 0px 0px 0px 2px rgba(0, 0, 0, 0.32);
+  
+  /* Button - Border Radius (Full/Pill) */
+  --vistral-button-radius: 9999px;
+  
+  /* Button - Sizes */
+  --vistral-button-height-sm: 32px;
+  --vistral-button-height-md: 40px;
+  --vistral-button-height-lg: 48px;
+  --vistral-button-padding-x-sm: 12px;
+  --vistral-button-padding-x-md: 16px;
+  --vistral-button-padding-x-lg: 24px;
+  --vistral-button-font-size-sm: 12px;
+  --vistral-button-font-size-md: 14px;
+  --vistral-button-font-size-lg: 16px;
+  --vistral-button-icon-size-sm: 16px;
+  --vistral-button-icon-size-md: 20px;
+  --vistral-button-icon-size-lg: 24px;
+}
+
+/* Base styles */
+body {
+  font-family: var(--vistral-font-family-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

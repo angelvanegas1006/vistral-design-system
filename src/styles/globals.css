@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+/* Import Vistral Design Tokens */
+@import url('../tokens/vistral-tokens.css');
+
+/* Base styles */
+html {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

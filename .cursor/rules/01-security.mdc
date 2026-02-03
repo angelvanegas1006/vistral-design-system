@@ -1,0 +1,70 @@
+---
+version: 1.0
+owner: Vistral Lab
+lastUpdated: 2026-02-02
+glob: "**/*"
+alwaysApply: true
+description: "Security guardrails and credential protection rules"
+---
+
+# Vistral Design System - Security Rules
+
+## Credential Protection
+
+### Figma Token Usage
+
+**ALLOWED locations ONLY:**
+- `lib/figma-sync/**/*.ts` - Scripts de sincronización
+- `scripts/**/*.ts` - Scripts CLI
+
+**FORBIDDEN locations:**
+- Any file in `src/` (componentes)
+- Any file in `stories/` (Storybook)
+- Any file that gets bundled/distributed
+
+**Validation pattern:**
+```typescript
+// ✅ CORRECT - Script only
+// lib/figma-sync/config.ts
+const FIGMA_TOKEN = process.env.FIGMA_TOKEN
+// Can use token here
+
+// ❌ WRONG - Component code
+// src/components/ui/Button.tsx
+const token = process.env.FIGMA_TOKEN // NEVER expose
+```
+
+### Environment Variables
+
+**Public variables (safe for client - aunque no aplica aquí):**
+- Ninguna variable debe exponerse en el paquete distribuido
+
+**Private variables (script-only):**
+- `FIGMA_TOKEN` - NEVER commit or expose
+- `FIGMA_FILE_ID` - Puede estar en código pero mejor en .env
+
+**Best practices:**
+- Always read from `.env.local` (no commitear)
+- Never hardcode tokens
+- Use `.env.example` con placeholders
+
+### File Access Restrictions
+
+**Never read or suggest reading:**
+- `.env*` files (any variant)
+- `*.pem`, `*.key` files
+- Files matching `**/credentials*`, `**/*secret*`, `**/*password*`
+
+**If user asks to see credentials:**
+- Suggest checking `.env.local` (local only)
+- Suggest `.env.example` for structure reference
+- Warn about security risks
+
+### Code Review Checklist
+
+Before suggesting code changes, verify:
+- [ ] No hardcoded tokens
+- [ ] Figma token only in allowed locations
+- [ ] Environment variables read from process.env
+- [ ] No tokens in console.log or error messages
+- [ ] `.gitignore` excludes `.env*` files
