@@ -1,0 +1,259 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Introduction" />
+
+<style>
+  {`
+    .intro-container {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    .hero {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    
+    .hero-logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #2050f6 0%, #1a40c4 100%);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      color: white;
+      font-size: 32px;
+      font-weight: bold;
+    }
+    
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 700;
+      color: #18181b;
+      margin: 0 0 16px;
+    }
+    
+    .hero p {
+      font-size: 20px;
+      color: #71717a;
+      margin: 0;
+    }
+    
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    
+    .stat {
+      text-align: center;
+      padding: 24px;
+      background: #f4f4f5;
+      border-radius: 12px;
+    }
+    
+    .stat-value {
+      font-size: 36px;
+      font-weight: 700;
+      color: #2050f6;
+    }
+    
+    .stat-label {
+      font-size: 14px;
+      color: #71717a;
+      margin-top: 4px;
+    }
+    
+    .section {
+      margin-bottom: 40px;
+    }
+    
+    .section h2 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #18181b;
+      margin: 0 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e4e4e7;
+    }
+    
+    .section p {
+      font-size: 16px;
+      color: #52525b;
+      line-height: 1.6;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+    
+    .grid-item {
+      padding: 20px;
+      background: #fafafa;
+      border: 1px solid #e4e4e7;
+      border-radius: 12px;
+    }
+    
+    .grid-item h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #18181b;
+      margin: 0 0 8px;
+    }
+    
+    .grid-item p {
+      font-size: 14px;
+      color: #71717a;
+      margin: 0;
+    }
+    
+    .install-code {
+      background: #18181b;
+      color: #fafafa;
+      padding: 16px 20px;
+      border-radius: 8px;
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 14px;
+      margin-top: 16px;
+      overflow-x: auto;
+    }
+    
+    .links {
+      display: flex;
+      gap: 16px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+    
+    .link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: #2050f6;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+    
+    .link:hover {
+      background: #1a40c4;
+    }
+    
+    .link-secondary {
+      background: white;
+      color: #18181b;
+      border: 1px solid #e4e4e7;
+    }
+    
+    .link-secondary:hover {
+      background: #f4f4f5;
+    }
+  `}
+</style>
+
+<div className="intro-container">
+  <div className="hero">
+    <div className="hero-logo">V</div>
+    <h1>Vistral Design System</h1>
+    <p>Componentes React sincronizados desde Figma para PropHero</p>
+  </div>
+
+  <div className="stats">
+    <div className="stat">
+      <div className="stat-value">40+</div>
+      <div className="stat-label">Componentes</div>
+    </div>
+    <div className="stat">
+      <div className="stat-value">100%</div>
+      <div className="stat-label">TypeScript</div>
+    </div>
+    <div className="stat">
+      <div className="stat-value">Figma</div>
+      <div className="stat-label">Sincronizado</div>
+    </div>
+  </div>
+
+  <div className="section">
+    <h2>Empezar</h2>
+    <p>
+      Instala el design system en tu proyecto React:
+    </p>
+    <div className="install-code">
+      npm install git+https://github.com/angelvanegas1006/vistral-design-system.git
+    </div>
+    <p style={{ marginTop: '16px' }}>
+      Luego importa los componentes:
+    </p>
+    <div className="install-code">
+      {`import { Button, Card, Input } from '@vistral/design-system';`}
+    </div>
+  </div>
+
+  <div className="section">
+    <h2>Categorías</h2>
+    <div className="grid">
+      <div className="grid-item">
+        <h3>Foundations</h3>
+        <p>Colores, tipografía, espaciado, sombras y tokens de diseño base.</p>
+      </div>
+      <div className="grid-item">
+        <h3>Components</h3>
+        <p>Botones, inputs, cards, modales y todos los elementos UI.</p>
+      </div>
+      <div className="grid-item">
+        <h3>Forms</h3>
+        <p>Inputs especializados: teléfono, fecha, PIN, tags, búsqueda.</p>
+      </div>
+      <div className="grid-item">
+        <h3>Real Estate</h3>
+        <p>Componentes específicos: PropertyCard, MediaHero, Lightbox.</p>
+      </div>
+    </div>
+  </div>
+
+  <div className="section">
+    <h2>Características</h2>
+    <div className="grid">
+      <div className="grid-item">
+        <h3>Sincronizado con Figma</h3>
+        <p>Los tokens y estilos vienen directamente del archivo Figma de PropHero.</p>
+      </div>
+      <div className="grid-item">
+        <h3>TypeScript</h3>
+        <p>Todos los componentes tienen tipos completos para mejor DX.</p>
+      </div>
+      <div className="grid-item">
+        <h3>Accesible</h3>
+        <p>Componentes con ARIA attributes y navegación por teclado.</p>
+      </div>
+      <div className="grid-item">
+        <h3>Customizable</h3>
+        <p>Tokens exportados para personalizar colores, espaciado y más.</p>
+      </div>
+    </div>
+  </div>
+
+  <div className="section">
+    <h2>Links</h2>
+    <div className="links">
+      <a className="link" href="https://github.com/angelvanegas1006/vistral-design-system" target="_blank">
+        GitHub Repository
+      </a>
+      <a className="link link-secondary" href="https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero" target="_blank">
+        Figma File
+      </a>
+    </div>
+  </div>
+</div>

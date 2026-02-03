@@ -18,6 +18,17 @@ const preview = {
         { name: 'white', value: '#ffffff' },
       ],
     },
+    options: {
+      storySort: {
+        order: [
+          'Introduction',
+          'Foundations',
+          ['Colors', 'Typography', 'Spacing', 'Elevation', 'Shadows'],
+          'Components',
+          '*',
+        ],
+      },
+    },
   },
   decorators: [
     (Story) => {

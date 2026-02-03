@@ -2,7 +2,10 @@ const path = require("path")
 
 /** @type {import('@storybook/react-webpack5').StorybookConfig} */
 const config = {
-  stories: ["../stories/**/*.stories.@(js|jsx|ts|tsx|mdx)"],
+  stories: [
+    "../stories/**/*.mdx",
+    "../stories/**/*.stories.@(js|jsx|ts|tsx)"
+  ],
   staticDirs: ["../public"],
   addons: [
     "@storybook/addon-essentials",
