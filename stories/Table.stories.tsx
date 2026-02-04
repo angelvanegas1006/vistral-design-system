@@ -86,9 +86,9 @@ export const WithBadges: Story = {
     const getStatusVariant = (status: string) => {
       switch (status) {
         case 'Active': return 'success';
-        case 'Inactive': return 'secondary';
+        case 'Inactive': return 'default';
         case 'Pending': return 'warning';
-        default: return 'secondary';
+        default: return 'default';
       }
     };
 
@@ -109,7 +109,7 @@ export const WithBadges: Story = {
                 <TableCell style={{ fontWeight: 500 }}>{user.name}</TableCell>
                 <TableCell style={{ color: '#71717a' }}>{user.email}</TableCell>
                 <TableCell>
-                  <Badge variant="secondary">{user.role}</Badge>
+                  <Badge variant="default">{user.role}</Badge>
                 </TableCell>
                 <TableCell>
                   <Badge variant={getStatusVariant(user.status) as any}>{user.status}</Badge>
@@ -148,7 +148,7 @@ export const WithAvatars: Story = {
               <TableCell style={{ color: '#71717a' }}>{user.email}</TableCell>
               <TableCell>{user.role}</TableCell>
               <TableCell>
-                <Badge variant={user.status === 'Active' ? 'success' : 'secondary'}>
+                <Badge variant={user.status === 'Active' ? 'success' : 'default'}>
                   {user.status}
                 </Badge>
               </TableCell>
@@ -216,7 +216,7 @@ export const WithSelection: Story = {
                 <TableCell style={{ color: '#71717a' }}>{user.email}</TableCell>
                 <TableCell>{user.role}</TableCell>
                 <TableCell>
-                  <Badge variant={user.status === 'Active' ? 'success' : 'secondary'}>
+                  <Badge variant={user.status === 'Active' ? 'success' : 'default'}>
                     {user.status}
                   </Badge>
                 </TableCell>
@@ -292,7 +292,7 @@ export const Sortable: Story = {
                 <TableCell style={{ color: '#71717a' }}>{user.email}</TableCell>
                 <TableCell>{user.role}</TableCell>
                 <TableCell>
-                  <Badge variant={user.status === 'Active' ? 'success' : 'secondary'}>
+                  <Badge variant={user.status === 'Active' ? 'success' : 'default'}>
                     {user.status}
                   </Badge>
                 </TableCell>
@@ -336,7 +336,7 @@ export const WithPagination: Story = {
                 <TableCell style={{ color: '#71717a' }}>{user.email}</TableCell>
                 <TableCell>{user.role}</TableCell>
                 <TableCell>
-                  <Badge variant={user.status === 'Active' ? 'success' : 'secondary'}>
+                  <Badge variant={user.status === 'Active' ? 'success' : 'default'}>
                     {user.status}
                   </Badge>
                 </TableCell>
@@ -613,7 +613,7 @@ export const FullExample: Story = {
                 <TableCell style={{ color: '#71717a' }}>{user.email}</TableCell>
                 <TableCell>{user.role}</TableCell>
                 <TableCell>
-                  <Badge variant={user.status === 'Active' ? 'success' : 'secondary'}>
+                  <Badge variant={user.status === 'Active' ? 'success' : 'default'}>
                     {user.status}
                   </Badge>
                 </TableCell>
