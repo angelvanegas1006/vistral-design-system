@@ -328,7 +328,7 @@ export const ValueLabels: Story = {
 export const MinimalInfo: Story = {
   name: 'Minimal (No Info Rows)',
   render: () => (
-    <div style={{ width: 340 }}>
+    <div style={{ width: 380 }}>
       <PropertyCard
         image={DEMO_IMAGE}
         type="Apartment"
@@ -340,6 +340,34 @@ export const MinimalInfo: Story = {
         area={75}
         price={95000}
         yieldPercent={6.5}
+      />
+    </div>
+  ),
+};
+
+export const WithFavoriteButton: Story = {
+  name: 'With Favorite Button',
+  render: () => (
+    <div style={{ width: 380 }}>
+      <PropertyCard
+        image={DEMO_IMAGE}
+        type="Apartment"
+        title="Property with Favorite"
+        status="available"
+        location="Madrid, Spain"
+        category="Flat"
+        bedrooms={2}
+        bathrooms={1}
+        area={85}
+        price={90000}
+        yieldPercent={6}
+        showFavorite={true}
+        isFavorite={false}
+        onFavoriteChange={(fav) => console.log('Favorite:', fav)}
+        infoRows={[
+          { label: 'Estimated rent', value: '650€/month' },
+          { label: 'Total investment', value: '113,100€' },
+        ]}
       />
     </div>
   ),

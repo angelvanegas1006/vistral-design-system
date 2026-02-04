@@ -131,6 +131,8 @@ export interface PropertyCardProps extends React.HTMLAttributes<HTMLDivElement> 
   yieldPercent?: number
   /** Info rows (Estimated rent, Total investment, etc.) */
   infoRows?: PropertyInfoRow[]
+  /** Show favorite button (hidden by default per Figma) */
+  showFavorite?: boolean
   /** Favorite state */
   isFavorite?: boolean
   /** Callback when favorite clicked */
@@ -157,6 +159,7 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
     currency = '€',
     yieldPercent,
     infoRows = [],
+    showFavorite = false, // Hidden by default per Figma
     isFavorite = false,
     onFavoriteChange,
     onCardClick,
@@ -375,14 +378,16 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
             </div>
           )}
 
-          {/* Favorite button (top right) */}
-          <button type="button" style={favoriteButtonStyle} onClick={handleFavoriteClick}>
-            <Heart 
-              size={18} 
-              fill={favorite ? '#ef4444' : 'none'} 
-              color={favorite ? '#ef4444' : '#71717a'} 
-            />
-          </button>
+          {/* Favorite button (top right) - hidden by default per Figma */}
+          {showFavorite && (
+            <button type="button" style={favoriteButtonStyle} onClick={handleFavoriteClick}>
+              <Heart 
+                size={18} 
+                fill={favorite ? '#ef4444' : 'none'} 
+                color={favorite ? '#ef4444' : '#71717a'} 
+              />
+            </button>
+          )}
         </div>
 
         {/* Content section with padding */}
