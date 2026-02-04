@@ -7,7 +7,7 @@ React design system with components synced from Figma.
 ### From npm (Recommended)
 
 ```bash
-npm install @vistral/design-system
+npm install vistral-design-system
 ```
 
 ### Required Peer Dependencies
@@ -33,7 +33,7 @@ npm install @radix-ui/react-select
 ### Quick Install (All dependencies)
 
 ```bash
-npm install @vistral/design-system react react-dom lucide-react \
+npm install vistral-design-system react react-dom lucide-react \
   @radix-ui/react-slot @radix-ui/react-dialog @radix-ui/react-select
 ```
 
@@ -46,7 +46,7 @@ npm install git+https://github.com/angelvanegas1006/vistral-design-system.git
 ## Basic Usage
 
 ```tsx
-import { Button, Card, Input, PropertyCard } from '@vistral/design-system';
+import { Button, Card, Input, PropertyCard } from 'vistral-design-system';
 
 function App() {
   return (
@@ -136,13 +136,13 @@ function App() {
 ### Use CSS tokens
 
 ```tsx
-import '@vistral/design-system/tokens.css';
+import 'vistral-design-system/tokens.css';
 ```
 
 ### Use JS tokens
 
 ```tsx
-import { BUTTON_TOKENS, CARD_TOKENS } from '@vistral/design-system';
+import { BUTTON_TOKENS, CARD_TOKENS } from 'vistral-design-system';
 
 // Access specific values
 console.log(BUTTON_TOKENS.primary.bg); // '#2050f6'
@@ -223,7 +223,7 @@ import {
   SelectContent,
   SelectItem,
   Badge,
-} from '@vistral/design-system';
+} from 'vistral-design-system';
 
 function ContactForm() {
   return (
@@ -262,7 +262,7 @@ function ContactForm() {
 ## PropertyCard (Real Estate)
 
 ```tsx
-import { PropertyCard } from '@vistral/design-system';
+import { PropertyCard } from 'vistral-design-system';
 
 <PropertyCard
   image="https://example.com/property.jpg"
