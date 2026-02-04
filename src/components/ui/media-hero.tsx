@@ -21,16 +21,18 @@ const MEDIA_HERO_TOKENS = {
   },
   // Show all button
   button: {
-    padding: '10px 16px',
+    padding: '10px 20px', // Increased horizontal padding for larger button
     fontSize: 14,
     fontWeight: 500,
-    bg: '#2050F6', // Light blue background
+    bg: '#2050F6', // Light blue background (solid)
     bgHover: '#3062F8', // Slightly darker on hover
     fg: '#ffffff',
-    border: '1px solid rgba(255, 255, 255, 0.3)', // Subtle white border
+    border: 'none', // No border per Figma design
     radius: 8,
     shadow: '0 2px 8px rgba(0,0,0,0.15)',
     gap: 8,
+    minWidth: '130px', // Minimum width to match Figma
+    height: '38px', // Fixed height to match Figma (35-40px range)
   },
   // Counter (mobile)
   counter: {
@@ -197,8 +199,11 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                 style={{
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: 'center',
                   gap: MEDIA_HERO_TOKENS.button.gap,
                   padding: MEDIA_HERO_TOKENS.button.padding,
+                  minWidth: MEDIA_HERO_TOKENS.button.minWidth,
+                  height: MEDIA_HERO_TOKENS.button.height,
                   fontSize: MEDIA_HERO_TOKENS.button.fontSize,
                   fontWeight: MEDIA_HERO_TOKENS.button.fontWeight,
                   backgroundColor: MEDIA_HERO_TOKENS.button.bg,
@@ -411,8 +416,11 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                       style={{
                         display: 'flex',
                         alignItems: 'center',
+                        justifyContent: 'center',
                         gap: MEDIA_HERO_TOKENS.button.gap,
                         padding: MEDIA_HERO_TOKENS.button.padding,
+                        minWidth: MEDIA_HERO_TOKENS.button.minWidth,
+                        height: MEDIA_HERO_TOKENS.button.height,
                         fontSize: MEDIA_HERO_TOKENS.button.fontSize,
                         fontWeight: MEDIA_HERO_TOKENS.button.fontWeight,
                         backgroundColor: MEDIA_HERO_TOKENS.button.bg,
@@ -622,8 +630,11 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                       style={{
                         display: 'flex',
                         alignItems: 'center',
+                        justifyContent: 'center',
                         gap: MEDIA_HERO_TOKENS.button.gap,
                         padding: MEDIA_HERO_TOKENS.button.padding,
+                        minWidth: MEDIA_HERO_TOKENS.button.minWidth,
+                        height: MEDIA_HERO_TOKENS.button.height,
                         fontSize: MEDIA_HERO_TOKENS.button.fontSize,
                         fontWeight: MEDIA_HERO_TOKENS.button.fontWeight,
                         backgroundColor: MEDIA_HERO_TOKENS.button.bg,
