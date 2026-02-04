@@ -24,8 +24,8 @@ const MEDIA_HERO_TOKENS = {
     padding: '10px 16px',
     fontSize: 14,
     fontWeight: 500,
-    bg: '#ffffff',
-    fg: '#18181b',
+    bg: 'rgba(0, 0, 0, 0.6)',
+    fg: '#ffffff',
     radius: 8,
     shadow: '0 2px 8px rgba(0,0,0,0.15)',
     gap: 8,
@@ -190,15 +190,36 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
           )}
           {showAllButton && images.length > 1 && (
             <div style={showAllButtonWrapperStyle}>
-              <Button 
-                variant="secondary" 
-                size="sm" 
-                leftIcon={Images} 
+              <button
+                type="button"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: MEDIA_HERO_TOKENS.button.gap,
+                  padding: MEDIA_HERO_TOKENS.button.padding,
+                  fontSize: MEDIA_HERO_TOKENS.button.fontSize,
+                  fontWeight: MEDIA_HERO_TOKENS.button.fontWeight,
+                  backgroundColor: MEDIA_HERO_TOKENS.button.bg,
+                  color: MEDIA_HERO_TOKENS.button.fg,
+                  borderRadius: MEDIA_HERO_TOKENS.button.radius,
+                  boxShadow: MEDIA_HERO_TOKENS.button.shadow,
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                  transition: 'background-color 150ms ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bg
+                }}
                 onClick={handleShowAll}
                 aria-label={`${buttonText} (${images.length} photos)`}
               >
-                {buttonText}
-              </Button>
+                <Images size={16} style={{ flexShrink: 0 }} />
+                <span>{buttonText}</span>
+              </button>
             </div>
           )}
           <Lightbox
@@ -369,6 +390,51 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                   style={imageBaseStyle(i)} 
                   onClick={() => openLightbox(i)} 
                 />
+                {/* Show all button on last thumbnail */}
+                {i === 1 && images.length > 2 && showAllButton && (
+                  <div style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    right: 0,
+                    padding: '12px',
+                    zIndex: 10,
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleShowAll()
+                  }}
+                  >
+                    <button
+                      type="button"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: MEDIA_HERO_TOKENS.button.gap,
+                        padding: MEDIA_HERO_TOKENS.button.padding,
+                        fontSize: MEDIA_HERO_TOKENS.button.fontSize,
+                        fontWeight: MEDIA_HERO_TOKENS.button.fontWeight,
+                        backgroundColor: MEDIA_HERO_TOKENS.button.bg,
+                        color: MEDIA_HERO_TOKENS.button.fg,
+                        borderRadius: MEDIA_HERO_TOKENS.button.radius,
+                        boxShadow: MEDIA_HERO_TOKENS.button.shadow,
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontFamily: 'inherit',
+                        transition: 'background-color 150ms ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bg
+                      }}
+                      aria-label={`${buttonText} (${images.length} photos)`}
+                    >
+                      <Images size={16} style={{ flexShrink: 0 }} />
+                      <span>{buttonText}</span>
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -392,21 +458,69 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
               />
             </div>
             <div style={{ width: '40%', display: 'flex', flexDirection: 'column', gap }}>
-              {gridImages.slice(1).map((img, i) => (
-                <div 
-                  key={i} 
-                  style={{ flex: 1, overflow: 'hidden', position: 'relative' }}
-                  onMouseEnter={() => setIsHovered(i + 1)}
-                  onMouseLeave={() => setIsHovered(null)}
-                >
-                  <img 
-                    src={img.src} 
-                    alt={img.alt || `Property photo ${i + 2}`} 
-                    style={imageBaseStyle(i + 1)} 
-                    onClick={() => openLightbox(i + 1)} 
-                  />
-                </div>
-              ))}
+              {gridImages.slice(1).map((img, i) => {
+                const isLastThumbnail = i === gridImages.slice(1).length - 1
+                return (
+                  <div 
+                    key={i} 
+                    style={{ flex: 1, overflow: 'hidden', position: 'relative' }}
+                    onMouseEnter={() => setIsHovered(i + 1)}
+                    onMouseLeave={() => setIsHovered(null)}
+                  >
+                    <img 
+                      src={img.src} 
+                      alt={img.alt || `Property photo ${i + 2}`} 
+                      style={imageBaseStyle(i + 1)} 
+                      onClick={() => openLightbox(i + 1)} 
+                    />
+                    {/* Show all button on last thumbnail */}
+                    {isLastThumbnail && images.length > gridImages.length && showAllButton && (
+                      <div style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        right: 0,
+                        padding: '12px',
+                        zIndex: 10,
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleShowAll()
+                      }}
+                      >
+                        <button
+                          type="button"
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: MEDIA_HERO_TOKENS.button.gap,
+                            padding: MEDIA_HERO_TOKENS.button.padding,
+                            fontSize: MEDIA_HERO_TOKENS.button.fontSize,
+                            fontWeight: MEDIA_HERO_TOKENS.button.fontWeight,
+                            backgroundColor: MEDIA_HERO_TOKENS.button.bg,
+                            color: MEDIA_HERO_TOKENS.button.fg,
+                            borderRadius: MEDIA_HERO_TOKENS.button.radius,
+                            boxShadow: MEDIA_HERO_TOKENS.button.shadow,
+                            border: 'none',
+                            cursor: 'pointer',
+                            fontFamily: 'inherit',
+                            transition: 'background-color 150ms ease',
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bg
+                          }}
+                          aria-label={`${buttonText} (${images.length} photos)`}
+                        >
+                          <Images size={16} style={{ flexShrink: 0 }} />
+                          <span>{buttonText}</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
             </div>
           </div>
         )
@@ -487,34 +601,49 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                   style={imageBaseStyle(i + 1)} 
                   onClick={() => openLightbox(i + 1)} 
                 />
-                {/* Show all button on last thumbnail */}
+                {/* Show all button on last thumbnail - bottom-right corner */}
                 {i === 3 && images.length > 5 && showAllButton && (
                   <div style={{
                     position: 'absolute',
-                    inset: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-                    cursor: 'pointer',
+                    bottom: 0,
+                    right: 0,
+                    padding: '12px',
+                    zIndex: 10,
                   }}
                   onClick={(e) => {
                     e.stopPropagation()
                     handleShowAll()
                   }}
                   >
-                    <Button 
-                      variant="secondary" 
-                      size="sm" 
-                      leftIcon={Images}
+                    <button
+                      type="button"
                       style={{
-                        backgroundColor: '#ffffff',
-                        color: '#18181b',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: MEDIA_HERO_TOKENS.button.gap,
+                        padding: MEDIA_HERO_TOKENS.button.padding,
+                        fontSize: MEDIA_HERO_TOKENS.button.fontSize,
+                        fontWeight: MEDIA_HERO_TOKENS.button.fontWeight,
+                        backgroundColor: MEDIA_HERO_TOKENS.button.bg,
+                        color: MEDIA_HERO_TOKENS.button.fg,
+                        borderRadius: MEDIA_HERO_TOKENS.button.radius,
+                        boxShadow: MEDIA_HERO_TOKENS.button.shadow,
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontFamily: 'inherit',
+                        transition: 'background-color 150ms ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bg
                       }}
                       aria-label={`${buttonText} (${images.length} photos)`}
                     >
-                      {buttonText}
-                    </Button>
+                      <Images size={16} style={{ flexShrink: 0 }} />
+                      <span>{buttonText}</span>
+                    </button>
                   </div>
                 )}
               </div>
@@ -541,20 +670,6 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
           </div>
         )}
         
-        {/* Show all button (if not on last thumbnail) */}
-        {showAllButton && images.length > visibleImages && gridImages.length < 5 && (
-          <div style={showAllButtonWrapperStyle}>
-            <Button 
-              variant="secondary" 
-              size="sm" 
-              leftIcon={Images} 
-              onClick={handleShowAll}
-              aria-label={`${buttonText} (${images.length} photos)`}
-            >
-              {buttonText}
-            </Button>
-          </div>
-        )}
 
         <Lightbox
           images={images}
