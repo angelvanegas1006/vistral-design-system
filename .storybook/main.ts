@@ -58,6 +58,28 @@ const config: StorybookConfig = {
       ],
     })
 
+    // Reduce chunk splitting to avoid loading failures
+    config.optimization = {
+      ...config.optimization,
+      splitChunks: {
+        chunks: 'all',
+        minSize: 30000,
+        maxSize: 0,
+        cacheGroups: {
+          defaultVendors: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10,
+            reuseExistingChunk: true,
+          },
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
+          },
+        },
+      },
+    }
+
     return config
   },
 }
