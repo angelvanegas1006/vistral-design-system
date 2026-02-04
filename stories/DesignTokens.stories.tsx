@@ -121,22 +121,44 @@ function RadiusExample({ name, value }: { name: string; value: string }) {
 }
 
 export const Colors: Story = {
-  render: () => (
-    <div style={{ padding: "2rem" }}>
-      <h2 style={{ marginBottom: "2rem" }}>Colors</h2>
-      
-      {Object.entries(tokens.colors).map(([category, values]) => (
-        <div key={category} style={{ marginBottom: "3rem" }}>
-          <h3 style={{ marginBottom: "1rem", textTransform: "capitalize" }}>{category}</h3>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "1.5rem" }}>
-            {Object.entries(values).map(([name, value]) => (
-              <ColorSwatch key={name} name={name} value={value} />
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  ),
+  render: () => {
+    // Helper function to flatten nested color objects
+    const flattenColors = (obj: any, prefix = ""): Array<{ name: string; value: string }> => {
+      const result: Array<{ name: string; value: string }> = []
+      Object.entries(obj).forEach(([key, value]) => {
+        const fullKey = prefix ? `${prefix}-${key}` : key
+        if (typeof value === "string") {
+          result.push({ name: fullKey, value })
+        } else if (typeof value === "object" && value !== null) {
+          result.push(...flattenColors(value, fullKey))
+        }
+      })
+      return result
+    }
+    
+    return (
+      <div style={{ padding: "2rem" }}>
+        <h2 style={{ marginBottom: "2rem" }}>Colors</h2>
+        
+        {Object.entries(tokens.colors).map(([category, values]) => {
+          if (!values || typeof values !== "object") return null
+          
+          const flatColors = flattenColors(values)
+          
+          return (
+            <div key={category} style={{ marginBottom: "3rem" }}>
+              <h3 style={{ marginBottom: "1rem", textTransform: "capitalize" }}>{category}</h3>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "1.5rem" }}>
+                {flatColors.map(({ name, value }) => (
+                  <ColorSwatch key={name} name={name} value={value} />
+                ))}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    )
+  },
 }
 
 export const Typography: Story = {

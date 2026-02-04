@@ -502,14 +502,54 @@ export const AllColors: Story = {
         <hr style={{ border: "none", borderTop: "1px solid #e5e7eb", margin: "48px 0" }} />
 
         {/* Categories */}
-        {Object.entries(tokens.colors).map(([category, colors]) => (
-          <ColorCategory
-            key={category}
-            title={category}
-            colors={colors || {}}
-            categoryKey={category}
-          />
-        ))}
+        {Object.entries(tokens.colors).map(([category, colors]) => {
+          // Flatten nested semantic structure
+          let flatColors: Record<string, string> = {}
+          if (category === "semantic" && typeof colors === "object" && colors !== null) {
+            const flattenSemantic = (obj: any, prefix = ""): Record<string, string> => {
+              const result: Record<string, string> = {}
+              Object.entries(obj).forEach(([key, value]) => {
+                const fullKey = prefix ? `${prefix}-${key}` : key
+                if (typeof value === "string") {
+                  result[fullKey] = value
+                } else if (typeof value === "object" && value !== null) {
+                  Object.assign(result, flattenSemantic(value, fullKey))
+                }
+              })
+              return result
+            }
+            flatColors = flattenSemantic(colors)
+          } else if (typeof colors === "object" && colors !== null) {
+            // For other categories, check if values are strings or nested objects
+            Object.entries(colors).forEach(([key, value]) => {
+              if (typeof value === "string") {
+                flatColors[key] = value
+              } else if (typeof value === "object" && value !== null) {
+                // Handle nested objects (like component.primary.default.bg)
+                Object.entries(value).forEach(([subKey, subValue]) => {
+                  if (typeof subValue === "string") {
+                    flatColors[`${key}-${subKey}`] = subValue
+                  } else if (typeof subValue === "object" && subValue !== null) {
+                    Object.entries(subValue).forEach(([subSubKey, subSubValue]) => {
+                      if (typeof subSubValue === "string") {
+                        flatColors[`${key}-${subKey}-${subSubKey}`] = subSubValue
+                      }
+                    })
+                  }
+                })
+              }
+            })
+          }
+          
+          return (
+            <ColorCategory
+              key={category}
+              title={category}
+              colors={flatColors}
+              categoryKey={category}
+            />
+          )
+        })}
       </div>
     )
   },
@@ -576,7 +616,24 @@ export const Primary: Story = {
  */
 export const Semantic: Story = {
   render: () => {
-    const families = groupColorsByFamily(tokens.colors.semantic || {})
+    const semanticColors = tokens.colors.semantic || {}
+    
+    // Flatten nested semantic structure for display
+    const flattenSemantic = (obj: any, prefix = ""): Record<string, string> => {
+      const result: Record<string, string> = {}
+      Object.entries(obj).forEach(([key, value]) => {
+        const fullKey = prefix ? `${prefix}-${key}` : key
+        if (typeof value === "string") {
+          result[fullKey] = value
+        } else if (typeof value === "object" && value !== null) {
+          Object.assign(result, flattenSemantic(value, fullKey))
+        }
+      })
+      return result
+    }
+    
+    const flattened = flattenSemantic(semanticColors)
+    const families = groupColorsByFamily(flattened)
     
     return (
       <div style={{ padding: "48px", maxWidth: "1400px", margin: "0 auto" }}>
@@ -596,6 +653,7 @@ export const Semantic: Story = {
               </h3>
               <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                 {sortColorShades(colors).map(([name, value]) => {
+                  if (typeof value !== "string") return null
                   const shade = name.match(/-(\d+)$/)?.[1] || "base"
                   return (
                     <div key={name} style={{ display: "flex", alignItems: "center", gap: "12px" }}>
@@ -609,7 +667,7 @@ export const Semantic: Story = {
                         }}
                       />
                       <div>
-                        <div style={{ fontSize: "13px", fontWeight: 500, color: "#18181b" }}>{shade}</div>
+                        <div style={{ fontSize: "13px", fontWeight: 500, color: "#18181b" }}>{name.replace(`${family}-`, "")}</div>
                         <div style={{ fontSize: "11px", color: "#6b7280", fontFamily: "monospace" }}>{value}</div>
                       </div>
                     </div>
@@ -629,7 +687,24 @@ export const Semantic: Story = {
  */
 export const Component: Story = {
   render: () => {
-    const families = groupColorsByFamily(tokens.colors.component || {})
+    const componentColors = tokens.colors.component || {}
+    
+    // Flatten nested component structure for display
+    const flattenComponent = (obj: any, prefix = ""): Record<string, string> => {
+      const result: Record<string, string> = {}
+      Object.entries(obj).forEach(([key, value]) => {
+        const fullKey = prefix ? `${prefix}-${key}` : key
+        if (typeof value === "string") {
+          result[fullKey] = value
+        } else if (typeof value === "object" && value !== null) {
+          Object.assign(result, flattenComponent(value, fullKey))
+        }
+      })
+      return result
+    }
+    
+    const flattened = flattenComponent(componentColors)
+    const families = groupColorsByFamily(flattened)
     
     return (
       <div style={{ padding: "48px", maxWidth: "1400px", margin: "0 auto" }}>
@@ -648,21 +723,24 @@ export const Component: Story = {
                 {family.replace(/-/g, " ")}
               </h3>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-                {Object.entries(colors).map(([name, value]) => (
-                  <div
-                    key={name}
-                    title={`${name}: ${value}`}
-                    onClick={() => navigator.clipboard.writeText(value)}
-                    style={{
-                      width: "40px",
-                      height: "40px",
-                      backgroundColor: value,
-                      borderRadius: "6px",
-                      border: "1px solid rgba(128,128,128,0.2)",
-                      cursor: "pointer",
-                    }}
-                  />
-                ))}
+                {Object.entries(colors).map(([name, value]) => {
+                  if (typeof value !== "string") return null
+                  return (
+                    <div
+                      key={name}
+                      title={`${name}: ${value}`}
+                      onClick={() => navigator.clipboard.writeText(value)}
+                      style={{
+                        width: "40px",
+                        height: "40px",
+                        backgroundColor: value,
+                        borderRadius: "6px",
+                        border: "1px solid rgba(128,128,128,0.2)",
+                        cursor: "pointer",
+                      }}
+                    />
+                  )
+                })}
               </div>
             </div>
           ))}
