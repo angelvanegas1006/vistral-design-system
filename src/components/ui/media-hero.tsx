@@ -24,8 +24,10 @@ const MEDIA_HERO_TOKENS = {
     padding: '10px 16px',
     fontSize: 14,
     fontWeight: 500,
-    bg: 'rgba(0, 0, 0, 0.6)',
+    bg: '#2050F6', // Light blue background
+    bgHover: '#3062F8', // Slightly darker on hover
     fg: '#ffffff',
+    border: '1px solid rgba(255, 255, 255, 0.3)', // Subtle white border
     radius: 8,
     shadow: '0 2px 8px rgba(0,0,0,0.15)',
     gap: 8,
@@ -203,13 +205,13 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                   color: MEDIA_HERO_TOKENS.button.fg,
                   borderRadius: MEDIA_HERO_TOKENS.button.radius,
                   boxShadow: MEDIA_HERO_TOKENS.button.shadow,
-                  border: 'none',
+                  border: MEDIA_HERO_TOKENS.button.border,
                   cursor: 'pointer',
                   fontFamily: 'inherit',
                   transition: 'background-color 150ms ease',
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'
+                  e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bgHover
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bg
@@ -417,13 +419,13 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                         color: MEDIA_HERO_TOKENS.button.fg,
                         borderRadius: MEDIA_HERO_TOKENS.button.radius,
                         boxShadow: MEDIA_HERO_TOKENS.button.shadow,
-                        border: 'none',
+                        border: MEDIA_HERO_TOKENS.button.border,
                         cursor: 'pointer',
                         fontFamily: 'inherit',
                         transition: 'background-color 150ms ease',
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'
+                        e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bgHover
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bg
@@ -500,13 +502,13 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                             color: MEDIA_HERO_TOKENS.button.fg,
                             borderRadius: MEDIA_HERO_TOKENS.button.radius,
                             boxShadow: MEDIA_HERO_TOKENS.button.shadow,
-                            border: 'none',
+                            border: MEDIA_HERO_TOKENS.button.border,
                             cursor: 'pointer',
                             fontFamily: 'inherit',
                             transition: 'background-color 150ms ease',
                           }}
                           onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'
+                            e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bgHover
                           }}
                           onMouseLeave={(e) => {
                             e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bg
@@ -628,13 +630,13 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                         color: MEDIA_HERO_TOKENS.button.fg,
                         borderRadius: MEDIA_HERO_TOKENS.button.radius,
                         boxShadow: MEDIA_HERO_TOKENS.button.shadow,
-                        border: 'none',
+                        border: MEDIA_HERO_TOKENS.button.border,
                         cursor: 'pointer',
                         fontFamily: 'inherit',
                         transition: 'background-color 150ms ease',
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'
+                        e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bgHover
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bg
