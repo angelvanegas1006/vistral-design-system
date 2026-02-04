@@ -160,8 +160,8 @@ export type { TableProps, TableHeaderProps, TableBodyProps, TableRowProps, Table
 export { Pagination, PaginationButton, PaginationEllipsis, FullPagination, PAGINATION_TOKENS } from "./pagination"
 export type { PaginationProps, PaginationButtonProps, FullPaginationProps } from "./pagination"
 
-export { List, ListItem, LIST_ITEM_TOKENS } from "./list-item"
-export type { ListProps, ListItemProps } from "./list-item"
+export { List, ListItem, Item, LIST_ITEM_TOKENS, ITEM_TOKENS } from "./list-item"
+export type { ListProps, ListItemProps, ItemProps } from "./list-item"
 
 export { Skeleton, SkeletonText, SkeletonCard, SkeletonAvatar, SKELETON_TOKENS } from "./skeleton"
 export type { SkeletonProps, SkeletonTextProps, SkeletonCardProps, SkeletonAvatarProps } from "./skeleton"
