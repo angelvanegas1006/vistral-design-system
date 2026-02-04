@@ -24,15 +24,15 @@ const MEDIA_HERO_TOKENS = {
     padding: '10px 20px', // Increased horizontal padding for larger button
     fontSize: 14,
     fontWeight: 500,
-    bg: '#2050F6', // Light blue background (solid)
-    bgHover: '#3062F8', // Slightly darker on hover
-    fg: '#ffffff',
+    bg: '#D9E7FF', // Secondary blue background (light blue)
+    bgHover: '#C8D9FF', // Slightly darker on hover
+    fg: '#162EB7', // Primary blue text color
     border: 'none', // No border per Figma design
-    radius: 8,
+    radius: 16, // Pill shape - half of height (32px / 2 = 16px)
     shadow: '0 2px 8px rgba(0,0,0,0.15)',
     gap: 8,
-    minWidth: '130px', // Minimum width to match Figma
-    height: '38px', // Fixed height to match Figma (35-40px range)
+    minWidth: '160px', // Width from SVG
+    height: '32px', // Height from SVG
   },
   // Counter (mobile)
   counter: {
@@ -224,7 +224,7 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                 onClick={handleShowAll}
                 aria-label={`${buttonText} (${images.length} photos)`}
               >
-                <Images size={16} style={{ flexShrink: 0 }} />
+                <Images size={16} style={{ flexShrink: 0, color: MEDIA_HERO_TOKENS.button.fg }} />
                 <span>{buttonText}</span>
               </button>
             </div>
