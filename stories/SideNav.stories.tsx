@@ -1,10 +1,16 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { SideNav, SideNavItem, SideNavGroup, SideNavDivider } from '../src/components/ui/side-nav';
 import { 
-  Home, Users, Settings, FileText, BarChart, Mail, 
-  Calendar, FolderOpen, HelpCircle, LogOut, User 
-} from 'lucide-react';
+  SideNav, 
+  SideNavHeader,
+  SideNavContent,
+  SideNavGroup, 
+  SideNavItem, 
+  SideNavFooter,
+  SideNavUser,
+  SideNavDivider 
+} from '../src/components/ui/side-nav';
+import { Home, Users, Settings, FileText, BarChart3, Mail, HelpCircle } from 'lucide-react';
 
 const meta: Meta<typeof SideNav> = {
   title: 'Components/SideNav',
@@ -14,15 +20,18 @@ const meta: Meta<typeof SideNav> = {
     docs: {
       description: {
         component: `
-# Side Navigation
+# SideNav / Sidebar
 
-Vertical navigation sidebar.
+Navigation sidebar component matching Figma design.
+
+Based on Figma: [SideNav](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=297-57580)
 
 ## Features
-- **Items**: Icon + label
-- **Groups**: Collapsible sections
-- **Badges**: Notification counts
-- **Collapsed**: Icon-only mode
+- **Expanded/Collapsed** states
+- **Groups** with labels
+- **Menu items** with icons and chevrons
+- **User profile** section
+- **Active state** with blue highlight
         `,
       },
     },
@@ -32,122 +41,337 @@ Vertical navigation sidebar.
 export default meta;
 type Story = StoryObj<typeof SideNav>;
 
+// Logo component
+const Logo = () => (
+  <div style={{
+    width: 36,
+    height: 36,
+    backgroundColor: '#2050f6',
+    borderRadius: 8,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: 'white',
+    fontWeight: 700,
+    fontSize: 14,
+  }}>
+    OP
+  </div>
+);
+
 export const Default: Story = {
   render: () => (
-    <div style={{ height: 500 }}>
+    <div style={{ height: 600, display: 'flex' }}>
       <SideNav defaultActiveItem="dashboard">
-        <SideNavItem value="dashboard" icon={Home} label="Dashboard" />
-        <SideNavItem value="users" icon={Users} label="Users" badge={5} />
-        <SideNavItem value="documents" icon={FileText} label="Documents" />
-        <SideNavItem value="analytics" icon={BarChart} label="Analytics" />
-        <SideNavDivider />
-        <SideNavItem value="settings" icon={Settings} label="Settings" />
-        <SideNavItem value="profile" icon={User} label="Profile" />
+        <SideNavHeader 
+          logo={<Logo />}
+          title="Menu Item"
+          subtitle="Enterprise"
+        />
+        
+        <SideNavContent>
+          <SideNavGroup label="Group title">
+            <SideNavItem value="item1" label="Menu Item" hasSubmenu />
+            <SideNavItem value="item2" label="Menu Item" hasSubmenu />
+            <SideNavItem value="item3" label="Menu Item" hasSubmenu />
+            <SideNavItem value="item4" label="Menu Item" hasSubmenu />
+          </SideNavGroup>
+
+          <SideNavGroup label="Group title">
+            <SideNavItem value="item5" label="Menu Item" hasSubmenu />
+            <SideNavItem value="item6" label="Menu Item" hasSubmenu />
+            <SideNavItem value="item7" label="Menu Item" hasSubmenu />
+            <SideNavItem value="item8" label="Menu Item" hasSubmenu />
+            <SideNavItem value="item9" label="Menu Item" hasSubmenu />
+            <SideNavItem value="item10" label="Menu Item" hasSubmenu />
+          </SideNavGroup>
+
+          <SideNavGroup label="Group title">
+            <SideNavItem value="item11" label="Menu Item" hasSubmenu />
+            <SideNavItem value="item12" label="Menu Item" hasSubmenu />
+            <SideNavItem value="item13" label="Menu Item" hasSubmenu />
+            <SideNavItem value="item14" label="Menu Item" hasSubmenu />
+            <SideNavItem value="item15" label="Menu Item" hasSubmenu />
+            <SideNavItem value="item16" label="Menu Item" hasSubmenu />
+          </SideNavGroup>
+        </SideNavContent>
+
+        <SideNavFooter>
+          <SideNavUser 
+            name="Menu Item"
+            email="Enterprise"
+            showExpand
+          />
+        </SideNavFooter>
       </SideNav>
+      
+      <div style={{ flex: 1, padding: 24, backgroundColor: '#f8fafc' }}>
+        <h2>Main Content</h2>
+        <p>This is the main content area.</p>
+      </div>
     </div>
   ),
 };
 
-export const WithGroups: Story = {
+export const WithIcons: Story = {
+  name: 'With Icons',
   render: () => (
-    <div style={{ height: 600 }}>
+    <div style={{ height: 600, display: 'flex' }}>
       <SideNav defaultActiveItem="dashboard">
-        <SideNavGroup label="Main">
-          <SideNavItem value="dashboard" icon={Home} label="Dashboard" />
-          <SideNavItem value="inbox" icon={Mail} label="Inbox" badge={12} />
-          <SideNavItem value="calendar" icon={Calendar} label="Calendar" />
-        </SideNavGroup>
+        <SideNavHeader 
+          logo={<Logo />}
+          title="PropHero"
+          subtitle="Dashboard"
+        />
         
-        <SideNavGroup label="Content">
-          <SideNavItem value="documents" icon={FileText} label="Documents" />
-          <SideNavItem value="files" icon={FolderOpen} label="Files" />
-          <SideNavItem value="analytics" icon={BarChart} label="Analytics" />
-        </SideNavGroup>
-        
-        <SideNavGroup label="Support">
-          <SideNavItem value="help" icon={HelpCircle} label="Help Center" />
-          <SideNavItem value="settings" icon={Settings} label="Settings" />
-        </SideNavGroup>
+        <SideNavContent>
+          <SideNavGroup label="Main">
+            <SideNavItem value="dashboard" icon={Home} label="Dashboard" />
+            <SideNavItem value="properties" icon={FileText} label="Properties" />
+            <SideNavItem value="analytics" icon={BarChart3} label="Analytics" />
+            <SideNavItem value="users" icon={Users} label="Users" badge={5} />
+          </SideNavGroup>
+
+          <SideNavGroup label="Settings">
+            <SideNavItem value="settings" icon={Settings} label="Settings" />
+            <SideNavItem value="messages" icon={Mail} label="Messages" badge={12} />
+            <SideNavItem value="help" icon={HelpCircle} label="Help & Support" />
+          </SideNavGroup>
+        </SideNavContent>
+
+        <SideNavFooter>
+          <SideNavUser 
+            name="John Doe"
+            email="john@prophero.com"
+            showExpand
+          />
+        </SideNavFooter>
       </SideNav>
+      
+      <div style={{ flex: 1, padding: 24, backgroundColor: '#f8fafc' }}>
+        <h2>Dashboard</h2>
+        <p>Welcome to PropHero dashboard.</p>
+      </div>
     </div>
   ),
 };
 
 export const Collapsed: Story = {
   render: () => {
-    const [collapsed, setCollapsed] = React.useState(true);
+    const [collapsed, setCollapsed] = React.useState(false);
     
     return (
-      <div style={{ display: 'flex', height: 500 }}>
+      <div style={{ height: 600, display: 'flex' }}>
         <SideNav collapsed={collapsed} defaultActiveItem="dashboard">
-          <SideNavItem value="dashboard" icon={Home} label="Dashboard" />
-          <SideNavItem value="users" icon={Users} label="Users" />
-          <SideNavItem value="documents" icon={FileText} label="Documents" />
-          <SideNavItem value="analytics" icon={BarChart} label="Analytics" />
-          <SideNavDivider />
-          <SideNavItem value="settings" icon={Settings} label="Settings" />
-          <SideNavItem value="profile" icon={User} label="Profile" />
+          <SideNavHeader 
+            logo={<Logo />}
+            title="PropHero"
+            subtitle="Dashboard"
+            onCollapse={() => setCollapsed(!collapsed)}
+          />
+          
+          <SideNavContent>
+            <SideNavGroup label="Main">
+              <SideNavItem value="dashboard" label="Dashboard" />
+              <SideNavItem value="properties" label="Properties" />
+              <SideNavItem value="analytics" label="Analytics" />
+              <SideNavItem value="users" label="Users" />
+            </SideNavGroup>
+
+            <SideNavGroup label="Settings">
+              <SideNavItem value="settings" label="Settings" />
+              <SideNavItem value="messages" label="Messages" />
+            </SideNavGroup>
+          </SideNavContent>
+
+          <SideNavFooter>
+            <SideNavUser 
+              name="OP"
+              email="Enterprise"
+            />
+          </SideNavFooter>
         </SideNav>
         
-        <div style={{ padding: 16 }}>
+        <div style={{ flex: 1, padding: 24, backgroundColor: '#f8fafc' }}>
           <button 
             onClick={() => setCollapsed(!collapsed)}
-            style={{ padding: '8px 16px', borderRadius: 8, border: '1px solid #e4e4e7' }}
+            style={{
+              padding: '8px 16px',
+              border: '1px solid #d4d4d8',
+              borderRadius: 8,
+              backgroundColor: 'white',
+              cursor: 'pointer',
+              marginBottom: 16,
+            }}
           >
-            {collapsed ? 'Expand' : 'Collapse'}
+            {collapsed ? 'Expand' : 'Collapse'} Sidebar
           </button>
+          <h2>Main Content</h2>
+          <p>Click the button to toggle sidebar.</p>
         </div>
       </div>
     );
   },
 };
 
-export const AppLayout: Story = {
-  name: 'App Layout',
+export const ActiveStates: Story = {
+  name: 'Active States',
   render: () => (
-    <div style={{ display: 'flex', height: 600, backgroundColor: '#fafafa' }}>
-      <SideNav defaultActiveItem="dashboard">
-        {/* Logo */}
-        <div style={{ 
-          padding: '16px 12px', 
-          marginBottom: 8,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 8,
-        }}>
-          <div style={{ 
-            width: 32, 
-            height: 32, 
-            backgroundColor: '#2050f6', 
-            borderRadius: 8,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            fontWeight: 700,
-          }}>
-            V
-          </div>
-          <span style={{ fontWeight: 600, fontSize: 16 }}>Vistral</span>
-        </div>
+    <div style={{ height: 500, display: 'flex' }}>
+      <SideNav defaultActiveItem="item2">
+        <SideNavHeader 
+          logo={<Logo />}
+          title="Menu Item"
+          subtitle="Enterprise"
+        />
         
-        <SideNavItem value="dashboard" icon={Home} label="Dashboard" />
-        <SideNavItem value="inbox" icon={Mail} label="Inbox" badge={3} />
-        <SideNavItem value="calendar" icon={Calendar} label="Calendar" />
-        <SideNavItem value="documents" icon={FileText} label="Documents" />
-        <SideNavItem value="analytics" icon={BarChart} label="Analytics" />
-        
-        <div style={{ flex: 1 }} />
-        
-        <SideNavDivider />
-        <SideNavItem value="settings" icon={Settings} label="Settings" />
-        <SideNavItem value="profile" icon={User} label="Profile" />
+        <SideNavContent>
+          <SideNavGroup label="Group title">
+            <SideNavItem value="item1" label="Menu Item" hasSubmenu />
+            <SideNavItem value="item2" label="Menu Item" hasSubmenu />
+            <SideNavItem value="item3" label="Menu Item" hasSubmenu />
+            <SideNavItem value="item4" label="Menu Item" hasSubmenu />
+          </SideNavGroup>
+        </SideNavContent>
+
+        <SideNavFooter>
+          <SideNavUser 
+            name="Menu Item"
+            email="Enterprise"
+            showExpand
+          />
+        </SideNavFooter>
       </SideNav>
-      
-      <div style={{ flex: 1, padding: 24 }}>
-        <h1 style={{ margin: 0, fontSize: 24, fontWeight: 600 }}>Dashboard</h1>
-        <p style={{ color: '#71717a', marginTop: 8 }}>Welcome back!</p>
+    </div>
+  ),
+};
+
+export const ExpandedVsCollapsed: Story = {
+  name: 'Expanded vs Collapsed',
+  render: () => (
+    <div style={{ display: 'flex', gap: 24, padding: 24, backgroundColor: '#f8fafc' }}>
+      {/* Expanded */}
+      <div style={{ height: 500 }}>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Expanded</p>
+        <SideNav defaultActiveItem="item2">
+          <SideNavHeader 
+            logo={<Logo />}
+            title="Menu Item"
+            subtitle="Enterprise"
+          />
+          
+          <SideNavContent>
+            <SideNavGroup label="Group title">
+              <SideNavItem value="item1" label="Menu Item" hasSubmenu />
+              <SideNavItem value="item2" label="Menu Item" hasSubmenu />
+              <SideNavItem value="item3" label="Menu Item" hasSubmenu />
+              <SideNavItem value="item4" label="Menu Item" hasSubmenu />
+            </SideNavGroup>
+          </SideNavContent>
+
+          <SideNavFooter>
+            <SideNavUser 
+              name="Menu Item"
+              email="Enterprise"
+              showExpand
+            />
+          </SideNavFooter>
+        </SideNav>
+      </div>
+
+      {/* Collapsed */}
+      <div style={{ height: 500 }}>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Collapsed</p>
+        <SideNav collapsed defaultActiveItem="item2">
+          <SideNavHeader logo={<Logo />} />
+          
+          <SideNavContent>
+            <SideNavGroup>
+              <SideNavItem value="item1" label="Menu Item" />
+              <SideNavItem value="item2" label="Menu Item" />
+              <SideNavItem value="item3" label="Menu Item" />
+              <SideNavItem value="item4" label="Menu Item" />
+            </SideNavGroup>
+          </SideNavContent>
+
+          <SideNavFooter>
+            <SideNavUser name="OP" />
+          </SideNavFooter>
+        </SideNav>
       </div>
     </div>
   ),
+};
+
+export const RealWorldExample: Story = {
+  name: 'Real World Example',
+  render: () => {
+    const [collapsed, setCollapsed] = React.useState(false);
+    const [activeItem, setActiveItem] = React.useState('properties');
+    
+    return (
+      <div style={{ height: 700, display: 'flex' }}>
+        <SideNav 
+          collapsed={collapsed} 
+          activeItem={activeItem}
+          onActiveItemChange={setActiveItem}
+        >
+          <SideNavHeader 
+            logo={
+              <div style={{
+                width: 36,
+                height: 36,
+                backgroundColor: '#2050f6',
+                borderRadius: 8,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <span style={{ color: 'white', fontWeight: 700, fontSize: 16 }}>P</span>
+              </div>
+            }
+            title="PropHero"
+            subtitle="Enterprise"
+            onCollapse={() => setCollapsed(!collapsed)}
+          />
+          
+          <SideNavContent>
+            <SideNavGroup label="Overview">
+              <SideNavItem value="dashboard" icon={Home} label="Dashboard" />
+              <SideNavItem value="analytics" icon={BarChart3} label="Analytics" />
+            </SideNavGroup>
+
+            <SideNavGroup label="Management">
+              <SideNavItem value="properties" icon={FileText} label="Properties" badge={24} />
+              <SideNavItem value="users" icon={Users} label="Users" />
+              <SideNavItem value="messages" icon={Mail} label="Messages" badge={3} />
+            </SideNavGroup>
+
+            <SideNavGroup label="System">
+              <SideNavItem value="settings" icon={Settings} label="Settings" />
+              <SideNavItem value="help" icon={HelpCircle} label="Help & Support" />
+            </SideNavGroup>
+          </SideNavContent>
+
+          <SideNavFooter>
+            <SideNavUser 
+              name="John Smith"
+              email="john.smith@prophero.com"
+              showExpand
+              onClick={() => console.log('User clicked')}
+            />
+          </SideNavFooter>
+        </SideNav>
+        
+        <div style={{ flex: 1, padding: 32, backgroundColor: '#f8fafc' }}>
+          <h1 style={{ margin: '0 0 8px', fontSize: 24, fontWeight: 600 }}>
+            {activeItem.charAt(0).toUpperCase() + activeItem.slice(1)}
+          </h1>
+          <p style={{ margin: 0, color: '#71717a' }}>
+            You selected: {activeItem}
+          </p>
+        </div>
+      </div>
+    );
+  },
 };
