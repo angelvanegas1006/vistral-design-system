@@ -8,10 +8,10 @@ import type { LucideIcon } from "lucide-react"
  * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=793-5651
  */
 const TIMELINE_TOKENS = {
-  // Dot/Icon
+  // Dot/Icon - consistent size for alignment
   dot: {
-    size: 12,
-    sizeLg: 32,
+    size: 24, // Unified size for all dots
+    sizeSm: 10, // Small inner dot when no icon
     bg: '#e4e4e7',
     bgActive: '#2050f6',
     bgSuccess: '#16a34a',
@@ -25,7 +25,7 @@ const TIMELINE_TOKENS = {
   },
   // Content
   content: {
-    gap: 16,
+    gap: 12,
   },
   // Typography
   title: {
@@ -147,41 +147,49 @@ const TimelineItem = forwardRef<HTMLDivElement, TimelineItemProps>(
       ...style,
     }
 
+    // Fixed-width container for consistent alignment
     const dotContainerStyle: React.CSSProperties = {
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       flexShrink: 0,
+      width: TIMELINE_TOKENS.dot.size,
     }
 
-    const dotStyle: React.CSSProperties = hasIcon ? {
+    // Unified dot size for alignment - inner circle for status without icon
+    const dotStyle: React.CSSProperties = {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      width: TIMELINE_TOKENS.dot.sizeLg,
-      height: TIMELINE_TOKENS.dot.sizeLg,
-      borderRadius: '50%',
-      backgroundColor: getDotColor(),
-      color: '#ffffff',
-    } : {
       width: TIMELINE_TOKENS.dot.size,
       height: TIMELINE_TOKENS.dot.size,
       borderRadius: '50%',
-      backgroundColor: getDotColor(),
-      marginTop: 5,
+      backgroundColor: hasIcon ? getDotColor() : 'transparent',
+      color: '#ffffff',
+      border: hasIcon ? 'none' : `2px solid ${getDotColor()}`,
+      position: 'relative',
     }
+
+    // Small inner dot when no icon
+    const innerDotStyle: React.CSSProperties = !hasIcon ? {
+      width: TIMELINE_TOKENS.dot.sizeSm,
+      height: TIMELINE_TOKENS.dot.sizeSm,
+      borderRadius: '50%',
+      backgroundColor: getDotColor(),
+    } : {}
 
     const lineStyle: React.CSSProperties = !isLast ? {
       flex: 1,
       width: TIMELINE_TOKENS.line.width,
       backgroundColor: TIMELINE_TOKENS.line.bg,
-      marginTop: 8,
+      marginTop: 4,
     } : {}
 
     const contentStyle: React.CSSProperties = {
       flex: 1,
-      paddingTop: hasIcon ? 4 : 0,
+      paddingTop: 2, // Consistent vertical alignment
       textAlign: position === 'right' ? 'right' : 'left',
+      minWidth: 0, // Prevent overflow
     }
 
     const titleStyle: React.CSSProperties = {
@@ -207,7 +215,7 @@ const TimelineItem = forwardRef<HTMLDivElement, TimelineItemProps>(
       <div ref={ref} style={itemStyle} {...props}>
         <div style={dotContainerStyle}>
           <div style={dotStyle}>
-            {Icon && <Icon size={16} />}
+            {Icon ? <Icon size={14} /> : <div style={innerDotStyle} />}
           </div>
           {!isLast && <div style={lineStyle} />}
         </div>
