@@ -105,8 +105,8 @@ export type { TooltipProps, TooltipTriggerProps, TooltipContentProps } from "./t
 export { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DROPDOWN_MENU_TOKENS } from "./dropdown-menu"
 export type { DropdownMenuProps, DropdownMenuTriggerProps, DropdownMenuContentProps } from "./dropdown-menu"
 
-export { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, CONTEXT_MENU_TOKENS } from "./context-menu"
-export type { ContextMenuProps, ContextMenuTriggerProps, ContextMenuContentProps, ContextMenuItemProps } from "./context-menu"
+export { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuLabel, ContextMenuItem, ContextMenuSeparator, ContextMenuCheckboxItem, ContextMenuRadioItem, ContextMenuSubmenu, CONTEXT_MENU_TOKENS } from "./context-menu"
+export type { ContextMenuProps, ContextMenuTriggerProps, ContextMenuContentProps, ContextMenuLabelProps, ContextMenuItemProps, ContextMenuCheckboxItemProps, ContextMenuRadioItemProps, ContextMenuSubmenuProps } from "./context-menu"
 
 // ============================================================================
 // Navigation Components
