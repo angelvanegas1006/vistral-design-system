@@ -4,8 +4,8 @@ import type { LucideIcon } from "lucide-react"
 import { Loader2 } from "lucide-react"
 
 /**
- * Input Design Tokens from Figma
- * Based on the input/text field patterns in the design system
+ * Text Input Design Tokens from Figma
+ * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=181-3410
  */
 const INPUT_TOKENS = {
   // States
@@ -22,11 +22,37 @@ const INPUT_TOKENS = {
     border: '#ef4444',       // red-500
     borderFocus: '#ef4444',
     fg: '#18181b',
+    helperText: '#ef4444',
   },
   disabled: {
     bg: '#f4f4f5',           // zinc-100
     border: '#e4e4e7',       // zinc-200
     fg: '#a1a1aa',           // zinc-400
+    placeholder: '#a1a1aa',
+  },
+  // Label
+  label: {
+    fontSize: 14,
+    fontWeight: 500,
+    color: '#18181b',
+    colorError: '#ef4444',
+    colorDisabled: '#a1a1aa',
+  },
+  // Helper text
+  helperText: {
+    fontSize: 13,
+    color: '#71717a',
+    colorError: '#ef4444',
+  },
+  // Character counter
+  counter: {
+    fontSize: 12,
+    color: '#a1a1aa',
+  },
+  // Suffix
+  suffix: {
+    fontSize: 14,
+    color: '#71717a',
   },
   // Sizes
   sizes: {
@@ -47,7 +73,7 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   error?: boolean
   /** Error message */
   errorMessage?: string
-  /** Label text */
+  /** Label text (always present per Figma) */
   label?: string
   /** Helper text */
   helperText?: string
@@ -57,6 +83,14 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   rightIcon?: LucideIcon
   /** Full width */
   fullWidth?: boolean
+  /** Character counter (shows current/max) */
+  maxLength?: number
+  /** Show character counter */
+  showCounter?: boolean
+  /** Suffix text (fixed value below input) */
+  suffix?: string
+  /** Optional label indicator */
+  optional?: boolean
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -70,14 +104,25 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     rightIcon: RightIcon,
     fullWidth = false,
     disabled,
+    maxLength,
+    showCounter = false,
+    suffix,
+    optional = false,
     id: providedId,
     style,
+    value,
+    onChange,
     ...props
   }, ref) => {
     const [isFocused, setIsFocused] = React.useState(false)
     const [isHovered, setIsHovered] = React.useState(false)
+    const [currentValue, setCurrentValue] = React.useState(value || '')
     const generatedId = useId()
     const id = providedId || generatedId
+
+    React.useEffect(() => {
+      setCurrentValue(value?.toString() || '')
+    }, [value])
 
     const sizeTokens = INPUT_TOKENS.sizes[size]
     const stateTokens = disabled 
@@ -94,6 +139,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       return stateTokens.border
     }
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = e.target.value
+      setCurrentValue(newValue)
+      onChange?.(e)
+    }
+
+    const characterCount = currentValue.toString().length
+    const showCharacterCounter = showCounter && maxLength !== undefined
+
     const containerStyle: React.CSSProperties = {
       display: 'flex',
       flexDirection: 'column',
@@ -101,10 +155,27 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       width: fullWidth ? '100%' : undefined,
     }
 
+    const labelWrapperStyle: React.CSSProperties = {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+    }
+
     const labelStyle: React.CSSProperties = {
-      fontSize: 14,
-      fontWeight: 500,
-      color: disabled ? '#a1a1aa' : error ? '#ef4444' : '#18181b', // Red on error
+      fontSize: INPUT_TOKENS.label.fontSize,
+      fontWeight: INPUT_TOKENS.label.fontWeight,
+      color: disabled 
+        ? INPUT_TOKENS.label.colorDisabled 
+        : error 
+          ? INPUT_TOKENS.label.colorError 
+          : INPUT_TOKENS.label.color,
+      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    }
+
+    const optionalStyle: React.CSSProperties = {
+      fontSize: 12,
+      fontWeight: 400,
+      color: '#a1a1aa',
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     }
 
@@ -114,16 +185,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       alignItems: 'center',
     }
 
-    // Calculate padding to accommodate icons
-    // Following design system spacing rules: icon position + icon size + spacing gap
-    // Icon is positioned at paddingX, then we need iconSize + spacing gap (12px from tokens)
-    const iconPadding = sizeTokens.paddingX + sizeTokens.iconSize + 12; // paddingX (icon position) + icon size + 12px gap
+    // Calculate padding to accommodate icons and counter
+    const iconPadding = sizeTokens.paddingX + sizeTokens.iconSize + 12
     
     const inputStyle: React.CSSProperties = {
       width: '100%',
       height: sizeTokens.height,
       paddingLeft: LeftIcon ? iconPadding : sizeTokens.paddingX,
-      paddingRight: RightIcon ? iconPadding : sizeTokens.paddingX,
+      paddingRight: RightIcon || showCharacterCounter ? iconPadding : sizeTokens.paddingX,
       fontSize: sizeTokens.fontSize,
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
       color: stateTokens.fg,
@@ -142,7 +211,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const iconStyle = (position: 'left' | 'right'): React.CSSProperties => ({
       position: 'absolute',
-      [position]: sizeTokens.paddingX, // Icon positioned at base padding
+      [position]: sizeTokens.paddingX,
       top: '50%',
       transform: 'translateY(-50%)',
       color: disabled ? '#d4d4d8' : '#71717a',
@@ -153,9 +222,36 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       justifyContent: 'center',
     })
 
+    const counterStyle: React.CSSProperties = {
+      position: 'absolute',
+      right: sizeTokens.paddingX,
+      top: '50%',
+      transform: 'translateY(-50%)',
+      fontSize: INPUT_TOKENS.counter.fontSize,
+      color: INPUT_TOKENS.counter.color,
+      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      pointerEvents: 'none',
+      zIndex: 1,
+    }
+
+    const helperWrapperStyle: React.CSSProperties = {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+      gap: 8,
+    }
+
     const helperStyle: React.CSSProperties = {
-      fontSize: 13,
-      color: error ? '#ef4444' : '#71717a',
+      fontSize: INPUT_TOKENS.helperText.fontSize,
+      color: error ? INPUT_TOKENS.helperText.colorError : INPUT_TOKENS.helperText.color,
+      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      margin: 0,
+      flex: 1,
+    }
+
+    const suffixStyle: React.CSSProperties = {
+      fontSize: INPUT_TOKENS.suffix.fontSize,
+      color: INPUT_TOKENS.suffix.color,
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
       margin: 0,
     }
@@ -163,9 +259,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div style={containerStyle}>
         {label && (
-          <label htmlFor={id} style={labelStyle}>
-            {label}
-          </label>
+          <div style={labelWrapperStyle}>
+            <label htmlFor={id} style={labelStyle}>
+              {label}
+            </label>
+            {optional && <span style={optionalStyle}>Optional</span>}
+          </div>
         )}
         
         <div 
@@ -183,15 +282,25 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={id}
             disabled={disabled}
+            maxLength={maxLength}
+            value={currentValue}
+            onChange={handleChange}
             style={inputStyle}
             onFocus={(e) => { setIsFocused(true); props.onFocus?.(e) }}
             onBlur={(e) => { setIsFocused(false); props.onBlur?.(e) }}
             aria-invalid={error}
-            aria-describedby={helperText || errorMessage ? `${id}-helper` : undefined}
+            aria-describedby={helperText || errorMessage || suffix ? `${id}-helper` : undefined}
+            aria-required={!optional}
             {...props}
           />
           
-          {RightIcon && (
+          {showCharacterCounter && (
+            <div style={counterStyle}>
+              {characterCount}/{maxLength}
+            </div>
+          )}
+          
+          {RightIcon && !showCharacterCounter && (
             <div style={iconStyle('right')}>
               <RightIcon 
                 size={sizeTokens.iconSize}
@@ -203,10 +312,13 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
         
-        {(helperText || errorMessage) && (
-          <p id={`${id}-helper`} style={helperStyle}>
-            {error ? errorMessage : helperText}
-          </p>
+        {(helperText || errorMessage || suffix) && (
+          <div style={helperWrapperStyle}>
+            <p id={`${id}-helper`} style={helperStyle}>
+              {error ? errorMessage : helperText}
+            </p>
+            {suffix && <span style={suffixStyle}>{suffix}</span>}
+          </div>
         )}
       </div>
     )
@@ -223,7 +335,7 @@ export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextArea
   error?: boolean
   /** Error message */
   errorMessage?: string
-  /** Label text */
+  /** Label text (always present per Figma) */
   label?: string
   /** Helper text */
   helperText?: string
@@ -231,6 +343,10 @@ export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextArea
   fullWidth?: boolean
   /** Auto resize */
   autoResize?: boolean
+  /** Character counter (shows current/max) */
+  maxLength?: number
+  /** Show character counter */
+  showCounter?: boolean
 }
 
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
@@ -242,15 +358,35 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     fullWidth = false,
     autoResize = false,
     disabled,
+    maxLength,
+    showCounter = false,
     id: providedId,
     style,
     rows = 3,
+    value,
+    onChange,
     ...props
   }, ref) => {
     const [isFocused, setIsFocused] = React.useState(false)
     const [isHovered, setIsHovered] = React.useState(false)
+    const [currentValue, setCurrentValue] = React.useState(value || '')
+    const textareaRef = React.useRef<HTMLTextAreaElement>(null)
     const generatedId = useId()
     const id = providedId || generatedId
+
+    React.useEffect(() => {
+      setCurrentValue(value?.toString() || '')
+    }, [value])
+
+    // Combine refs
+    React.useImperativeHandle(ref, () => textareaRef.current as HTMLTextAreaElement)
+
+    React.useEffect(() => {
+      if (autoResize && textareaRef.current) {
+        textareaRef.current.style.height = 'auto'
+        textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
+      }
+    }, [currentValue, autoResize])
 
     const stateTokens = disabled 
       ? INPUT_TOKENS.disabled 
@@ -265,6 +401,15 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       return stateTokens.border
     }
 
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      const newValue = e.target.value
+      setCurrentValue(newValue)
+      onChange?.(e)
+    }
+
+    const characterCount = currentValue.toString().length
+    const showCharacterCounter = showCounter && maxLength !== undefined
+
     const containerStyle: React.CSSProperties = {
       display: 'flex',
       flexDirection: 'column',
@@ -273,9 +418,13 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     }
 
     const labelStyle: React.CSSProperties = {
-      fontSize: 14,
-      fontWeight: 500,
-      color: disabled ? '#a1a1aa' : error ? '#ef4444' : '#18181b', // Red on error
+      fontSize: INPUT_TOKENS.label.fontSize,
+      fontWeight: INPUT_TOKENS.label.fontWeight,
+      color: disabled 
+        ? INPUT_TOKENS.label.colorDisabled 
+        : error 
+          ? INPUT_TOKENS.label.colorError 
+          : INPUT_TOKENS.label.color,
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     }
 
@@ -301,9 +450,24 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       ...style,
     }
 
+    const helperWrapperStyle: React.CSSProperties = {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'flex-start',
+      gap: 8,
+    }
+
     const helperStyle: React.CSSProperties = {
-      fontSize: 13,
-      color: error ? '#ef4444' : '#71717a',
+      fontSize: INPUT_TOKENS.helperText.fontSize,
+      color: error ? INPUT_TOKENS.helperText.colorError : INPUT_TOKENS.helperText.color,
+      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      margin: 0,
+      flex: 1,
+    }
+
+    const counterStyle: React.CSSProperties = {
+      fontSize: INPUT_TOKENS.counter.fontSize,
+      color: INPUT_TOKENS.counter.color,
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
       margin: 0,
     }
@@ -317,24 +481,35 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         )}
         
         <textarea
-          ref={ref}
+          ref={textareaRef}
           id={id}
           disabled={disabled}
+          maxLength={maxLength}
           rows={rows}
+          value={currentValue}
+          onChange={handleChange}
           style={textareaStyle}
           onFocus={(e) => { setIsFocused(true); props.onFocus?.(e) }}
           onBlur={(e) => { setIsFocused(false); props.onBlur?.(e) }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           aria-invalid={error}
-          aria-describedby={helperText || errorMessage ? `${id}-helper` : undefined}
+          aria-describedby={helperText || errorMessage || showCharacterCounter ? `${id}-helper` : undefined}
+          aria-required={!props.optional}
           {...props}
         />
         
-        {(helperText || errorMessage) && (
-          <p id={`${id}-helper`} style={helperStyle}>
-            {error ? errorMessage : helperText}
-          </p>
+        {(helperText || errorMessage || showCharacterCounter) && (
+          <div style={helperWrapperStyle}>
+            <p id={`${id}-helper`} style={helperStyle}>
+              {error ? errorMessage : helperText}
+            </p>
+            {showCharacterCounter && (
+              <span style={counterStyle}>
+                {characterCount}/{maxLength} characters
+              </span>
+            )}
+          </div>
         )}
       </div>
     )

@@ -8,6 +8,9 @@
 export { Button, BUTTON_TOKENS } from "./button"
 export type { ButtonProps } from "./button"
 
+export { Text, TEXT_TOKENS } from "./text"
+export type { TextProps, TextVariant, TextColor } from "./text"
+
 export { Input, Textarea, INPUT_TOKENS } from "./input"
 export type { InputProps, TextareaProps } from "./input"
 
