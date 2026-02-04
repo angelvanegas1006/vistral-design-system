@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { BottomNav, BottomNavItem } from '../src/components/ui/bottom-nav';
-import { Home, Search, Heart, User, ShoppingBag, Bell, MessageCircle, Settings } from 'lucide-react';
+import { BottomNav, BottomNavItem, BottomNavSearch } from '../src/components/ui/bottom-nav';
+import { Home, Search, Heart, User, MessageCircle, Settings } from 'lucide-react';
 
 const meta: Meta<typeof BottomNav> = {
   title: 'Components/BottomNav',
@@ -13,13 +13,17 @@ const meta: Meta<typeof BottomNav> = {
         component: `
 # Bottom Navigation
 
-Mobile bottom tab navigation.
+Mobile bottom navigation bar component matching Figma design.
+
+Based on Figma: [Bottom Navigation](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=4381-7423)
 
 ## Features
-- **Tab Items**: Icon + label
-- **Active State**: Visual indicator
-- **Badge**: Notification count
-- **Fixed Position**: Stays at bottom
+- **2-5 items** with icon + label
+- **Active state** with pill background (light gray)
+- **Circle icons** (outline inactive, filled blue active)
+- **Badge** support
+- **Search** button variant
+- **Icons only** mode (collapsed)
         `,
       },
     },
@@ -29,116 +33,288 @@ Mobile bottom tab navigation.
 export default meta;
 type Story = StoryObj<typeof BottomNav>;
 
+// Container for demo
+const DemoContainer = ({ children, height = 200 }: { children: React.ReactNode; height?: number }) => (
+  <div style={{ 
+    position: 'relative', 
+    height, 
+    backgroundColor: '#f8fafc',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}>
+    <p style={{ color: '#71717a' }}>Content area</p>
+    {children}
+  </div>
+);
+
 export const Default: Story = {
   render: () => (
-    <div style={{ height: 200, position: 'relative' }}>
-      <BottomNav defaultValue="home" fixed={false}>
+    <DemoContainer>
+      <BottomNav defaultValue="home">
+        <BottomNavItem value="home" icon={Home} label="Label" />
+        <BottomNavItem value="search" icon={Search} label="Label" />
+        <BottomNavItem value="favorites" icon={Heart} label="Label" />
+        <BottomNavItem value="profile" icon={User} label="Label" />
+      </BottomNav>
+    </DemoContainer>
+  ),
+};
+
+export const TwoItems: Story = {
+  name: '2 Items',
+  render: () => (
+    <DemoContainer>
+      <BottomNav defaultValue="home" fixed={false} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
+        <BottomNavItem value="home" icon={Home} label="Label" />
+        <BottomNavItem value="profile" icon={User} label="Label" />
+      </BottomNav>
+    </DemoContainer>
+  ),
+};
+
+export const ThreeItems: Story = {
+  name: '3 Items',
+  render: () => (
+    <DemoContainer>
+      <BottomNav defaultValue="home" fixed={false} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
+        <BottomNavItem value="home" icon={Home} label="Label" />
+        <BottomNavItem value="search" icon={Search} label="Label" />
+        <BottomNavItem value="profile" icon={User} label="Label" />
+      </BottomNav>
+    </DemoContainer>
+  ),
+};
+
+export const FourItems: Story = {
+  name: '4 Items',
+  render: () => (
+    <DemoContainer>
+      <BottomNav defaultValue="home" fixed={false} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
+        <BottomNavItem value="home" icon={Home} label="Label" />
+        <BottomNavItem value="search" icon={Search} label="Label" />
+        <BottomNavItem value="favorites" icon={Heart} label="Label" />
+        <BottomNavItem value="profile" icon={User} label="Label" />
+      </BottomNav>
+    </DemoContainer>
+  ),
+};
+
+export const FiveItems: Story = {
+  name: '5 Items',
+  render: () => (
+    <DemoContainer>
+      <BottomNav defaultValue="home" fixed={false} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
+        <BottomNavItem value="home" icon={Home} label="Label" />
+        <BottomNavItem value="search" icon={Search} label="Label" />
+        <BottomNavItem value="favorites" icon={Heart} label="Label" />
+        <BottomNavItem value="messages" icon={MessageCircle} label="Label" />
+        <BottomNavItem value="profile" icon={User} label="Label" />
+      </BottomNav>
+    </DemoContainer>
+  ),
+};
+
+export const WithSearchButton: Story = {
+  name: 'With Search Button',
+  render: () => (
+    <DemoContainer>
+      <BottomNav defaultValue="home" fixed={false} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
+        <BottomNavItem value="home" icon={Home} label="Label" />
+        <BottomNavItem value="favorites" icon={Heart} label="Label" />
+        <BottomNavSearch onPress={() => console.log('Search pressed')} />
+        <BottomNavItem value="messages" icon={MessageCircle} label="Label" />
+        <BottomNavItem value="profile" icon={User} label="Label" />
+      </BottomNav>
+    </DemoContainer>
+  ),
+};
+
+export const WithBadges: Story = {
+  name: 'With Badges',
+  render: () => (
+    <DemoContainer>
+      <BottomNav defaultValue="home" fixed={false} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
+        <BottomNavItem value="home" icon={Home} label="Home" />
+        <BottomNavItem value="messages" icon={MessageCircle} label="Messages" badge={5} />
+        <BottomNavItem value="favorites" icon={Heart} label="Favorites" badge={12} />
+        <BottomNavItem value="profile" icon={User} label="Profile" />
+      </BottomNav>
+    </DemoContainer>
+  ),
+};
+
+export const IconsOnly: Story = {
+  name: 'Icons Only',
+  render: () => (
+    <DemoContainer>
+      <BottomNav defaultValue="home" fixed={false} showLabels={false} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
         <BottomNavItem value="home" icon={Home} label="Home" />
         <BottomNavItem value="search" icon={Search} label="Search" />
         <BottomNavItem value="favorites" icon={Heart} label="Favorites" />
         <BottomNavItem value="profile" icon={User} label="Profile" />
       </BottomNav>
-    </div>
+    </DemoContainer>
   ),
 };
 
-export const WithBadges: Story = {
+export const ItemStates: Story = {
+  name: 'Item States (Figma Reference)',
   render: () => (
-    <div style={{ height: 200, position: 'relative' }}>
-      <BottomNav defaultValue="home" fixed={false}>
-        <BottomNavItem value="home" icon={Home} label="Home" />
-        <BottomNavItem value="messages" icon={MessageCircle} label="Messages" badge={5} />
-        <BottomNavItem value="notifications" icon={Bell} label="Alerts" badge={12} />
-        <BottomNavItem value="profile" icon={User} label="Profile" />
-      </BottomNav>
-    </div>
-  ),
-};
-
-export const ECommerce: Story = {
-  name: 'E-commerce',
-  render: () => (
-    <div style={{ height: 200, position: 'relative' }}>
-      <BottomNav defaultValue="home" fixed={false}>
-        <BottomNavItem value="home" icon={Home} label="Home" />
-        <BottomNavItem value="search" icon={Search} label="Search" />
-        <BottomNavItem value="cart" icon={ShoppingBag} label="Cart" badge={3} />
-        <BottomNavItem value="wishlist" icon={Heart} label="Wishlist" />
-        <BottomNavItem value="account" icon={User} label="Account" />
-      </BottomNav>
-    </div>
-  ),
-};
-
-export const Controlled: Story = {
-  render: () => {
-    const [value, setValue] = React.useState('home');
-    
-    return (
-      <div style={{ height: 250, position: 'relative' }}>
-        <div style={{ padding: 16, textAlign: 'center' }}>
-          <p style={{ margin: '0 0 16px', color: '#71717a' }}>Active: {value}</p>
-          <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-            <button 
-              onClick={() => setValue('search')}
-              style={{ padding: '8px 16px', borderRadius: 8, border: '1px solid #e4e4e7' }}
-            >
-              Go to Search
-            </button>
-          </div>
-        </div>
-        
-        <BottomNav value={value} onValueChange={setValue} fixed={false}>
-          <BottomNavItem value="home" icon={Home} label="Home" />
-          <BottomNavItem value="search" icon={Search} label="Search" />
-          <BottomNavItem value="favorites" icon={Heart} label="Favorites" />
-          <BottomNavItem value="settings" icon={Settings} label="Settings" />
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, padding: 24, backgroundColor: '#f8fafc' }}>
+      {/* Default State */}
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Default (Inactive)</p>
+        <BottomNav defaultValue="item2" fixed={false}>
+          <BottomNavItem value="item1" icon={Home} label="Label" />
+          <BottomNavItem value="item2" icon={User} label="Label" />
         </BottomNav>
       </div>
-    );
-  },
+
+      {/* Active State */}
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Active (Selected)</p>
+        <BottomNav defaultValue="item1" fixed={false}>
+          <BottomNavItem value="item1" icon={Home} label="Label" />
+          <BottomNavItem value="item2" icon={User} label="Label" />
+        </BottomNav>
+      </div>
+
+      {/* With Badge */}
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>With Badge</p>
+        <BottomNav defaultValue="item1" fixed={false}>
+          <BottomNavItem value="item1" icon={Home} label="Label" badge={23} />
+          <BottomNavItem value="item2" icon={User} label="Label" />
+        </BottomNav>
+      </div>
+    </div>
+  ),
 };
 
-export const MobileApp: Story = {
-  name: 'Mobile App Preview',
+export const AllVariations: Story = {
+  name: 'All Variations (Figma Reference)',
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, padding: 24, backgroundColor: '#f8fafc' }}>
+      {/* 2 Items */}
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>2 Items</p>
+        <BottomNav defaultValue="item1" fixed={false}>
+          <BottomNavItem value="item1" icon={Home} label="Label" />
+          <BottomNavItem value="item2" icon={User} label="Label" />
+        </BottomNav>
+      </div>
+
+      {/* 2 Items with Search */}
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>2 Items with Search</p>
+        <BottomNav defaultValue="item1" fixed={false}>
+          <BottomNavItem value="item1" icon={Home} label="Label" />
+          <BottomNavSearch />
+        </BottomNav>
+      </div>
+
+      {/* 3 Items */}
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>3 Items</p>
+        <BottomNav defaultValue="item1" fixed={false}>
+          <BottomNavItem value="item1" icon={Home} label="Label" />
+          <BottomNavItem value="item2" icon={Search} label="Label" />
+          <BottomNavItem value="item3" icon={User} label="Label" />
+        </BottomNav>
+      </div>
+
+      {/* 3 Items with Search */}
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>3 Items with Search</p>
+        <BottomNav defaultValue="item1" fixed={false}>
+          <BottomNavItem value="item1" icon={Home} label="Label" />
+          <BottomNavItem value="item2" icon={Heart} label="Label" />
+          <BottomNavSearch />
+        </BottomNav>
+      </div>
+
+      {/* 4 Items */}
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>4 Items</p>
+        <BottomNav defaultValue="item1" fixed={false}>
+          <BottomNavItem value="item1" icon={Home} label="Label" />
+          <BottomNavItem value="item2" icon={Search} label="Label" />
+          <BottomNavItem value="item3" icon={Heart} label="Label" />
+          <BottomNavItem value="item4" icon={User} label="Label" />
+        </BottomNav>
+      </div>
+
+      {/* 4 Items with Search */}
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>4 Items with Search</p>
+        <BottomNav defaultValue="item1" fixed={false}>
+          <BottomNavItem value="item1" icon={Home} label="Label" />
+          <BottomNavItem value="item2" icon={Heart} label="Label" />
+          <BottomNavItem value="item3" icon={MessageCircle} label="Label" />
+          <BottomNavSearch />
+        </BottomNav>
+      </div>
+
+      {/* 5 Items */}
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>5 Items</p>
+        <BottomNav defaultValue="item1" fixed={false}>
+          <BottomNavItem value="item1" icon={Home} label="Label" />
+          <BottomNavItem value="item2" icon={Search} label="Label" />
+          <BottomNavItem value="item3" icon={Heart} label="Label" />
+          <BottomNavItem value="item4" icon={MessageCircle} label="Label" />
+          <BottomNavItem value="item5" icon={User} label="Label" />
+        </BottomNav>
+      </div>
+
+      {/* 5 Items with Search */}
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>5 Items with Search</p>
+        <BottomNav defaultValue="item1" fixed={false}>
+          <BottomNavItem value="item1" icon={Home} label="Label" />
+          <BottomNavItem value="item2" icon={Heart} label="Label" />
+          <BottomNavItem value="item3" icon={MessageCircle} label="Label" />
+          <BottomNavItem value="item4" icon={Settings} label="Label" />
+          <BottomNavSearch />
+        </BottomNav>
+      </div>
+
+      {/* Icons Only */}
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Icons Only (Collapsed)</p>
+        <BottomNav defaultValue="item1" fixed={false} showLabels={false}>
+          <BottomNavItem value="item1" icon={Home} label="Home" />
+          <BottomNavItem value="item2" icon={Search} label="Search" />
+          <BottomNavItem value="item3" icon={Heart} label="Favorites" />
+          <BottomNavItem value="item4" icon={User} label="Profile" />
+        </BottomNav>
+      </div>
+    </div>
+  ),
+};
+
+export const Interactive: Story = {
   render: () => {
-    const [tab, setTab] = React.useState('home');
+    const [activeTab, setActiveTab] = React.useState('home');
     
     return (
-      <div style={{ 
-        width: 375, 
-        height: 667, 
-        border: '1px solid #e4e4e7', 
-        borderRadius: 32,
-        overflow: 'hidden',
-        margin: '0 auto',
-        position: 'relative',
-        backgroundColor: '#fafafa',
-      }}>
-        {/* Status bar */}
-        <div style={{ height: 44, backgroundColor: '#fff', borderBottom: '1px solid #e4e4e7' }} />
-        
-        {/* Content */}
-        <div style={{ padding: 16, paddingBottom: 80 }}>
-          <h1 style={{ margin: '0 0 8px', fontSize: 24, fontWeight: 600 }}>
-            {tab === 'home' && 'Home'}
-            {tab === 'search' && 'Search'}
-            {tab === 'favorites' && 'Favorites'}
-            {tab === 'profile' && 'Profile'}
-          </h1>
-          <p style={{ margin: 0, color: '#71717a' }}>
-            Content for {tab} tab goes here.
+      <DemoContainer height={300}>
+        <div style={{ textAlign: 'center' }}>
+          <h3 style={{ margin: '0 0 8px', fontSize: 18, fontWeight: 600 }}>
+            {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}
+          </h3>
+          <p style={{ margin: 0, color: '#71717a', fontSize: 14 }}>
+            Tap the icons below to navigate
           </p>
         </div>
-        
-        {/* Bottom nav */}
-        <BottomNav value={tab} onValueChange={setTab}>
+        <BottomNav value={activeTab} onValueChange={setActiveTab} fixed={false} style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
           <BottomNavItem value="home" icon={Home} label="Home" />
           <BottomNavItem value="search" icon={Search} label="Search" />
-          <BottomNavItem value="favorites" icon={Heart} label="Favorites" badge={2} />
+          <BottomNavItem value="favorites" icon={Heart} label="Favorites" badge={3} />
           <BottomNavItem value="profile" icon={User} label="Profile" />
         </BottomNav>
-      </div>
+      </DemoContainer>
     );
   },
 };

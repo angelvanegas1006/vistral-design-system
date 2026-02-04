@@ -124,8 +124,8 @@ export type { BreadcrumbProps, BreadcrumbItemProps, BreadcrumbLinkProps, Breadcr
 export { Navbar, NavbarBrand, NavbarTitle, NavbarActions, NavbarButton, NavbarBack, NAVBAR_TOKENS } from "./navbar"
 export type { NavbarProps, NavbarBrandProps, NavbarTitleProps, NavbarActionsProps, NavbarButtonProps, NavbarBackProps } from "./navbar"
 
-export { BottomNav, BottomNavItem, BOTTOM_NAV_TOKENS } from "./bottom-nav"
-export type { BottomNavProps, BottomNavItemProps } from "./bottom-nav"
+export { BottomNav, BottomNavItem, BottomNavSearch, BOTTOM_NAV_TOKENS } from "./bottom-nav"
+export type { BottomNavProps, BottomNavItemProps, BottomNavSearchProps } from "./bottom-nav"
 
 export { SideNav, SideNavItem, SideNavGroup, SideNavDivider, SIDE_NAV_TOKENS } from "./side-nav"
 export type { SideNavProps, SideNavItemProps, SideNavGroupProps } from "./side-nav"
