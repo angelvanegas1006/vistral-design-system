@@ -14,14 +14,23 @@ const meta: Meta<typeof NumberStepper> = {
 
 Quantity input component with increment/decrement buttons.
 
-Based on Figma Design System: [Stepper Component](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=418-6699)
+Based on Figma Design System: [Stepper Component](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=438-8074)
 
 ## Features
 - **Inline Layout**: Label left, controls right with divider
-- **Circular Buttons**: Outlined +/- buttons
-- **Min/Max**: Define value boundaries
+- **Filled Buttons**: Blue background when enabled, gray when disabled
+- **Editable Input**: Direct text input with validation
+- **Min/Max**: Define value boundaries with visual button states
 - **Step**: Custom step increment
 - **States**: Normal, disabled, error
+- **Keyboard Support**: ArrowUp/ArrowDown keys for quick adjustment
+- **Accessibility**: Full ARIA support for screen readers
+
+## Best Practices
+- Set sensible default values and limits
+- Disable buttons at min/max limits
+- Don't use for large ranges or floating-point values
+- Don't use for time or date selection
         `,
       },
     },
@@ -59,16 +68,42 @@ export const WithoutDivider: Story = {
   ),
 };
 
+export const AllStates: Story = {
+  name: 'All States (Figma Reference)',
+  render: () => (
+    <div style={{ width: 320, display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 12, fontWeight: 500 }}>
+          At Minimum (0) - Decrement disabled
+        </p>
+        <NumberStepper label="Habitaciones" defaultValue={0} min={0} max={10} />
+      </div>
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 12, fontWeight: 500 }}>
+          Intermediate Value (3) - Both buttons enabled
+        </p>
+        <NumberStepper label="Habitaciones" defaultValue={3} min={0} max={10} />
+      </div>
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 12, fontWeight: 500 }}>
+          At Maximum (5) - Increment disabled
+        </p>
+        <NumberStepper label="Habitaciones" defaultValue={5} min={0} max={5} />
+      </div>
+    </div>
+  ),
+};
+
 export const States: Story = {
   render: () => (
-    <div style={{ width: 280, display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div style={{ width: 280, display: 'flex', flexDirection: 'column', gap: 20 }}>
       <div>
         <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Normal</p>
         <NumberStepper label="Habitaciones" defaultValue={3} />
       </div>
       <div>
         <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Disabled</p>
-        <NumberStepper label="Habitaciones" defaultValue={5} disabled />
+        <NumberStepper label="Habitaciones" defaultValue={0} disabled />
       </div>
       <div>
         <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Error</p>
@@ -86,9 +121,68 @@ export const States: Story = {
 export const MinMaxBoundary: Story = {
   name: 'At Boundaries',
   render: () => (
-    <div style={{ width: 280, display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <NumberStepper label="At minimum (0)" defaultValue={0} min={0} max={10} />
-      <NumberStepper label="At maximum (10)" defaultValue={10} min={0} max={10} />
+    <div style={{ width: 280, display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>
+          At minimum (0) - Decrement button disabled (gray)
+        </p>
+        <NumberStepper label="Habitaciones" defaultValue={0} min={0} max={10} />
+      </div>
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>
+          At maximum (10) - Increment button disabled (gray)
+        </p>
+        <NumberStepper label="Habitaciones" defaultValue={10} min={0} max={10} />
+      </div>
+    </div>
+  ),
+};
+
+export const EditableInput: Story = {
+  name: 'Editable Input Field',
+  render: () => {
+    const [value, setValue] = React.useState(3);
+    
+    return (
+      <div style={{ width: 280 }}>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 12 }}>
+          Click the input field to edit directly, or use ArrowUp/ArrowDown keys
+        </p>
+        <NumberStepper 
+          label="Habitaciones" 
+          value={value}
+          onChange={setValue}
+          min={0}
+          max={10}
+        />
+        <p style={{ fontSize: 13, color: '#71717a', marginTop: 12 }}>
+          Current value: <strong>{value}</strong>
+        </p>
+      </div>
+    );
+  },
+};
+
+export const KeyboardNavigation: Story = {
+  name: 'Keyboard Navigation',
+  render: () => (
+    <div style={{ width: 320, padding: 24, backgroundColor: '#f9fafb', borderRadius: 12 }}>
+      <h3 style={{ margin: '0 0 16px', fontSize: 16, fontWeight: 600 }}>
+        Keyboard Shortcuts
+      </h3>
+      <ul style={{ fontSize: 13, color: '#71717a', margin: '0 0 20px', paddingLeft: 20 }}>
+        <li><strong>Tab</strong> - Navigate between buttons and input</li>
+        <li><strong>ArrowUp</strong> - Increment value (when input is focused)</li>
+        <li><strong>ArrowDown</strong> - Decrement value (when input is focused)</li>
+        <li><strong>Enter/Space</strong> - Activate button</li>
+        <li><strong>Type numbers</strong> - Edit value directly in input field</li>
+      </ul>
+      <NumberStepper 
+        label="Try it out" 
+        defaultValue={5} 
+        min={0} 
+        max={10}
+      />
     </div>
   ),
 };
