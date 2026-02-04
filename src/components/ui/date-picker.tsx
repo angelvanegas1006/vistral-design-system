@@ -33,6 +33,8 @@ export interface DatePickerProps extends Omit<React.HTMLAttributes<HTMLDivElemen
   placeholder?: string
   /** Date format function */
   formatDate?: (date: Date) => string
+  /** Parse date from string (for manual input) */
+  parseDate?: (str: string) => Date | undefined
   /** Minimum date */
   minDate?: Date
   /** Maximum date */
@@ -47,6 +49,8 @@ export interface DatePickerProps extends Omit<React.HTMLAttributes<HTMLDivElemen
   helperText?: string
   /** Clearable */
   clearable?: boolean
+  /** Allow manual date input */
+  allowManualInput?: boolean
 }
 
 const defaultFormatDate = (date: Date) => {
@@ -57,6 +61,39 @@ const defaultFormatDate = (date: Date) => {
   })
 }
 
+// Parse date from common formats: MM/DD/YYYY, DD/MM/YYYY, YYYY-MM-DD, etc.
+const defaultParseDate = (str: string): Date | undefined => {
+  const trimmed = str.trim()
+  if (!trimmed) return undefined
+
+  // Try standard Date parsing first (handles ISO, etc.)
+  let date = new Date(trimmed)
+  if (!isNaN(date.getTime())) return date
+
+  // Try MM/DD/YYYY or DD/MM/YYYY format
+  const parts = trimmed.split(/[\/\-\.]/)
+  if (parts.length === 3) {
+    const [a, b, c] = parts.map(p => parseInt(p, 10))
+    // Try MM/DD/YYYY
+    if (a >= 1 && a <= 12 && b >= 1 && b <= 31 && c >= 1900) {
+      date = new Date(c, a - 1, b)
+      if (!isNaN(date.getTime())) return date
+    }
+    // Try DD/MM/YYYY
+    if (b >= 1 && b <= 12 && a >= 1 && a <= 31 && c >= 1900) {
+      date = new Date(c, b - 1, a)
+      if (!isNaN(date.getTime())) return date
+    }
+    // Try YYYY-MM-DD
+    if (a >= 1900 && b >= 1 && b <= 12 && c >= 1 && c <= 31) {
+      date = new Date(a, b - 1, c)
+      if (!isNaN(date.getTime())) return date
+    }
+  }
+
+  return undefined
+}
+
 const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
   ({
     value,
@@ -64,6 +101,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     onChange,
     placeholder = 'Select date',
     formatDate = defaultFormatDate,
+    parseDate = defaultParseDate,
     minDate,
     maxDate,
     disabled = false,
@@ -71,17 +109,30 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     label,
     helperText,
     clearable = true,
+    allowManualInput = true,
     style,
     ...props
   }, ref) => {
     const [isOpen, setIsOpen] = useState(false)
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(value || defaultValue)
     const [isFocused, setIsFocused] = useState(false)
+    const [inputValue, setInputValue] = useState(selectedDate ? formatDate(selectedDate) : '')
     const containerRef = useRef<HTMLDivElement>(null)
+    const inputRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
-      if (value !== undefined) setSelectedDate(value)
-    }, [value])
+      if (value !== undefined) {
+        setSelectedDate(value)
+        setInputValue(formatDate(value))
+      }
+    }, [value, formatDate])
+
+    // Update inputValue when selectedDate changes internally
+    useEffect(() => {
+      if (selectedDate) {
+        setInputValue(formatDate(selectedDate))
+      }
+    }, [selectedDate, formatDate])
 
     // Close on outside click
     useEffect(() => {
@@ -96,6 +147,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
 
     const handleSelect = (date: Date) => {
       setSelectedDate(date)
+      setInputValue(formatDate(date))
       onChange?.(date)
       setIsOpen(false)
     }
@@ -103,7 +155,43 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     const handleClear = (e: React.MouseEvent) => {
       e.stopPropagation()
       setSelectedDate(undefined)
+      setInputValue('')
       onChange?.(undefined)
+    }
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const val = e.target.value
+      setInputValue(val)
+      
+      // Try to parse the date
+      const parsed = parseDate(val)
+      if (parsed) {
+        // Validate against min/max
+        if (minDate && parsed < minDate) return
+        if (maxDate && parsed > maxDate) return
+        setSelectedDate(parsed)
+        onChange?.(parsed)
+      }
+    }
+
+    const handleInputBlur = () => {
+      setIsFocused(false)
+      // If input doesn't parse to a valid date, reset to selected date or empty
+      if (inputValue && !parseDate(inputValue)) {
+        setInputValue(selectedDate ? formatDate(selectedDate) : '')
+      }
+    }
+
+    const handleInputKeyDown = (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        const parsed = parseDate(inputValue)
+        if (parsed) {
+          handleSelect(parsed)
+        }
+      } else if (e.key === 'Escape') {
+        setIsOpen(false)
+        inputRef.current?.blur()
+      }
     }
 
     const getBorderColor = () => {
@@ -161,21 +249,58 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
         <div
           ref={ref}
           style={triggerStyle}
-          onClick={() => !disabled && setIsOpen(!isOpen)}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-          tabIndex={disabled ? -1 : 0}
-          role="button"
-          aria-expanded={isOpen}
-          aria-haspopup="dialog"
+          onClick={() => {
+            if (!disabled && !allowManualInput) {
+              setIsOpen(!isOpen)
+            }
+          }}
         >
-          <CalendarIcon size={16} style={{ color: '#71717a', flexShrink: 0 }} />
-          <span style={{
-            flex: 1,
-            color: selectedDate ? '#18181b' : DATE_PICKER_TOKENS.trigger.placeholder,
-          }}>
-            {selectedDate ? formatDate(selectedDate) : placeholder}
-          </span>
+          <CalendarIcon 
+            size={16} 
+            style={{ 
+              color: '#71717a', 
+              flexShrink: 0, 
+              cursor: 'pointer' 
+            }}
+            onClick={(e) => {
+              e.stopPropagation()
+              if (!disabled) setIsOpen(!isOpen)
+            }}
+          />
+          {allowManualInput ? (
+            <input
+              ref={inputRef}
+              type="text"
+              value={inputValue}
+              onChange={handleInputChange}
+              onFocus={() => setIsFocused(true)}
+              onBlur={handleInputBlur}
+              onKeyDown={handleInputKeyDown}
+              placeholder={placeholder}
+              disabled={disabled}
+              style={{
+                flex: 1,
+                border: 'none',
+                outline: 'none',
+                background: 'transparent',
+                fontSize: DATE_PICKER_TOKENS.trigger.fontSize,
+                fontFamily: 'inherit',
+                color: '#18181b',
+              }}
+            />
+          ) : (
+            <span 
+              style={{
+                flex: 1,
+                color: selectedDate ? '#18181b' : DATE_PICKER_TOKENS.trigger.placeholder,
+              }}
+              tabIndex={disabled ? -1 : 0}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+            >
+              {selectedDate ? formatDate(selectedDate) : placeholder}
+            </span>
+          )}
           {clearable && selectedDate && !disabled && (
             <button
               type="button"

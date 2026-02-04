@@ -9,19 +9,32 @@ import type { LucideIcon } from "lucide-react"
  */
 const NAVBAR_TOKENS = {
   height: 56,
+  heightMobile: 48,
+  paddingX: 16,
   bg: '#ffffff',
   border: '#e4e4e7',
   // Title
   title: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: 600,
     color: '#18181b',
+  },
+  // Back button
+  back: {
+    fontSize: 14,
+    fontWeight: 500,
+    color: '#2050f6',
   },
   // Actions
   action: {
     size: 40,
+    iconSize: 20,
     color: '#3f3f46',
     colorHover: '#18181b',
+  },
+  // Tools area
+  tools: {
+    gap: 8,
   },
 } as const
 
@@ -40,13 +53,15 @@ export interface NavbarProps extends React.HTMLAttributes<HTMLElement> {
 const Navbar = forwardRef<HTMLElement, NavbarProps>(
   ({ fixed = false, bordered = true, transparent = false, style, children, ...props }, ref) => {
     const navStyle: React.CSSProperties = {
+      position: 'relative',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
       height: NAVBAR_TOKENS.height,
-      padding: '0 16px',
+      padding: `0 ${NAVBAR_TOKENS.paddingX}px`,
       backgroundColor: transparent ? 'transparent' : NAVBAR_TOKENS.bg,
       borderBottom: bordered ? `1px solid ${NAVBAR_TOKENS.border}` : 'none',
+      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
       ...(fixed && {
         position: 'fixed',
         top: 0,
@@ -258,18 +273,18 @@ const NavbarBack = forwardRef<HTMLButtonElement, NavbarBackProps>(
     const backStyle: React.CSSProperties = {
       display: 'flex',
       alignItems: 'center',
-      gap: 4,
-      padding: '8px 12px 8px 8px',
+      gap: 2,
+      padding: '8px 8px 8px 0',
       backgroundColor: 'transparent',
       border: 'none',
       borderRadius: 8,
-      color: isHovered ? NAVBAR_TOKENS.action.colorHover : NAVBAR_TOKENS.action.color,
-      fontSize: 14,
-      fontWeight: 500,
+      color: NAVBAR_TOKENS.back.color,
+      fontSize: NAVBAR_TOKENS.back.fontSize,
+      fontWeight: NAVBAR_TOKENS.back.fontWeight,
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
       cursor: 'pointer',
-      transition: 'color 150ms, background-color 150ms',
-      ...(isHovered && { backgroundColor: '#f4f4f5' }),
+      transition: 'opacity 150ms',
+      opacity: isHovered ? 0.7 : 1,
       ...style,
     }
 

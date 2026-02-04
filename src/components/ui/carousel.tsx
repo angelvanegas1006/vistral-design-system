@@ -1,6 +1,6 @@
 import * as React from "react"
 import { forwardRef, useState, useRef, useEffect, useCallback } from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react"
 
 /**
  * Carousel Design Tokens from Figma
@@ -28,6 +28,8 @@ const CAROUSEL_TOKENS = {
 } as const
 
 export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Carousel orientation */
+  orientation?: 'horizontal' | 'vertical'
   /** Auto play interval (ms), 0 to disable */
   autoPlay?: number
   /** Show navigation arrows */
@@ -42,10 +44,13 @@ export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
   slidesToScroll?: number
   /** Gap between slides */
   gap?: number
+  /** Height for vertical orientation */
+  height?: number | string
 }
 
 const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
   ({
+    orientation = 'horizontal',
     autoPlay = 0,
     showArrows = true,
     showDots = true,
@@ -53,6 +58,7 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     slidesToShow = 1,
     slidesToScroll = 1,
     gap = CAROUSEL_TOKENS.gap,
+    height = 400,
     style,
     children,
     ...props
@@ -61,6 +67,7 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     const [isHovered, setIsHovered] = useState(false)
     const trackRef = useRef<HTMLDivElement>(null)
 
+    const isVertical = orientation === 'vertical'
     const slides = React.Children.toArray(children)
     const totalSlides = slides.length
     const maxIndex = Math.max(0, totalSlides - slidesToShow)
@@ -87,29 +94,46 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 
     const containerStyle: React.CSSProperties = {
       position: 'relative',
-      width: '100%',
+      width: isVertical ? 'auto' : '100%',
+      height: isVertical ? height : 'auto',
       ...style,
     }
 
     const viewportStyle: React.CSSProperties = {
       overflow: 'hidden',
+      height: isVertical ? '100%' : 'auto',
     }
 
-    const trackStyle: React.CSSProperties = {
-      display: 'flex',
-      gap,
-      transition: 'transform 300ms ease',
-      transform: `translateX(calc(-${currentIndex * (100 / slidesToShow)}% - ${currentIndex * gap}px))`,
-    }
+    const trackStyle: React.CSSProperties = isVertical
+      ? {
+          display: 'flex',
+          flexDirection: 'column',
+          gap,
+          transition: 'transform 300ms ease',
+          transform: `translateY(calc(-${currentIndex * (100 / slidesToShow)}% - ${currentIndex * gap}px))`,
+        }
+      : {
+          display: 'flex',
+          gap,
+          transition: 'transform 300ms ease',
+          transform: `translateX(calc(-${currentIndex * (100 / slidesToShow)}% - ${currentIndex * gap}px))`,
+        }
 
-    const slideStyle: React.CSSProperties = {
-      flexShrink: 0,
-      width: slidesToShow === 1 
-        ? '100%' 
-        : `calc((100% - ${(slidesToShow - 1) * gap}px) / ${slidesToShow})`,
-    }
+    const slideStyle: React.CSSProperties = isVertical
+      ? {
+          flexShrink: 0,
+          height: slidesToShow === 1 
+            ? '100%' 
+            : `calc((100% - ${(slidesToShow - 1) * gap}px) / ${slidesToShow})`,
+        }
+      : {
+          flexShrink: 0,
+          width: slidesToShow === 1 
+            ? '100%' 
+            : `calc((100% - ${(slidesToShow - 1) * gap}px) / ${slidesToShow})`,
+        }
 
-    const navButtonStyle = (side: 'left' | 'right'): React.CSSProperties => ({
+    const navButtonStyleHorizontal = (side: 'left' | 'right'): React.CSSProperties => ({
       position: 'absolute',
       top: '50%',
       [side]: 8,
@@ -129,13 +153,44 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       transition: 'background-color 150ms ease',
     })
 
-    const dotsContainerStyle: React.CSSProperties = {
+    const navButtonStyleVertical = (position: 'top' | 'bottom'): React.CSSProperties => ({
+      position: 'absolute',
+      left: '50%',
+      [position]: 8,
+      transform: 'translateX(-50%)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      gap: CAROUSEL_TOKENS.dots.gap,
-      marginTop: 16,
-    }
+      width: CAROUSEL_TOKENS.nav.size,
+      height: CAROUSEL_TOKENS.nav.size,
+      backgroundColor: CAROUSEL_TOKENS.nav.bg,
+      border: 'none',
+      borderRadius: CAROUSEL_TOKENS.nav.radius,
+      boxShadow: CAROUSEL_TOKENS.nav.shadow,
+      color: CAROUSEL_TOKENS.nav.color,
+      cursor: 'pointer',
+      zIndex: 1,
+      transition: 'background-color 150ms ease',
+    })
+
+    const dotsContainerStyle: React.CSSProperties = isVertical
+      ? {
+          position: 'absolute',
+          right: 8,
+          top: '50%',
+          transform: 'translateY(-50%)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: CAROUSEL_TOKENS.dots.gap,
+        }
+      : {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: CAROUSEL_TOKENS.dots.gap,
+          marginTop: 16,
+        }
 
     const getDotStyle = (index: number): React.CSSProperties => ({
       width: CAROUSEL_TOKENS.dots.size,
@@ -171,11 +226,11 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
           </div>
         </div>
 
-        {showArrows && totalSlides > slidesToShow && (
+        {showArrows && totalSlides > slidesToShow && !isVertical && (
           <>
             <button
               type="button"
-              style={{ ...navButtonStyle('left'), opacity: canGoPrev ? 1 : 0.5 }}
+              style={{ ...navButtonStyleHorizontal('left'), opacity: canGoPrev ? 1 : 0.5 }}
               onClick={prev}
               disabled={!canGoPrev}
               aria-label="Previous slide"
@@ -184,12 +239,35 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
             </button>
             <button
               type="button"
-              style={{ ...navButtonStyle('right'), opacity: canGoNext ? 1 : 0.5 }}
+              style={{ ...navButtonStyleHorizontal('right'), opacity: canGoNext ? 1 : 0.5 }}
               onClick={next}
               disabled={!canGoNext}
               aria-label="Next slide"
             >
               <ChevronRight size={20} />
+            </button>
+          </>
+        )}
+
+        {showArrows && totalSlides > slidesToShow && isVertical && (
+          <>
+            <button
+              type="button"
+              style={{ ...navButtonStyleVertical('top'), opacity: canGoPrev ? 1 : 0.5 }}
+              onClick={prev}
+              disabled={!canGoPrev}
+              aria-label="Previous slide"
+            >
+              <ChevronUp size={20} />
+            </button>
+            <button
+              type="button"
+              style={{ ...navButtonStyleVertical('bottom'), opacity: canGoNext ? 1 : 0.5 }}
+              onClick={next}
+              disabled={!canGoNext}
+              aria-label="Next slide"
+            >
+              <ChevronDown size={20} />
             </button>
           </>
         )}

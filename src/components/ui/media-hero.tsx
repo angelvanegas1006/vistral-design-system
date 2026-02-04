@@ -2,6 +2,7 @@ import * as React from "react"
 import { forwardRef, useState } from "react"
 import { Camera, ChevronLeft, ChevronRight } from "lucide-react"
 import { Lightbox, LightboxImage } from "./lightbox"
+import { Button } from "./button"
 
 /**
  * Media Hero Design Tokens from Figma
@@ -122,23 +123,10 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
       display: 'block',
     }
 
-    const showAllButtonStyle: React.CSSProperties = {
+    const showAllButtonWrapperStyle: React.CSSProperties = {
       position: 'absolute',
       bottom: 16,
       right: 16,
-      display: 'flex',
-      alignItems: 'center',
-      gap: MEDIA_HERO_TOKENS.button.gap,
-      padding: MEDIA_HERO_TOKENS.button.padding,
-      fontSize: MEDIA_HERO_TOKENS.button.fontSize,
-      fontWeight: MEDIA_HERO_TOKENS.button.fontWeight,
-      fontFamily: 'inherit',
-      backgroundColor: MEDIA_HERO_TOKENS.button.bg,
-      color: MEDIA_HERO_TOKENS.button.fg,
-      border: 'none',
-      borderRadius: MEDIA_HERO_TOKENS.button.radius,
-      boxShadow: MEDIA_HERO_TOKENS.button.shadow,
-      cursor: 'pointer',
       zIndex: 10,
     }
 
@@ -153,10 +141,11 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
             onClick={() => openLightbox(0)}
           />
           {showAllButton && images.length > 1 && (
-            <button type="button" style={showAllButtonStyle} onClick={handleShowAll}>
-              <Camera size={18} />
-              {buttonText}
-            </button>
+            <div style={showAllButtonWrapperStyle}>
+              <Button variant="secondary" size="sm" leftIcon={Camera} onClick={handleShowAll}>
+                {buttonText}
+              </Button>
+            </div>
           )}
           <Lightbox
             images={images}
@@ -373,10 +362,11 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
         {renderGrid()}
         
         {showAllButton && images.length > visibleImages && (
-          <button type="button" style={showAllButtonStyle} onClick={handleShowAll}>
-            <Camera size={18} />
-            {buttonText}
-          </button>
+          <div style={showAllButtonWrapperStyle}>
+            <Button variant="secondary" size="sm" leftIcon={Camera} onClick={handleShowAll}>
+              {buttonText}
+            </Button>
+          </div>
         )}
 
         <Lightbox

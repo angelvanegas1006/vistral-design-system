@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { SideNav, SideNavItem, SideNavGroup, SideNavDivider } from '../src/components/ui/side-nav';
 import { 
   Home, Users, Settings, FileText, BarChart, Mail, 
-  Calendar, FolderOpen, HelpCircle, LogOut 
+  Calendar, FolderOpen, HelpCircle, LogOut, User 
 } from 'lucide-react';
 
 const meta: Meta<typeof SideNav> = {
@@ -42,6 +42,7 @@ export const Default: Story = {
         <SideNavItem value="analytics" icon={BarChart} label="Analytics" />
         <SideNavDivider />
         <SideNavItem value="settings" icon={Settings} label="Settings" />
+        <SideNavItem value="profile" icon={User} label="Profile" />
       </SideNav>
     </div>
   ),
@@ -85,6 +86,7 @@ export const Collapsed: Story = {
           <SideNavItem value="analytics" icon={BarChart} label="Analytics" />
           <SideNavDivider />
           <SideNavItem value="settings" icon={Settings} label="Settings" />
+          <SideNavItem value="profile" icon={User} label="Profile" />
         </SideNav>
         
         <div style={{ padding: 16 }}>
@@ -139,7 +141,7 @@ export const AppLayout: Story = {
         
         <SideNavDivider />
         <SideNavItem value="settings" icon={Settings} label="Settings" />
-        <SideNavItem value="logout" icon={LogOut} label="Log out" />
+        <SideNavItem value="profile" icon={User} label="Profile" />
       </SideNav>
       
       <div style={{ flex: 1, padding: 24 }}>

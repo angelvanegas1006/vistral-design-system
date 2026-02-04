@@ -7,33 +7,10 @@ import { ExternalLink } from "lucide-react"
  * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=168-3309
  */
 const LINK_TOKENS = {
-  // Variants
-  variants: {
-    default: {
-      color: '#2050f6',           // spaceblue-600
-      colorHover: '#1337e2',      // spaceblue-700
-      colorActive: '#162eb7',     // spaceblue-800
-      colorVisited: '#7c3aed',    // violet-600
-    },
-    muted: {
-      color: '#71717a',           // zinc-500
-      colorHover: '#52525b',      // zinc-600
-      colorActive: '#3f3f46',     // zinc-700
-      colorVisited: '#71717a',
-    },
-    destructive: {
-      color: '#dc2626',           // red-600
-      colorHover: '#b91c1c',      // red-700
-      colorActive: '#991b1b',     // red-800
-      colorVisited: '#dc2626',
-    },
-  },
-  // Decoration
-  underline: {
-    always: 'underline',
-    hover: 'none',
-    none: 'none',
-  },
+  // Single color scheme (no variants per designer feedback)
+  color: '#2050f6',           // spaceblue-600
+  colorHover: '#1337e2',      // spaceblue-700
+  colorActive: '#162eb7',     // spaceblue-800
   // Disabled
   disabled: {
     color: '#a1a1aa',             // zinc-400
@@ -41,11 +18,9 @@ const LINK_TOKENS = {
   },
 } as const
 
-type LinkVariant = 'default' | 'muted' | 'destructive'
 type LinkUnderline = 'always' | 'hover' | 'none'
 
 export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  variant?: LinkVariant
   /** Underline behavior */
   underline?: LinkUnderline
   /** Show external link icon */
@@ -58,7 +33,6 @@ export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement>
 
 const Link = forwardRef<HTMLAnchorElement, LinkProps>(
   ({ 
-    variant = 'default',
     underline = 'hover',
     external = false,
     disabled = false,
@@ -72,15 +46,13 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>(
   }, ref) => {
     const [isHovered, setIsHovered] = React.useState(false)
     const [isActive, setIsActive] = React.useState(false)
-    
-    const tokens = LINK_TOKENS.variants[variant]
 
     // Get current color based on state
     const getColor = () => {
       if (disabled) return LINK_TOKENS.disabled.color
-      if (isActive) return tokens.colorActive
-      if (isHovered) return tokens.colorHover
-      return tokens.color
+      if (isActive) return LINK_TOKENS.colorActive
+      if (isHovered) return LINK_TOKENS.colorHover
+      return LINK_TOKENS.color
     }
 
     // Get text decoration based on underline prop

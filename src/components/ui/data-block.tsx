@@ -102,16 +102,9 @@ const DataBlock = forwardRef<HTMLDivElement, DataBlockProps>(
 
     const headerStyle: React.CSSProperties = {
       display: 'flex',
-      alignItems: 'flex-start',
-      justifyContent: 'space-between',
-      marginBottom: 12,
-    }
-
-    const labelStyle: React.CSSProperties = {
-      fontSize: DATA_BLOCK_TOKENS.label.fontSize,
-      fontWeight: DATA_BLOCK_TOKENS.label.fontWeight,
-      color: DATA_BLOCK_TOKENS.label.color,
-      margin: 0,
+      alignItems: 'center',
+      gap: 10,
+      marginBottom: 8,
     }
 
     const iconContainerStyle: React.CSSProperties = {
@@ -123,6 +116,14 @@ const DataBlock = forwardRef<HTMLDivElement, DataBlockProps>(
       backgroundColor: iconBg,
       borderRadius: DATA_BLOCK_TOKENS.icon.radius,
       color: iconColor,
+      flexShrink: 0,
+    }
+
+    const labelStyle: React.CSSProperties = {
+      fontSize: DATA_BLOCK_TOKENS.label.fontSize,
+      fontWeight: DATA_BLOCK_TOKENS.label.fontWeight,
+      color: DATA_BLOCK_TOKENS.label.color,
+      margin: 0,
     }
 
     const valueStyle: React.CSSProperties = {
@@ -165,12 +166,12 @@ const DataBlock = forwardRef<HTMLDivElement, DataBlockProps>(
     return (
       <div ref={ref} style={containerStyle} {...props}>
         <div style={headerStyle}>
-          <p style={labelStyle}>{label}</p>
           {Icon && (
             <div style={iconContainerStyle}>
               <Icon size={currentSize.iconSize * 0.5} />
             </div>
           )}
+          <p style={labelStyle}>{label}</p>
         </div>
 
         <p style={valueStyle}>{value}</p>

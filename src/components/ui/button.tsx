@@ -185,6 +185,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           />
         ) : LeftIcon ? (
           <LeftIcon size={sizeTokens.iconSize} />
+        ) : iconOnly && React.isValidElement(children) ? (
+          // When iconOnly is true and children is a React element (icon), render it
+          React.cloneElement(children as React.ReactElement<{ size?: number }>, { 
+            size: sizeTokens.iconSize 
+          })
         ) : null}
         
         {!iconOnly && children}

@@ -361,29 +361,58 @@ export interface DropdownMenuCheckboxItemProps extends Omit<DropdownMenuItemProp
 
 const DropdownMenuCheckboxItem = forwardRef<HTMLDivElement, DropdownMenuCheckboxItemProps>(
   ({ checked = false, onCheckedChange, onClick, children, ...props }, ref) => {
+    const { setOpen } = useDropdown()
+    const [isHovered, setIsHovered] = useState(false)
+
     const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
       onCheckedChange?.(!checked)
       onClick?.(e)
     }
 
+    const itemStyle: React.CSSProperties = {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 10,
+      height: DROPDOWN_TOKENS.item.height,
+      padding: `0 ${DROPDOWN_TOKENS.item.paddingX}px`,
+      fontSize: DROPDOWN_TOKENS.item.fontSize,
+      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      color: DROPDOWN_TOKENS.item.fg,
+      backgroundColor: isHovered ? DROPDOWN_TOKENS.item.bgHover : DROPDOWN_TOKENS.item.bg,
+      borderRadius: DROPDOWN_TOKENS.item.radius,
+      cursor: 'pointer',
+      transition: 'background-color 100ms ease',
+    }
+
+    const checkboxStyle: React.CSSProperties = {
+      width: 16,
+      height: 16,
+      borderRadius: 4,
+      border: checked ? 'none' : '1.5px solid #d4d4d8',
+      backgroundColor: checked ? '#2050f6' : 'transparent',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexShrink: 0,
+      transition: 'all 150ms ease',
+    }
+
     return (
-      <DropdownMenuItem
+      <div
         ref={ref}
+        role="menuitemcheckbox"
+        aria-checked={checked}
+        style={itemStyle}
         onClick={handleClick}
-        closeOnClick={false}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
         {...props}
       >
-        <span style={{ 
-          width: 16, 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center',
-          marginRight: -4,
-        }}>
-          {checked && <Check size={14} />}
+        <span style={checkboxStyle}>
+          {checked && <Check size={12} color="#ffffff" strokeWidth={3} />}
         </span>
-        {children}
-      </DropdownMenuItem>
+        <span style={{ flex: 1 }}>{children}</span>
+      </div>
     )
   }
 )

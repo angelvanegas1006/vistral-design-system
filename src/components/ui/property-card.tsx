@@ -239,8 +239,12 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
       width: '100%',
       height: '100%',
       objectFit: 'cover',
+      objectPosition: 'center',
       display: 'block',
     }
+    
+    // For sold properties, show a subtle overlay indicating unavailable
+    const isSold = status === 'sold'
 
     const typeBadgeStyle: React.CSSProperties = {
       position: 'absolute',
@@ -399,7 +403,12 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
         )}
 
         {/* Price section - two columns */}
-        <div style={{ display: 'flex', gap: 24, marginBottom: 20 }}>
+        <div style={{ 
+          display: 'flex', 
+          gap: 24, 
+          marginBottom: 20,
+          opacity: isSold ? 0.5 : 1,
+        }}>
           {/* Purchase price */}
           <div style={{ flex: 1 }}>
             <div style={{
@@ -407,12 +416,13 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
               color: PROPERTY_CARD_TOKENS.priceLabel.color,
               marginBottom: 4,
             }}>
-              Purchase price
+              {isSold ? 'Was sold at' : 'Purchase price'}
             </div>
             <div style={{
               fontSize: PROPERTY_CARD_TOKENS.priceValue.fontSize,
               fontWeight: PROPERTY_CARD_TOKENS.priceValue.fontWeight,
-              color: PROPERTY_CARD_TOKENS.priceValue.color,
+              color: isSold ? '#71717a' : PROPERTY_CARD_TOKENS.priceValue.color,
+              textDecoration: isSold ? 'line-through' : 'none',
             }}>
               {formatPrice(price)} {currency}
             </div>
@@ -426,12 +436,13 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
                 color: PROPERTY_CARD_TOKENS.priceLabel.color,
                 marginBottom: 4,
               }}>
-                Net yield
+                {isSold ? 'Yield was' : 'Net yield'}
               </div>
               <div style={{
                 fontSize: PROPERTY_CARD_TOKENS.yieldValue.fontSize,
                 fontWeight: PROPERTY_CARD_TOKENS.yieldValue.fontWeight,
-                color: PROPERTY_CARD_TOKENS.yieldValue.positive,
+                color: isSold ? '#71717a' : PROPERTY_CARD_TOKENS.yieldValue.positive,
+                textDecoration: isSold ? 'line-through' : 'none',
               }}>
                 {yieldPercent} %
               </div>
@@ -439,9 +450,14 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
           )}
         </div>
 
-        {/* Info rows */}
+        {/* Info rows - show what was offered (even in sold state) */}
         {infoRows.length > 0 && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div style={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            gap: 12,
+            opacity: isSold ? 0.5 : 1,
+          }}>
             {infoRows.map((row, index) => (
               <div 
                 key={index} 
@@ -462,8 +478,9 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
                   {row.hasInfo && <Info size={14} style={{ opacity: 0.5 }} />}
                 </span>
                 <span style={{ 
-                  color: PROPERTY_CARD_TOKENS.infoRow.valueColor,
+                  color: isSold ? '#a1a1aa' : PROPERTY_CARD_TOKENS.infoRow.valueColor,
                   fontWeight: PROPERTY_CARD_TOKENS.infoRow.valueWeight,
+                  textDecoration: isSold ? 'line-through' : 'none',
                 }}>
                   {row.value}
                 </span>
