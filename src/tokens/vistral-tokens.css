@@ -62,9 +62,13 @@
   
   /* Spacing */
   --vistral-spacing-0: 0px;
+  --vistral-spacing-0-5: 2px;
   --vistral-spacing-1: 4px;
+  --vistral-spacing-1-5: 6px;
   --vistral-spacing-2: 8px;
+  --vistral-spacing-2-5: 10px;
   --vistral-spacing-3: 12px;
+  --vistral-spacing-3-5: 14px;
   --vistral-spacing-4: 16px;
   --vistral-spacing-5: 20px;
   --vistral-spacing-6: 24px;
@@ -78,15 +82,33 @@
   --vistral-spacing-16: 64px;
   --vistral-spacing-20: 80px;
   --vistral-spacing-24: 96px;
+  --vistral-spacing-25: 100px;
+  --vistral-spacing-28: 112px;
+  --vistral-spacing-32: 128px;
+  --vistral-spacing-40: 160px;
+  
+  /* Container Padding */
+  --vistral-container-padding-xs: 12px;
+  --vistral-container-padding-sm: 16px;
+  --vistral-container-padding-md: 32px;
+  --vistral-container-padding-lg: 48px;
+  --vistral-container-padding-xl: 64px;
+  --vistral-container-padding-xxl: 80px;
   
   /* Radius */
   --vistral-radius-0: 0px;
+  --vistral-radius-0-5: 2px;
   --vistral-radius-1: 4px;
+  --vistral-radius-1-5: 6px;
   --vistral-radius-2: 8px;
+  --vistral-radius-2-5: 10px;
   --vistral-radius-3: 12px;
   --vistral-radius-4: 16px;
   --vistral-radius-5: 20px;
   --vistral-radius-6: 24px;
+  --vistral-radius-8: 32px;
+  --vistral-radius-10: 40px;
+  --vistral-radius-12: 48px;
   --vistral-radius-full: 9999px;
   
   /* Breakpoints - 6 responsive breakpoints */
@@ -98,19 +120,19 @@
   --vistral-breakpoint-xxl: 1401px;
   
   /* Grid System - Margins per breakpoint */
-  --vistral-grid-margin-xs: 20px;
-  --vistral-grid-margin-sm: 32px;
-  --vistral-grid-margin-md: 40px;
-  --vistral-grid-margin-lg: 80px;
-  --vistral-grid-margin-xl: 100px;
+  --vistral-grid-margin-xs: 16px;
+  --vistral-grid-margin-sm: 16px;
+  --vistral-grid-margin-md: 16px;
+  --vistral-grid-margin-lg: 32px;
+  --vistral-grid-margin-xl: 32px;
   --vistral-grid-margin-xxl: 112px;
   
   /* Grid System - Gutters per breakpoint */
-  --vistral-grid-gutter-xs: 12px;
-  --vistral-grid-gutter-sm: 12px;
-  --vistral-grid-gutter-md: 16px;
-  --vistral-grid-gutter-lg: 28px;
-  --vistral-grid-gutter-xl: 32px;
+  --vistral-grid-gutter-xs: 24px;
+  --vistral-grid-gutter-sm: 24px;
+  --vistral-grid-gutter-md: 24px;
+  --vistral-grid-gutter-lg: 24px;
+  --vistral-grid-gutter-xl: 24px;
   --vistral-grid-gutter-xxl: 32px;
   
   /* Layout Spacing */
@@ -124,12 +146,23 @@
   /* Layout - Container */
   --vistral-layout-container-max-width: 1400px;
   
-  /* Shadows */
-  --vistral-shadow-focus: 0px 0px 0px 2px #00000052;
-  --vistral-shadow-level-1: 0px 0px 16px 0px #0000000a;
-  --vistral-shadow-level-2: 0px 0px 16px 0px #0000001a;
-  --vistral-shadow-level-3: 0px 0px 24px 0px #00000029;
-  --vistral-shadow-level-4: 0px 0px 32px 0px #00000033;
+  /* Shadows & Elevation */
+  --vistral-shadow-level-1: 0px 0px 16px 0px rgba(0, 0, 0, 0.06);
+  --vistral-shadow-level-2: 0px 0px 18px 0px rgba(0, 0, 0, 0.10);
+  --vistral-shadow-level-3: 0px 0px 24px 0px rgba(0, 0, 0, 0.16);
+  --vistral-shadow-level-4: 0px 0px 24px 0px rgba(0, 0, 0, 0.20);
+  --vistral-shadow-focus: 0px 0px 24px 0px rgba(0, 0, 0, 0.20);
+  --vistral-shadow-focus-button: 0px 0px 24px 0px rgba(0, 0, 0, 0.20);
+  
+  /* Blur Background (for elevation) */
+  --vistral-blur-1: 8px;
+  --vistral-blur-2: 12px;
+  --vistral-blur-3: 16px;
+  --vistral-blur-4: 24px;
+  --vistral-blur-5: 32px;
+  --vistral-blur-6: 40px;
+  --vistral-blur-7: 56px;
+  --vistral-blur-8: 64px;
   
   /* ========================================
      COLOR TOKENS (from Figma Design System)

@@ -703,9 +703,13 @@
   },
   "spacing": {
     "0": "0px",
+    "0-5": "2px",
     "1": "4px",
+    "1-5": "6px",
     "2": "8px",
+    "2-5": "10px",
     "3": "12px",
+    "3-5": "14px",
     "4": "16px",
     "5": "20px",
     "6": "24px",
@@ -722,16 +726,25 @@
     "25": "100px",
     "28": "112px",
     "32": "128px",
-    "40": "160px",
-    "0-5": "2px",
-    "1-5": "6px",
-    "2-5": "10px",
-    "3-5": "14px"
+    "40": "160px"
+  },
+  "container": {
+    "padding": {
+      "xs": "12px",
+      "sm": "16px",
+      "md": "32px",
+      "lg": "48px",
+      "xl": "64px",
+      "xxl": "80px"
+    }
   },
   "radius": {
     "0": "0px",
+    "0-5": "2px",
     "1": "4px",
+    "1-5": "6px",
     "2": "8px",
+    "2-5": "10px",
     "3": "12px",
     "4": "16px",
     "5": "20px",
@@ -739,18 +752,15 @@
     "8": "32px",
     "10": "40px",
     "12": "48px",
-    "0-5": "2px",
-    "1-5": "6px",
-    "2-5": "10px",
     "full": "9999px"
   },
   "shadows": {
-    "focus": "0px 0px 0px 2px rgba(0, 0, 0, 0.32)",
-    "focus-button": "0px 0px 0px 2px rgba(0, 0, 0, 0.32)",
     "level-1": "0px 0px 16px 0px rgba(0, 0, 0, 0.06)",
-    "level-2": "0px 0px 16px 0px rgba(0, 0, 0, 0.10)",
+    "level-2": "0px 0px 18px 0px rgba(0, 0, 0, 0.10)",
     "level-3": "0px 0px 24px 0px rgba(0, 0, 0, 0.16)",
-    "level-4": "0px 0px 32px 0px rgba(0, 0, 0, 0.20)"
+    "level-4": "0px 0px 24px 0px rgba(0, 0, 0, 0.20)",
+    "focus": "0px 0px 24px 0px rgba(0, 0, 0, 0.20)",
+    "focus-button": "0px 0px 24px 0px rgba(0, 0, 0, 0.20)"
   },
   "blur": {
     "1": "8px",
@@ -773,49 +783,54 @@
   "grid": {
     "xs": {
       "name": "X-Small",
+      "viewport": "<375px",
       "widthRange": "<576px",
-      "columns": 6,
-      "margin": "20px",
-      "gutter": "12px",
+      "columns": 4,
+      "margin": "16px",
+      "gutter": "24px",
       "behavior": "Mobile: Fully condensed layout"
     },
     "sm": {
       "name": "Small",
+      "viewport": "375px-768px",
       "widthRange": "577px - 768px",
-      "columns": 6,
-      "margin": "32px",
-      "gutter": "12px",
+      "columns": 8,
+      "margin": "16px",
+      "gutter": "24px",
       "behavior": "Vertical Tablet: Maximum margin in 6 columns"
     },
     "md": {
       "name": "Medium",
+      "viewport": "768px-1024px",
       "widthRange": "769px - 992px",
       "columns": 12,
-      "margin": "40px",
-      "gutter": "16px",
+      "margin": "16px",
+      "gutter": "24px",
       "behavior": "Horizontal Tablet: Transition to 12 columns"
     },
     "lg": {
       "name": "Large",
+      "viewport": "1024px-1440px",
       "widthRange": "993px - 1200px",
       "columns": 12,
-      "margin": "80px",
-      "gutter": "28px",
+      "margin": "32px",
+      "gutter": "24px",
       "behavior": "Desktop: High margin and wide gutter for readability"
     },
     "xl": {
-      "name": "Extra Large",
+      "name": "X-Large",
+      "viewport": ">1440px",
       "widthRange": "1201px - 1400px",
       "columns": 12,
-      "margin": "100px",
-      "gutter": "32px",
+      "margin": "32px",
+      "gutter": "24px",
       "behavior": "Wide Desktop: Large margin to focus on the center"
     },
     "xxl": {
       "name": "Extra Extra Large",
       "widthRange": ">1400px",
       "columns": 12,
-      "margin": "112px",
+      "margin": "Min. 112px, then centered and fixed",
       "gutter": "32px",
       "alignment": "center",
       "behavior": "Maximum Configuration: The grid centers on a defined maximum width"
@@ -855,21 +870,75 @@
     "views": {
       "L1": {
         "name": "Collection and Application Views",
-        "description": "High-density views for tables, lists, or dashboards"
+        "description": "High-density views for tables, lists, or dashboards",
+        "definition": "PropHero FSM's top-level views for all property portfolio's.",
+        "mainNavigation": "Global menu, provides access to high-level content sections.",
+        "secondaryNavigation": "Contextual navigation within a main navigation section, filters, or sub-sections.",
+        "filterSummary": "Shows the current filters applied to a collection.",
+        "popSchedules": "Date selection to filter by property portfolio.",
+        "contentPlaceholder": "Area for displaying collection data, lists, or application content."
       },
       "L2": {
         "name": "Entity Detail Views",
-        "description": "Focused view of a single entity with detailed content"
+        "description": "Focused view of a single entity with detailed content",
+        "definition": "PropHero FSM's detail view of a single property or entity.",
+        "mainNavigation": "Contextual navigation within a main navigation section, provides access to specific property/entity data.",
+        "secondaryNavigation": "Allows users to navigate through different sections of a property/entity details.",
+        "detailSummary": "A summary of the property/entity's key information, usually at the top of the detail view.",
+        "keyNavigation": "Primary actions for the property/entity, such as 'Edit,' 'Delete,' or 'Archive.'",
+        "contentPlaceholder": "Area for displaying specific property/entity data, such as financial details, images, etc."
       },
       "L3": {
         "name": "Flow Views and Complex Forms",
-        "description": "Sequential flows or complex forms spanning multiple steps"
+        "description": "Sequential flows or complex forms spanning multiple steps",
+        "definition": "PropHero FSM's multi-step workflows or complex forms, e.g., 'Add New Property' or 'Create Listing.'",
+        "mainNavigation": "Guides the user through the different steps of the workflow or form.",
+        "secondaryNavigation": "Provides options to save, cancel, or move between steps within the workflow.",
+        "filterSummary": "Shows the current step in the workflow and allows users to revisit previous steps.",
+        "workflowSummary": "A summary of the progress and remaining steps in the workflow.",
+        "contentPlaceholder": "Area for displaying form fields, instructions, or step-specific content."
       }
     },
     "mobile": {
-      "fullScreen": "100% width with margins",
-      "dialog": "Full width at bottom, partial height",
-      "bottomSheet": "Sliding panel from bottom"
+      "fullScreen": {
+        "description": "This is the regular screen of your app, presented through normal navigation.",
+        "useWhen": [
+          "It's a primary destination, intentionally navigated to via menus, carousels, or links.",
+          "It initiates a major sub-flow or sub-task.",
+          "The user is expected to spend an extended time on this screen."
+        ],
+        "width": "100% width with margins"
+      },
+      "dialog": {
+        "description": "Dialog container that slides up from the bottom edge of the screen and covers the entire viewport or nearly the entire screen height.",
+        "useWhen": [
+          "To display detailed information requiring more space than a simple dialog, acting as a sub-flow (e.g., property descriptions, advanced filters).",
+          "For self-contained and task-focused content (e.g., creating/editing items, reviewing details).",
+          "When the user should not feel they are in a temporary space or will lose work if they dismiss it.",
+          "To maintain context by avoiding navigation away from previous content."
+        ],
+        "avoidWhen": [
+          "Content can fit comfortably in a smaller dialog or a partial bottom sheet.",
+          "The interaction does not require full focus.",
+          "Only a quick action or confirmation is needed."
+        ],
+        "width": "Full width at bottom, partial height"
+      },
+      "bottomSheet": {
+        "description": "A partial-height overlay sliding up from the bottom, letting you still see (and often interact with) the background.",
+        "useWhen": [
+          "To present secondary content (e.g., options, contextual actions, additional details).",
+          "When the interaction is quick or supplementary to the primary workflow.",
+          "To keep the context of the underlying screen visible.",
+          "When the user should be able to easily dismiss it without losing progress on the main screen."
+        ],
+        "avoidWhen": [
+          "Content requires significant vertical space (suggests considering a Full Screen Dialog instead).",
+          "The task is a complete multi-step process.",
+          "Full user focus is required for a dedicated experience."
+        ],
+        "width": "Sliding panel from bottom"
+      }
     }
   },
   "borderWidth": {
