@@ -4,20 +4,43 @@ React design system with components synced from Figma.
 
 ## Installation
 
-### Option 1: From GitHub (Recommended)
+### From npm (Recommended)
+
+```bash
+npm install @vistral/design-system
+```
+
+### Required Peer Dependencies
+
+The design system requires these peer dependencies:
+
+```bash
+npm install react react-dom lucide-react @radix-ui/react-slot
+```
+
+### Optional Dependencies
+
+Only install if you use Dialog or Select components:
+
+```bash
+# For Dialog component
+npm install @radix-ui/react-dialog
+
+# For Select component
+npm install @radix-ui/react-select
+```
+
+### Quick Install (All dependencies)
+
+```bash
+npm install @vistral/design-system react react-dom lucide-react \
+  @radix-ui/react-slot @radix-ui/react-dialog @radix-ui/react-select
+```
+
+### From GitHub (Alternative)
 
 ```bash
 npm install git+https://github.com/angelvanegas1006/vistral-design-system.git
-```
-
-### Option 2: Local link (development)
-
-```bash
-# In the design system directory
-npm link
-
-# In your project
-npm link @vistral/design-system
 ```
 
 ## Basic Usage

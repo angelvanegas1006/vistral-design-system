@@ -1,7 +1,12 @@
 import * as React from "react"
-import { forwardRef, createContext, useContext, useEffect, useCallback } from "react"
+import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { X } from "lucide-react"
-import { Button } from "./button"
+import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
 
 /**
  * Dialog Design Tokens from Figma
@@ -38,422 +43,190 @@ const DIALOG_TOKENS = {
 type DialogSize = 'sm' | 'md' | 'lg' | 'xl' | 'full'
 
 // ============================================================================
-// Context
+// Dialog Root (Radix UI compatible)
 // ============================================================================
-type DialogContextValue = {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-}
-
-const DialogContext = createContext<DialogContextValue | null>(null)
-
-function useDialog() {
-  const context = useContext(DialogContext)
-  if (!context) {
-    throw new Error('Dialog components must be used within a Dialog')
-  }
-  return context
-}
+const Dialog = DialogPrimitive.Root
 
 // ============================================================================
-// Dialog Root
+// Dialog Trigger (Radix UI compatible)
 // ============================================================================
-export interface DialogProps {
-  /** Controlled open state */
-  open?: boolean
-  /** Default open state (uncontrolled) */
-  defaultOpen?: boolean
-  /** Callback when open state changes */
-  onOpenChange?: (open: boolean) => void
-  /** Children */
-  children: React.ReactNode
-}
-
-const Dialog: React.FC<DialogProps> = ({
-  open: controlledOpen,
-  defaultOpen = false,
-  onOpenChange,
-  children,
-}) => {
-  const [internalOpen, setInternalOpen] = React.useState(defaultOpen)
-  const isControlled = controlledOpen !== undefined
-  const open = isControlled ? controlledOpen : internalOpen
-
-  const handleOpenChange = useCallback((newOpen: boolean) => {
-    if (!isControlled) {
-      setInternalOpen(newOpen)
-    }
-    onOpenChange?.(newOpen)
-  }, [isControlled, onOpenChange])
-
-  return (
-    <DialogContext.Provider value={{ open, onOpenChange: handleOpenChange }}>
-      {children}
-    </DialogContext.Provider>
-  )
-}
-
-Dialog.displayName = "Dialog"
+const DialogTrigger = DialogPrimitive.Trigger
 
 // ============================================================================
-// Dialog Trigger
+// Dialog Portal (Radix UI compatible)
 // ============================================================================
-export interface DialogTriggerProps {
-  children: React.ReactElement
-  asChild?: boolean
-}
-
-const DialogTrigger: React.FC<DialogTriggerProps> = ({ children, asChild }) => {
-  const { onOpenChange } = useDialog()
-
-  const handleClick = () => onOpenChange(true)
-
-  if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(children, {
-      onClick: handleClick,
-    } as any)
-  }
-
-  return (
-    <button type="button" onClick={handleClick}>
-      {children}
-    </button>
-  )
-}
-
-DialogTrigger.displayName = "DialogTrigger"
+const DialogPortal = DialogPrimitive.Portal
 
 // ============================================================================
-// Dialog Portal (Content container)
+// Dialog Close (Radix UI compatible)
 // ============================================================================
-export interface DialogContentProps extends React.HTMLAttributes<HTMLDivElement> {
+const DialogClose = DialogPrimitive.Close
+
+// ============================================================================
+// Dialog Overlay (Radix UI compatible with Design System styling)
+// ============================================================================
+const DialogOverlay = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Overlay>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
+>(({ className, ...props }, ref) => (
+  <DialogPrimitive.Overlay
+    ref={ref}
+    className={cn(
+      "fixed inset-0 z-50 bg-black/50",
+      "data-[state=open]:animate-in data-[state=closed]:animate-out",
+      "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      className
+    )}
+    style={{
+      backgroundColor: DIALOG_TOKENS.overlay.bg,
+      ...props.style,
+    }}
+    {...props}
+  />
+))
+DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
+
+// ============================================================================
+// Dialog Content (Radix UI compatible with Design System styling)
+// ============================================================================
+export interface DialogContentProps
+  extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
   /** Size of the dialog */
   size?: DialogSize
-  /** Show close button */
-  showClose?: boolean
-  /** Close on overlay click */
-  closeOnOverlayClick?: boolean
-  /** Close on escape key */
-  closeOnEscape?: boolean
 }
 
-const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
-  ({ 
-    size = 'md',
-    showClose = true,
-    closeOnOverlayClick = true,
-    closeOnEscape = true,
-    style,
-    children,
-    ...props 
-  }, ref) => {
-    const { open, onOpenChange } = useDialog()
-    const contentRef = React.useRef<HTMLDivElement>(null)
-
-    // Handle escape key
-    useEffect(() => {
-      if (!open || !closeOnEscape) return
-
-      const handleEscape = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') {
-          onOpenChange(false)
-        }
-      }
-
-      document.addEventListener('keydown', handleEscape)
-      return () => document.removeEventListener('keydown', handleEscape)
-    }, [open, closeOnEscape, onOpenChange])
-
-    // Lock body scroll when open
-    useEffect(() => {
-      if (open) {
-        document.body.style.overflow = 'hidden'
-      } else {
-        document.body.style.overflow = ''
-      }
-      return () => {
-        document.body.style.overflow = ''
-      }
-    }, [open])
-
-    if (!open) return null
-
-    const sizeTokens = DIALOG_TOKENS.sizes[size]
-
-    const overlayStyle: React.CSSProperties = {
-      position: 'fixed',
-      inset: 0,
-      backgroundColor: DIALOG_TOKENS.overlay.bg,
-      display: 'flex',
-      alignItems: size === 'full' ? 'stretch' : 'center',
-      justifyContent: 'center',
-      padding: size === 'full' ? 0 : 24,
-      zIndex: 50,
-      animation: 'dialog-overlay-show 150ms ease-out',
-    }
-
-    const contentStyle: React.CSSProperties = {
-      position: 'relative',
-      width: sizeTokens.width,
-      maxWidth: size === 'full' ? '100%' : 'calc(100vw - 48px)',
-      maxHeight: sizeTokens.maxHeight,
-      backgroundColor: DIALOG_TOKENS.container.bg,
-      borderRadius: size === 'full' ? 0 : DIALOG_TOKENS.container.radius,
-      boxShadow: DIALOG_TOKENS.container.shadow,
-      display: 'flex',
-      flexDirection: 'column',
-      overflow: 'hidden',
-      animation: 'dialog-content-show 150ms ease-out',
-      ...style,
-    }
-
-    const closeButtonStyle: React.CSSProperties = {
-      position: 'absolute',
-      top: 16,
-      right: 16,
-      padding: 8,
-      background: 'none',
-      border: 'none',
-      borderRadius: 6,
-      cursor: 'pointer',
-      color: '#71717a',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      transition: 'background-color 150ms ease',
-      zIndex: 1,
-    }
-
-    const handleOverlayClick = (e: React.MouseEvent) => {
-      if (closeOnOverlayClick && e.target === e.currentTarget) {
-        onOpenChange(false)
-      }
-    }
-
-    return (
-      <div style={overlayStyle} onClick={handleOverlayClick}>
-        <div
-          ref={ref || contentRef}
-          role="dialog"
-          aria-modal="true"
-          style={contentStyle}
-          {...props}
-        >
-          {showClose && (
-            <button
-              type="button"
-              style={closeButtonStyle}
-              onClick={() => onOpenChange(false)}
-              aria-label="Close dialog"
-              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#f4f4f5')}
-              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
-            >
-              <X size={20} />
-            </button>
-          )}
-          {children}
-        </div>
-      </div>
-    )
-  }
-)
-
-DialogContent.displayName = "DialogContent"
-
-// ============================================================================
-// Dialog Header
-// ============================================================================
-export interface DialogHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-const DialogHeader = forwardRef<HTMLDivElement, DialogHeaderProps>(
-  ({ style, children, ...props }, ref) => {
-    const headerStyle: React.CSSProperties = {
-      padding: `${DIALOG_TOKENS.padding.header}px ${DIALOG_TOKENS.padding.header}px 0`,
-      paddingRight: 56, // Space for close button
-      ...style,
-    }
-
-    return (
-      <div ref={ref} style={headerStyle} {...props}>
+const DialogContent = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Content>,
+  DialogContentProps
+>(({ className, children, size = 'md', ...props }, ref) => {
+  const sizeTokens = DIALOG_TOKENS.sizes[size]
+  
+  return (
+    <DialogPortal>
+      <DialogOverlay />
+      <DialogPrimitive.Content
+        ref={ref}
+        className={cn(
+          // Base styles
+          "fixed left-[50%] top-[50%] z-50 grid w-[95vw] translate-x-[-50%] translate-y-[-50%] gap-4",
+          "border bg-white p-6 shadow-lg",
+          "rounded-lg max-h-[90vh] overflow-y-auto",
+          // Animations
+          "data-[state=open]:animate-in data-[state=closed]:animate-out",
+          "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+          "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+          "data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%]",
+          "data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
+          // Dark mode
+          "dark:bg-[#1a1a1a] dark:text-white",
+          className
+        )}
+        style={{
+          width: sizeTokens.width,
+          maxWidth: size === 'full' ? '100%' : 'calc(100vw - 48px)',
+          maxHeight: sizeTokens.maxHeight,
+          borderRadius: size === 'full' ? 0 : DIALOG_TOKENS.container.radius,
+          boxShadow: DIALOG_TOKENS.container.shadow,
+          borderColor: DIALOG_TOKENS.container.border,
+          ...props.style,
+        }}
+        {...props}
+      >
         {children}
-      </div>
-    )
-  }
-)
+        <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-[#2050f6] focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-[#f4f4f5] data-[state=open]:text-[#71717a] z-10 dark:data-[state=open]:bg-[#262626] dark:data-[state=open]:text-[#a3a3a3]">
+          <X className="h-4 w-4" />
+          <span className="sr-only">Close</span>
+        </DialogPrimitive.Close>
+      </DialogPrimitive.Content>
+    </DialogPortal>
+  )
+})
+DialogContent.displayName = DialogPrimitive.Content.displayName
 
+// ============================================================================
+// Dialog Header (Helper component)
+// ============================================================================
+const DialogHeader = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
+  <div
+    className={cn(
+      "flex flex-col space-y-1.5 text-center sm:text-left",
+      className
+    )}
+    {...props}
+  />
+)
 DialogHeader.displayName = "DialogHeader"
 
 // ============================================================================
-// Dialog Title
+// Dialog Footer (Helper component)
 // ============================================================================
-export interface DialogTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {}
-
-const DialogTitle = forwardRef<HTMLHeadingElement, DialogTitleProps>(
-  ({ style, children, ...props }, ref) => {
-    const titleStyle: React.CSSProperties = {
-      margin: 0,
-      fontSize: 18,
-      fontWeight: 600,
-      lineHeight: 1.4,
-      color: '#18181b',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      ...style,
-    }
-
-    return (
-      <h2 ref={ref} style={titleStyle} {...props}>
-        {children}
-      </h2>
-    )
-  }
+const DialogFooter = ({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
+  <div
+    className={cn(
+      "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
+      className
+    )}
+    {...props}
+  />
 )
-
-DialogTitle.displayName = "DialogTitle"
-
-// ============================================================================
-// Dialog Description
-// ============================================================================
-export interface DialogDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {}
-
-const DialogDescription = forwardRef<HTMLParagraphElement, DialogDescriptionProps>(
-  ({ style, children, ...props }, ref) => {
-    const descStyle: React.CSSProperties = {
-      margin: '8px 0 0 0',
-      fontSize: 14,
-      lineHeight: 1.5,
-      color: '#71717a',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      ...style,
-    }
-
-    return (
-      <p ref={ref} style={descStyle} {...props}>
-        {children}
-      </p>
-    )
-  }
-)
-
-DialogDescription.displayName = "DialogDescription"
-
-// ============================================================================
-// Dialog Body (scrollable content area)
-// ============================================================================
-export interface DialogBodyProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-const DialogBody = forwardRef<HTMLDivElement, DialogBodyProps>(
-  ({ style, children, ...props }, ref) => {
-    const bodyStyle: React.CSSProperties = {
-      flex: 1,
-      padding: DIALOG_TOKENS.padding.content,
-      overflowY: 'auto',
-      ...style,
-    }
-
-    return (
-      <div ref={ref} style={bodyStyle} {...props}>
-        {children}
-      </div>
-    )
-  }
-)
-
-DialogBody.displayName = "DialogBody"
-
-// ============================================================================
-// Dialog Footer
-// ============================================================================
-export interface DialogFooterProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Alignment of footer content */
-  align?: 'left' | 'center' | 'right' | 'between'
-}
-
-const DialogFooter = forwardRef<HTMLDivElement, DialogFooterProps>(
-  ({ align = 'right', style, children, ...props }, ref) => {
-    const justifyMap = {
-      left: 'flex-start',
-      center: 'center',
-      right: 'flex-end',
-      between: 'space-between',
-    }
-
-    const footerStyle: React.CSSProperties = {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: justifyMap[align],
-      gap: 12,
-      padding: DIALOG_TOKENS.padding.footer,
-      borderTop: '1px solid #e4e4e7',
-      ...style,
-    }
-
-    return (
-      <div ref={ref} style={footerStyle} {...props}>
-        {children}
-      </div>
-    )
-  }
-)
-
 DialogFooter.displayName = "DialogFooter"
 
 // ============================================================================
-// Dialog Close (utility component)
+// Dialog Title (Radix UI compatible)
 // ============================================================================
-export interface DialogCloseProps {
-  children: React.ReactElement
-  asChild?: boolean
-}
+const DialogTitle = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Title>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
+>(({ className, ...props }, ref) => (
+  <DialogPrimitive.Title
+    ref={ref}
+    className={cn(
+      "text-lg font-semibold leading-none tracking-tight",
+      "text-[#18181b] dark:text-white",
+      className
+    )}
+    {...props}
+  />
+))
+DialogTitle.displayName = DialogPrimitive.Title.displayName
 
-const DialogClose: React.FC<DialogCloseProps> = ({ children, asChild }) => {
-  const { onOpenChange } = useDialog()
+// ============================================================================
+// Dialog Description (Radix UI compatible)
+// ============================================================================
+const DialogDescription = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Description>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
+>(({ className, ...props }, ref) => (
+  <DialogPrimitive.Description
+    ref={ref}
+    className={cn(
+      "text-sm text-[#71717a] dark:text-[#a3a3a3]",
+      className
+    )}
+    {...props}
+  />
+))
+DialogDescription.displayName = DialogPrimitive.Description.displayName
 
-  const handleClick = () => onOpenChange(false)
-
-  if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(children, {
-      onClick: handleClick,
-    } as any)
-  }
-
-  return (
-    <button type="button" onClick={handleClick}>
-      {children}
-    </button>
-  )
-}
-
-DialogClose.displayName = "DialogClose"
-
-// Add keyframes
-if (typeof document !== 'undefined') {
-  const styleId = 'vistral-dialog-styles'
-  if (!document.getElementById(styleId)) {
-    const style = document.createElement('style')
-    style.id = styleId
-    style.textContent = `
-      @keyframes dialog-overlay-show {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-      @keyframes dialog-content-show {
-        from { opacity: 0; transform: scale(0.96); }
-        to { opacity: 1; transform: scale(1); }
-      }
-    `
-    document.head.appendChild(style)
-  }
-}
-
+// ============================================================================
+// Exports
+// ============================================================================
 export {
   Dialog,
+  DialogPortal,
+  DialogOverlay,
+  DialogClose,
   DialogTrigger,
   DialogContent,
   DialogHeader,
+  DialogFooter,
   DialogTitle,
   DialogDescription,
-  DialogBody,
-  DialogFooter,
-  DialogClose,
   DIALOG_TOKENS,
 }

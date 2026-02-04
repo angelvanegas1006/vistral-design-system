@@ -1,6 +1,12 @@
 import * as React from "react"
-import { forwardRef, useId, createContext, useContext, useState, useRef, useEffect } from "react"
-import { ChevronDown, Check } from "lucide-react"
+import * as SelectPrimitive from "@radix-ui/react-select"
+import { Check, ChevronDown, ChevronUp } from "lucide-react"
+import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
 
 /**
  * Select Design Tokens from Figma
@@ -49,389 +55,260 @@ const SELECT_TOKENS = {
   radius: 8,
 } as const
 
-type SelectSize = 'sm' | 'md' | 'lg'
+// ============================================================================
+// Select Root (Radix UI compatible)
+// ============================================================================
+const Select = SelectPrimitive.Root
 
 // ============================================================================
-// Context
+// Select Group (Radix UI compatible)
 // ============================================================================
-type SelectContextValue = {
-  value: string
-  onValueChange: (value: string) => void
-  open: boolean
-  setOpen: (open: boolean) => void
-  size: SelectSize
-  disabled: boolean
-}
-
-const SelectContext = createContext<SelectContextValue | null>(null)
-
-function useSelect() {
-  const context = useContext(SelectContext)
-  if (!context) {
-    throw new Error('Select components must be used within a Select')
-  }
-  return context
-}
+const SelectGroup = SelectPrimitive.Group
 
 // ============================================================================
-// Select Root
+// Select Value (Radix UI compatible)
 // ============================================================================
-export interface SelectProps {
-  /** Controlled value */
-  value?: string
-  /** Default value (uncontrolled) */
-  defaultValue?: string
-  /** Callback when value changes */
-  onValueChange?: (value: string) => void
+const SelectValue = SelectPrimitive.Value
+
+// ============================================================================
+// Select Trigger (Radix UI compatible with Design System styling)
+// ============================================================================
+export interface SelectTriggerProps
+  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> {
   /** Size variant */
-  size?: SelectSize
-  /** Disabled state */
-  disabled?: boolean
-  /** Children */
-  children: React.ReactNode
-}
-
-const Select: React.FC<SelectProps> = ({
-  value: controlledValue,
-  defaultValue = '',
-  onValueChange,
-  size = 'md',
-  disabled = false,
-  children,
-}) => {
-  const [internalValue, setInternalValue] = useState(defaultValue)
-  const [open, setOpen] = useState(false)
-  
-  const isControlled = controlledValue !== undefined
-  const value = isControlled ? controlledValue : internalValue
-
-  const handleValueChange = (newValue: string) => {
-    if (!isControlled) {
-      setInternalValue(newValue)
-    }
-    onValueChange?.(newValue)
-    setOpen(false)
-  }
-
-  return (
-    <SelectContext.Provider value={{ value, onValueChange: handleValueChange, open, setOpen, size, disabled }}>
-      {children}
-    </SelectContext.Provider>
-  )
-}
-
-Select.displayName = "Select"
-
-// ============================================================================
-// Select Trigger
-// ============================================================================
-export interface SelectTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Placeholder text */
-  placeholder?: string
+  size?: 'sm' | 'md' | 'lg'
   /** Error state */
   error?: boolean
-  /** Label */
-  label?: string
-  /** Full width */
-  fullWidth?: boolean
 }
 
-const SelectTrigger = forwardRef<HTMLButtonElement, SelectTriggerProps>(
-  ({ placeholder = 'Select...', error = false, label, fullWidth = false, style, children, ...props }, ref) => {
-    const { value, open, setOpen, size, disabled } = useSelect()
-    const [isHovered, setIsHovered] = useState(false)
-    const triggerRef = useRef<HTMLButtonElement>(null)
-    const id = useId()
+const SelectTrigger = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Trigger>,
+  SelectTriggerProps
+>(({ className, size = 'md', error = false, ...props }, ref) => {
+  const sizeTokens = SELECT_TOKENS.sizes[size]
+  
+  return (
+    <SelectPrimitive.Trigger
+      ref={ref}
+      className={cn(
+        // Base styles
+        "flex w-full items-center justify-between rounded-lg border bg-white px-3 py-2 ring-offset-background",
+        "data-[placeholder]:text-[#A1A1AA] text-[#212121]",
+        "focus:outline-none focus:ring-2 focus:ring-[#2050F6] focus:ring-offset-2",
+        "disabled:cursor-not-allowed disabled:opacity-50",
+        "[&>span]:line-clamp-1",
+        // Size-based styles
+        size === 'sm' && `h-8 text-[13px] px-[10px]`,
+        size === 'md' && `h-10 text-[14px] px-3`,
+        size === 'lg' && `h-12 text-[16px] px-[14px]`,
+        // Border colors
+        error 
+          ? "border-[#ef4444] focus:border-[#ef4444] focus:ring-[#ef4444]"
+          : "border-[#d4d4d8] hover:border-[#a1a1aa] focus:border-[#2050f6]",
+        // Dark mode
+        "dark:bg-[#1a1a1a] dark:text-white",
+        className
+      )}
+      style={{
+        height: sizeTokens.height,
+        paddingLeft: sizeTokens.paddingX,
+        paddingRight: sizeTokens.paddingX,
+        fontSize: sizeTokens.fontSize,
+        ...props.style,
+      }}
+      {...props}
+    >
+      {props.children}
+      <SelectPrimitive.Icon asChild>
+        <ChevronDown className="h-4 w-4 opacity-50" />
+      </SelectPrimitive.Icon>
+    </SelectPrimitive.Trigger>
+  )
+})
+SelectTrigger.displayName = SelectPrimitive.Trigger.displayName
 
-    const sizeTokens = SELECT_TOKENS.sizes[size]
+// ============================================================================
+// Select Scroll Up Button (Radix UI compatible)
+// ============================================================================
+const SelectScrollUpButton = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.ScrollUpButton>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollUpButton>
+>(({ className, ...props }, ref) => (
+  <SelectPrimitive.ScrollUpButton
+    ref={ref}
+    className={cn(
+      "flex cursor-default items-center justify-center py-1",
+      className
+    )}
+    {...props}
+  >
+    <ChevronUp className="h-4 w-4" />
+  </SelectPrimitive.ScrollUpButton>
+))
+SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName
 
-    const getBorderColor = () => {
-      if (disabled) return SELECT_TOKENS.trigger.disabled.border
-      if (error) return SELECT_TOKENS.trigger.borderError
-      if (open) return SELECT_TOKENS.trigger.borderFocus
-      if (isHovered) return SELECT_TOKENS.trigger.borderHover
-      return SELECT_TOKENS.trigger.border
-    }
+// ============================================================================
+// Select Scroll Down Button (Radix UI compatible)
+// ============================================================================
+const SelectScrollDownButton = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.ScrollDownButton>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollDownButton>
+>(({ className, ...props }, ref) => (
+  <SelectPrimitive.ScrollDownButton
+    ref={ref}
+    className={cn(
+      "flex cursor-default items-center justify-center py-1",
+      className
+    )}
+    {...props}
+  >
+    <ChevronDown className="h-4 w-4" />
+  </SelectPrimitive.ScrollDownButton>
+))
+SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayName
 
-    const containerStyle: React.CSSProperties = {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 6,
-      width: fullWidth ? '100%' : undefined,
-    }
+// ============================================================================
+// Select Content (Radix UI compatible with Design System styling)
+// ============================================================================
+export interface SelectContentProps
+  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> {}
 
-    const labelStyle: React.CSSProperties = {
-      fontSize: 14,
-      fontWeight: 500,
-      color: disabled ? '#a1a1aa' : '#18181b',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-    }
-
-    const triggerStyle: React.CSSProperties = {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      width: '100%',
-      height: sizeTokens.height,
-      padding: `0 ${sizeTokens.paddingX}px`,
-      fontSize: sizeTokens.fontSize,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      color: value ? SELECT_TOKENS.trigger.fg : SELECT_TOKENS.trigger.placeholder,
-      backgroundColor: disabled ? SELECT_TOKENS.trigger.disabled.bg : SELECT_TOKENS.trigger.bg,
-      border: `1px solid ${getBorderColor()}`,
-      borderRadius: SELECT_TOKENS.radius,
-      cursor: disabled ? 'not-allowed' : 'pointer',
-      outline: 'none',
-      boxShadow: open && !disabled 
-        ? `0 0 0 3px ${error ? 'rgba(239, 68, 68, 0.15)' : 'rgba(32, 80, 246, 0.15)'}` 
-        : 'none',
-      transition: 'border-color 150ms, box-shadow 150ms',
-      textAlign: 'left',
-      ...style,
-    }
-
-    const chevronStyle: React.CSSProperties = {
-      flexShrink: 0,
-      marginLeft: 8,
-      color: disabled ? '#d4d4d8' : '#71717a',
-      transition: 'transform 200ms',
-      transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
-    }
-
-    return (
-      <div style={containerStyle}>
-        {label && (
-          <label htmlFor={id} style={labelStyle}>
-            {label}
-          </label>
+const SelectContent = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Content>,
+  SelectContentProps
+>(({ className, children, position = "popper", ...props }, ref) => (
+  <SelectPrimitive.Portal>
+    <SelectPrimitive.Content
+      ref={ref}
+      className={cn(
+        // Base styles from design system
+        "relative z-50 max-h-[--radix-select-content-available-height] min-w-[8rem]",
+        "overflow-y-auto overflow-x-hidden rounded-md border bg-white text-[#18181b] shadow-md",
+        // Animations
+        "data-[state=open]:animate-in data-[state=closed]:animate-out",
+        "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+        "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+        "data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2",
+        "data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+        "origin-[--radix-select-content-transform-origin]",
+        // Popper positioning
+        position === "popper" &&
+          "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
+        // Design system tokens
+        "border-[#e4e4e7]",
+        "dark:bg-[#1a1a1a] dark:text-white",
+        className
+      )}
+      position={position}
+      style={{
+        boxShadow: SELECT_TOKENS.menu.shadow,
+        maxHeight: SELECT_TOKENS.menu.maxHeight,
+        ...props.style,
+      }}
+      {...props}
+    >
+      <SelectScrollUpButton />
+      <SelectPrimitive.Viewport
+        className={cn(
+          "p-1",
+          position === "popper" &&
+            "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]"
         )}
-        <button
-          ref={ref || triggerRef}
-          id={id}
-          type="button"
-          role="combobox"
-          aria-expanded={open}
-          aria-haspopup="listbox"
-          disabled={disabled}
-          style={triggerStyle}
-          onClick={() => !disabled && setOpen(!open)}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          {...props}
-        >
-          <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-            {children || (value ? value : placeholder)}
-          </span>
-          <ChevronDown size={16} style={chevronStyle} />
-        </button>
-      </div>
-    )
-  }
-)
-
-SelectTrigger.displayName = "SelectTrigger"
-
-// ============================================================================
-// Select Content (dropdown menu)
-// ============================================================================
-export interface SelectContentProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-const SelectContent = forwardRef<HTMLDivElement, SelectContentProps>(
-  ({ style, children, ...props }, ref) => {
-    const { open, setOpen } = useSelect()
-    const contentRef = useRef<HTMLDivElement>(null)
-
-    // Close on outside click
-    useEffect(() => {
-      if (!open) return
-
-      const handleClickOutside = (e: MouseEvent) => {
-        if (contentRef.current && !contentRef.current.contains(e.target as Node)) {
-          setOpen(false)
-        }
-      }
-
-      // Delay to avoid immediate close
-      setTimeout(() => {
-        document.addEventListener('mousedown', handleClickOutside)
-      }, 0)
-
-      return () => document.removeEventListener('mousedown', handleClickOutside)
-    }, [open, setOpen])
-
-    if (!open) return null
-
-    const contentStyle: React.CSSProperties = {
-      position: 'absolute',
-      top: '100%',
-      left: 0,
-      right: 0,
-      marginTop: 4,
-      backgroundColor: SELECT_TOKENS.menu.bg,
-      border: `1px solid ${SELECT_TOKENS.menu.border}`,
-      borderRadius: SELECT_TOKENS.menu.radius,
-      boxShadow: SELECT_TOKENS.menu.shadow,
-      maxHeight: SELECT_TOKENS.menu.maxHeight,
-      overflowY: 'auto',
-      zIndex: 50,
-      animation: 'select-content-show 150ms ease-out',
-      ...style,
-    }
-
-    return (
-      <div
-        ref={ref || contentRef}
-        role="listbox"
-        style={contentStyle}
-        {...props}
       >
         {children}
-      </div>
-    )
-  }
-)
-
-SelectContent.displayName = "SelectContent"
+      </SelectPrimitive.Viewport>
+      <SelectScrollDownButton />
+    </SelectPrimitive.Content>
+  </SelectPrimitive.Portal>
+))
+SelectContent.displayName = SelectPrimitive.Content.displayName
 
 // ============================================================================
-// Select Item (option)
+// Select Label (Radix UI compatible)
 // ============================================================================
-export interface SelectItemProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Value of the option */
-  value: string
-  /** Disabled state */
-  disabled?: boolean
-}
+const SelectLabel = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Label>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
+>(({ className, ...props }, ref) => (
+  <SelectPrimitive.Label
+    ref={ref}
+    className={cn("py-1.5 pl-8 pr-2 text-sm font-semibold", className)}
+    {...props}
+  />
+))
+SelectLabel.displayName = SelectPrimitive.Label.displayName
 
-const SelectItem = forwardRef<HTMLDivElement, SelectItemProps>(
-  ({ value: itemValue, disabled = false, style, children, ...props }, ref) => {
-    const { value, onValueChange } = useSelect()
-    const [isHovered, setIsHovered] = useState(false)
-    const isSelected = value === itemValue
+// ============================================================================
+// Select Item (Radix UI compatible with Design System styling)
+// ============================================================================
+export interface SelectItemProps
+  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> {}
 
-    const itemStyle: React.CSSProperties = {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
+const SelectItem = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Item>,
+  SelectItemProps
+>(({ className, children, ...props }, ref) => (
+  <SelectPrimitive.Item
+    ref={ref}
+    className={cn(
+      // Base styles
+      "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none",
+      // Design system tokens
+      "focus:bg-[#f4f4f5] focus:text-[#18181b]",
+      "data-[highlighted]:bg-[#f4f4f5]",
+      "data-[state=checked]:bg-[#eef4ff] data-[state=checked]:text-[#2050f6]",
+      "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      // Dark mode
+      "dark:focus:bg-[#262626] dark:data-[highlighted]:bg-[#262626]",
+      "dark:data-[state=checked]:bg-[#1e3a8a] dark:data-[state=checked]:text-[#93c5fd]",
+      className
+    )}
+    style={{
       height: SELECT_TOKENS.option.height,
-      padding: `0 ${SELECT_TOKENS.option.paddingX}px`,
-      fontSize: 14,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      color: isSelected ? SELECT_TOKENS.option.fgSelected : SELECT_TOKENS.option.fg,
-      backgroundColor: isSelected 
-        ? SELECT_TOKENS.option.bgSelected 
-        : isHovered 
-          ? SELECT_TOKENS.option.bgHover 
-          : SELECT_TOKENS.option.bg,
-      cursor: disabled ? 'not-allowed' : 'pointer',
-      opacity: disabled ? 0.5 : 1,
-      transition: 'background-color 150ms',
-      ...style,
-    }
-
-    const handleClick = () => {
-      if (!disabled) {
-        onValueChange(itemValue)
-      }
-    }
-
-    return (
-      <div
-        ref={ref}
-        role="option"
-        aria-selected={isSelected}
-        aria-disabled={disabled}
-        style={itemStyle}
-        onClick={handleClick}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        {...props}
-      >
-        <span>{children}</span>
-        {isSelected && <Check size={16} />}
-      </div>
-    )
-  }
-)
-
-SelectItem.displayName = "SelectItem"
+      paddingLeft: SELECT_TOKENS.option.paddingX,
+      paddingRight: SELECT_TOKENS.option.paddingX,
+      ...props.style,
+    }}
+    {...props}
+  >
+    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+      <SelectPrimitive.ItemIndicator>
+        <Check className="h-4 w-4" />
+      </SelectPrimitive.ItemIndicator>
+    </span>
+    <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+  </SelectPrimitive.Item>
+))
+SelectItem.displayName = SelectPrimitive.Item.displayName
 
 // ============================================================================
-// Select Group
+// Select Separator (Radix UI compatible)
 // ============================================================================
-export interface SelectGroupProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Group label */
-  label?: string
-}
-
-const SelectGroup = forwardRef<HTMLDivElement, SelectGroupProps>(
-  ({ label, style, children, ...props }, ref) => {
-    const groupStyle: React.CSSProperties = {
-      ...style,
-    }
-
-    const labelStyle: React.CSSProperties = {
-      padding: '8px 12px',
-      fontSize: 12,
-      fontWeight: 600,
-      color: '#71717a',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      textTransform: 'uppercase',
-      letterSpacing: 0.5,
-    }
-
-    return (
-      <div ref={ref} role="group" style={groupStyle} {...props}>
-        {label && <div style={labelStyle}>{label}</div>}
-        {children}
-      </div>
-    )
-  }
-)
-
-SelectGroup.displayName = "SelectGroup"
+const SelectSeparator = React.forwardRef<
+  React.ElementRef<typeof SelectPrimitive.Separator>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
+>(({ className, ...props }, ref) => (
+  <SelectPrimitive.Separator
+    ref={ref}
+    className={cn("-mx-1 my-1 h-px bg-[#e4e4e7] dark:bg-[#333333]", className)}
+    {...props}
+  />
+))
+SelectSeparator.displayName = SelectPrimitive.Separator.displayName
 
 // ============================================================================
-// Select Separator
+// Exports
 // ============================================================================
-const SelectSeparator = forwardRef<HTMLHRElement, React.HTMLAttributes<HTMLHRElement>>(
-  ({ style, ...props }, ref) => {
-    const sepStyle: React.CSSProperties = {
-      height: 1,
-      margin: '4px 0',
-      backgroundColor: '#e4e4e7',
-      border: 'none',
-      ...style,
-    }
-
-    return <hr ref={ref} style={sepStyle} {...props} />
-  }
-)
-
-SelectSeparator.displayName = "SelectSeparator"
-
-// Add keyframes
-if (typeof document !== 'undefined') {
-  const styleId = 'vistral-select-styles'
-  if (!document.getElementById(styleId)) {
-    const style = document.createElement('style')
-    style.id = styleId
-    style.textContent = `
-      @keyframes select-content-show {
-        from { opacity: 0; transform: translateY(-4px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-    `
-    document.head.appendChild(style)
-  }
-}
-
 export {
   Select,
+  SelectGroup,
+  SelectValue,
   SelectTrigger,
   SelectContent,
+  SelectLabel,
   SelectItem,
-  SelectGroup,
   SelectSeparator,
+  SelectScrollUpButton,
+  SelectScrollDownButton,
   SELECT_TOKENS,
 }

@@ -48,3 +48,5 @@ coverage/
 
 # Figma sync cache
 .figma-cache/
+
+*storybook.log
