@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { PropertyCard, PropertyCardGrid } from '../src/components/ui/property-card';
 
 const DEMO_IMAGE = 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop';
+const PROJECT_IMAGE = 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop';
 
 const meta: Meta<typeof PropertyCard> = {
   title: 'Components/PropertyCard',
@@ -14,17 +15,30 @@ const meta: Meta<typeof PropertyCard> = {
         component: `
 # Property Card
 
-Real estate listing card component matching Figma design.
+Property Card component matching Figma design.
 
-Based on Figma: [PropertyCard](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=4363-15881)
+Based on Figma:
+- [Property Card Documentation](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=4363-20788)
+- [Status Management](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=4363-20901)
+- [Value Labels](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=4363-24261)
+- [Edge Cases](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=4363-24297)
 
 ## Features
-- **Edge-to-edge image** - fills card width
-- **Type badge** - Apartment, Project, House
-- **Status badges** - Available, Reserved, Sold, Coming Soon
-- **Value labels** - Off market, High Yield, New Construction, High Value
-- **Net Yield in BLUE** color
-- **Info rows** with optional info icon
+- **Type Badge**: Apartment, Project (dark grey pill on image)
+- **Status Badges**: Available (green), Reserved (orange), Sold (grey), Coming Soon (purple)
+- **Value Labels**: Off market, High yield, New Construction, High Value (max 2)
+- **Feature Pills**: Flat, beds, baths, m² with icons
+- **Delivery Info**: For projects (Delivery date + construction status)
+- **Info Rows**: Estimated rent, Total investment, Capital gain with optional info icon
+- **Edge Cases**: Long numbers, long names, missing data
+- **Skeleton Loading**: Loading placeholder state
+
+## Best Practices
+- Prioritize best image as primary
+- Use consistent aspect ratios
+- Implement subtle hover states
+- Limit value labels to max 2
+- Handle missing data gracefully
         `,
       },
     },
@@ -59,8 +73,56 @@ export const Default: Story = {
   ),
 };
 
+export const TypeOfProduct: Story = {
+  name: 'Type of Product (Figma Reference)',
+  render: () => (
+    <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+      <div style={{ width: 320 }}>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Apartment</p>
+        <PropertyCard
+          image={DEMO_IMAGE}
+          type="Apartment"
+          title="Property in Navacerrada"
+          status="available"
+          location="Madrid, Spain"
+          category="Flat"
+          bedrooms={2}
+          bathrooms={1}
+          area={85}
+          price={90000}
+          yieldPercent={6}
+          infoRows={[
+            { label: 'Estimated rent', value: '650€/month' },
+            { label: 'Total investment', value: '113,100€' },
+            { label: 'Capital gain', value: '90.000€', hasInfo: true },
+          ]}
+        />
+      </div>
+      <div style={{ width: 320 }}>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Project</p>
+        <PropertyCard
+          image={PROJECT_IMAGE}
+          type="Project"
+          title="Property in Navacerrada"
+          status="available"
+          location="Madrid, Spain"
+          deliveryDate="June 2028"
+          constructionStatus="under construction"
+          price={90000}
+          yieldPercent={6}
+          infoRows={[
+            { label: 'Estimated rent', value: '650€/month' },
+            { label: 'Total investment', value: '113,100€' },
+            { label: 'Capital gain', value: '90.000€', hasInfo: true },
+          ]}
+        />
+      </div>
+    </div>
+  ),
+};
+
 export const StatusManagement: Story = {
-  name: 'Status Management',
+  name: 'Status Management (Figma Reference)',
   render: () => (
     <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
       <div style={{ width: 320 }}>
@@ -68,11 +130,11 @@ export const StatusManagement: Story = {
         <PropertyCard
           image={DEMO_IMAGE}
           type="Apartment"
-          title="Property in San Sebastián"
+          title="Property in Navacerrada"
           status="available"
           location="Madrid, Spain"
           category="Flat"
-          bedrooms={4}
+          bedrooms={2}
           bathrooms={1}
           area={85}
           price={90000}
@@ -88,11 +150,11 @@ export const StatusManagement: Story = {
         <PropertyCard
           image={DEMO_IMAGE}
           type="Apartment"
-          title="Property in San Sebastián"
+          title="Property in Navacerrada"
           status="reserved"
           location="Madrid, Spain"
           category="Flat"
-          bedrooms={4}
+          bedrooms={2}
           bathrooms={1}
           area={85}
           price={90000}
@@ -108,11 +170,11 @@ export const StatusManagement: Story = {
         <PropertyCard
           image={DEMO_IMAGE}
           type="Apartment"
-          title="Property in San Sebastián"
+          title="Property in Navacerrada"
           status="sold"
           location="Madrid, Spain"
           category="Flat"
-          bedrooms={4}
+          bedrooms={2}
           bathrooms={1}
           area={85}
           price={90000}
@@ -128,7 +190,7 @@ export const StatusManagement: Story = {
         <PropertyCard
           image={DEMO_IMAGE}
           type="Project"
-          title="Property in San Sebastián"
+          title="Property in Navacerrada"
           status="comingSoon"
           location="Madrid, Spain"
           price={90000}
@@ -138,208 +200,238 @@ export const StatusManagement: Story = {
   ),
 };
 
-export const Available: Story = {
+export const ValueAddedLabels: Story = {
+  name: 'Value Added Labels (Figma Reference)',
   render: () => (
-    <div style={{ width: 380 }}>
-      <PropertyCard
-        image={DEMO_IMAGE}
-        type="Apartment"
-        title="Modern Downtown Loft"
-        status="available"
-        location="Barcelona, Spain"
-        category="Flat"
-        bedrooms={3}
-        bathrooms={2}
-        area={120}
-        price={185000}
-        yieldPercent={7.2}
-        infoRows={[
-          { label: 'Estimated rent', value: '1,200€/month' },
-          { label: 'Total investment', value: '198,500€' },
-          { label: 'Capital gain', value: '145.000€', hasInfo: true },
-        ]}
-      />
+    <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+      <div style={{ width: 320 }}>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Off market</p>
+        <PropertyCard
+          image={DEMO_IMAGE}
+          type="Apartment"
+          title="Property in Navacerrada"
+          status="available"
+          valueLabels={['offMarket']}
+          location="Madrid, Spain"
+          category="Flat"
+          bedrooms={2}
+          bathrooms={1}
+          area={85}
+          price={90000}
+          yieldPercent={6}
+          infoRows={[
+            { label: 'Estimated rent', value: '650€/month' },
+            { label: 'Total investment', value: '113,100€' },
+          ]}
+        />
+      </div>
+      <div style={{ width: 320 }}>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>High yield</p>
+        <PropertyCard
+          image={DEMO_IMAGE}
+          type="Apartment"
+          title="Property in Navacerrada"
+          status="available"
+          valueLabels={['highYield']}
+          location="Madrid, Spain"
+          category="Flat"
+          bedrooms={2}
+          bathrooms={1}
+          area={85}
+          price={90000}
+          yieldPercent={8}
+          infoRows={[
+            { label: 'Estimated rent', value: '650€/month' },
+            { label: 'Total investment', value: '113,100€' },
+          ]}
+        />
+      </div>
+      <div style={{ width: 320 }}>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>New Construction</p>
+        <PropertyCard
+          image={PROJECT_IMAGE}
+          type="Project"
+          title="Property in Navacerrada"
+          status="available"
+          valueLabels={['newConstruction']}
+          location="Madrid, Spain"
+          deliveryDate="June 2028"
+          constructionStatus="under construction"
+          price={90000}
+          yieldPercent={6}
+          infoRows={[
+            { label: 'Estimated rent', value: '650€/month' },
+            { label: 'Total investment', value: '113,100€' },
+          ]}
+        />
+      </div>
+      <div style={{ width: 320 }}>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>High Value</p>
+        <PropertyCard
+          image={PROJECT_IMAGE}
+          type="Project"
+          title="Property in Navacerrada"
+          status="available"
+          valueLabels={['highValue']}
+          location="Madrid, Spain"
+          deliveryDate="June 2028"
+          constructionStatus="under construction"
+          price={90000}
+          yieldPercent={6}
+          infoRows={[
+            { label: 'Estimated rent', value: '650€/month' },
+            { label: 'Total investment', value: '113,100€' },
+          ]}
+        />
+      </div>
+      <div style={{ width: 320 }}>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Combined (Max 2)</p>
+        <PropertyCard
+          image={PROJECT_IMAGE}
+          type="Project"
+          title="Property in Navacerrada"
+          status="available"
+          valueLabels={['highValue', 'offMarket']}
+          location="Madrid, Spain"
+          deliveryDate="June 2028"
+          constructionStatus="under construction"
+          price={90000}
+          yieldPercent={6}
+          infoRows={[
+            { label: 'Estimated rent', value: '650€/month' },
+            { label: 'Total investment', value: '113,100€' },
+          ]}
+        />
+      </div>
     </div>
   ),
 };
 
-export const Reserved: Story = {
+export const EdgeCases: Story = {
+  name: 'Edge Cases (Figma Reference)',
   render: () => (
-    <div style={{ width: 380 }}>
-      <PropertyCard
-        image={DEMO_IMAGE}
-        type="House"
-        title="Beach House with Views"
-        status="reserved"
-        location="Valencia, Spain"
-        category="House"
-        bedrooms={4}
-        bathrooms={3}
-        area={180}
-        price={320000}
-        yieldPercent={5.8}
-        infoRows={[
-          { label: 'Estimated rent', value: '2,100€/month' },
-          { label: 'Total investment', value: '345,000€' },
-        ]}
-      />
+    <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+      <div style={{ width: 320 }}>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Long Numbers</p>
+        <PropertyCard
+          image={DEMO_IMAGE}
+          type="Apartment"
+          title="Property in Navacerrada"
+          status="available"
+          location="Madrid, Spain"
+          category="Flat"
+          bedrooms={2}
+          bathrooms={1}
+          area={85}
+          price={1548866}
+          yieldPercent={8}
+          infoRows={[
+            { label: 'Estimated rent', value: '650€/month' },
+            { label: 'Total investment', value: '113,100€' },
+          ]}
+        />
+      </div>
+      <div style={{ width: 320 }}>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Long Names</p>
+        <PropertyCard
+          image={DEMO_IMAGE}
+          type="Apartment"
+          title="Property in San Sebastián de los Reyes"
+          status="available"
+          location="Madrid, Spain"
+          category="Flat"
+          bedrooms={2}
+          bathrooms={1}
+          area={85}
+          price={1548866}
+          yieldPercent={8}
+          infoRows={[
+            { label: 'Estimated rent', value: '650€/month' },
+            { label: 'Total investment', value: '113,100€' },
+          ]}
+        />
+      </div>
+      <div style={{ width: 320 }}>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Missing Data</p>
+        <PropertyCard
+          image={DEMO_IMAGE}
+          type="Apartment"
+          title="Property in Navacerrada"
+          status="available"
+          location="Madrid, Spain"
+          category="Flat"
+          bedrooms={2}
+          bathrooms={1}
+          area={85}
+          price={1548866}
+          yieldPercent={8}
+          infoRows={[
+            { label: 'Estimated rent', value: null },
+            { label: 'Total investment', value: 'XXXXX' },
+            { label: 'Capital gain', value: null },
+          ]}
+        />
+      </div>
     </div>
   ),
 };
 
-export const Sold: Story = {
+export const FeedbackStatus: Story = {
+  name: 'Feedback Status (Figma Reference)',
   render: () => (
-    <div style={{ width: 380 }}>
-      <PropertyCard
-        image={DEMO_IMAGE}
-        type="Apartment"
-        title="City Center Studio"
-        status="sold"
-        location="Madrid, Spain"
-        category="Studio"
-        bedrooms={1}
-        bathrooms={1}
-        area={45}
-        price={125000}
-        yieldPercent={4.5}
-      />
+    <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+      <div style={{ width: 320 }}>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Hover</p>
+        <PropertyCard
+          image={DEMO_IMAGE}
+          type="Apartment"
+          title="Property in Navacerrada"
+          status="available"
+          location="Madrid, Spain"
+          category="Flat"
+          bedrooms={2}
+          bathrooms={1}
+          area={85}
+          price={90000}
+          yieldPercent={6}
+          infoRows={[
+            { label: 'Estimated rent', value: '650€/month' },
+            { label: 'Total investment', value: '113,100€' },
+          ]}
+        />
+      </div>
+      <div style={{ width: 320 }}>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Skeleton</p>
+        <PropertyCard
+          loading
+          title=""
+          location=""
+          price={0}
+        />
+      </div>
     </div>
   ),
 };
 
-export const ComingSoon: Story = {
+export const ProjectCard: Story = {
+  name: 'Project Card',
   render: () => (
     <div style={{ width: 380 }}>
       <PropertyCard
-        image={DEMO_IMAGE}
+        image={PROJECT_IMAGE}
         type="Project"
         title="New Development Phase 2"
         status="comingSoon"
         location="Málaga, Spain"
+        deliveryDate="June 2026"
+        constructionStatus="under construction"
         price={150000}
-      />
-    </div>
-  ),
-};
-
-export const ValueLabels: Story = {
-  name: 'Value Added Labels',
-  render: () => (
-    <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-      <div style={{ width: 260 }}>
-        <PropertyCard
-          image={DEMO_IMAGE}
-          type="Apartment"
-          title="Property in San Sebastián..."
-          valueLabels={['offMarket']}
-          location="Madrid · Vallecas"
-          bedrooms={4}
-          bathrooms={1}
-          area={85}
-          price={134880}
-          yieldPercent={6}
-          infoRows={[
-            { label: 'Estimated rent', value: '650€' },
-            { label: 'Cashflow', value: '90.000€' },
-            { label: 'Furniture', value: 'T0034' },
-          ]}
-        />
-      </div>
-      <div style={{ width: 260 }}>
-        <PropertyCard
-          image={DEMO_IMAGE}
-          type="Apartment"
-          title="Property in San Sebastián..."
-          valueLabels={['highYield']}
-          location="Madrid · Vallecas"
-          bedrooms={4}
-          bathrooms={1}
-          area={85}
-          price={134500}
-          yieldPercent={8}
-          infoRows={[
-            { label: 'Estimated rent', value: '650€' },
-            { label: 'Cashflow', value: '90.000€' },
-            { label: 'Furniture', value: 'T0034' },
-          ]}
-        />
-      </div>
-      <div style={{ width: 260 }}>
-        <PropertyCard
-          image={DEMO_IMAGE}
-          type="Apartment"
-          title="Property in San Sebastián..."
-          valueLabels={['newConstruction']}
-          location="Madrid · Vallecas"
-          bedrooms={4}
-          bathrooms={1}
-          area={85}
-          price={134880}
-          yieldPercent={6}
-          infoRows={[
-            { label: 'Estimated rent', value: '650€' },
-            { label: 'Cashflow', value: '90.000€' },
-            { label: 'Furniture', value: 'T0034' },
-          ]}
-        />
-      </div>
-      <div style={{ width: 260 }}>
-        <PropertyCard
-          image={DEMO_IMAGE}
-          type="Apartment"
-          title="Property in San Sebastián..."
-          valueLabels={['highValue']}
-          location="Madrid · Vallecas"
-          bedrooms={4}
-          bathrooms={1}
-          area={85}
-          price={134880}
-          yieldPercent={6}
-          infoRows={[
-            { label: 'Estimated rent', value: '650€' },
-            { label: 'Cashflow', value: '90.000€' },
-            { label: 'Furniture', value: 'T0034' },
-          ]}
-        />
-      </div>
-      <div style={{ width: 260 }}>
-        <PropertyCard
-          image={DEMO_IMAGE}
-          type="Apartment"
-          title="Property Value Example..."
-          valueLabels={['highYield', 'newConstruction']}
-          location="Madrid · Vallecas"
-          bedrooms={4}
-          bathrooms={1}
-          area={85}
-          price={134880}
-          yieldPercent={6}
-          infoRows={[
-            { label: 'Estimated rent', value: '650€' },
-            { label: 'Cashflow', value: '90.000€' },
-            { label: 'Furniture', value: 'T0034' },
-          ]}
-        />
-      </div>
-    </div>
-  ),
-};
-
-export const MinimalInfo: Story = {
-  name: 'Minimal (No Info Rows)',
-  render: () => (
-    <div style={{ width: 380 }}>
-      <PropertyCard
-        image={DEMO_IMAGE}
-        type="Apartment"
-        title="Simple Property Card"
-        location="Sevilla, Spain"
-        category="Flat"
-        bedrooms={2}
-        bathrooms={1}
-        area={75}
-        price={95000}
-        yieldPercent={6.5}
+        yieldPercent={6}
+        infoRows={[
+          { label: 'Estimated rent', value: '650€/month' },
+          { label: 'Total investment', value: '113,100€' },
+          { label: 'Capital gain', value: '90.000€', hasInfo: true },
+        ]}
       />
     </div>
   ),
@@ -373,61 +465,133 @@ export const WithFavoriteButton: Story = {
   ),
 };
 
-export const WithAllInfo: Story = {
-  name: 'Full Info Rows',
+export const AllVariations: Story = {
+  name: 'All Variations (Figma Reference)',
   render: () => (
-    <div style={{ width: 340 }}>
-      <PropertyCard
-        image={DEMO_IMAGE}
-        type="Apartment"
-        title="Premium Investment Property"
-        status="available"
-        location="Barcelona, Spain"
-        category="Flat"
-        bedrooms={3}
-        bathrooms={2}
-        area={110}
-        price={225000}
-        yieldPercent={7.8}
-        infoRows={[
-          { label: 'Estimated rent', value: '1,450€/month' },
-          { label: 'Total investment', value: '242,500€' },
-          { label: 'Annual return', value: '17,400€' },
-          { label: 'Capital gain', value: '180.000€', hasInfo: true },
-          { label: 'ROI', value: '7.8%' },
-        ]}
-      />
-    </div>
-  ),
-};
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 32, padding: 24, maxWidth: 1200 }}>
+      <div>
+        <h3 style={{ margin: '0 0 16px', fontSize: 16, fontWeight: 600 }}>Type of Product</h3>
+        <div style={{ display: 'flex', gap: 20 }}>
+          <PropertyCard
+            image={DEMO_IMAGE}
+            type="Apartment"
+            title="Property in Navacerrada"
+            status="available"
+            location="Madrid, Spain"
+            category="Flat"
+            bedrooms={2}
+            bathrooms={1}
+            area={85}
+            price={90000}
+            yieldPercent={6}
+            infoRows={[
+              { label: 'Estimated rent', value: '650€/month' },
+              { label: 'Total investment', value: '113,100€' },
+              { label: 'Capital gain', value: '90.000€', hasInfo: true },
+            ]}
+          />
+          <PropertyCard
+            image={PROJECT_IMAGE}
+            type="Project"
+            title="Property in Navacerrada"
+            status="available"
+            location="Madrid, Spain"
+            deliveryDate="June 2028"
+            constructionStatus="under construction"
+            price={90000}
+            yieldPercent={6}
+            infoRows={[
+              { label: 'Estimated rent', value: '650€/month' },
+              { label: 'Total investment', value: '113,100€' },
+              { label: 'Capital gain', value: '90.000€', hasInfo: true },
+            ]}
+          />
+        </div>
+      </div>
 
-export const Loading: Story = {
-  render: () => (
-    <div style={{ width: 340 }}>
-      <PropertyCard
-        loading
-        title=""
-        location=""
-        price={0}
-      />
-    </div>
-  ),
-};
+      <div>
+        <h3 style={{ margin: '0 0 16px', fontSize: 16, fontWeight: 600 }}>Status Management</h3>
+        <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+          {(['available', 'reserved', 'sold', 'comingSoon'] as const).map((status) => (
+            <PropertyCard
+              key={status}
+              image={DEMO_IMAGE}
+              type="Apartment"
+              title="Property in Navacerrada"
+              status={status}
+              location="Madrid, Spain"
+              category="Flat"
+              bedrooms={2}
+              bathrooms={1}
+              area={85}
+              price={90000}
+              yieldPercent={6}
+              infoRows={[
+                { label: 'Estimated rent', value: '650€/month' },
+                { label: 'Total investment', value: '113,100€' },
+              ]}
+            />
+          ))}
+        </div>
+      </div>
 
-export const NoImage: Story = {
-  render: () => (
-    <div style={{ width: 340 }}>
-      <PropertyCard
-        type="Apartment"
-        title="Property Without Image"
-        location="Unknown, Spain"
-        category="Flat"
-        bedrooms={1}
-        bathrooms={1}
-        area={50}
-        price={75000}
-        yieldPercent={5}
-      />
+      <div>
+        <h3 style={{ margin: '0 0 16px', fontSize: 16, fontWeight: 600 }}>Value Added Labels</h3>
+        <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+          <PropertyCard
+            image={DEMO_IMAGE}
+            type="Apartment"
+            title="Property in Navacerrada"
+            status="available"
+            valueLabels={['offMarket']}
+            location="Madrid, Spain"
+            category="Flat"
+            bedrooms={2}
+            bathrooms={1}
+            area={85}
+            price={90000}
+            yieldPercent={6}
+          />
+          <PropertyCard
+            image={DEMO_IMAGE}
+            type="Apartment"
+            title="Property in Navacerrada"
+            status="available"
+            valueLabels={['highYield']}
+            location="Madrid, Spain"
+            category="Flat"
+            bedrooms={2}
+            bathrooms={1}
+            area={85}
+            price={90000}
+            yieldPercent={8}
+          />
+          <PropertyCard
+            image={PROJECT_IMAGE}
+            type="Project"
+            title="Property in Navacerrada"
+            status="available"
+            valueLabels={['newConstruction']}
+            location="Madrid, Spain"
+            deliveryDate="June 2028"
+            constructionStatus="under construction"
+            price={90000}
+            yieldPercent={6}
+          />
+          <PropertyCard
+            image={PROJECT_IMAGE}
+            type="Project"
+            title="Property in Navacerrada"
+            status="available"
+            valueLabels={['highValue', 'offMarket']}
+            location="Madrid, Spain"
+            deliveryDate="June 2028"
+            constructionStatus="under construction"
+            price={90000}
+            yieldPercent={6}
+          />
+        </div>
+      </div>
     </div>
   ),
 };
@@ -491,6 +655,8 @@ export const Grid: Story = {
           title="New Development"
           status="comingSoon"
           location="Málaga, Spain"
+          deliveryDate="June 2026"
+          constructionStatus="under construction"
           price={175000}
         />
         <PropertyCard
@@ -498,6 +664,7 @@ export const Grid: Story = {
           type="Apartment"
           title="Investment Opportunity"
           status="available"
+          valueLabels={['highYield']}
           location="Sevilla, Spain"
           category="Flat"
           bedrooms={2}

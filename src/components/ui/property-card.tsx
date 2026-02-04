@@ -4,7 +4,7 @@ import { Heart, Building, Home, Bed, Bath, Maximize, Info } from "lucide-react"
 
 /**
  * Property Card Design Tokens from Figma
- * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=4363-15881
+ * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=4363-20788
  */
 const PROPERTY_CARD_TOKENS = {
   // Card - image goes edge-to-edge, only content has padding
@@ -21,28 +21,28 @@ const PROPERTY_CARD_TOKENS = {
     height: 200,
     radiusTop: 16,
   },
-  // Type badge (on image)
+  // Type badge (on image, top-left)
   typeBadge: {
-    bg: '#2050f6',
+    bg: '#18181b', // Dark grey per Figma
     fg: '#ffffff',
     fontSize: 12,
     fontWeight: 600,
     padding: '6px 14px',
     radius: 20,
   },
-  // Value added labels (on image)
+  // Value added labels (on image, max 2)
   valueLabel: {
     offMarket: { bg: '#18181b', fg: '#ffffff', label: 'Off market' },
-    highYield: { bg: '#2050f6', fg: '#ffffff', label: 'High Yield' },
-    newConstruction: { bg: '#7c3aed', fg: '#ffffff', label: 'New Construction' },
-    highValue: { bg: '#059669', fg: '#ffffff', label: 'High Value' },
+    highYield: { bg: '#16a34a', fg: '#ffffff', label: 'High yield' },
+    newConstruction: { bg: '#2050f6', fg: '#ffffff', label: 'New Construction' },
+    highValue: { bg: '#f59e0b', fg: '#ffffff', label: 'High Value' },
   },
   // Status badge (inline with title)
   status: {
     available: { bg: '#dcfce7', fg: '#15803d', border: '#86efac', label: 'Available' },
     reserved: { bg: '#fef3c7', fg: '#b45309', border: '#fcd34d', label: 'Reserved' },
-    sold: { bg: '#fee2e2', fg: '#b91c1c', border: '#fca5a5', label: 'Sold' },
-    comingSoon: { bg: '#dbeafe', fg: '#1d4ed8', border: '#93c5fd', label: 'Coming Soon' },
+    sold: { bg: '#ffffff', fg: '#71717a', border: '#e4e4e7', label: 'Sold' },
+    comingSoon: { bg: '#e0e7ff', fg: '#4338ca', border: '#c7d2fe', label: 'Coming Soon' },
   },
   // Title
   title: {
@@ -63,6 +63,7 @@ const PROPERTY_CARD_TOKENS = {
     fontSize: 14,
     fontWeight: 500,
     color: '#3f3f46',
+    bg: '#ffffff',
     border: '#e4e4e7',
     radius: 8,
     gap: 8,
@@ -78,7 +79,7 @@ const PROPERTY_CARD_TOKENS = {
     fontWeight: 700,
     color: '#18181b',
   },
-  // Net yield - GREEN/TEAL as per Figma
+  // Net yield - GREEN per Figma
   yieldValue: {
     fontSize: 28,
     fontWeight: 700,
@@ -91,6 +92,11 @@ const PROPERTY_CARD_TOKENS = {
     valueColor: '#18181b',
     valueWeight: 500,
   },
+  // Delivery info (for projects)
+  delivery: {
+    fontSize: 14,
+    color: '#71717a',
+  },
 } as const
 
 type PropertyStatus = 'available' | 'reserved' | 'sold' | 'comingSoon'
@@ -98,7 +104,7 @@ type ValueLabel = 'offMarket' | 'highYield' | 'newConstruction' | 'highValue'
 
 export interface PropertyInfoRow {
   label: string
-  value: string
+  value: string | null // null for missing data
   hasInfo?: boolean
 }
 
@@ -111,7 +117,7 @@ export interface PropertyCardProps extends React.HTMLAttributes<HTMLDivElement> 
   title: string
   /** Status */
   status?: PropertyStatus
-  /** Value added labels */
+  /** Value added labels (max 2 per Figma) */
   valueLabels?: ValueLabel[]
   /** Location */
   location: string
@@ -131,7 +137,11 @@ export interface PropertyCardProps extends React.HTMLAttributes<HTMLDivElement> 
   yieldPercent?: number
   /** Info rows (Estimated rent, Total investment, etc.) */
   infoRows?: PropertyInfoRow[]
-  /** Show favorite button (hidden by default per Figma) */
+  /** Delivery date (for projects) */
+  deliveryDate?: string
+  /** Construction status (for projects) */
+  constructionStatus?: string
+  /** Show favorite button */
   showFavorite?: boolean
   /** Favorite state */
   isFavorite?: boolean
@@ -159,7 +169,9 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
     currency = '€',
     yieldPercent,
     infoRows = [],
-    showFavorite = false, // Hidden by default per Figma
+    deliveryDate,
+    constructionStatus,
+    showFavorite = false,
     isFavorite = false,
     onFavoriteChange,
     onCardClick,
@@ -180,6 +192,9 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
     const formatPrice = (value: number) => {
       return value.toLocaleString('es-ES')
     }
+
+    // Limit value labels to max 2 per Figma
+    const displayValueLabels = valueLabels.slice(0, 2)
 
     // Skeleton loading
     if (loading) {
@@ -202,9 +217,10 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
           <div style={{ padding: PROPERTY_CARD_TOKENS.card.contentPadding }}>
             <div style={{ height: 16, width: '80%', backgroundColor: '#f4f4f5', borderRadius: 4, marginBottom: 8 }} />
             <div style={{ height: 12, width: '50%', backgroundColor: '#f4f4f5', borderRadius: 3, marginBottom: 12 }} />
-            <div style={{ display: 'flex', gap: 16, marginBottom: 12 }}>
-              <div style={{ height: 20, width: 80, backgroundColor: '#f4f4f5', borderRadius: 4 }} />
-              <div style={{ height: 20, width: 60, backgroundColor: '#f4f4f5', borderRadius: 4 }} />
+            <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+              {[1,2,3,4].map(i => (
+                <div key={i} style={{ height: 36, width: 80, backgroundColor: '#f4f4f5', borderRadius: 8 }} />
+              ))}
             </div>
             {[1,2,3].map(i => (
               <div key={i} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
@@ -223,7 +239,7 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
       borderRadius: PROPERTY_CARD_TOKENS.card.radius,
       border: `1px solid ${PROPERTY_CARD_TOKENS.card.border}`,
       boxShadow: isHovered ? PROPERTY_CARD_TOKENS.card.shadowHover : PROPERTY_CARD_TOKENS.card.shadow,
-      overflow: 'hidden', // Important for edge-to-edge image
+      overflow: 'hidden',
       cursor: onCardClick ? 'pointer' : 'default',
       transition: 'box-shadow 200ms ease, transform 200ms ease',
       transform: isHovered ? 'translateY(-2px)' : 'none',
@@ -247,8 +263,9 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
     }
     
     const isSold = status === 'sold'
+    const isProject = type === 'Project'
 
-    // Type badge (top left) - pill shape
+    // Type badge (top left) - dark grey pill per Figma
     const typeBadgeStyle: React.CSSProperties = {
       position: 'absolute',
       top: 12,
@@ -262,7 +279,7 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
       zIndex: 2,
     }
 
-    // Value labels style (on image)
+    // Value labels style (on image, after type badge)
     const getValueLabelStyle = (label: ValueLabel): React.CSSProperties => {
       const tokens = PROPERTY_CARD_TOKENS.valueLabel[label]
       return {
@@ -327,7 +344,7 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
       color: PROPERTY_CARD_TOKENS.featurePill.color,
       border: `1px solid ${PROPERTY_CARD_TOKENS.featurePill.border}`,
       borderRadius: PROPERTY_CARD_TOKENS.featurePill.radius,
-      backgroundColor: '#ffffff',
+      backgroundColor: PROPERTY_CARD_TOKENS.featurePill.bg,
     }
 
     const hasFeatures = category || bedrooms !== undefined || bathrooms !== undefined || area !== undefined
@@ -339,6 +356,8 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
         onClick={onCardClick}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        role="article"
+        aria-label={`Property: ${title}`}
         {...props}
       >
         {/* Image section - edge-to-edge */}
@@ -360,8 +379,8 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
           {/* Type badge (top left) */}
           {type && <span style={typeBadgeStyle}>{type}</span>}
 
-          {/* Value labels (on image, after type badge) */}
-          {valueLabels.length > 0 && (
+          {/* Value labels (on image, max 2) */}
+          {displayValueLabels.length > 0 && (
             <div style={{ 
               position: 'absolute', 
               top: 12, 
@@ -370,7 +389,7 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
               gap: 6,
               zIndex: 2,
             }}>
-              {valueLabels.map((label) => (
+              {displayValueLabels.map((label) => (
                 <span key={label} style={getValueLabelStyle(label)}>
                   {PROPERTY_CARD_TOKENS.valueLabel[label].label}
                 </span>
@@ -378,9 +397,14 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
             </div>
           )}
 
-          {/* Favorite button (top right) - hidden by default per Figma */}
+          {/* Favorite button (top right) */}
           {showFavorite && (
-            <button type="button" style={favoriteButtonStyle} onClick={handleFavoriteClick}>
+            <button 
+              type="button" 
+              style={favoriteButtonStyle} 
+              onClick={handleFavoriteClick}
+              aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
+            >
               <Heart 
                 size={18} 
                 fill={favorite ? '#ef4444' : 'none'} 
@@ -419,8 +443,18 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
             {location}
           </div>
 
-          {/* Feature pills */}
-          {hasFeatures && (
+          {/* Feature pills (for apartments) or Delivery info (for projects) */}
+          {isProject && (deliveryDate || constructionStatus) ? (
+            <div style={{ 
+              fontSize: PROPERTY_CARD_TOKENS.delivery.fontSize,
+              color: PROPERTY_CARD_TOKENS.delivery.color,
+              marginBottom: 20,
+            }}>
+              {deliveryDate && `Delivery: ${deliveryDate}`}
+              {deliveryDate && constructionStatus && ' · '}
+              {constructionStatus && `Status: ${constructionStatus}`}
+            </div>
+          ) : hasFeatures ? (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20 }}>
               {category && (
                 <span style={featurePillStyle}>
@@ -447,7 +481,7 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
                 </span>
               )}
             </div>
-          )}
+          ) : null}
 
           {/* Price section - two columns with labels */}
           <div style={{ 
@@ -522,13 +556,23 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
                     gap: 6,
                   }}>
                     {row.label}
-                    {row.hasInfo && <Info size={16} style={{ opacity: 0.5 }} />}
+                    {row.hasInfo && (
+                      <Info 
+                        size={16} 
+                        style={{ opacity: 0.5 }} 
+                        aria-label="More information"
+                      />
+                    )}
                   </span>
                   <span style={{ 
-                    color: isSold ? '#a1a1aa' : PROPERTY_CARD_TOKENS.infoRow.valueColor,
+                    color: row.value === null || row.value === '—' || row.value === 'XXXXX'
+                      ? '#a1a1aa'
+                      : isSold 
+                        ? '#a1a1aa' 
+                        : PROPERTY_CARD_TOKENS.infoRow.valueColor,
                     fontWeight: PROPERTY_CARD_TOKENS.infoRow.valueWeight,
                   }}>
-                    {row.value}
+                    {row.value === null ? '—' : row.value}
                   </span>
                 </div>
               ))}
