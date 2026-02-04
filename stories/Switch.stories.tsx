@@ -14,9 +14,13 @@ const meta: Meta<typeof Switch> = {
 
 Toggle switch for binary settings.
 
+Based on Figma: [Switch Component](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=518-6121)
+
 ## Features
 - **3 Sizes**: Small, Medium, Large
+- **Label Position**: Left or Right
 - **Labels**: Built-in label and description
+- **States**: Off, On, Disabled
 - **Controlled/Uncontrolled**: Both modes
         `,
       },
@@ -29,8 +33,66 @@ type Story = StoryObj<typeof Switch>;
 
 export const Default: Story = {
   args: {
-    label: 'Enable notifications',
+    label: 'Label',
+    description: 'Description',
   },
+};
+
+export const SwitchOnly: Story = {
+  name: 'Switch Only (No Label)',
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div style={{ display: 'flex', gap: 16 }}>
+        <Switch />
+        <Switch defaultChecked />
+      </div>
+      <div style={{ display: 'flex', gap: 16 }}>
+        <Switch disabled />
+        <Switch disabled defaultChecked />
+      </div>
+    </div>
+  ),
+};
+
+export const LabelPosition: Story = {
+  name: 'Label Position',
+  render: () => (
+    <div style={{ display: 'flex', gap: 48 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <p style={{ fontSize: 12, color: '#71717a', margin: 0 }}>Label Right (default)</p>
+        <Switch label="Label" description="Description" />
+        <Switch label="Label" description="Description" defaultChecked />
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <p style={{ fontSize: 12, color: '#71717a', margin: 0 }}>Label Left</p>
+        <Switch label="Label" description="Description" labelPosition="left" />
+        <Switch label="Label" description="Description" labelPosition="left" defaultChecked />
+      </div>
+    </div>
+  ),
+};
+
+export const States: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', margin: '0 0 8px' }}>Off</p>
+        <Switch label="Label" description="Description" />
+      </div>
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', margin: '0 0 8px' }}>On</p>
+        <Switch label="Label" description="Description" defaultChecked />
+      </div>
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', margin: '0 0 8px' }}>Disabled Off</p>
+        <Switch label="Label" description="Description" disabled />
+      </div>
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', margin: '0 0 8px' }}>Disabled On</p>
+        <Switch label="Label" description="Description" disabled defaultChecked />
+      </div>
+    </div>
+  ),
 };
 
 export const Sizes: Story = {
