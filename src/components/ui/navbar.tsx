@@ -25,6 +25,13 @@ const NAVBAR_TOKENS = {
     fontWeight: 500,
     color: '#2050f6',
   },
+  // Divider between back and title
+  divider: {
+    width: 1,
+    height: 24,
+    color: '#e4e4e7',
+    marginX: 12,
+  },
   // Actions
   action: {
     size: 40,
@@ -32,9 +39,38 @@ const NAVBAR_TOKENS = {
     color: '#3f3f46',
     colorHover: '#18181b',
   },
+  // Tools button (outlined/dashed)
+  toolsButton: {
+    height: 36,
+    paddingX: 16,
+    fontSize: 14,
+    fontWeight: 500,
+    color: '#7c3aed', // Purple
+    border: '#c4b5fd', // Light purple
+    borderStyle: 'dashed',
+    radius: 8,
+  },
+  // Secondary button (text)
+  secondaryButton: {
+    height: 36,
+    paddingX: 16,
+    fontSize: 14,
+    fontWeight: 500,
+    color: '#2050f6',
+  },
+  // Primary button (solid)
+  primaryButton: {
+    height: 36,
+    paddingX: 20,
+    fontSize: 14,
+    fontWeight: 500,
+    bg: '#2050f6',
+    color: '#ffffff',
+    radius: 9999, // Pill
+  },
   // Tools area
   tools: {
-    gap: 8,
+    gap: 12,
   },
 } as const
 
@@ -306,6 +342,180 @@ const NavbarBack = forwardRef<HTMLButtonElement, NavbarBackProps>(
 
 NavbarBack.displayName = "NavbarBack"
 
+// ============================================================================
+// Navbar Divider (vertical line between elements)
+// ============================================================================
+const NavbarDivider = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ style, ...props }, ref) => {
+    const dividerStyle: React.CSSProperties = {
+      width: NAVBAR_TOKENS.divider.width,
+      height: NAVBAR_TOKENS.divider.height,
+      backgroundColor: NAVBAR_TOKENS.divider.color,
+      margin: `0 ${NAVBAR_TOKENS.divider.marginX}px`,
+      ...style,
+    }
+
+    return <div ref={ref} style={dividerStyle} {...props} />
+  }
+)
+
+NavbarDivider.displayName = "NavbarDivider"
+
+// ============================================================================
+// Navbar Tools Button (outlined/dashed border - purple)
+// ============================================================================
+export interface NavbarToolsButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+const NavbarToolsButton = forwardRef<HTMLButtonElement, NavbarToolsButtonProps>(
+  ({ style, children, ...props }, ref) => {
+    const [isHovered, setIsHovered] = React.useState(false)
+
+    const buttonStyle: React.CSSProperties = {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: NAVBAR_TOKENS.toolsButton.height,
+      padding: `0 ${NAVBAR_TOKENS.toolsButton.paddingX}px`,
+      backgroundColor: isHovered ? 'rgba(124, 58, 237, 0.05)' : 'transparent',
+      border: `1.5px ${NAVBAR_TOKENS.toolsButton.borderStyle} ${NAVBAR_TOKENS.toolsButton.border}`,
+      borderRadius: NAVBAR_TOKENS.toolsButton.radius,
+      color: NAVBAR_TOKENS.toolsButton.color,
+      fontSize: NAVBAR_TOKENS.toolsButton.fontSize,
+      fontWeight: NAVBAR_TOKENS.toolsButton.fontWeight,
+      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      cursor: 'pointer',
+      transition: 'all 150ms ease',
+      ...style,
+    }
+
+    return (
+      <button
+        ref={ref}
+        type="button"
+        style={buttonStyle}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        {...props}
+      >
+        {children}
+      </button>
+    )
+  }
+)
+
+NavbarToolsButton.displayName = "NavbarToolsButton"
+
+// ============================================================================
+// Navbar Secondary Button (text button)
+// ============================================================================
+export interface NavbarSecondaryButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+const NavbarSecondaryButton = forwardRef<HTMLButtonElement, NavbarSecondaryButtonProps>(
+  ({ style, children, ...props }, ref) => {
+    const [isHovered, setIsHovered] = React.useState(false)
+
+    const buttonStyle: React.CSSProperties = {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: NAVBAR_TOKENS.secondaryButton.height,
+      padding: `0 ${NAVBAR_TOKENS.secondaryButton.paddingX}px`,
+      backgroundColor: 'transparent',
+      border: 'none',
+      color: NAVBAR_TOKENS.secondaryButton.color,
+      fontSize: NAVBAR_TOKENS.secondaryButton.fontSize,
+      fontWeight: NAVBAR_TOKENS.secondaryButton.fontWeight,
+      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      cursor: 'pointer',
+      transition: 'opacity 150ms ease',
+      opacity: isHovered ? 0.7 : 1,
+      ...style,
+    }
+
+    return (
+      <button
+        ref={ref}
+        type="button"
+        style={buttonStyle}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        {...props}
+      >
+        {children}
+      </button>
+    )
+  }
+)
+
+NavbarSecondaryButton.displayName = "NavbarSecondaryButton"
+
+// ============================================================================
+// Navbar Primary Button (solid pill button)
+// ============================================================================
+export interface NavbarPrimaryButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+const NavbarPrimaryButton = forwardRef<HTMLButtonElement, NavbarPrimaryButtonProps>(
+  ({ style, children, ...props }, ref) => {
+    const [isHovered, setIsHovered] = React.useState(false)
+
+    const buttonStyle: React.CSSProperties = {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: NAVBAR_TOKENS.primaryButton.height,
+      padding: `0 ${NAVBAR_TOKENS.primaryButton.paddingX}px`,
+      backgroundColor: isHovered ? '#1a42c7' : NAVBAR_TOKENS.primaryButton.bg,
+      border: 'none',
+      borderRadius: NAVBAR_TOKENS.primaryButton.radius,
+      color: NAVBAR_TOKENS.primaryButton.color,
+      fontSize: NAVBAR_TOKENS.primaryButton.fontSize,
+      fontWeight: NAVBAR_TOKENS.primaryButton.fontWeight,
+      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      cursor: 'pointer',
+      transition: 'background-color 150ms ease',
+      ...style,
+    }
+
+    return (
+      <button
+        ref={ref}
+        type="button"
+        style={buttonStyle}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        {...props}
+      >
+        {children}
+      </button>
+    )
+  }
+)
+
+NavbarPrimaryButton.displayName = "NavbarPrimaryButton"
+
+// ============================================================================
+// Navbar Left Section (for Back + Title layout)
+// ============================================================================
+export interface NavbarLeftProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+const NavbarLeft = forwardRef<HTMLDivElement, NavbarLeftProps>(
+  ({ style, children, ...props }, ref) => {
+    const leftStyle: React.CSSProperties = {
+      display: 'flex',
+      alignItems: 'center',
+      ...style,
+    }
+
+    return (
+      <div ref={ref} style={leftStyle} {...props}>
+        {children}
+      </div>
+    )
+  }
+)
+
+NavbarLeft.displayName = "NavbarLeft"
+
 export {
   Navbar,
   NavbarBrand,
@@ -313,5 +523,10 @@ export {
   NavbarActions,
   NavbarButton,
   NavbarBack,
+  NavbarDivider,
+  NavbarToolsButton,
+  NavbarSecondaryButton,
+  NavbarPrimaryButton,
+  NavbarLeft,
   NAVBAR_TOKENS,
 }

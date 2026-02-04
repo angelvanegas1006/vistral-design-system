@@ -1,6 +1,6 @@
 import * as React from "react"
 import { forwardRef, useState } from "react"
-import { Camera, ChevronLeft, ChevronRight } from "lucide-react"
+import { Images, ChevronLeft, ChevronRight } from "lucide-react"
 import { Lightbox, LightboxImage } from "./lightbox"
 import { Button } from "./button"
 
@@ -142,7 +142,7 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
           />
           {showAllButton && images.length > 1 && (
             <div style={showAllButtonWrapperStyle}>
-              <Button variant="secondary" size="sm" leftIcon={Camera} onClick={handleShowAll}>
+              <Button variant="secondary" size="sm" leftIcon={Images} onClick={handleShowAll}>
                 {buttonText}
               </Button>
             </div>
@@ -363,7 +363,7 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
         
         {showAllButton && images.length > visibleImages && (
           <div style={showAllButtonWrapperStyle}>
-            <Button variant="secondary" size="sm" leftIcon={Camera} onClick={handleShowAll}>
+            <Button variant="secondary" size="sm" leftIcon={Images} onClick={handleShowAll}>
               {buttonText}
             </Button>
           </div>

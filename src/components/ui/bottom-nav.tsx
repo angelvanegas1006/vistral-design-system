@@ -16,17 +16,19 @@ const BOTTOM_NAV_TOKENS = {
   // Item
   item: {
     minWidth: 64,
-    paddingY: 6,
+    paddingY: 8,
     gap: 4,
     // Icon
     iconSize: 24,
-    iconColor: '#8e8e93', // iOS gray
-    iconColorActive: '#2050f6', // Brand color
+    iconColor: '#3c3c43', // iOS dark gray (SF Symbol color)
+    // Active pill background (glass effect)
+    activePillBg: 'rgba(120, 120, 128, 0.12)', // iOS system fill
+    activePillRadius: 18,
+    activePillPadding: 8,
     // Label
     fontSize: 10,
     fontWeight: 500,
-    labelColor: '#8e8e93',
-    labelColorActive: '#2050f6',
+    labelColor: '#3c3c43',
     // Badge
     badgeSize: 18,
     badgeBg: '#ef4444',
@@ -167,17 +169,20 @@ const BottomNavItem = forwardRef<HTMLButtonElement, BottomNavItemProps>(
       ...style,
     }
 
+    // Icon wrapper with pill background for active state (glass effect)
     const iconWrapperStyle: React.CSSProperties = {
       position: 'relative',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
+      padding: BOTTOM_NAV_TOKENS.item.activePillPadding,
+      borderRadius: BOTTOM_NAV_TOKENS.item.activePillRadius,
+      backgroundColor: isActive ? BOTTOM_NAV_TOKENS.item.activePillBg : 'transparent',
+      transition: 'background-color 200ms ease',
     }
 
     const iconStyle: React.CSSProperties = {
-      color: isActive 
-        ? BOTTOM_NAV_TOKENS.item.iconColorActive 
-        : BOTTOM_NAV_TOKENS.item.iconColor,
+      color: BOTTOM_NAV_TOKENS.item.iconColor, // Same color for active/inactive
       transition: 'color 150ms ease',
     }
 
@@ -185,9 +190,7 @@ const BottomNavItem = forwardRef<HTMLButtonElement, BottomNavItemProps>(
       fontSize: BOTTOM_NAV_TOKENS.item.fontSize,
       fontWeight: BOTTOM_NAV_TOKENS.item.fontWeight,
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      color: isActive 
-        ? BOTTOM_NAV_TOKENS.item.labelColorActive 
-        : BOTTOM_NAV_TOKENS.item.labelColor,
+      color: BOTTOM_NAV_TOKENS.item.labelColor, // Same color for active/inactive
       transition: 'color 150ms ease',
     }
 

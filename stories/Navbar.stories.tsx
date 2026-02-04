@@ -1,9 +1,10 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { 
-  Navbar, NavbarBrand, NavbarTitle, NavbarActions, NavbarButton, NavbarBack 
+  Navbar, NavbarBrand, NavbarTitle, NavbarActions, NavbarButton, NavbarBack,
+  NavbarDivider, NavbarToolsButton, NavbarSecondaryButton, NavbarPrimaryButton, NavbarLeft
 } from '../src/components/ui/navbar';
-import { Menu, Bell, Search, User, Settings, MoreVertical } from 'lucide-react';
+import { Menu, Bell, Search, User, Settings, MoreVertical, ChevronLeft } from 'lucide-react';
 
 const meta: Meta<typeof Navbar> = {
   title: 'Components/Navbar',
@@ -18,10 +19,11 @@ const meta: Meta<typeof Navbar> = {
 Top navigation bar component.
 
 ## Features
-- **Brand/Logo**: Left-aligned brand area
-- **Centered Title**: For mobile-style headers
+- **Back + Title**: Left-aligned with divider
+- **Tools Button**: Outlined/dashed purple button
+- **Secondary Button**: Text button
+- **Primary Button**: Solid pill button
 - **Action Buttons**: Icon buttons with badge support
-- **Back Button**: Navigation back with label
         `,
       },
     },
@@ -72,6 +74,53 @@ export const MobileHeader: Story = {
         </NavbarActions>
       </Navbar>
     </div>
+  ),
+};
+
+export const WithActionsBar: Story = {
+  name: 'With Actions (Figma Design)',
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {/* Full variant */}
+      <Navbar>
+        <NavbarLeft>
+          <NavbarBack label="Back" />
+          <NavbarDivider />
+          <span style={{ fontSize: 17, fontWeight: 600, color: '#18181b' }}>Title</span>
+        </NavbarLeft>
+        <NavbarActions>
+          <NavbarToolsButton>Tools</NavbarToolsButton>
+          <NavbarSecondaryButton>Secondary button</NavbarSecondaryButton>
+          <NavbarPrimaryButton>Primary button</NavbarPrimaryButton>
+        </NavbarActions>
+      </Navbar>
+
+      {/* Minimal variant (just back and tools) */}
+      <Navbar bordered={false}>
+        <NavbarLeft>
+          <NavbarBack label="" />
+        </NavbarLeft>
+        <NavbarActions>
+          <NavbarToolsButton>Tools</NavbarToolsButton>
+        </NavbarActions>
+      </Navbar>
+    </div>
+  ),
+};
+
+export const BackWithTitle: Story = {
+  name: 'Back + Title',
+  render: () => (
+    <Navbar>
+      <NavbarLeft>
+        <NavbarBack label="Back" />
+        <NavbarDivider />
+        <span style={{ fontSize: 17, fontWeight: 600, color: '#18181b' }}>Property Details</span>
+      </NavbarLeft>
+      <NavbarActions>
+        <NavbarPrimaryButton>Save</NavbarPrimaryButton>
+      </NavbarActions>
+    </Navbar>
   ),
 };
 
