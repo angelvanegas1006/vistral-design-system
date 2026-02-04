@@ -11,6 +11,9 @@ const LINK_TOKENS = {
   color: '#2050f6',           // spaceblue-600
   colorHover: '#1337e2',      // spaceblue-700
   colorActive: '#162eb7',     // spaceblue-800
+  colorFocus: '#2050f6',      // Same as default
+  // Focus ring
+  focusRing: '0 0 0 2px rgba(32, 80, 246, 0.25)',
   // Disabled
   disabled: {
     color: '#a1a1aa',             // zinc-400
@@ -46,12 +49,14 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>(
   }, ref) => {
     const [isHovered, setIsHovered] = React.useState(false)
     const [isActive, setIsActive] = React.useState(false)
+    const [isFocused, setIsFocused] = React.useState(false)
 
     // Get current color based on state
     const getColor = () => {
       if (disabled) return LINK_TOKENS.disabled.color
       if (isActive) return LINK_TOKENS.colorActive
       if (isHovered) return LINK_TOKENS.colorHover
+      if (isFocused) return LINK_TOKENS.colorFocus
       return LINK_TOKENS.color
     }
 
@@ -87,7 +92,12 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>(
       textDecoration: getTextDecoration(),
       textUnderlineOffset: 2,
       cursor: disabled ? LINK_TOKENS.disabled.cursor : 'pointer',
-      transition: 'color 150ms ease-in-out',
+      transition: 'color 150ms ease-in-out, box-shadow 150ms ease-in-out',
+      outline: 'none',
+      borderRadius: 2,
+      boxShadow: isFocused && !disabled ? LINK_TOKENS.focusRing : 'none',
+      padding: '1px 2px',
+      margin: '-1px -2px',
       ...style,
     }
 
@@ -111,6 +121,8 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         onMouseLeave={() => { setIsHovered(false); setIsActive(false) }}
         onMouseDown={() => setIsActive(true)}
         onMouseUp={() => setIsActive(false)}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         aria-disabled={disabled}
         {...props}
       >

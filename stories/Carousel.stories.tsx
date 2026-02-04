@@ -127,3 +127,17 @@ export const NoControls: Story = {
     </div>
   ),
 };
+
+export const Vertical: Story = {
+  name: 'Vertical Carousel',
+  render: () => (
+    <div style={{ width: 300 }}>
+      <Carousel orientation="vertical" height={400}>
+        <SlideBox color="#2050f6">Slide 1</SlideBox>
+        <SlideBox color="#7c3aed">Slide 2</SlideBox>
+        <SlideBox color="#db2777">Slide 3</SlideBox>
+        <SlideBox color="#059669">Slide 4</SlideBox>
+      </Carousel>
+    </div>
+  ),
+};

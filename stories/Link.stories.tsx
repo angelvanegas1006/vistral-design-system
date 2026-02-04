@@ -15,10 +15,10 @@ const meta: Meta<typeof Link> = {
 Based on Figma Design System: [Link Component](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=168-3309)
 
 ## Features
-- **3 Variants**: Default (blue), Muted (gray), Destructive (red)
+- **States**: Default, Hover, Focus, Disabled
 - **Underline Options**: Always, Hover, None
 - **External Links**: Auto-detected with icon option
-- **Disabled State**: Non-interactive appearance
+- **Sizes**: Small, Medium, Large, Inherit
         `,
       },
     },
@@ -35,12 +35,26 @@ export const Default: Story = {
   },
 };
 
-export const Variants: Story = {
+export const AllStates: Story = {
+  name: 'All States',
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <Link href="#" variant="default">Default Link</Link>
-      <Link href="#" variant="muted">Muted Link</Link>
-      <Link href="#" variant="destructive">Destructive Link</Link>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <div>
+        <p style={{ margin: '0 0 8px', fontSize: 12, color: '#71717a', fontWeight: 500 }}>DEFAULT</p>
+        <Link href="#">Default link</Link>
+      </div>
+      <div>
+        <p style={{ margin: '0 0 8px', fontSize: 12, color: '#71717a', fontWeight: 500 }}>HOVER (interact to see)</p>
+        <Link href="#">Hover over me</Link>
+      </div>
+      <div>
+        <p style={{ margin: '0 0 8px', fontSize: 12, color: '#71717a', fontWeight: 500 }}>FOCUS (tab to see)</p>
+        <Link href="#">Focus on me with keyboard</Link>
+      </div>
+      <div>
+        <p style={{ margin: '0 0 8px', fontSize: 12, color: '#71717a', fontWeight: 500 }}>DISABLED</p>
+        <Link href="#" disabled>Disabled link</Link>
+      </div>
     </div>
   ),
 };
@@ -113,10 +127,10 @@ export const Navigation: Story = {
       borderRadius: 8,
       border: '1px solid #e4e4e7',
     }}>
-      <Link href="#" variant="muted" underline="none">Home</Link>
-      <Link href="#" variant="muted" underline="none">Products</Link>
-      <Link href="#" variant="muted" underline="none">About</Link>
-      <Link href="#" variant="muted" underline="none">Contact</Link>
+      <Link href="#" underline="none" style={{ color: '#71717a' }}>Home</Link>
+      <Link href="#" underline="none" style={{ color: '#71717a' }}>Products</Link>
+      <Link href="#" underline="none" style={{ color: '#71717a' }}>About</Link>
+      <Link href="#" underline="none" style={{ color: '#71717a' }}>Contact</Link>
     </nav>
   ),
 };
@@ -135,25 +149,25 @@ export const Footer: Story = {
         <div>
           <h4 style={{ color: '#fff', margin: '0 0 12px', fontSize: 14, fontWeight: 600 }}>Company</h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <Link href="#" variant="muted" underline="hover" style={{ color: '#a1a1aa' }}>About</Link>
-            <Link href="#" variant="muted" underline="hover" style={{ color: '#a1a1aa' }}>Careers</Link>
-            <Link href="#" variant="muted" underline="hover" style={{ color: '#a1a1aa' }}>Blog</Link>
+            <Link href="#" underline="hover" style={{ color: '#a1a1aa' }}>About</Link>
+            <Link href="#" underline="hover" style={{ color: '#a1a1aa' }}>Careers</Link>
+            <Link href="#" underline="hover" style={{ color: '#a1a1aa' }}>Blog</Link>
           </div>
         </div>
         <div>
           <h4 style={{ color: '#fff', margin: '0 0 12px', fontSize: 14, fontWeight: 600 }}>Legal</h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <Link href="#" variant="muted" underline="hover" style={{ color: '#a1a1aa' }}>Privacy</Link>
-            <Link href="#" variant="muted" underline="hover" style={{ color: '#a1a1aa' }}>Terms</Link>
-            <Link href="#" variant="muted" underline="hover" style={{ color: '#a1a1aa' }}>Cookies</Link>
+            <Link href="#" underline="hover" style={{ color: '#a1a1aa' }}>Privacy</Link>
+            <Link href="#" underline="hover" style={{ color: '#a1a1aa' }}>Terms</Link>
+            <Link href="#" underline="hover" style={{ color: '#a1a1aa' }}>Cookies</Link>
           </div>
         </div>
         <div>
           <h4 style={{ color: '#fff', margin: '0 0 12px', fontSize: 14, fontWeight: 600 }}>Connect</h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <Link href="https://twitter.com" external variant="muted" style={{ color: '#a1a1aa' }}>Twitter</Link>
-            <Link href="https://github.com" external variant="muted" style={{ color: '#a1a1aa' }}>GitHub</Link>
-            <Link href="https://linkedin.com" external variant="muted" style={{ color: '#a1a1aa' }}>LinkedIn</Link>
+            <Link href="https://twitter.com" external style={{ color: '#a1a1aa' }}>Twitter</Link>
+            <Link href="https://github.com" external style={{ color: '#a1a1aa' }}>GitHub</Link>
+            <Link href="https://linkedin.com" external style={{ color: '#a1a1aa' }}>LinkedIn</Link>
           </div>
         </div>
       </div>
@@ -161,23 +175,5 @@ export const Footer: Story = {
         © 2024 Company Inc. All rights reserved.
       </div>
     </footer>
-  ),
-};
-
-export const DestructiveAction: Story = {
-  name: 'Destructive Action',
-  render: () => (
-    <div style={{ 
-      padding: 16,
-      backgroundColor: '#fff',
-      borderRadius: 8,
-      border: '1px solid #e4e4e7',
-    }}>
-      <h3 style={{ margin: '0 0 8px', fontSize: 16, fontWeight: 600 }}>Danger Zone</h3>
-      <p style={{ margin: '0 0 12px', fontSize: 14, color: '#71717a' }}>
-        Once you delete your account, there is no going back.
-      </p>
-      <Link href="#" variant="destructive">Delete my account</Link>
-    </div>
   ),
 };
