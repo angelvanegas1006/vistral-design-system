@@ -337,7 +337,7 @@ export const Multiple: StoryObj = {
   render: () => <MultipleToasts />,
 };
 
-const RealWorldExamples = () => {
+const RealWorldExamplesDemo = () => {
   const { toast } = useToast();
   
   return (
@@ -391,7 +391,7 @@ const RealWorldExamples = () => {
 
 export const RealWorldExamples: StoryObj = {
   name: 'Real World Examples',
-  render: () => <RealWorldExamples />,
+  render: () => <RealWorldExamplesDemo />,
 };
 
 const ToastStacking = () => {
