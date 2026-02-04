@@ -7,20 +7,21 @@ import { ChevronDown } from "lucide-react"
  * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=726-5492
  */
 const PHONE_INPUT_TOKENS = {
-  // Container
-  height: 40,
+  // Shared
+  height: 44,
   bg: '#ffffff',
   border: '#d4d4d8',
   borderFocus: '#2050f6',
   borderError: '#dc2626',
   radius: 8,
-  // Country selector
+  gap: 8, // Gap between two containers
+  // Country selector (separate container)
   country: {
-    width: 80,
-    paddingX: 8,
+    width: 90,
+    paddingX: 12,
     fontSize: 14,
   },
-  // Input
+  // Input (separate container)
   input: {
     paddingX: 12,
     fontSize: 14,
@@ -137,35 +138,48 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
       position: 'relative',
       display: 'flex',
       alignItems: 'stretch',
+      gap: PHONE_INPUT_TOKENS.gap,
+      opacity: disabled ? 0.5 : 1,
+      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    }
+
+    // Separate container for country selector
+    const countrySelectorStyle: React.CSSProperties = {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 6,
+      height: PHONE_INPUT_TOKENS.height,
+      padding: `0 ${PHONE_INPUT_TOKENS.country.paddingX}px`,
+      backgroundColor: PHONE_INPUT_TOKENS.bg,
+      border: `1px solid ${PHONE_INPUT_TOKENS.border}`,
+      borderRadius: PHONE_INPUT_TOKENS.radius,
+      cursor: disabled ? 'not-allowed' : 'pointer',
+      fontSize: PHONE_INPUT_TOKENS.country.fontSize,
+      transition: 'border-color 150ms ease',
+    }
+
+    // Separate container for phone input
+    const inputContainerStyle: React.CSSProperties = {
+      flex: 1,
+      display: 'flex',
+      alignItems: 'center',
       height: PHONE_INPUT_TOKENS.height,
       backgroundColor: PHONE_INPUT_TOKENS.bg,
       border: `1px solid ${getBorderColor()}`,
       borderRadius: PHONE_INPUT_TOKENS.radius,
-      overflow: 'hidden',
-      opacity: disabled ? 0.5 : 1,
       transition: 'border-color 150ms ease',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-    }
-
-    const countrySelectorStyle: React.CSSProperties = {
-      display: 'flex',
-      alignItems: 'center',
-      gap: 4,
-      padding: `0 ${PHONE_INPUT_TOKENS.country.paddingX}px`,
-      backgroundColor: '#fafafa',
-      borderRight: '1px solid #e4e4e7',
-      cursor: disabled ? 'not-allowed' : 'pointer',
-      fontSize: PHONE_INPUT_TOKENS.country.fontSize,
     }
 
     const inputStyle: React.CSSProperties = {
       flex: 1,
+      height: '100%',
       padding: `0 ${PHONE_INPUT_TOKENS.input.paddingX}px`,
       border: 'none',
       outline: 'none',
       fontSize: PHONE_INPUT_TOKENS.input.fontSize,
       backgroundColor: 'transparent',
       fontFamily: 'inherit',
+      borderRadius: PHONE_INPUT_TOKENS.radius,
     }
 
     const dropdownStyle: React.CSSProperties = {
@@ -209,46 +223,50 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
         )}
 
         <div ref={containerRef} style={containerStyle}>
-          {/* Country Selector */}
-          <div
-            style={countrySelectorStyle}
-            onClick={() => !disabled && setIsOpen(!isOpen)}
-          >
-            <span style={{ fontSize: 16 }}>{selectedCountry.flag}</span>
-            <span style={{ color: '#71717a' }}>{selectedCountry.dialCode}</span>
-            <ChevronDown size={14} style={{ color: '#71717a' }} />
+          {/* Country Selector - Separate Container */}
+          <div style={{ position: 'relative' }}>
+            <div
+              style={countrySelectorStyle}
+              onClick={() => !disabled && setIsOpen(!isOpen)}
+            >
+              <span style={{ fontSize: 18 }}>{selectedCountry.flag}</span>
+              <span style={{ color: '#18181b', fontWeight: 500 }}>{selectedCountry.dialCode}</span>
+              <ChevronDown size={16} style={{ color: '#71717a' }} />
+            </div>
+
+            {/* Country Dropdown */}
+            {isOpen && (
+              <div style={dropdownStyle}>
+                {countries.map((c) => (
+                  <div
+                    key={c.code}
+                    style={optionStyle(c.code === country)}
+                    onClick={() => handleCountrySelect(c)}
+                  >
+                    <span style={{ fontSize: 18 }}>{c.flag}</span>
+                    <span style={{ flex: 1 }}>{c.name}</span>
+                    <span style={{ color: '#71717a' }}>{c.dialCode}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Phone Input */}
-          <input
-            ref={ref}
-            type="tel"
-            value={value}
-            onChange={handleInputChange}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            disabled={disabled}
-            style={inputStyle}
-            placeholder="(555) 123-4567"
-            {...props}
-          />
-
-          {/* Country Dropdown */}
-          {isOpen && (
-            <div style={dropdownStyle}>
-              {countries.map((c) => (
-                <div
-                  key={c.code}
-                  style={optionStyle(c.code === country)}
-                  onClick={() => handleCountrySelect(c)}
-                >
-                  <span style={{ fontSize: 16 }}>{c.flag}</span>
-                  <span style={{ flex: 1 }}>{c.name}</span>
-                  <span style={{ color: '#71717a' }}>{c.dialCode}</span>
-                </div>
-              ))}
-            </div>
-          )}
+          {/* Phone Input - Separate Container */}
+          <div style={inputContainerStyle}>
+            <input
+              ref={ref}
+              type="tel"
+              value={value}
+              onChange={handleInputChange}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              disabled={disabled}
+              style={inputStyle}
+              placeholder="Phone number"
+              {...props}
+            />
+          </div>
         </div>
 
         {helperText && (

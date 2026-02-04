@@ -7,22 +7,25 @@ import type { LucideIcon } from "lucide-react"
  * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=4441-16447
  */
 const BOTTOM_NAV_TOKENS = {
-  // Container
-  height: 64,
-  bg: '#ffffff',
-  border: '#e4e4e7',
+  // Container - Apple style glassmorphism
+  height: 83, // iOS standard with safe area
+  paddingBottom: 19, // Safe area inset
+  bg: 'rgba(255, 255, 255, 0.72)', // Semi-transparent
+  bgBlur: 20, // Backdrop blur
+  border: 'rgba(0, 0, 0, 0.08)',
   // Item
   item: {
     minWidth: 64,
-    paddingY: 8,
+    paddingY: 6,
+    gap: 4,
     // Icon
     iconSize: 24,
-    iconColor: '#71717a',
-    iconColorActive: '#2050f6',
+    iconColor: '#8e8e93', // iOS gray
+    iconColorActive: '#2050f6', // Brand color
     // Label
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: 500,
-    labelColor: '#71717a',
+    labelColor: '#8e8e93',
     labelColorActive: '#2050f6',
     // Badge
     badgeSize: 18,
@@ -87,11 +90,14 @@ const BottomNav = forwardRef<HTMLElement, BottomNavProps>(
 
     const navStyle: React.CSSProperties = {
       display: 'flex',
-      alignItems: 'stretch',
+      alignItems: 'flex-start',
       justifyContent: 'space-around',
       height: BOTTOM_NAV_TOKENS.height,
+      paddingBottom: BOTTOM_NAV_TOKENS.paddingBottom,
       backgroundColor: BOTTOM_NAV_TOKENS.bg,
-      borderTop: `1px solid ${BOTTOM_NAV_TOKENS.border}`,
+      backdropFilter: `blur(${BOTTOM_NAV_TOKENS.bgBlur}px)`,
+      WebkitBackdropFilter: `blur(${BOTTOM_NAV_TOKENS.bgBlur}px)`, // Safari
+      borderTop: `0.5px solid ${BOTTOM_NAV_TOKENS.border}`,
       ...(fixed && {
         position: 'fixed',
         bottom: 0,
@@ -148,14 +154,16 @@ const BottomNavItem = forwardRef<HTMLButtonElement, BottomNavItemProps>(
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
       flex: 1,
       minWidth: BOTTOM_NAV_TOKENS.item.minWidth,
-      padding: `${BOTTOM_NAV_TOKENS.item.paddingY}px 0`,
+      paddingTop: BOTTOM_NAV_TOKENS.item.paddingY,
+      gap: BOTTOM_NAV_TOKENS.item.gap,
       backgroundColor: 'transparent',
       border: 'none',
       cursor: 'pointer',
       transition: 'all 150ms ease',
+      WebkitTapHighlightColor: 'transparent',
       ...style,
     }
 
@@ -164,7 +172,6 @@ const BottomNavItem = forwardRef<HTMLButtonElement, BottomNavItemProps>(
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      marginBottom: 4,
     }
 
     const iconStyle: React.CSSProperties = {
