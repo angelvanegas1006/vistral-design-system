@@ -3,15 +3,19 @@ import { forwardRef } from "react"
 
 /**
  * Footer Actions Design Tokens from Figma
- * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=2293-27937
+ * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=2293-28780
  */
 const FOOTER_ACTIONS_TOKENS = {
   // Container
   padding: 16,
   bg: '#ffffff',
   border: '#e4e4e7',
-  // Gap
+  // Gap (minimum 8px per Figma, but using 12px for better spacing)
   gap: 12,
+  // Mobile: buttons should be full-width
+  mobileGap: 8,
+  // Minimum button height for touch accessibility
+  minButtonHeight: 44,
 } as const
 
 export interface FooterActionsProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -21,10 +25,16 @@ export interface FooterActionsProps extends React.HTMLAttributes<HTMLDivElement>
   bordered?: boolean
   /** Alignment of actions */
   align?: 'left' | 'center' | 'right' | 'space-between'
-  /** Direction */
+  /** Direction: horizontal (desktop) or vertical/stacked (mobile) */
   direction?: 'horizontal' | 'vertical'
-  /** Gap between items */
+  /** Gap between items (defaults to 12px, minimum 8px per Figma) */
   gap?: number
+  /** Mobile variant: full-width stacked buttons */
+  mobile?: boolean
+  /** Role for accessibility */
+  role?: string
+  /** ARIA label */
+  'aria-label'?: string
 }
 
 const FooterActions = forwardRef<HTMLDivElement, FooterActionsProps>(
@@ -32,13 +42,24 @@ const FooterActions = forwardRef<HTMLDivElement, FooterActionsProps>(
     fixed = false,
     bordered = true,
     align = 'right',
-    direction = 'horizontal',
-    gap = FOOTER_ACTIONS_TOKENS.gap,
+    direction,
+    gap,
+    mobile = false,
+    role = 'region',
+    'aria-label': ariaLabel = 'Form Actions',
     style,
     children,
     ...props
   }, ref) => {
+    // Auto-detect mobile if direction is not explicitly set
+    const isMobile = mobile || direction === 'vertical'
+    const finalDirection = direction || (isMobile ? 'vertical' : 'horizontal')
+    const finalGap = gap ?? (isMobile ? FOOTER_ACTIONS_TOKENS.mobileGap : FOOTER_ACTIONS_TOKENS.gap)
+
     const getJustifyContent = () => {
+      if (finalDirection === 'vertical') {
+        return 'flex-start'
+      }
       switch (align) {
         case 'left': return 'flex-start'
         case 'center': return 'center'
@@ -50,10 +71,10 @@ const FooterActions = forwardRef<HTMLDivElement, FooterActionsProps>(
 
     const containerStyle: React.CSSProperties = {
       display: 'flex',
-      flexDirection: direction === 'vertical' ? 'column' : 'row',
-      alignItems: direction === 'vertical' ? 'stretch' : 'center',
-      justifyContent: direction === 'vertical' ? 'flex-start' : getJustifyContent(),
-      gap,
+      flexDirection: finalDirection === 'vertical' ? 'column' : 'row',
+      alignItems: finalDirection === 'vertical' ? 'stretch' : 'center',
+      justifyContent: getJustifyContent(),
+      gap: finalGap,
       padding: FOOTER_ACTIONS_TOKENS.padding,
       backgroundColor: FOOTER_ACTIONS_TOKENS.bg,
       borderTop: bordered ? `1px solid ${FOOTER_ACTIONS_TOKENS.border}` : 'none',
@@ -67,9 +88,29 @@ const FooterActions = forwardRef<HTMLDivElement, FooterActionsProps>(
       ...style,
     }
 
+    // Clone children to ensure buttons have minimum height in mobile
+    const childrenWithProps = React.Children.map(children, (child) => {
+      if (React.isValidElement(child) && isMobile) {
+        return React.cloneElement(child as React.ReactElement<any>, {
+          style: {
+            width: '100%',
+            minHeight: FOOTER_ACTIONS_TOKENS.minButtonHeight,
+            ...(child.props.style || {}),
+          },
+        })
+      }
+      return child
+    })
+
     return (
-      <div ref={ref} style={containerStyle} {...props}>
-        {children}
+      <div
+        ref={ref}
+        role={role}
+        aria-label={ariaLabel}
+        style={containerStyle}
+        {...props}
+      >
+        {childrenWithProps}
       </div>
     )
   }
