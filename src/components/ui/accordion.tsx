@@ -117,9 +117,7 @@ const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
     }
 
     const containerStyle: React.CSSProperties = {
-      border: `1px solid ${ACCORDION_TOKENS.border}`,
-      borderRadius: ACCORDION_TOKENS.radius,
-      overflow: 'hidden',
+      // No outer border, only dividers between items
       ...style,
     }
 

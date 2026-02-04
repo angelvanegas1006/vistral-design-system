@@ -10,7 +10,7 @@ const PIN_CODE_TOKENS = {
   cell: {
     size: 48,
     fontSize: 24,
-    fontWeight: 600,
+    fontWeight: 500, // Medium weight
     bg: '#ffffff',
     border: '#d4d4d8',
     borderFocus: '#2050f6',

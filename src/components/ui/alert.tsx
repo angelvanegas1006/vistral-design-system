@@ -51,7 +51,14 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
   dismissible?: boolean
   /** Callback when dismissed */
   onDismiss?: () => void
+  /** Action button text */
+  actionLabel?: string
+  /** Action button callback */
+  onAction?: () => void
 }
+
+// Context to pass variant color to children
+const AlertContext = React.createContext<{ fg: string } | null>(null)
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>(
   ({ 
@@ -59,6 +66,8 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(
     icon,
     dismissible = false,
     onDismiss,
+    actionLabel,
+    onAction,
     style, 
     children, 
     ...props 
@@ -88,11 +97,27 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(
       minWidth: 0,
     }
 
-    const dismissStyle: React.CSSProperties = {
+    const actionsStyle: React.CSSProperties = {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
       flexShrink: 0,
+    }
+
+    const actionButtonStyle: React.CSSProperties = {
+      padding: '6px 12px',
+      background: 'transparent',
+      border: 'none',
+      cursor: 'pointer',
+      color: tokens.fg,
+      fontSize: 14,
+      fontWeight: 500,
+      borderRadius: 6,
+      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    }
+
+    const dismissStyle: React.CSSProperties = {
       padding: 4,
-      marginTop: -4,
-      marginRight: -4,
       background: 'none',
       border: 'none',
       cursor: 'pointer',
@@ -105,20 +130,33 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(
     }
 
     return (
-      <div ref={ref} role="alert" style={alertStyle} {...props}>
-        {IconComponent && <IconComponent size={20} style={iconStyle} />}
-        <div style={contentStyle}>{children}</div>
-        {dismissible && (
-          <button 
-            type="button"
-            style={dismissStyle} 
-            onClick={onDismiss}
-            aria-label="Dismiss"
-          >
-            <X size={16} />
-          </button>
-        )}
-      </div>
+      <AlertContext.Provider value={{ fg: tokens.fg }}>
+        <div ref={ref} role="alert" style={alertStyle} {...props}>
+          {IconComponent && <IconComponent size={20} style={iconStyle} />}
+          <div style={contentStyle}>{children}</div>
+          <div style={actionsStyle}>
+            {actionLabel && (
+              <button 
+                type="button"
+                style={actionButtonStyle} 
+                onClick={onAction}
+              >
+                {actionLabel}
+              </button>
+            )}
+            {dismissible && (
+              <button 
+                type="button"
+                style={dismissStyle} 
+                onClick={onDismiss}
+                aria-label="Dismiss"
+              >
+                <X size={16} />
+              </button>
+            )}
+          </div>
+        </div>
+      </AlertContext.Provider>
     )
   }
 )
@@ -132,12 +170,14 @@ export interface AlertTitleProps extends React.HTMLAttributes<HTMLHeadingElement
 
 const AlertTitle = forwardRef<HTMLHeadingElement, AlertTitleProps>(
   ({ style, children, ...props }, ref) => {
+    const context = React.useContext(AlertContext)
+    
     const titleStyle: React.CSSProperties = {
       margin: 0,
       fontSize: 14,
       fontWeight: 600,
       lineHeight: 1.4,
-      color: '#18181b', // zinc-900
+      color: context?.fg || '#18181b', // Use variant color
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
       ...style,
     }
@@ -159,12 +199,14 @@ export interface AlertDescriptionProps extends React.HTMLAttributes<HTMLParagrap
 
 const AlertDescription = forwardRef<HTMLParagraphElement, AlertDescriptionProps>(
   ({ style, children, ...props }, ref) => {
+    const context = React.useContext(AlertContext)
+    
     const descStyle: React.CSSProperties = {
       margin: '4px 0 0 0',
       fontSize: 14,
       fontWeight: 400,
       lineHeight: 1.5,
-      color: '#3f3f46', // zinc-700
+      color: context?.fg || '#3f3f46', // Use variant color
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
       ...style,
     }

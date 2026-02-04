@@ -103,7 +103,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const labelStyle: React.CSSProperties = {
       fontSize: 14,
       fontWeight: 500,
-      color: disabled ? '#a1a1aa' : '#18181b',
+      color: disabled ? '#a1a1aa' : error ? '#ef4444' : '#18181b', // Red on error
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     }
 
@@ -250,7 +250,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const labelStyle: React.CSSProperties = {
       fontSize: 14,
       fontWeight: 500,
-      color: disabled ? '#a1a1aa' : '#18181b',
+      color: disabled ? '#a1a1aa' : error ? '#ef4444' : '#18181b', // Red on error
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     }
 

@@ -16,15 +16,11 @@ const AVATAR_TOKENS = {
     xl: { size: 64, fontSize: 20, iconSize: 32 },
     '2xl': { size: 96, fontSize: 28, iconSize: 48 },
   },
-  // Default colors for initials (based on name hash)
+  // Default colors for initials (based on name hash) - reduced palette
   colors: [
     { bg: '#dbeafe', fg: '#1d4ed8' },  // blue
     { bg: '#dcfce7', fg: '#15803d' },  // green
     { bg: '#fef3c7', fg: '#b45309' },  // amber
-    { bg: '#fee2e2', fg: '#b91c1c' },  // red
-    { bg: '#f3e8ff', fg: '#7c3aed' },  // violet
-    { bg: '#ecfeff', fg: '#0e7490' },  // cyan
-    { bg: '#fce7f3', fg: '#be185d' },  // pink
   ],
   // Fallback
   fallback: {
@@ -114,7 +110,7 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
       fontSize: sizeTokens.fontSize,
       fontWeight: 600,
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      overflow: 'hidden',
+      // No overflow:hidden to allow badge to show
       flexShrink: 0,
       ...style,
     }
@@ -123,6 +119,7 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
       width: '100%',
       height: '100%',
       objectFit: 'cover',
+      borderRadius: '50%', // Clip image with border-radius instead
     }
 
     const statusColors = {

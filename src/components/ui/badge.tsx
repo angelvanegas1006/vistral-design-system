@@ -27,7 +27,7 @@ const BADGE_TOKENS = {
     sm: { height: 18, fontSize: 10, paddingX: 6, dotSize: 6 },
     md: { height: 22, fontSize: 12, paddingX: 8, dotSize: 8 },
   },
-  radius: 9999, // Pill shape
+  radius: 6, // Not fully rounded, just subtle radius
 } as const
 
 type BadgeVariant = 'default' | 'primary' | 'brand' | 'error' | 'warning' | 'success'
