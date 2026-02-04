@@ -18,8 +18,8 @@ export type { BadgeProps, DotBadgeProps, BadgeContainerProps } from "./badge"
 // Form Components
 // ============================================================================
 
-export { Checkbox, CHECKBOX_TOKENS } from "./checkbox"
-export type { CheckboxProps } from "./checkbox"
+export { Checkbox, CheckboxGroup, CHECKBOX_TOKENS } from "./checkbox"
+export type { CheckboxProps, CheckboxGroupProps } from "./checkbox"
 
 export { Switch, SWITCH_TOKENS } from "./switch"
 export type { SwitchProps } from "./switch"
