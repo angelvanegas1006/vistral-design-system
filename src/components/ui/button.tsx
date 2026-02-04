@@ -5,7 +5,7 @@ import type { LucideIcon } from "lucide-react"
 
 /**
  * Button Design Tokens from Figma
- * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=101-2720
+ * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=4766-13519
  */
 const BUTTON_TOKENS = {
   // Colors
@@ -22,6 +22,17 @@ const BUTTON_TOKENS = {
     fg: '#162eb7',
     fgActive: '#182c90',
   },
+  outline: {
+    bg: 'transparent',
+    bgHover: '#eef4ff',
+    bgActive: '#cfe1ff',
+    border: '#2050f6',
+    borderHover: '#1337e2',
+    borderActive: '#162eb7',
+    fg: '#2050f6',
+    fgHover: '#1337e2',
+    fgActive: '#162eb7',
+  },
   ghost: {
     bg: 'transparent',
     bgHover: '#eef4ff',
@@ -35,15 +46,29 @@ const BUTTON_TOKENS = {
     bgActive: '#991b1b',
     fg: '#ffffff',
   },
+  'destructive-outline': {
+    bg: 'transparent',
+    bgHover: '#fee2e2',
+    bgActive: '#fecaca',
+    border: '#dc2626',
+    borderHover: '#b91c1c',
+    borderActive: '#991b1b',
+    fg: '#dc2626',
+    fgHover: '#b91c1c',
+    fgActive: '#991b1b',
+  },
   'destructive-ghost': {
     bg: 'transparent',
-    bgHover: '#f4f4f5',
-    bgActive: '#e4e4e7',
-    fg: '#b91c1c',
+    bgHover: '#fee2e2',
+    bgActive: '#fecaca',
+    fg: '#dc2626',
+    fgHover: '#b91c1c',
+    fgActive: '#991b1b',
   },
   disabled: {
     bg: '#e5e5e5',
     fg: '#737373',
+    border: '#d4d4d8',
   },
   // Sizes
   sizes: {
@@ -55,7 +80,7 @@ const BUTTON_TOKENS = {
   radius: 9999,
 } as const
 
-type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'destructive' | 'destructive-ghost'
+type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'destructive-outline' | 'destructive-ghost'
 type ButtonSize = 'sm' | 'md' | 'lg'
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -83,12 +108,15 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       onMouseLeave,
       onMouseDown,
       onMouseUp,
+      onFocus,
+      onBlur,
       ...props
     },
     ref
   ) => {
     const [isHovered, setIsHovered] = React.useState(false)
     const [isPressed, setIsPressed] = React.useState(false)
+    const [isFocused, setIsFocused] = React.useState(false)
 
     const isDisabled = disabled || isLoading
     const tokens = BUTTON_TOKENS[variant]
@@ -106,7 +134,31 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const getFgColor = () => {
       if (isDisabled) return BUTTON_TOKENS.disabled.fg
       if (isPressed && 'fgActive' in tokens) return (tokens as any).fgActive
+      if (isHovered && 'fgHover' in tokens) return (tokens as any).fgHover
       return tokens.fg
+    }
+
+    // Get border color based on state (for outline variants)
+    const getBorderColor = () => {
+      if (isDisabled && 'border' in BUTTON_TOKENS.disabled) return BUTTON_TOKENS.disabled.border
+      if (isPressed && 'borderActive' in tokens) return tokens.borderActive
+      if (isHovered && 'borderHover' in tokens) return tokens.borderHover
+      if ('border' in tokens) return tokens.border
+      return 'transparent'
+    }
+
+    // Get border width
+    const getBorderWidth = () => {
+      if ('border' in tokens) return '1px'
+      return 'none'
+    }
+
+    // Focus ring for accessibility
+    const getFocusRing = () => {
+      if (isFocused && !isDisabled) {
+        return '0 0 0 3px rgba(32, 80, 246, 0.2)'
+      }
+      return 'none'
     }
 
     const buttonStyle: React.CSSProperties = {
@@ -130,8 +182,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       backgroundColor: getBgColor(),
       color: getFgColor(),
       // Border
-      border: 'none',
+      border: getBorderWidth(),
+      borderColor: getBorderColor(),
       borderRadius: BUTTON_TOKENS.radius,
+      // Focus
+      outline: 'none',
+      boxShadow: getFocusRing(),
       // Cursor
       cursor: isDisabled ? 'not-allowed' : 'pointer',
       // Transition
@@ -167,6 +223,16 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       onMouseUp?.(e)
     }
 
+    const handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
+      setIsFocused(true)
+      onFocus?.(e)
+    }
+
+    const handleBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
+      setIsFocused(false)
+      onBlur?.(e)
+    }
+
     return (
       <button
         ref={ref}
@@ -176,6 +242,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         onMouseLeave={handleMouseLeave}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         {...props}
       >
         {isLoading ? (

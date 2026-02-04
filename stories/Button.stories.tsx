@@ -27,11 +27,12 @@ const meta: Meta<typeof Button> = {
 Based on Figma Design System: [Button Component](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=101-2720)
 
 ## Features
-- **5 Variants**: Primary, Secondary, Ghost, Destructive, Destructive-ghost
+- **7 Variants**: Primary, Secondary, Outline, Ghost, Destructive, Destructive-outline, Destructive-ghost
 - **3 Sizes**: Small (32px), Medium (40px), Large (48px)
 - **Pill Shape**: Fully rounded (border-radius: 9999px)
 - **Icon Support**: Left icon, right icon, or icon-only (circular)
 - **Loading State**: Built-in loading spinner
+- **Focus State**: Accessible focus ring
 
 ## Design Tokens
 | Token | Value |
@@ -48,7 +49,7 @@ Based on Figma Design System: [Button Component](https://www.figma.com/design/i0
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'ghost', 'destructive', 'destructive-ghost'],
+      options: ['primary', 'secondary', 'outline', 'ghost', 'destructive', 'destructive-outline', 'destructive-ghost'],
     },
     size: {
       control: 'select',
@@ -82,7 +83,7 @@ export const AllVariants: Story = {
         </h2>
         
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          {(['primary', 'secondary', 'ghost', 'destructive', 'destructive-ghost'] as const).map((variant) => (
+          {(['primary', 'secondary', 'outline', 'ghost', 'destructive', 'destructive-outline', 'destructive-ghost'] as const).map((variant) => (
             <div key={variant} style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
               <span style={{ width: 130, fontSize: 13, color: '#71717a', fontFamily: 'Inter, sans-serif' }}>
                 {variant}
@@ -104,7 +105,7 @@ export const AllVariants: Story = {
         </h2>
         
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          {(['primary', 'secondary', 'ghost', 'destructive', 'destructive-ghost'] as const).map((variant) => (
+          {(['primary', 'secondary', 'outline', 'ghost', 'destructive', 'destructive-outline', 'destructive-ghost'] as const).map((variant) => (
             <div key={variant} style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
               <span style={{ width: 130, fontSize: 13, color: '#a1a1aa', fontFamily: 'Inter, sans-serif' }}>
                 {variant}
@@ -150,8 +151,10 @@ export const WithIcons: Story = {
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
           <Button leftIcon={Search}>Search</Button>
           <Button leftIcon={Plus} variant="secondary">Add New</Button>
+          <Button leftIcon={Download} variant="outline">Download</Button>
           <Button leftIcon={Download} variant="ghost">Download</Button>
           <Button leftIcon={Trash2} variant="destructive">Delete</Button>
+          <Button leftIcon={Trash2} variant="destructive-outline">Delete</Button>
         </div>
       </div>
       
@@ -173,8 +176,10 @@ export const WithIcons: Story = {
         <div style={{ display: 'flex', gap: 12 }}>
           <Button iconOnly aria-label="Search"><Search size={18} /></Button>
           <Button iconOnly variant="secondary" aria-label="Add"><Plus size={18} /></Button>
+          <Button iconOnly variant="outline" aria-label="Edit"><Settings size={18} /></Button>
           <Button iconOnly variant="ghost" aria-label="Settings"><Settings size={18} /></Button>
           <Button iconOnly variant="destructive" aria-label="Delete"><Trash2 size={18} /></Button>
+          <Button iconOnly variant="destructive-outline" aria-label="Remove"><Trash2 size={18} /></Button>
           <Button iconOnly variant="destructive-ghost" aria-label="Remove"><Trash2 size={18} /></Button>
         </div>
       </div>
@@ -192,6 +197,7 @@ export const States: Story = {
         <div style={{ display: 'flex', gap: 12 }}>
           <Button isLoading>Saving...</Button>
           <Button isLoading variant="secondary">Loading...</Button>
+          <Button isLoading variant="outline">Loading...</Button>
           <Button isLoading variant="ghost">Please wait</Button>
           <Button isLoading variant="destructive">Deleting...</Button>
         </div>
@@ -204,8 +210,10 @@ export const States: Story = {
         <div style={{ display: 'flex', gap: 12 }}>
           <Button disabled>Primary</Button>
           <Button disabled variant="secondary">Secondary</Button>
+          <Button disabled variant="outline">Outline</Button>
           <Button disabled variant="ghost">Ghost</Button>
           <Button disabled variant="destructive">Destructive</Button>
+          <Button disabled variant="destructive-outline">Destructive Outline</Button>
         </div>
       </div>
     </div>
@@ -266,6 +274,40 @@ export const Examples: Story = {
         <div style={{ flex: 1 }} />
         <Button variant="ghost" iconOnly size="sm" aria-label="Settings"><Settings size={16} /></Button>
       </div>
+    </div>
+  ),
+};
+
+export const AllStates: Story = {
+  name: 'All States (Figma Reference)',
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 32, padding: 24, backgroundColor: '#f8fafc' }}>
+      {(['primary', 'secondary', 'outline', 'ghost', 'destructive', 'destructive-outline', 'destructive-ghost'] as const).map((variant) => (
+        <div key={variant} style={{ 
+          padding: 24, 
+          backgroundColor: '#ffffff', 
+          borderRadius: 12, 
+          border: '1px solid #e4e4e7' 
+        }}>
+          <h3 style={{ 
+            margin: '0 0 16px', 
+            fontSize: 16, 
+            fontWeight: 600, 
+            fontFamily: 'Inter, sans-serif',
+            textTransform: 'capitalize'
+          }}>
+            {variant.replace('-', ' ')}
+          </h3>
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+            <Button variant={variant}>Button</Button>
+            <Button variant={variant} leftIcon={Plus}>Button</Button>
+            <Button variant={variant} rightIcon={ChevronRight}>Button</Button>
+            <Button variant={variant} iconOnly aria-label="Icon"><Plus size={18} /></Button>
+            <Button variant={variant} isLoading>Loading</Button>
+            <Button variant={variant} disabled>Disabled</Button>
+          </div>
+        </div>
+      ))}
     </div>
   ),
 };
