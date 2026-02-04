@@ -10,7 +10,7 @@ function cn(...inputs: ClassValue[]) {
 
 /**
  * Select Design Tokens from Figma
- * Based on dropdown/select patterns in the design system
+ * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=212-4742
  */
 const SELECT_TOKENS = {
   // Trigger states
@@ -19,7 +19,7 @@ const SELECT_TOKENS = {
     border: '#d4d4d8',
     borderHover: '#a1a1aa',
     borderFocus: '#2050f6',
-    borderError: '#ef4444',
+    borderError: '#dc2626',
     fg: '#18181b',
     placeholder: '#a1a1aa',
     disabled: {
@@ -79,50 +79,97 @@ export interface SelectTriggerProps
   size?: 'sm' | 'md' | 'lg'
   /** Error state */
   error?: boolean
+  /** Label text */
+  label?: string
+  /** Helper text */
+  helperText?: string
+  /** Full width */
+  fullWidth?: boolean
 }
 
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   SelectTriggerProps
->(({ className, size = 'md', error = false, ...props }, ref) => {
+>(({ className, size = 'md', error = false, label, helperText, fullWidth, ...props }, ref) => {
   const sizeTokens = SELECT_TOKENS.sizes[size]
   
+  const triggerId = React.useId()
+  const helperId = helperText ? `select-helper-${triggerId}` : undefined
+
   return (
-    <SelectPrimitive.Trigger
-      ref={ref}
-      className={cn(
-        // Base styles
-        "flex w-full items-center justify-between rounded-lg border bg-white px-3 py-2 ring-offset-background",
-        "data-[placeholder]:text-[#A1A1AA] text-[#212121]",
-        "focus:outline-none focus:ring-2 focus:ring-[#2050F6] focus:ring-offset-2",
-        "disabled:cursor-not-allowed disabled:opacity-50",
-        "[&>span]:line-clamp-1",
-        // Size-based styles
-        size === 'sm' && `h-8 text-[13px] px-[10px]`,
-        size === 'md' && `h-10 text-[14px] px-3`,
-        size === 'lg' && `h-12 text-[16px] px-[14px]`,
-        // Border colors
-        error 
-          ? "border-[#ef4444] focus:border-[#ef4444] focus:ring-[#ef4444]"
-          : "border-[#d4d4d8] hover:border-[#a1a1aa] focus:border-[#2050f6]",
-        // Dark mode
-        "dark:bg-[#1a1a1a] dark:text-white",
-        className
+    <div style={{ width: fullWidth ? '100%' : 'auto' }}>
+      {label && (
+        <label 
+          htmlFor={triggerId}
+          style={{
+            display: 'block',
+            marginBottom: 6,
+            fontSize: 14,
+            fontWeight: 500,
+            color: props.disabled ? '#a1a1aa' : '#18181b',
+            fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+          }}
+        >
+          {label}
+        </label>
       )}
-      style={{
-        height: sizeTokens.height,
-        paddingLeft: sizeTokens.paddingX,
-        paddingRight: sizeTokens.paddingX,
-        fontSize: sizeTokens.fontSize,
-        ...props.style,
-      }}
-      {...props}
-    >
-      {props.children}
-      <SelectPrimitive.Icon asChild>
-        <ChevronDown className="h-4 w-4 opacity-50" />
-      </SelectPrimitive.Icon>
-    </SelectPrimitive.Trigger>
+      
+      <SelectPrimitive.Trigger
+        ref={ref}
+        id={triggerId}
+        className={cn(
+          // Base styles
+          "flex w-full items-center justify-between rounded-lg border bg-white ring-offset-background",
+          "data-[placeholder]:text-[#A1A1AA] text-[#18181B]",
+          "focus:outline-none focus:ring-2 focus:ring-[#2050F6] focus:ring-offset-2",
+          "disabled:cursor-not-allowed disabled:opacity-50",
+          "[&>span]:line-clamp-1",
+          // Icon rotation when open
+          "[&[data-state=open]>*:last-child>svg]:rotate-180",
+          // Size-based styles
+          size === 'sm' && `h-8 text-[13px] px-[10px]`,
+          size === 'md' && `h-10 text-[14px] px-3`,
+          size === 'lg' && `h-12 text-[16px] px-[14px]`,
+          // Border colors
+          error 
+            ? "border-[#dc2626] focus:border-[#dc2626] focus:ring-[#dc2626]"
+            : "border-[#d4d4d8] hover:border-[#a1a1aa] focus:border-[#2050f6]",
+          // Dark mode
+          "dark:bg-[#1a1a1a] dark:text-white",
+          className
+        )}
+        style={{
+          height: sizeTokens.height,
+          paddingLeft: sizeTokens.paddingX,
+          paddingRight: sizeTokens.paddingX,
+          fontSize: sizeTokens.fontSize,
+          ...props.style,
+        }}
+        aria-label={label || props['aria-label']}
+        aria-invalid={error}
+        aria-describedby={helperId}
+        {...props}
+      >
+        {props.children}
+        <SelectPrimitive.Icon asChild>
+          <ChevronDown className="h-4 w-4 opacity-50 transition-transform duration-200" />
+        </SelectPrimitive.Icon>
+      </SelectPrimitive.Trigger>
+      
+      {helperText && (
+        <p 
+          id={helperId}
+          style={{
+            margin: '6px 0 0',
+            fontSize: 12,
+            color: error ? '#dc2626' : '#71717a',
+            fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+          }}
+        >
+          {helperText}
+        </p>
+      )}
+    </div>
   )
 })
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName
@@ -276,6 +323,7 @@ const SelectItem = React.forwardRef<
         paddingRight: SELECT_TOKENS.option.paddingX,
         ...props.style,
       }}
+      role="option"
       {...props}
     >
       <span className="absolute left-2 flex h-4 w-4 items-center justify-center">
