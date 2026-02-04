@@ -14,6 +14,9 @@ export type { InputProps, TextareaProps } from "./input"
 export { Badge, DotBadge, BadgeContainer, BADGE_TOKENS } from "./badge"
 export type { BadgeProps, DotBadgeProps, BadgeContainerProps } from "./badge"
 
+export { Tag, TAG_TOKENS } from "./tag"
+export type { TagProps } from "./tag"
+
 // ============================================================================
 // Form Components
 // ============================================================================
