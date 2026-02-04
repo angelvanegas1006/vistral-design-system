@@ -36,22 +36,23 @@ type Story = StoryObj<typeof PropertyCard>;
 
 export const Default: Story = {
   render: () => (
-    <div style={{ width: 280 }}>
+    <div style={{ width: 380 }}>
       <PropertyCard
         image={DEMO_IMAGE}
         type="Apartment"
         title="Property in Navacerrada"
         status="available"
-        location="Madrid · Navacerrada"
+        location="Madrid, Spain"
+        category="Flat"
         bedrooms={2}
         bathrooms={1}
         area={85}
         price={90000}
         yieldPercent={6}
         infoRows={[
-          { label: 'Estimated rent', value: '650€' },
-          { label: 'Cashflow', value: '90.000€' },
-          { label: 'Furniture', value: 'T0034', hasInfo: true },
+          { label: 'Estimated rent', value: '650€/month' },
+          { label: 'Total investment', value: '113,100€' },
+          { label: 'Capital gain', value: '90.000€', hasInfo: true },
         ]}
       />
     </div>
@@ -61,77 +62,76 @@ export const Default: Story = {
 export const StatusManagement: Story = {
   name: 'Status Management',
   render: () => (
-    <div style={{ display: 'flex', gap: 16 }}>
-      <div style={{ width: 260 }}>
+    <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+      <div style={{ width: 320 }}>
         <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Available</p>
         <PropertyCard
           image={DEMO_IMAGE}
           type="Apartment"
-          title="Property in San Sebastián..."
+          title="Property in San Sebastián"
           status="available"
-          location="Madrid · Vallecas"
+          location="Madrid, Spain"
+          category="Flat"
           bedrooms={4}
           bathrooms={1}
           area={85}
           price={90000}
           yieldPercent={6}
           infoRows={[
-            { label: 'Estimated rent', value: '650€' },
-            { label: 'Cashflow', value: '90.000€' },
+            { label: 'Estimated rent', value: '650€/month' },
+            { label: 'Total investment', value: '113,100€' },
           ]}
         />
       </div>
-      <div style={{ width: 260 }}>
+      <div style={{ width: 320 }}>
         <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Reserved</p>
         <PropertyCard
           image={DEMO_IMAGE}
           type="Apartment"
-          title="Property in San Sebastián..."
+          title="Property in San Sebastián"
           status="reserved"
-          location="Madrid · Vallecas"
+          location="Madrid, Spain"
+          category="Flat"
           bedrooms={4}
           bathrooms={1}
           area={85}
           price={90000}
           yieldPercent={6}
           infoRows={[
-            { label: 'Estimated rent', value: '650€' },
-            { label: 'Cashflow', value: '90.000€' },
+            { label: 'Estimated rent', value: '650€/month' },
+            { label: 'Total investment', value: '113,100€' },
           ]}
         />
       </div>
-      <div style={{ width: 260 }}>
+      <div style={{ width: 320 }}>
         <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Sold</p>
         <PropertyCard
           image={DEMO_IMAGE}
           type="Apartment"
-          title="Property in San Sebastián..."
+          title="Property in San Sebastián"
           status="sold"
-          location="Madrid · Vallecas"
+          location="Madrid, Spain"
+          category="Flat"
           bedrooms={4}
           bathrooms={1}
           area={85}
           price={90000}
           yieldPercent={6}
           infoRows={[
-            { label: 'Estimated rent', value: '650€' },
-            { label: 'Cashflow', value: '90.000€' },
+            { label: 'Estimated rent', value: '650€/month' },
+            { label: 'Total investment', value: '113,100€' },
           ]}
         />
       </div>
-      <div style={{ width: 260 }}>
+      <div style={{ width: 320 }}>
         <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Coming Soon</p>
         <PropertyCard
           image={DEMO_IMAGE}
-          type="Apartment"
-          title="Property in San Sebastián..."
+          type="Project"
+          title="Property in San Sebastián"
           status="comingSoon"
-          location="Madrid · Vallecas"
-          bedrooms={4}
-          bathrooms={1}
-          area={85}
+          location="Madrid, Spain"
           price={90000}
-          yieldPercent={6}
         />
       </div>
     </div>
@@ -140,20 +140,21 @@ export const StatusManagement: Story = {
 
 export const Available: Story = {
   render: () => (
-    <div style={{ width: 280 }}>
+    <div style={{ width: 380 }}>
       <PropertyCard
         image={DEMO_IMAGE}
         type="Apartment"
         title="Modern Downtown Loft"
         status="available"
-        location="Barcelona · Downtown"
+        location="Barcelona, Spain"
+        category="Flat"
         bedrooms={3}
         bathrooms={2}
         area={120}
         price={185000}
         yieldPercent={7.2}
         infoRows={[
-          { label: 'Estimated rent', value: '1,200€' },
+          { label: 'Estimated rent', value: '1,200€/month' },
           { label: 'Total investment', value: '198,500€' },
           { label: 'Capital gain', value: '145.000€', hasInfo: true },
         ]}
@@ -164,20 +165,21 @@ export const Available: Story = {
 
 export const Reserved: Story = {
   render: () => (
-    <div style={{ width: 280 }}>
+    <div style={{ width: 380 }}>
       <PropertyCard
         image={DEMO_IMAGE}
         type="House"
         title="Beach House with Views"
         status="reserved"
-        location="Valencia · Beach"
+        location="Valencia, Spain"
+        category="House"
         bedrooms={4}
         bathrooms={3}
         area={180}
         price={320000}
         yieldPercent={5.8}
         infoRows={[
-          { label: 'Estimated rent', value: '2,100€' },
+          { label: 'Estimated rent', value: '2,100€/month' },
           { label: 'Total investment', value: '345,000€' },
         ]}
       />
@@ -187,13 +189,14 @@ export const Reserved: Story = {
 
 export const Sold: Story = {
   render: () => (
-    <div style={{ width: 280 }}>
+    <div style={{ width: 380 }}>
       <PropertyCard
         image={DEMO_IMAGE}
         type="Apartment"
         title="City Center Studio"
         status="sold"
-        location="Madrid · Centro"
+        location="Madrid, Spain"
+        category="Studio"
         bedrooms={1}
         bathrooms={1}
         area={45}
@@ -206,7 +209,7 @@ export const Sold: Story = {
 
 export const ComingSoon: Story = {
   render: () => (
-    <div style={{ width: 280 }}>
+    <div style={{ width: 380 }}>
       <PropertyCard
         image={DEMO_IMAGE}
         type="Project"

@@ -11,24 +11,24 @@ const PROPERTY_CARD_TOKENS = {
   card: {
     bg: '#ffffff',
     border: '#e4e4e7',
-    radius: 12,
+    radius: 16,
     shadow: '0 1px 3px rgba(0,0,0,0.08)',
     shadowHover: '0 8px 24px rgba(0,0,0,0.12)',
-    contentPadding: 16,
+    contentPadding: 20,
   },
   // Image - edge-to-edge, radius only on top
   image: {
-    height: 180,
-    radiusTop: 12,
+    height: 200,
+    radiusTop: 16,
   },
   // Type badge (on image)
   typeBadge: {
     bg: '#2050f6',
     fg: '#ffffff',
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: 600,
-    padding: '4px 8px',
-    radius: 6,
+    padding: '6px 14px',
+    radius: 20,
   },
   // Value added labels (on image)
   valueLabel: {
@@ -37,7 +37,7 @@ const PROPERTY_CARD_TOKENS = {
     newConstruction: { bg: '#7c3aed', fg: '#ffffff', label: 'New Construction' },
     highValue: { bg: '#059669', fg: '#ffffff', label: 'High Value' },
   },
-  // Status badge (on image, bottom)
+  // Status badge (inline with title)
   status: {
     available: { bg: '#dcfce7', fg: '#15803d', border: '#86efac', label: 'Available' },
     reserved: { bg: '#fef3c7', fg: '#b45309', border: '#fcd34d', label: 'Reserved' },
@@ -46,37 +46,47 @@ const PROPERTY_CARD_TOKENS = {
   },
   // Title
   title: {
-    fontSize: 14,
+    fontSize: 20,
     fontWeight: 600,
     color: '#18181b',
     lineHeight: 1.3,
   },
   // Location
   location: {
-    fontSize: 12,
+    fontSize: 14,
     color: '#71717a',
   },
-  // Feature row (beds, baths, m2)
-  features: {
-    fontSize: 12,
-    color: '#71717a',
+  // Feature pills
+  featurePill: {
+    height: 36,
+    paddingX: 14,
+    fontSize: 14,
+    fontWeight: 500,
+    color: '#3f3f46',
+    border: '#e4e4e7',
+    radius: 8,
     gap: 8,
   },
-  // Price section
+  // Price labels
+  priceLabel: {
+    fontSize: 14,
+    color: '#71717a',
+  },
+  // Price value
   priceValue: {
-    fontSize: 18,
+    fontSize: 28,
     fontWeight: 700,
     color: '#18181b',
   },
-  // Net yield - BLUE as per Figma
+  // Net yield - GREEN/TEAL as per Figma
   yieldValue: {
-    fontSize: 18,
+    fontSize: 28,
     fontWeight: 700,
-    color: '#2050f6', // Blue color per Figma
+    color: '#16a34a', // Green color per Figma
   },
   // Info rows
   infoRow: {
-    fontSize: 12,
+    fontSize: 16,
     labelColor: '#71717a',
     valueColor: '#18181b',
     valueWeight: 500,
@@ -235,11 +245,11 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
     
     const isSold = status === 'sold'
 
-    // Type badge (top left)
+    // Type badge (top left) - pill shape
     const typeBadgeStyle: React.CSSProperties = {
       position: 'absolute',
-      top: 8,
-      left: 8,
+      top: 12,
+      left: 12,
       padding: PROPERTY_CARD_TOKENS.typeBadge.padding,
       fontSize: PROPERTY_CARD_TOKENS.typeBadge.fontSize,
       fontWeight: PROPERTY_CARD_TOKENS.typeBadge.fontWeight,
@@ -253,8 +263,8 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
     const getValueLabelStyle = (label: ValueLabel): React.CSSProperties => {
       const tokens = PROPERTY_CARD_TOKENS.valueLabel[label]
       return {
-        padding: '4px 8px',
-        fontSize: 10,
+        padding: '4px 10px',
+        fontSize: 11,
         fontWeight: 600,
         backgroundColor: tokens.bg,
         color: tokens.fg,
@@ -262,40 +272,39 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
       }
     }
 
-    // Status badge (on image, bottom left)
+    // Status badge (inline with title)
     const getStatusStyle = (s: PropertyStatus): React.CSSProperties => {
       const tokens = PROPERTY_CARD_TOKENS.status[s]
       return {
-        position: 'absolute',
-        bottom: 8,
-        left: 8,
         display: 'inline-flex',
         alignItems: 'center',
-        padding: '4px 8px',
-        fontSize: 10,
+        padding: '4px 12px',
+        fontSize: 12,
         fontWeight: 600,
         backgroundColor: tokens.bg,
         color: tokens.fg,
-        borderRadius: 4,
-        zIndex: 2,
+        border: `1px solid ${tokens.border}`,
+        borderRadius: 6,
+        whiteSpace: 'nowrap',
       }
     }
 
     // Favorite button (top right)
     const favoriteButtonStyle: React.CSSProperties = {
       position: 'absolute',
-      top: 8,
-      right: 8,
-      width: 32,
-      height: 32,
+      top: 12,
+      right: 12,
+      width: 36,
+      height: 36,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+      backgroundColor: 'rgba(255, 255, 255, 0.95)',
       border: 'none',
       borderRadius: '50%',
       cursor: 'pointer',
       zIndex: 2,
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
     }
 
     // Content padding
@@ -303,17 +312,22 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
       padding: PROPERTY_CARD_TOKENS.card.contentPadding,
     }
 
-    // Features inline text style
-    const featuresStyle: React.CSSProperties = {
-      display: 'flex',
+    // Feature pill style
+    const featurePillStyle: React.CSSProperties = {
+      display: 'inline-flex',
       alignItems: 'center',
-      gap: PROPERTY_CARD_TOKENS.features.gap,
-      fontSize: PROPERTY_CARD_TOKENS.features.fontSize,
-      color: PROPERTY_CARD_TOKENS.features.color,
-      marginBottom: 12,
+      gap: PROPERTY_CARD_TOKENS.featurePill.gap,
+      height: PROPERTY_CARD_TOKENS.featurePill.height,
+      padding: `0 ${PROPERTY_CARD_TOKENS.featurePill.paddingX}px`,
+      fontSize: PROPERTY_CARD_TOKENS.featurePill.fontSize,
+      fontWeight: PROPERTY_CARD_TOKENS.featurePill.fontWeight,
+      color: PROPERTY_CARD_TOKENS.featurePill.color,
+      border: `1px solid ${PROPERTY_CARD_TOKENS.featurePill.border}`,
+      borderRadius: PROPERTY_CARD_TOKENS.featurePill.radius,
+      backgroundColor: '#ffffff',
     }
 
-    const hasFeatures = bedrooms !== undefined || bathrooms !== undefined || area !== undefined
+    const hasFeatures = category || bedrooms !== undefined || bathrooms !== undefined || area !== undefined
 
     return (
       <div
@@ -343,14 +357,14 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
           {/* Type badge (top left) */}
           {type && <span style={typeBadgeStyle}>{type}</span>}
 
-          {/* Value labels (top left, after type) */}
+          {/* Value labels (on image, after type badge) */}
           {valueLabels.length > 0 && (
             <div style={{ 
               position: 'absolute', 
-              top: 8, 
-              left: type ? 80 : 8, 
+              top: 12, 
+              left: type ? 110 : 12, 
               display: 'flex', 
-              gap: 4,
+              gap: 6,
               zIndex: 2,
             }}>
               {valueLabels.map((label) => (
@@ -364,91 +378,126 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
           {/* Favorite button (top right) */}
           <button type="button" style={favoriteButtonStyle} onClick={handleFavoriteClick}>
             <Heart 
-              size={16} 
+              size={18} 
               fill={favorite ? '#ef4444' : 'none'} 
               color={favorite ? '#ef4444' : '#71717a'} 
             />
           </button>
-
-          {/* Status badge (bottom left on image) */}
-          {status && (
-            <span style={getStatusStyle(status)}>
-              {PROPERTY_CARD_TOKENS.status[status].label}
-            </span>
-          )}
         </div>
 
         {/* Content section with padding */}
         <div style={contentStyle}>
-          {/* Title */}
-          <h3 style={{
-            margin: 0,
-            marginBottom: 2,
-            fontSize: PROPERTY_CARD_TOKENS.title.fontSize,
-            fontWeight: PROPERTY_CARD_TOKENS.title.fontWeight,
-            color: PROPERTY_CARD_TOKENS.title.color,
-            lineHeight: PROPERTY_CARD_TOKENS.title.lineHeight,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-          }}>
-            {title}
-          </h3>
+          {/* Title + Status inline */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 4 }}>
+            <h3 style={{
+              margin: 0,
+              fontSize: PROPERTY_CARD_TOKENS.title.fontSize,
+              fontWeight: PROPERTY_CARD_TOKENS.title.fontWeight,
+              color: PROPERTY_CARD_TOKENS.title.color,
+              lineHeight: PROPERTY_CARD_TOKENS.title.lineHeight,
+              flex: 1,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}>
+              {title}
+            </h3>
+            {status && <span style={getStatusStyle(status)}>{PROPERTY_CARD_TOKENS.status[status].label}</span>}
+          </div>
 
           {/* Location */}
           <div style={{
             fontSize: PROPERTY_CARD_TOKENS.location.fontSize,
             color: PROPERTY_CARD_TOKENS.location.color,
-            marginBottom: 8,
+            marginBottom: 16,
           }}>
             {location}
           </div>
 
-          {/* Features inline: beds · baths · m² */}
+          {/* Feature pills */}
           {hasFeatures && (
-            <div style={featuresStyle}>
-              {bedrooms !== undefined && <span>{bedrooms} Hab</span>}
-              {bedrooms !== undefined && bathrooms !== undefined && <span>·</span>}
-              {bathrooms !== undefined && <span>{bathrooms} Baños</span>}
-              {(bedrooms !== undefined || bathrooms !== undefined) && area !== undefined && <span>·</span>}
-              {area !== undefined && <span>{area} m²</span>}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20 }}>
+              {category && (
+                <span style={featurePillStyle}>
+                  <Home size={16} />
+                  {category}
+                </span>
+              )}
+              {bedrooms !== undefined && (
+                <span style={featurePillStyle}>
+                  <Bed size={16} />
+                  {bedrooms} beds
+                </span>
+              )}
+              {bathrooms !== undefined && (
+                <span style={featurePillStyle}>
+                  <Bath size={16} />
+                  {bathrooms} baths
+                </span>
+              )}
+              {area !== undefined && (
+                <span style={featurePillStyle}>
+                  <Maximize size={16} />
+                  {area} m²
+                </span>
+              )}
             </div>
           )}
 
-          {/* Price + Yield row */}
+          {/* Price section - two columns with labels */}
           <div style={{ 
             display: 'flex', 
-            alignItems: 'baseline',
-            gap: 8,
-            marginBottom: infoRows.length > 0 ? 12 : 0,
+            gap: 32, 
+            marginBottom: 20,
             opacity: isSold ? 0.5 : 1,
           }}>
-            <span style={{
-              fontSize: PROPERTY_CARD_TOKENS.priceValue.fontSize,
-              fontWeight: PROPERTY_CARD_TOKENS.priceValue.fontWeight,
-              color: isSold ? '#71717a' : PROPERTY_CARD_TOKENS.priceValue.color,
-            }}>
-              {formatPrice(price)} {currency}
-            </span>
-            {yieldPercent !== undefined && (
-              <span style={{
-                fontSize: PROPERTY_CARD_TOKENS.yieldValue.fontSize,
-                fontWeight: PROPERTY_CARD_TOKENS.yieldValue.fontWeight,
-                color: isSold ? '#71717a' : PROPERTY_CARD_TOKENS.yieldValue.color,
+            {/* Purchase price */}
+            <div style={{ flex: 1 }}>
+              <div style={{
+                fontSize: PROPERTY_CARD_TOKENS.priceLabel.fontSize,
+                color: PROPERTY_CARD_TOKENS.priceLabel.color,
+                marginBottom: 4,
               }}>
-                {yieldPercent} %
-              </span>
+                Purchase price
+              </div>
+              <div style={{
+                fontSize: PROPERTY_CARD_TOKENS.priceValue.fontSize,
+                fontWeight: PROPERTY_CARD_TOKENS.priceValue.fontWeight,
+                color: isSold ? '#71717a' : PROPERTY_CARD_TOKENS.priceValue.color,
+              }}>
+                {formatPrice(price)} {currency}
+              </div>
+            </div>
+
+            {/* Net yield */}
+            {yieldPercent !== undefined && (
+              <div>
+                <div style={{
+                  fontSize: PROPERTY_CARD_TOKENS.priceLabel.fontSize,
+                  color: PROPERTY_CARD_TOKENS.priceLabel.color,
+                  marginBottom: 4,
+                }}>
+                  Net yield
+                </div>
+                <div style={{
+                  fontSize: PROPERTY_CARD_TOKENS.yieldValue.fontSize,
+                  fontWeight: PROPERTY_CARD_TOKENS.yieldValue.fontWeight,
+                  color: isSold ? '#71717a' : PROPERTY_CARD_TOKENS.yieldValue.color,
+                }}>
+                  {yieldPercent} %
+                </div>
+              </div>
             )}
           </div>
 
-          {/* Info rows */}
+          {/* Separator + Info rows */}
           {infoRows.length > 0 && (
             <div style={{ 
+              borderTop: '1px solid #e4e4e7',
+              paddingTop: 16,
               display: 'flex', 
               flexDirection: 'column', 
-              gap: 6,
-              paddingTop: 12,
-              borderTop: '1px solid #f4f4f5',
+              gap: 16,
               opacity: isSold ? 0.5 : 1,
             }}>
               {infoRows.map((row, index) => (
@@ -465,10 +514,10 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
                     color: PROPERTY_CARD_TOKENS.infoRow.labelColor,
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 4,
+                    gap: 6,
                   }}>
                     {row.label}
-                    {row.hasInfo && <Info size={12} style={{ opacity: 0.5 }} />}
+                    {row.hasInfo && <Info size={16} style={{ opacity: 0.5 }} />}
                   </span>
                   <span style={{ 
                     color: isSold ? '#a1a1aa' : PROPERTY_CARD_TOKENS.infoRow.valueColor,
