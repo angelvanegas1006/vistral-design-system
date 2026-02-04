@@ -1,14 +1,16 @@
 import * as React from "react"
 import { forwardRef } from "react"
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react"
 
 /**
- * Table Design Tokens
+ * Table Design Tokens from Figma
+ * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=793-5651
  */
 const TABLE_TOKENS = {
   // Container
   bg: '#ffffff',
   border: '#e4e4e7',
-  radius: 12,
+  radius: 8,
   // Header
   header: {
     bg: '#fafafa',
@@ -30,6 +32,18 @@ const TABLE_TOKENS = {
     borderColor: '#e4e4e7',
     bgHover: '#fafafa',
     bgSelected: '#eef4ff',
+  },
+  // Pagination
+  pagination: {
+    fontSize: 14,
+    fg: '#18181b',
+    buttonSize: 32,
+    buttonRadius: 6,
+    buttonBg: 'transparent',
+    buttonBgHover: '#f4f4f5',
+    buttonFg: '#71717a',
+    buttonFgActive: '#2050f6',
+    buttonFgDisabled: '#d4d4d8',
   },
 } as const
 
@@ -275,6 +289,174 @@ const TableCaption = forwardRef<HTMLTableCaptionElement, TableCaptionProps>(
 
 TableCaption.displayName = "TableCaption"
 
+// ============================================================================
+// Table Pagination
+// ============================================================================
+export interface TablePaginationProps {
+  /** Current page (1-indexed) */
+  page: number
+  /** Total number of items */
+  total: number
+  /** Items per page */
+  rowsPerPage: number
+  /** Available rows per page options */
+  rowsPerPageOptions?: number[]
+  /** Callback when page changes */
+  onPageChange: (page: number) => void
+  /** Callback when rows per page changes */
+  onRowsPerPageChange?: (rowsPerPage: number) => void
+}
+
+const TablePagination = ({
+  page,
+  total,
+  rowsPerPage,
+  rowsPerPageOptions = [10, 25, 50, 100],
+  onPageChange,
+  onRowsPerPageChange,
+}: TablePaginationProps) => {
+  const totalPages = Math.ceil(total / rowsPerPage)
+  const start = (page - 1) * rowsPerPage + 1
+  const end = Math.min(page * rowsPerPage, total)
+
+  const handleFirstPage = () => {
+    if (page > 1) onPageChange(1)
+  }
+
+  const handlePrevPage = () => {
+    if (page > 1) onPageChange(page - 1)
+  }
+
+  const handleNextPage = () => {
+    if (page < totalPages) onPageChange(page + 1)
+  }
+
+  const handleLastPage = () => {
+    if (page < totalPages) onPageChange(totalPages)
+  }
+
+  const containerStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: '12px 16px',
+    borderTop: `1px solid ${TABLE_TOKENS.border}`,
+    backgroundColor: TABLE_TOKENS.bg,
+    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+  }
+
+  const leftSectionStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+  }
+
+  const labelStyle: React.CSSProperties = {
+    fontSize: TABLE_TOKENS.pagination.fontSize,
+    color: TABLE_TOKENS.pagination.fg,
+    whiteSpace: 'nowrap',
+  }
+
+  const selectStyle: React.CSSProperties = {
+    padding: '4px 8px',
+    fontSize: TABLE_TOKENS.pagination.fontSize,
+    color: TABLE_TOKENS.pagination.fg,
+    border: `1px solid ${TABLE_TOKENS.border}`,
+    borderRadius: 6,
+    backgroundColor: TABLE_TOKENS.bg,
+    cursor: 'pointer',
+  }
+
+  const statusStyle: React.CSSProperties = {
+    fontSize: TABLE_TOKENS.pagination.fontSize,
+    color: TABLE_TOKENS.pagination.fg,
+    marginLeft: 16,
+  }
+
+  const buttonStyle = (disabled: boolean, active: boolean = false): React.CSSProperties => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: TABLE_TOKENS.pagination.buttonSize,
+    height: TABLE_TOKENS.pagination.buttonSize,
+    borderRadius: TABLE_TOKENS.pagination.buttonRadius,
+    backgroundColor: TABLE_TOKENS.pagination.buttonBg,
+    border: 'none',
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    color: disabled 
+      ? TABLE_TOKENS.pagination.buttonFgDisabled 
+      : active 
+        ? TABLE_TOKENS.pagination.buttonFgActive 
+        : TABLE_TOKENS.pagination.buttonFg,
+    transition: 'all 150ms ease',
+  })
+
+  return (
+    <div style={containerStyle}>
+      <div style={leftSectionStyle}>
+        <span style={labelStyle}>Rows per page</span>
+        {onRowsPerPageChange && (
+          <select
+            value={rowsPerPage}
+            onChange={(e) => onRowsPerPageChange(Number(e.target.value))}
+            style={selectStyle}
+          >
+            {rowsPerPageOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        )}
+        <span style={statusStyle}>
+          {start}-{end} of {total}
+        </span>
+      </div>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+        <button
+          type="button"
+          style={buttonStyle(page === 1)}
+          onClick={handleFirstPage}
+          disabled={page === 1}
+          aria-label="First page"
+        >
+          <ChevronsLeft size={16} />
+        </button>
+        <button
+          type="button"
+          style={buttonStyle(page === 1)}
+          onClick={handlePrevPage}
+          disabled={page === 1}
+          aria-label="Previous page"
+        >
+          <ChevronLeft size={16} />
+        </button>
+        <button
+          type="button"
+          style={buttonStyle(page === totalPages)}
+          onClick={handleNextPage}
+          disabled={page === totalPages}
+          aria-label="Next page"
+        >
+          <ChevronRight size={16} />
+        </button>
+        <button
+          type="button"
+          style={buttonStyle(page === totalPages)}
+          onClick={handleLastPage}
+          disabled={page === totalPages}
+          aria-label="Last page"
+        >
+          <ChevronsRight size={16} />
+        </button>
+      </div>
+    </div>
+  )
+}
+
+TablePagination.displayName = "TablePagination"
+
 export {
   Table,
   TableHeader,
@@ -284,5 +466,6 @@ export {
   TableCell,
   TableFooter,
   TableCaption,
+  TablePagination,
   TABLE_TOKENS,
 }

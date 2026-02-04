@@ -153,8 +153,8 @@ export type { DataBlockProps, DataBlockGridProps } from "./data-block"
 // Data Display Components
 // ============================================================================
 
-export { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableFooter, TableCaption, TABLE_TOKENS } from "./table"
-export type { TableProps, TableHeaderProps, TableBodyProps, TableRowProps, TableHeadProps, TableCellProps, TableFooterProps, TableCaptionProps } from "./table"
+export { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableFooter, TableCaption, TablePagination, TABLE_TOKENS } from "./table"
+export type { TableProps, TableHeaderProps, TableBodyProps, TableRowProps, TableHeadProps, TableCellProps, TableFooterProps, TableCaptionProps, TablePaginationProps } from "./table"
 
 export { Pagination, PaginationButton, PaginationEllipsis, FullPagination, PAGINATION_TOKENS } from "./pagination"
 export type { PaginationProps, PaginationButtonProps, FullPaginationProps } from "./pagination"

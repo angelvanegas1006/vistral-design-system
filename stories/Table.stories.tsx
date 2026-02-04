@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import {
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableCaption,
+  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableCaption, TablePagination,
 } from '../src/components/ui/table';
 import { Badge } from '../src/components/ui/badge';
 import { Avatar } from '../src/components/ui/avatar';
@@ -19,13 +19,16 @@ const meta: Meta<typeof Table> = {
         component: `
 # Table
 
-Data table component.
+Data table component matching Figma design.
+
+Based on Figma: [Table](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=793-5651)
 
 ## Features
 - **Header**: Column headers with sorting
-- **Body**: Data rows
-- **Selection**: Row selection
+- **Body**: Data rows with selection
+- **Pagination**: Rows per page + navigation
 - **Actions**: Row actions
+- **Responsive**: Adapts to different column counts
         `,
       },
     },
@@ -42,6 +45,14 @@ const users = [
   { id: 4, name: 'David Lee', email: 'david@example.com', role: 'Editor', status: 'Active' },
   { id: 5, name: 'Emma Wilson', email: 'emma@example.com', role: 'Viewer', status: 'Pending' },
 ];
+
+const allUsers = Array.from({ length: 13 }, (_, i) => ({
+  id: i + 1,
+  name: `User ${i + 1}`,
+  email: `user${i + 1}@example.com`,
+  role: ['Admin', 'Editor', 'Viewer'][i % 3],
+  status: ['Active', 'Inactive', 'Pending'][i % 3],
+}));
 
 export const Default: Story = {
   render: () => (
@@ -290,6 +301,338 @@ export const Sortable: Story = {
           </TableBody>
           <TableCaption>A list of {users.length} team members</TableCaption>
         </Table>
+      </div>
+    );
+  },
+};
+
+export const WithPagination: Story = {
+  name: 'With Pagination',
+  render: () => {
+    const [page, setPage] = React.useState(1);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    
+    const startIndex = (page - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    const paginatedUsers = allUsers.slice(startIndex, endIndex);
+
+    return (
+      <div style={{ width: 700 }}>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>ID</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Role</TableHead>
+              <TableHead>Status</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {paginatedUsers.map((user) => (
+              <TableRow key={user.id}>
+                <TableCell>{user.id}</TableCell>
+                <TableCell style={{ fontWeight: 500 }}>{user.name}</TableCell>
+                <TableCell style={{ color: '#71717a' }}>{user.email}</TableCell>
+                <TableCell>{user.role}</TableCell>
+                <TableCell>
+                  <Badge variant={user.status === 'Active' ? 'success' : 'secondary'}>
+                    {user.status}
+                  </Badge>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <TablePagination
+          page={page}
+          total={allUsers.length}
+          rowsPerPage={rowsPerPage}
+          onPageChange={setPage}
+          onRowsPerPageChange={setRowsPerPage}
+        />
+      </div>
+    );
+  },
+};
+
+export const ColumnVariations: Story = {
+  name: 'Column Variations (Figma Reference)',
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, padding: 24, backgroundColor: '#f8fafc' }}>
+      {/* 2 Columns */}
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>2 Columns</p>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {[1, 2, 3].map((i) => (
+              <TableRow key={i}>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* 3 Columns */}
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>3 Columns</p>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {[1, 2, 3].map((i) => (
+              <TableRow key={i}>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* 4 Columns */}
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>4 Columns</p>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {[1, 2, 3].map((i) => (
+              <TableRow key={i}>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* 5 Columns */}
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>5 Columns</p>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {[1, 2, 3].map((i) => (
+              <TableRow key={i}>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* 6 Columns */}
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>6 Columns</p>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {[1, 2, 3].map((i) => (
+              <TableRow key={i}>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* 7 Columns */}
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>7 Columns</p>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {[1, 2, 3].map((i) => (
+              <TableRow key={i}>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* 8 Columns */}
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>8 Columns</p>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+              <TableHead>Header</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {[1, 2, 3].map((i) => (
+              <TableRow key={i}>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+                <TableCell>Data {i}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  ),
+};
+
+export const FullExample: Story = {
+  name: 'Full Example with Pagination',
+  render: () => {
+    const [page, setPage] = React.useState(1);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [selected, setSelected] = React.useState<number[]>([]);
+    
+    const startIndex = (page - 1) * rowsPerPage;
+    const endIndex = startIndex + rowsPerPage;
+    const paginatedUsers = allUsers.slice(startIndex, endIndex);
+
+    const toggleAll = () => {
+      if (selected.length === paginatedUsers.length) {
+        setSelected([]);
+      } else {
+        setSelected(paginatedUsers.map(u => u.id));
+      }
+    };
+    
+    const toggleOne = (id: number) => {
+      if (selected.includes(id)) {
+        setSelected(selected.filter(s => s !== id));
+      } else {
+        setSelected([...selected, id]);
+      }
+    };
+
+    return (
+      <div style={{ width: 800 }}>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead style={{ width: 40 }}>
+                <Checkbox 
+                  checked={selected.length === paginatedUsers.length && paginatedUsers.length > 0}
+                  indeterminate={selected.length > 0 && selected.length < paginatedUsers.length}
+                  onChange={toggleAll}
+                />
+              </TableHead>
+              <TableHead>ID</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>Email</TableHead>
+              <TableHead>Role</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead style={{ width: 60 }}></TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {paginatedUsers.map((user) => (
+              <TableRow key={user.id} selected={selected.includes(user.id)}>
+                <TableCell>
+                  <Checkbox 
+                    checked={selected.includes(user.id)}
+                    onChange={() => toggleOne(user.id)}
+                  />
+                </TableCell>
+                <TableCell>{user.id}</TableCell>
+                <TableCell style={{ fontWeight: 500 }}>{user.name}</TableCell>
+                <TableCell style={{ color: '#71717a' }}>{user.email}</TableCell>
+                <TableCell>{user.role}</TableCell>
+                <TableCell>
+                  <Badge variant={user.status === 'Active' ? 'success' : 'secondary'}>
+                    {user.status}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <Button variant="ghost" iconOnly size="sm">
+                    <MoreHorizontal size={16} />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <TablePagination
+          page={page}
+          total={allUsers.length}
+          rowsPerPage={rowsPerPage}
+          onPageChange={setPage}
+          onRowsPerPageChange={setRowsPerPage}
+        />
       </div>
     );
   },
