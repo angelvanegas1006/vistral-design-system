@@ -134,76 +134,152 @@
      COLOR TOKENS (from Figma Design System)
      ======================================== */
   
-  /* Spaceblue Brand Colors */
-  --vistral-spaceblue-50: #eef4ff;
-  --vistral-spaceblue-100: #d9e7ff;
-  --vistral-spaceblue-200: #cfe1ff;
-  --vistral-spaceblue-600: #2050f6;
-  --vistral-spaceblue-700: #1337e2;
-  --vistral-spaceblue-800: #162eb7;
-  --vistral-spaceblue-900: #182c90;
+  /* Primary Color Palette */
+  --vistral-primary-default-bg: #2050F6;
+  --vistral-primary-default-text: #FFFFFF;
+  --vistral-primary-hover-bg: #3062F8;
+  --vistral-primary-hover-text: #FFFFFF;
+  --vistral-primary-active-bg: #1C328E;
+  --vistral-primary-active-text: #FFFFFF;
+  --vistral-primary-focused-bg: #2050F6;
+  --vistral-primary-focused-text: #FFFFFF;
+  --vistral-primary-disabled-bg: #6F88E1;
+  --vistral-primary-disabled-text: #E5E7EB;
   
-  /* Primary Colors (using Spaceblue) */
-  --vistral-color-primary-50: var(--vistral-spaceblue-50);
-  --vistral-color-primary-100: var(--vistral-spaceblue-100);
-  --vistral-color-primary-200: var(--vistral-spaceblue-200);
-  --vistral-color-primary-500: var(--vistral-spaceblue-600);
-  --vistral-color-primary-600: var(--vistral-spaceblue-600);
-  --vistral-color-primary-700: var(--vistral-spaceblue-700);
-  --vistral-color-primary-800: var(--vistral-spaceblue-800);
-  --vistral-color-primary-900: var(--vistral-spaceblue-900);
+  --vistral-secondary-default-bg: #EDF0FD;
+  --vistral-secondary-default-text: #2050F6;
+  --vistral-secondary-hover-bg: #E0E4F9;
+  --vistral-secondary-hover-text: #2050F6;
+  --vistral-secondary-active-bg: #C8CDEE;
+  --vistral-secondary-active-text: #1C328E;
+  --vistral-secondary-focused-bg: #EDF0FD;
+  --vistral-secondary-focused-text: #2050F6;
+  --vistral-secondary-disabled-bg: #F4F6FB;
+  --vistral-secondary-disabled-text: #6F88E1;
   
-  /* Semantic Colors */
-  --vistral-color-success: #10b981;
-  --vistral-color-success-hover: #059669;
-  --vistral-color-warning: #f59e0b;
-  --vistral-color-warning-hover: #d97706;
-  --vistral-color-error: #ef4444;
-  --vistral-color-error-hover: #dc2626;
-  --vistral-color-info: #3b82f6;
-  --vistral-color-info-hover: #2563eb;
+  --vistral-ghost-default-bg: #FFFFFF;
+  --vistral-ghost-default-text: #18181B;
+  --vistral-ghost-hover-bg: #F8F8FA;
+  --vistral-ghost-hover-text: #18181B;
+  --vistral-ghost-active-bg: #F0F0F2;
+  --vistral-ghost-active-text: #0A0A0B;
+  --vistral-ghost-focused-bg: #FFFFFF;
+  --vistral-ghost-focused-text: #18181B;
+  --vistral-ghost-disabled-bg: #FFFFFF;
+  --vistral-ghost-disabled-text: #A1A1AA;
   
-  /* Neutral Grays */
-  --vistral-gray-50: #f9fafb;
-  --vistral-gray-100: #f3f4f6;
-  --vistral-gray-200: #e5e7eb;
-  --vistral-gray-300: #d1d5db;
-  --vistral-gray-400: #9ca3af;
-  --vistral-gray-500: #6b7280;
-  --vistral-gray-600: #4b5563;
-  --vistral-gray-700: #374151;
-  --vistral-gray-800: #1f2937;
-  --vistral-gray-900: #111827;
-  --vistral-gray-950: #030712;
+  /* Semantic Colors - Status */
+  --vistral-semantic-status-success: #23A06B;
+  --vistral-semantic-status-warning: #E9B134;
+  --vistral-semantic-status-error: #E0312F;
+  --vistral-semantic-status-info: #4F73F5;
+  --vistral-semantic-status-default: #666675;
+  --vistral-semantic-status-disabled: #C0C0C9;
   
-  /* Zinc (used in components) */
-  --vistral-zinc-50: #fafafa;
-  --vistral-zinc-100: #f4f4f5;
-  --vistral-zinc-200: #e4e4e7;
-  --vistral-zinc-300: #d4d4d8;
-  --vistral-zinc-400: #a1a1aa;
-  --vistral-zinc-500: #71717a;
-  --vistral-zinc-600: #52525b;
-  --vistral-zinc-700: #3f3f46;
-  --vistral-zinc-800: #27272a;
-  --vistral-zinc-900: #18181b;
+  /* Semantic Colors - Backgrounds */
+  --vistral-semantic-bg-default: #ffffff;
+  --vistral-semantic-bg-subtle: #fafafa;
+  --vistral-semantic-bg-muted: #f4f4f5;
+  --vistral-semantic-bg-selected: #eef4ff;
+  --vistral-semantic-bg-disabled: #f5f5f5;
+  --vistral-semantic-bg-brand: #2050f6;
+  --vistral-semantic-bg-brand-subtle: #eef4ff;
+  --vistral-semantic-bg-success: #dcfce7;
+  --vistral-semantic-bg-success-subtle: #f0fdf4;
+  --vistral-semantic-bg-error: #fee2e2;
+  --vistral-semantic-bg-error-subtle: #fef2f2;
+  --vistral-semantic-bg-warning: #ffedd5;
+  --vistral-semantic-bg-warning-subtle: #fffbeb;
+  --vistral-semantic-bg-info: #eef4ff;
+  --vistral-semantic-bg-info-subtle: #eff6ff;
   
-  /* Background Colors */
-  --vistral-bg-default: #ffffff;
-  --vistral-bg-elevated: #f4f4f5;
-  --vistral-bg-card: #ffffff;
+  /* Semantic Colors - Text */
+  --vistral-semantic-text-primary: #18181b;
+  --vistral-semantic-text-secondary: #71717a;
+  --vistral-semantic-text-muted: #a1a1aa;
+  --vistral-semantic-text-disabled: #a1a1aa;
+  --vistral-semantic-text-brand: #2050f6;
+  --vistral-semantic-text-success: #23A06B;
+  --vistral-semantic-text-error: #E0312F;
+  --vistral-semantic-text-warning: #E9B134;
+  --vistral-semantic-text-info: #4F73F5;
   
-  /* Text Colors */
-  --vistral-text-primary: #18181b;
-  --vistral-text-secondary: #71717a;
-  --vistral-text-tertiary: #a1a1aa;
-  --vistral-text-disabled: #d4d4d8;
+  /* Semantic Colors - Icons */
+  --vistral-semantic-icon-primary: #18181b;
+  --vistral-semantic-icon-secondary: #71717a;
+  --vistral-semantic-icon-muted: #a1a1aa;
+  --vistral-semantic-icon-disabled: #a1a1aa;
+  --vistral-semantic-icon-brand: #2050f6;
+  --vistral-semantic-icon-success: #23A06B;
+  --vistral-semantic-icon-error: #E0312F;
+  --vistral-semantic-icon-warning: #E9B134;
+  --vistral-semantic-icon-info: #4F73F5;
   
-  /* Border Colors */
-  --vistral-border-default: #d4d4d8;
-  --vistral-border-hover: #a1a1aa;
-  --vistral-border-focus: #2050f6;
-  --vistral-border-error: #ef4444;
+  /* Semantic Colors - Borders */
+  --vistral-semantic-border-default: #e5e7eb;
+  --vistral-semantic-border-subtle: #f3f4f6;
+  --vistral-semantic-border-muted: #e4e4e7;
+  --vistral-semantic-border-active: #2050f6;
+  --vistral-semantic-border-disabled: #f4f6fb;
+  --vistral-semantic-border-brand: #2050f6;
+  --vistral-semantic-border-success: #23A06B;
+  --vistral-semantic-border-error: #E0312F;
+  --vistral-semantic-border-warning: #E9B134;
+  --vistral-semantic-border-info: #4F73F5;
+  
+  /* Semantic Colors - Interactive */
+  --vistral-semantic-interactive-brand-default: #2050f6;
+  --vistral-semantic-interactive-brand-hover: #3062F8;
+  --vistral-semantic-interactive-brand-pressed: #1C328E;
+  --vistral-semantic-interactive-danger-default: #E0312F;
+  --vistral-semantic-interactive-danger-hover: #dc2626;
+  --vistral-semantic-interactive-danger-pressed: #b91c1c;
+  --vistral-semantic-interactive-success-default: #23A06B;
+  --vistral-semantic-interactive-success-hover: #16a34a;
+  --vistral-semantic-interactive-success-pressed: #15803d;
+  --vistral-semantic-interactive-warning-default: #E9B134;
+  --vistral-semantic-interactive-warning-hover: #f59e0b;
+  --vistral-semantic-interactive-warning-pressed: #d97706;
+  --vistral-semantic-interactive-neutral-default: #666675;
+  --vistral-semantic-interactive-neutral-hover: #52525b;
+  --vistral-semantic-interactive-neutral-pressed: #3f3f46;
+  --vistral-semantic-interactive-disabled: #C0C0C9;
+  
+  /* Component Colors - Links */
+  --vistral-component-link-default: #2050F6;
+  --vistral-component-link-hover: #3062F8;
+  --vistral-component-link-active: #1C328E;
+  --vistral-component-link-focused: #2050F6;
+  
+  /* Component Colors - Borders */
+  --vistral-component-border-default: #E5E7EB;
+  --vistral-component-border-brand: #2050F6;
+  --vistral-component-border-error: #E0312F;
+  --vistral-component-border-warning: #E9B134;
+  --vistral-component-border-success: #23A06B;
+  --vistral-component-border-focused: #2050F6;
+  --vistral-component-border-disabled: #F4F6FB;
+  
+  /* Component Colors - Icons */
+  --vistral-component-icon-default: #666675;
+  --vistral-component-icon-brand: #2050F6;
+  --vistral-component-icon-error: #E0312F;
+  --vistral-component-icon-warning: #E9B134;
+  --vistral-component-icon-success: #23A06B;
+  --vistral-component-icon-disabled: #C0C0C9;
+  
+  /* Legacy/Compatibility Colors (for backward compatibility) */
+  --vistral-bg-default: var(--vistral-semantic-bg-default);
+  --vistral-bg-elevated: var(--vistral-semantic-bg-muted);
+  --vistral-bg-card: var(--vistral-semantic-bg-default);
+  --vistral-text-primary: var(--vistral-semantic-text-primary);
+  --vistral-text-secondary: var(--vistral-semantic-text-secondary);
+  --vistral-text-tertiary: var(--vistral-semantic-text-muted);
+  --vistral-text-disabled: var(--vistral-semantic-text-disabled);
+  --vistral-border-default: var(--vistral-semantic-border-default);
+  --vistral-border-hover: var(--vistral-semantic-border-muted);
+  --vistral-border-focus: var(--vistral-semantic-border-active);
+  --vistral-border-error: var(--vistral-semantic-border-error);
 }
 
 /* Dark Mode Tokens */
