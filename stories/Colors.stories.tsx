@@ -127,6 +127,12 @@ function ColorSwatch({
   value: string
   category: string
 }) {
+  // Validate that value is a string
+  if (typeof value !== "string") {
+    console.warn(`ColorSwatch: value for "${name}" is not a string:`, value)
+    return null
+  }
+  
   const textColor = getTextColor(value)
   const contrastWhite = getContrastRatio(value, "#ffffff")
   const contrastBlack = getContrastRatio(value, "#000000")
@@ -304,14 +310,16 @@ function ColorCategory({
           gap: "20px",
         }}
       >
-        {colorEntries.map(([name, value]) => (
-          <ColorSwatch
-            key={name}
-            name={name}
-            value={value}
-            category={categoryKey}
-          />
-        ))}
+        {colorEntries
+          .filter(([_, value]) => typeof value === "string")
+          .map(([name, value]) => (
+            <ColorSwatch
+              key={name}
+              name={name}
+              value={value as string}
+              category={categoryKey}
+            />
+          ))}
       </div>
     </div>
   )
@@ -324,6 +332,11 @@ function groupColorsByFamily(colors: Record<string, string>): Record<string, Rec
   const families: Record<string, Record<string, string>> = {}
   
   Object.entries(colors).forEach(([name, value]) => {
+    // Skip non-string values
+    if (typeof value !== "string") {
+      return
+    }
+    
     // Extract family name (e.g., "slate-500" -> "slate", "text-primary" -> "text")
     const match = name.match(/^([a-z-]+?)(?:-\d+)?$/)
     const family = match ? match[1] : name
@@ -341,11 +354,13 @@ function groupColorsByFamily(colors: Record<string, string>): Record<string, Rec
  * Sort color shades (950 first, then 900, 800... down to 50)
  */
 function sortColorShades(colors: Record<string, string>): [string, string][] {
-  return Object.entries(colors).sort(([a], [b]) => {
-    const shadeA = parseInt(a.match(/-(\d+)$/)?.[1] || "0")
-    const shadeB = parseInt(b.match(/-(\d+)$/)?.[1] || "0")
-    return shadeB - shadeA // Descending (dark to light)
-  })
+  return Object.entries(colors)
+    .filter(([_, value]) => typeof value === "string")
+    .sort(([a], [b]) => {
+      const shadeA = parseInt(a.match(/-(\d+)$/)?.[1] || "0")
+      const shadeB = parseInt(b.match(/-(\d+)$/)?.[1] || "0")
+      return shadeB - shadeA // Descending (dark to light)
+    })
 }
 
 /**
@@ -376,37 +391,39 @@ function ColorFamilyRow({
         {family}
       </div>
       <div style={{ display: "flex", gap: "4px", flexWrap: "wrap" }}>
-        {sortedColors.map(([name, value]) => {
-          const shade = name.match(/-(\d+)$/)?.[1] || ""
-          const textColor = getTextColor(value)
-          
-          return (
-            <div
-              key={name}
-              title={`${name}: ${value}`}
-              onClick={() => navigator.clipboard.writeText(value)}
-              style={{
-                width: "64px",
-                height: "64px",
-                backgroundColor: value,
-                borderRadius: "8px",
-                border: "1px solid rgba(0,0,0,0.08)",
-                cursor: "pointer",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                transition: "transform 0.15s",
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-              onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
-            >
-              <span style={{ fontSize: "11px", fontWeight: 600, color: textColor }}>
-                {shade || "base"}
-              </span>
-            </div>
-          )
-        })}
+        {sortedColors
+          .filter(([_, value]) => typeof value === "string")
+          .map(([name, value]) => {
+            const shade = name.match(/-(\d+)$/)?.[1] || ""
+            const textColor = getTextColor(value as string)
+            
+            return (
+              <div
+                key={name}
+                title={`${name}: ${value}`}
+                onClick={() => navigator.clipboard.writeText(value as string)}
+                style={{
+                  width: "64px",
+                  height: "64px",
+                  backgroundColor: value as string,
+                  borderRadius: "8px",
+                  border: "1px solid rgba(0,0,0,0.08)",
+                  cursor: "pointer",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "transform 0.15s",
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+                onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+              >
+                <span style={{ fontSize: "11px", fontWeight: 600, color: textColor }}>
+                  {shade || "base"}
+                </span>
+              </div>
+            )
+          })}
       </div>
     </div>
   )
@@ -503,43 +520,30 @@ export const AllColors: Story = {
 
         {/* Categories */}
         {Object.entries(tokens.colors).map(([category, colors]) => {
-          // Flatten nested semantic structure
-          let flatColors: Record<string, string> = {}
-          if (category === "semantic" && typeof colors === "object" && colors !== null) {
-            const flattenSemantic = (obj: any, prefix = ""): Record<string, string> => {
-              const result: Record<string, string> = {}
-              Object.entries(obj).forEach(([key, value]) => {
-                const fullKey = prefix ? `${prefix}-${key}` : key
-                if (typeof value === "string") {
-                  result[fullKey] = value
-                } else if (typeof value === "object" && value !== null) {
-                  Object.assign(result, flattenSemantic(value, fullKey))
-                }
-              })
+          // Recursive function to flatten nested color structures
+          const flattenColors = (obj: any, prefix = ""): Record<string, string> => {
+            const result: Record<string, string> = {}
+            
+            if (!obj || typeof obj !== "object" || Array.isArray(obj)) {
               return result
             }
-            flatColors = flattenSemantic(colors)
-          } else if (typeof colors === "object" && colors !== null) {
-            // For other categories, check if values are strings or nested objects
-            Object.entries(colors).forEach(([key, value]) => {
+            
+            Object.entries(obj).forEach(([key, value]) => {
+              const fullKey = prefix ? `${prefix}-${key}` : key
+              
               if (typeof value === "string") {
-                flatColors[key] = value
-              } else if (typeof value === "object" && value !== null) {
-                // Handle nested objects (like component.primary.default.bg)
-                Object.entries(value).forEach(([subKey, subValue]) => {
-                  if (typeof subValue === "string") {
-                    flatColors[`${key}-${subKey}`] = subValue
-                  } else if (typeof subValue === "object" && subValue !== null) {
-                    Object.entries(subValue).forEach(([subSubKey, subSubValue]) => {
-                      if (typeof subSubValue === "string") {
-                        flatColors[`${key}-${subKey}-${subSubKey}`] = subSubValue
-                      }
-                    })
-                  }
-                })
+                // Found a color value (hex string)
+                result[fullKey] = value
+              } else if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+                // Recursively flatten nested objects
+                Object.assign(result, flattenColors(value, fullKey))
               }
             })
+            
+            return result
           }
+          
+          const flatColors = flattenColors(colors)
           
           return (
             <ColorCategory
@@ -621,11 +625,14 @@ export const Semantic: Story = {
     // Flatten nested semantic structure for display
     const flattenSemantic = (obj: any, prefix = ""): Record<string, string> => {
       const result: Record<string, string> = {}
+      if (!obj || typeof obj !== "object" || Array.isArray(obj)) {
+        return result
+      }
       Object.entries(obj).forEach(([key, value]) => {
         const fullKey = prefix ? `${prefix}-${key}` : key
         if (typeof value === "string") {
           result[fullKey] = value
-        } else if (typeof value === "object" && value !== null) {
+        } else if (typeof value === "object" && value !== null && !Array.isArray(value)) {
           Object.assign(result, flattenSemantic(value, fullKey))
         }
       })
@@ -692,11 +699,14 @@ export const Component: Story = {
     // Flatten nested component structure for display
     const flattenComponent = (obj: any, prefix = ""): Record<string, string> => {
       const result: Record<string, string> = {}
+      if (!obj || typeof obj !== "object" || Array.isArray(obj)) {
+        return result
+      }
       Object.entries(obj).forEach(([key, value]) => {
         const fullKey = prefix ? `${prefix}-${key}` : key
         if (typeof value === "string") {
           result[fullKey] = value
-        } else if (typeof value === "object" && value !== null) {
+        } else if (typeof value === "object" && value !== null && !Array.isArray(value)) {
           Object.assign(result, flattenComponent(value, fullKey))
         }
       })
