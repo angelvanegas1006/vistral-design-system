@@ -42,3 +42,17 @@ export {
 // Number Stepper (Quantity Input)
 export { NumberStepper, NUMBER_STEPPER_TOKENS } from "./number-stepper"
 export type { NumberStepperProps } from "./number-stepper"
+
+// Uploader (File Upload)
+export { Uploader, UPLOADER_TOKENS } from "./uploader"
+export type { UploaderProps } from "./uploader"
+
+// Tooltip
+export {
+  TooltipProvider,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TOOLTIP_TOKENS,
+} from "./tooltip"
+export type { TooltipProps, TooltipTriggerProps, TooltipContentProps } from "./tooltip"

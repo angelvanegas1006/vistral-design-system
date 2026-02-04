@@ -9,10 +9,10 @@ const TABS_TOKENS = {
   list: {
     gap: 0,
     borderBottom: '#e4e4e7', // zinc-200
-    // Capsule container
+    // Capsule container - increased radius per Figma
     capsuleBg: '#f4f4f5',
     capsulePadding: 4,
-    capsuleRadius: 10,
+    capsuleRadius: 9999, // Full pill shape for container
   },
   // Tab trigger
   trigger: {
@@ -28,9 +28,9 @@ const TABS_TOKENS = {
     // Indicator
     indicator: '#2050f6',    // spaceblue-600
     indicatorHeight: 2,
-    // Capsule active bg
+    // Capsule active bg - increased radius per Figma
     capsuleActiveBg: '#ffffff',
-    capsuleActiveRadius: 8,
+    capsuleActiveRadius: 9999, // Full pill shape
     capsuleActiveShadow: '0px 1px 2px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.1)',
   },
   // Content
