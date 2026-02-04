@@ -80,7 +80,7 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
 
     const containerStyle: React.CSSProperties = {
       display: 'inline-flex',
-      alignItems: 'flex-start',
+      alignItems: 'center', // Changed to center to align switch with text
       gap: 12,
       cursor: disabled ? 'not-allowed' : 'pointer',
       opacity: disabled ? 0.5 : 1,
@@ -92,8 +92,7 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
     }
 
     const trackStyle: React.CSSProperties = {
-      display: 'flex',
-      alignItems: 'center',
+      position: 'relative',
       width: sizeTokens.trackWidth,
       height: sizeTokens.trackHeight,
       backgroundColor: disabled 
@@ -102,12 +101,18 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
           ? SWITCH_TOKENS.track.bgChecked 
           : SWITCH_TOKENS.track.bg,
       borderRadius: SWITCH_TOKENS.track.radius,
-      padding: thumbOffset,
       transition: 'background-color 200ms ease-in-out',
       cursor: disabled ? 'not-allowed' : 'pointer',
     }
 
+    // Calculate the offset to center the thumb vertically and horizontally with consistent spacing
+    const thumbInset = thumbOffset
+    const thumbTravel = sizeTokens.trackWidth - sizeTokens.thumbSize - (thumbInset * 2)
+
     const thumbStyle: React.CSSProperties = {
+      position: 'absolute',
+      top: thumbInset,
+      left: thumbInset,
       width: sizeTokens.thumbSize,
       height: sizeTokens.thumbSize,
       backgroundColor: SWITCH_TOKENS.thumb.bg,
@@ -115,7 +120,7 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       boxShadow: SWITCH_TOKENS.thumb.shadow,
       transition: 'transform 200ms ease-in-out',
       transform: isChecked 
-        ? `translateX(${sizeTokens.trackWidth - sizeTokens.thumbSize - thumbOffset * 2}px)` 
+        ? `translateX(${thumbTravel}px)` 
         : 'translateX(0)',
     }
 

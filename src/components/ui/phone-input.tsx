@@ -186,7 +186,7 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
       position: 'absolute',
       top: '100%',
       left: 0,
-      right: 0,
+      minWidth: 260, // Ensure dropdown is wide enough to show country names
       marginTop: 4,
       backgroundColor: PHONE_INPUT_TOKENS.dropdown.bg,
       border: `1px solid ${PHONE_INPUT_TOKENS.dropdown.border}`,
@@ -194,7 +194,7 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
       boxShadow: PHONE_INPUT_TOKENS.dropdown.shadow,
       maxHeight: PHONE_INPUT_TOKENS.dropdown.maxHeight,
       overflowY: 'auto',
-      zIndex: 50,
+      zIndex: 9999, // High z-index to ensure visibility
     }
 
     const optionStyle = (isSelected: boolean): React.CSSProperties => ({

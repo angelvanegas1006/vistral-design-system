@@ -12,13 +12,14 @@ const TOAST_TOKENS = {
   padding: 16,
   radius: 12,
   shadow: '0px 4px 24px rgba(0, 0, 0, 0.12)',
-  // Variants
+  borderWidth: 2, // Left border width for colored indicator
+  // Variants - white background with colored left border
   variants: {
     default: { bg: '#ffffff', border: '#e4e4e7', fg: '#18181b' },
-    success: { bg: '#f0fdf4', border: '#bbf7d0', fg: '#15803d', icon: CheckCircle2 },
-    error: { bg: '#fef2f2', border: '#fecaca', fg: '#b91c1c', icon: AlertCircle },
-    warning: { bg: '#fffbeb', border: '#fde68a', fg: '#b45309', icon: AlertTriangle },
-    info: { bg: '#eff6ff', border: '#bfdbfe', fg: '#1d4ed8', icon: Info },
+    success: { bg: '#ffffff', border: '#16a34a', fg: '#15803d', icon: CheckCircle2 },
+    error: { bg: '#ffffff', border: '#dc2626', fg: '#b91c1c', icon: AlertCircle },
+    warning: { bg: '#ffffff', border: '#f59e0b', fg: '#b45309', icon: AlertTriangle },
+    info: { bg: '#ffffff', border: '#2050f6', fg: '#1d4ed8', icon: Info },
   },
   // Animation
   duration: 5000,
@@ -160,7 +161,8 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
     width: TOAST_TOKENS.width,
     padding: TOAST_TOKENS.padding,
     backgroundColor: tokens.bg,
-    border: `1px solid ${tokens.border}`,
+    border: '1px solid #e4e4e7', // Light border for all
+    borderLeft: variant !== 'default' ? `${TOAST_TOKENS.borderWidth + 2}px solid ${tokens.border}` : '1px solid #e4e4e7',
     borderRadius: TOAST_TOKENS.radius,
     boxShadow: TOAST_TOKENS.shadow,
     animation: 'toast-enter 200ms ease-out',

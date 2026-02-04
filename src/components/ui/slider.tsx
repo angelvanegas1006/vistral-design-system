@@ -287,15 +287,20 @@ const RangeSlider = forwardRef<HTMLDivElement, RangeSliderProps>(
     const containerStyle: React.CSSProperties = {
       position: 'relative',
       width: '100%',
-      height: 24,
-      display: 'flex',
-      alignItems: 'center',
+      height: SLIDER_TOKENS.thumb.size + 4, // Enough height for thumbs
       cursor: disabled ? 'not-allowed' : 'pointer',
       ...style,
     }
 
-    const trackStyle: React.CSSProperties = {
+    const trackWrapperStyle: React.CSSProperties = {
       position: 'absolute',
+      top: '50%',
+      left: 0,
+      right: 0,
+      transform: 'translateY(-50%)',
+    }
+
+    const trackStyle: React.CSSProperties = {
       width: '100%',
       height: SLIDER_TOKENS.track.height,
       backgroundColor: disabled ? SLIDER_TOKENS.disabled.trackBg : SLIDER_TOKENS.track.bg,
@@ -304,6 +309,7 @@ const RangeSlider = forwardRef<HTMLDivElement, RangeSliderProps>(
 
     const filledStyle: React.CSSProperties = {
       position: 'absolute',
+      top: 0,
       left: `${percentage1}%`,
       width: `${percentage2 - percentage1}%`,
       height: SLIDER_TOKENS.track.height,
@@ -313,8 +319,9 @@ const RangeSlider = forwardRef<HTMLDivElement, RangeSliderProps>(
 
     const getThumbStyle = (thumb: 0 | 1): React.CSSProperties => ({
       position: 'absolute',
+      top: '50%',
       left: `${thumb === 0 ? percentage1 : percentage2}%`,
-      transform: 'translateX(-50%)',
+      transform: 'translate(-50%, -50%)',
       width: SLIDER_TOKENS.thumb.size,
       height: SLIDER_TOKENS.thumb.size,
       backgroundColor: SLIDER_TOKENS.thumb.bg,
@@ -323,14 +330,16 @@ const RangeSlider = forwardRef<HTMLDivElement, RangeSliderProps>(
       boxShadow: SLIDER_TOKENS.thumb.shadow,
       cursor: disabled ? 'not-allowed' : 'grab',
       zIndex: activeThumb === thumb ? 2 : 1,
-      ...(activeThumb === thumb && { cursor: 'grabbing', transform: 'translateX(-50%) scale(1.1)' }),
+      ...(activeThumb === thumb && { cursor: 'grabbing', transform: 'translate(-50%, -50%) scale(1.1)' }),
     })
 
     return (
       <div ref={ref} style={containerStyle} {...props}>
         <div ref={trackRef} style={{ position: 'absolute', inset: 0 }}>
-          <div style={trackStyle} />
-          <div style={filledStyle} />
+          <div style={trackWrapperStyle}>
+            <div style={trackStyle} />
+            <div style={filledStyle} />
+          </div>
           <div style={getThumbStyle(0)} onMouseDown={handleMouseDown(0)} />
           <div style={getThumbStyle(1)} onMouseDown={handleMouseDown(1)} />
         </div>

@@ -38,3 +38,7 @@ export {
   DialogDescription,
   DIALOG_TOKENS,
 } from "./dialog"
+
+// Number Stepper (Quantity Input)
+export { NumberStepper, NUMBER_STEPPER_TOKENS } from "./number-stepper"
+export type { NumberStepperProps } from "./number-stepper"

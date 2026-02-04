@@ -9,6 +9,10 @@ const TABS_TOKENS = {
   list: {
     gap: 0,
     borderBottom: '#e4e4e7', // zinc-200
+    // Capsule container
+    capsuleBg: '#f4f4f5',
+    capsulePadding: 4,
+    capsuleRadius: 10,
   },
   // Tab trigger
   trigger: {
@@ -19,11 +23,15 @@ const TABS_TOKENS = {
     // Colors
     fg: '#71717a',           // zinc-500
     fgHover: '#18181b',      // zinc-900
-    fgActive: '#2050f6',     // spaceblue-600
+    fgActive: '#18181b',     // Changed to dark for capsule style
     fgDisabled: '#d4d4d8',   // zinc-300
     // Indicator
     indicator: '#2050f6',    // spaceblue-600
     indicatorHeight: 2,
+    // Capsule active bg
+    capsuleActiveBg: '#ffffff',
+    capsuleActiveRadius: 8,
+    capsuleActiveShadow: '0px 1px 2px rgba(0, 0, 0, 0.06), 0px 1px 3px rgba(0, 0, 0, 0.1)',
   },
   // Content
   content: {
@@ -113,10 +121,11 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
         }
       : {
           display: 'inline-flex',
-          gap: 4,
-          padding: 4,
-          backgroundColor: '#f4f4f5',
-          borderRadius: 8,
+          alignItems: 'center',
+          gap: 0,
+          padding: TABS_TOKENS.list.capsulePadding,
+          backgroundColor: TABS_TOKENS.list.capsuleBg,
+          borderRadius: TABS_TOKENS.list.capsuleRadius,
           ...style,
         }
 
@@ -176,18 +185,19 @@ const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      height: 32,
-      padding: '0 12px',
-      fontSize: 13,
+      height: 36,
+      padding: '0 16px',
+      fontSize: 14,
       fontWeight: 500,
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      color: isActive ? '#18181b' : '#71717a',
-      backgroundColor: isActive ? '#ffffff' : 'transparent',
+      color: isActive ? TABS_TOKENS.trigger.fgActive : TABS_TOKENS.trigger.fg,
+      backgroundColor: isActive ? TABS_TOKENS.trigger.capsuleActiveBg : 'transparent',
       border: 'none',
-      borderRadius: 6,
+      borderRadius: TABS_TOKENS.trigger.capsuleActiveRadius,
       cursor: disabled ? 'not-allowed' : 'pointer',
       transition: 'all 150ms ease-in-out',
-      boxShadow: isActive ? '0px 1px 2px rgba(0, 0, 0, 0.05)' : 'none',
+      boxShadow: isActive ? TABS_TOKENS.trigger.capsuleActiveShadow : 'none',
+      whiteSpace: 'nowrap',
       ...style,
     }
 

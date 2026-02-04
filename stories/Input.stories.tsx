@@ -87,7 +87,6 @@ export const PasswordInput: Story = {
             label="Password"
             type={show ? 'text' : 'password'}
             placeholder="Enter password"
-            rightIcon={show ? EyeOff : Eye}
           />
           <button
             type="button"
@@ -101,6 +100,7 @@ export const PasswordInput: Story = {
               cursor: 'pointer',
               padding: 4,
             }}
+            aria-label={show ? 'Hide password' : 'Show password'}
           >
             {show ? <EyeOff size={18} color="#71717a" /> : <Eye size={18} color="#71717a" />}
           </button>
