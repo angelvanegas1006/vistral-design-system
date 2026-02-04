@@ -1,10 +1,10 @@
 import * as React from "react"
 import { forwardRef, useState, useRef, useEffect } from "react"
-import { ChevronDown, Check, X } from "lucide-react"
+import { ChevronDown, ChevronUp, Check, X, Search } from "lucide-react"
 
 /**
  * Combobox Design Tokens from Figma
- * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=1938-37248
+ * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=1938-37566
  */
 const COMBOBOX_TOKENS = {
   // Trigger
@@ -15,6 +15,7 @@ const COMBOBOX_TOKENS = {
     bg: '#ffffff',
     border: '#d4d4d8',
     borderFocus: '#2050f6',
+    borderError: '#ef4444',
     radius: 8,
     placeholder: '#a1a1aa',
   },
@@ -27,14 +28,26 @@ const COMBOBOX_TOKENS = {
     maxHeight: 240,
     padding: 4,
   },
+  // Search input in dropdown
+  search: {
+    height: 36,
+    paddingX: 12,
+    fontSize: 14,
+    bg: '#fafafa',
+    border: '#e4e4e7',
+    radius: 6,
+    placeholder: '#a1a1aa',
+  },
   // Option
   option: {
     height: 36,
-    paddingX: 8,
+    paddingX: 12,
     fontSize: 14,
     fg: '#18181b',
     fgMuted: '#71717a',
+    fgDisabled: '#a1a1aa',
     bgHover: '#f4f4f5',
+    bgSelected: '#eef4ff',
     radius: 4,
   },
   // Tag (multi-select)
@@ -45,6 +58,12 @@ const COMBOBOX_TOKENS = {
     bg: '#f4f4f5',
     fg: '#18181b',
     radius: 4,
+  },
+  // Error
+  error: {
+    fontSize: 13,
+    color: '#ef4444',
+    marginTop: 4,
   },
 } as const
 
@@ -73,6 +92,12 @@ export interface ComboboxProps extends Omit<React.HTMLAttributes<HTMLDivElement>
   disabled?: boolean
   /** Label */
   label?: string
+  /** Error message */
+  error?: string
+  /** Description text */
+  description?: string
+  /** Show count badge */
+  showCount?: boolean
 }
 
 const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
@@ -81,11 +106,14 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     value,
     onChange,
     multiple = false,
-    placeholder = 'Select...',
+    placeholder = 'Select an element',
     searchable = true,
     clearable = true,
     disabled = false,
     label,
+    error,
+    description,
+    showCount = false,
     style,
     ...props
   }, ref) => {
@@ -93,7 +121,8 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     const [search, setSearch] = useState('')
     const [highlightedIndex, setHighlightedIndex] = useState(-1)
     const containerRef = useRef<HTMLDivElement>(null)
-    const inputRef = useRef<HTMLInputElement>(null)
+    const triggerRef = useRef<HTMLDivElement>(null)
+    const searchInputRef = useRef<HTMLInputElement>(null)
 
     const selectedValues = multiple 
       ? (Array.isArray(value) ? value : []) 
@@ -111,9 +140,18 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
           setSearch('')
         }
       }
-      document.addEventListener('mousedown', handleClick)
+      if (isOpen) {
+        document.addEventListener('mousedown', handleClick)
+      }
       return () => document.removeEventListener('mousedown', handleClick)
-    }, [])
+    }, [isOpen])
+
+    // Focus search input when dropdown opens
+    useEffect(() => {
+      if (isOpen && searchable && searchInputRef.current) {
+        setTimeout(() => searchInputRef.current?.focus(), 0)
+      }
+    }, [isOpen, searchable])
 
     const handleSelect = (option: ComboboxOption) => {
       if (option.disabled) return
@@ -185,6 +223,17 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       return selected?.label || ''
     }
 
+    // Highlight matching text
+    const highlightText = (text: string, query: string) => {
+      if (!query) return text
+      const parts = text.split(new RegExp(`(${query})`, 'gi'))
+      return parts.map((part, i) => 
+        part.toLowerCase() === query.toLowerCase() 
+          ? <mark key={i} style={{ backgroundColor: 'transparent', color: '#2050f6', fontWeight: 600 }}>{part}</mark>
+          : part
+      )
+    }
+
     const containerStyle: React.CSSProperties = {
       position: 'relative',
       width: '100%',
@@ -199,11 +248,18 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       minHeight: COMBOBOX_TOKENS.trigger.height,
       padding: `4px ${COMBOBOX_TOKENS.trigger.paddingX}px`,
       backgroundColor: COMBOBOX_TOKENS.trigger.bg,
-      border: `1px solid ${isOpen ? COMBOBOX_TOKENS.trigger.borderFocus : COMBOBOX_TOKENS.trigger.border}`,
+      border: `1px solid ${
+        error 
+          ? COMBOBOX_TOKENS.trigger.borderError 
+          : isOpen 
+            ? COMBOBOX_TOKENS.trigger.borderFocus 
+            : COMBOBOX_TOKENS.trigger.border
+      }`,
       borderRadius: COMBOBOX_TOKENS.trigger.radius,
       cursor: disabled ? 'not-allowed' : 'pointer',
       opacity: disabled ? 0.5 : 1,
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      transition: 'border-color 150ms ease',
     }
 
     const inputStyle: React.CSSProperties = {
@@ -214,10 +270,11 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       fontSize: COMBOBOX_TOKENS.trigger.fontSize,
       backgroundColor: 'transparent',
       fontFamily: 'inherit',
+      color: selectedValues.length === 0 ? COMBOBOX_TOKENS.trigger.placeholder : COMBOBOX_TOKENS.option.fg,
     }
 
     const tagStyle: React.CSSProperties = {
-      display: 'flex',
+      display: 'inline-flex',
       alignItems: 'center',
       gap: 4,
       height: COMBOBOX_TOKENS.tag.height,
@@ -226,6 +283,16 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       backgroundColor: COMBOBOX_TOKENS.tag.bg,
       color: COMBOBOX_TOKENS.tag.fg,
       borderRadius: COMBOBOX_TOKENS.tag.radius,
+      whiteSpace: 'nowrap',
+    }
+
+    const countBadgeStyle: React.CSSProperties = {
+      display: 'flex',
+      alignItems: 'center',
+      fontSize: COMBOBOX_TOKENS.trigger.fontSize,
+      color: COMBOBOX_TOKENS.option.fgMuted,
+      marginLeft: 'auto',
+      marginRight: 4,
     }
 
     const dropdownStyle: React.CSSProperties = {
@@ -240,8 +307,32 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       borderRadius: COMBOBOX_TOKENS.dropdown.radius,
       boxShadow: COMBOBOX_TOKENS.dropdown.shadow,
       maxHeight: COMBOBOX_TOKENS.dropdown.maxHeight,
-      overflowY: 'auto',
+      overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'column',
       zIndex: 50,
+    }
+
+    const searchContainerStyle: React.CSSProperties = {
+      padding: '8px',
+      borderBottom: `1px solid ${COMBOBOX_TOKENS.dropdown.border}`,
+    }
+
+    const searchInputStyle: React.CSSProperties = {
+      width: '100%',
+      height: COMBOBOX_TOKENS.search.height,
+      padding: `0 ${COMBOBOX_TOKENS.search.paddingX}px 0 36px`,
+      fontSize: COMBOBOX_TOKENS.search.fontSize,
+      backgroundColor: COMBOBOX_TOKENS.search.bg,
+      border: `1px solid ${COMBOBOX_TOKENS.search.border}`,
+      borderRadius: COMBOBOX_TOKENS.search.radius,
+      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      outline: 'none',
+    }
+
+    const optionsContainerStyle: React.CSSProperties = {
+      overflowY: 'auto',
+      maxHeight: COMBOBOX_TOKENS.dropdown.maxHeight - (searchable ? 60 : 0),
     }
 
     const getOptionStyle = (index: number, option: ComboboxOption): React.CSSProperties => ({
@@ -251,10 +342,17 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       height: COMBOBOX_TOKENS.option.height,
       padding: `0 ${COMBOBOX_TOKENS.option.paddingX}px`,
       fontSize: COMBOBOX_TOKENS.option.fontSize,
-      color: option.disabled ? COMBOBOX_TOKENS.option.fgMuted : COMBOBOX_TOKENS.option.fg,
-      backgroundColor: index === highlightedIndex ? COMBOBOX_TOKENS.option.bgHover : 'transparent',
+      color: option.disabled 
+        ? COMBOBOX_TOKENS.option.fgDisabled 
+        : COMBOBOX_TOKENS.option.fg,
+      backgroundColor: selectedValues.includes(option.value)
+        ? COMBOBOX_TOKENS.option.bgSelected
+        : index === highlightedIndex 
+          ? COMBOBOX_TOKENS.option.bgHover 
+          : 'transparent',
       borderRadius: COMBOBOX_TOKENS.option.radius,
       cursor: option.disabled ? 'not-allowed' : 'pointer',
+      transition: 'background-color 150ms ease',
     })
 
     return (
@@ -273,13 +371,14 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
         )}
 
         <div
-          ref={ref}
+          ref={triggerRef}
           style={triggerStyle}
           onClick={() => !disabled && setIsOpen(!isOpen)}
           onKeyDown={handleKeyDown}
           tabIndex={disabled ? -1 : 0}
           role="combobox"
           aria-expanded={isOpen}
+          aria-haspopup="listbox"
         >
           {/* Tags for multi-select */}
           {multiple && selectedValues.map(val => {
@@ -290,7 +389,15 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                 <button
                   type="button"
                   onClick={(e) => handleRemove(val, e)}
-                  style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'flex' }}
+                  style={{ 
+                    background: 'none', 
+                    border: 'none', 
+                    padding: 0, 
+                    cursor: 'pointer', 
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                  aria-label={`Remove ${opt.label}`}
                 >
                   <X size={12} />
                 </button>
@@ -298,23 +405,9 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
             ) : null
           })}
 
-          {/* Input/Search */}
-          {searchable && isOpen ? (
-            <input
-              ref={inputRef}
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder={selectedValues.length === 0 ? placeholder : ''}
-              style={inputStyle}
-              autoFocus
-            />
-          ) : (
-            <span style={{ 
-              flex: 1, 
-              fontSize: COMBOBOX_TOKENS.trigger.fontSize,
-              color: selectedValues.length === 0 ? COMBOBOX_TOKENS.trigger.placeholder : COMBOBOX_TOKENS.option.fg,
-            }}>
+          {/* Display value or placeholder */}
+          {!isOpen && (
+            <span style={inputStyle}>
               {multiple 
                 ? (selectedValues.length === 0 ? placeholder : '')
                 : (getDisplayValue() || placeholder)
@@ -322,52 +415,147 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
             </span>
           )}
 
+          {/* Count badge */}
+          {showCount && selectedValues.length > 0 && (
+            <span style={countBadgeStyle}>
+              {selectedValues.length}
+            </span>
+          )}
+
           {/* Actions */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginLeft: 'auto' }}>
-            {clearable && selectedValues.length > 0 && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginLeft: 'auto', flexShrink: 0 }}>
+            {clearable && selectedValues.length > 0 && !isOpen && (
               <button
                 type="button"
                 onClick={handleClear}
-                style={{ background: 'none', border: 'none', padding: 2, cursor: 'pointer', display: 'flex', color: '#71717a' }}
+                style={{ 
+                  background: 'none', 
+                  border: 'none', 
+                  padding: 2, 
+                  cursor: 'pointer', 
+                  display: 'flex',
+                  color: '#71717a',
+                }}
+                aria-label="Clear selection"
               >
                 <X size={16} />
               </button>
             )}
-            <ChevronDown 
-              size={16} 
-              style={{ 
-                color: '#71717a',
-                transform: isOpen ? 'rotate(180deg)' : 'none',
-                transition: 'transform 150ms ease',
-              }} 
-            />
+            {isOpen ? (
+              <ChevronUp 
+                size={16} 
+                style={{ 
+                  color: '#71717a',
+                  transition: 'transform 150ms ease',
+                }} 
+              />
+            ) : (
+              <ChevronDown 
+                size={16} 
+                style={{ 
+                  color: '#71717a',
+                  transition: 'transform 150ms ease',
+                }} 
+              />
+            )}
           </div>
         </div>
+
+        {/* Error or Description */}
+        {(error || description) && (
+          <div style={{
+            fontSize: COMBOBOX_TOKENS.error.fontSize,
+            color: error ? COMBOBOX_TOKENS.error.color : '#71717a',
+            marginTop: COMBOBOX_TOKENS.error.marginTop,
+            fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+          }}>
+            {error || description}
+          </div>
+        )}
 
         {/* Dropdown */}
         {isOpen && (
           <div style={dropdownStyle} role="listbox">
-            {filteredOptions.length === 0 ? (
-              <div style={{ padding: 12, textAlign: 'center', fontSize: 13, color: '#71717a' }}>
-                No results found
-              </div>
-            ) : (
-              filteredOptions.map((option, index) => (
-                <div
-                  key={option.value}
-                  role="option"
-                  aria-selected={selectedValues.includes(option.value)}
-                  style={getOptionStyle(index, option)}
-                  onClick={() => handleSelect(option)}
-                  onMouseEnter={() => setHighlightedIndex(index)}
-                >
-                  <span>{option.label}</span>
-                  {selectedValues.includes(option.value) && (
-                    <Check size={16} style={{ color: '#2050f6' }} />
+            {/* Search input */}
+            {searchable && (
+              <div style={searchContainerStyle}>
+                <div style={{ position: 'relative' }}>
+                  <Search 
+                    size={16} 
+                    style={{ 
+                      position: 'absolute', 
+                      left: 12, 
+                      top: '50%', 
+                      transform: 'translateY(-50%)',
+                      color: COMBOBOX_TOKENS.search.placeholder,
+                    }} 
+                  />
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    value={search}
+                    onChange={(e) => {
+                      setSearch(e.target.value)
+                      setHighlightedIndex(-1)
+                    }}
+                    placeholder="Search element"
+                    style={searchInputStyle}
+                  />
+                  {search && (
+                    <button
+                      type="button"
+                      onClick={() => setSearch('')}
+                      style={{
+                        position: 'absolute',
+                        right: 8,
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        background: 'none',
+                        border: 'none',
+                        padding: 4,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        color: COMBOBOX_TOKENS.search.placeholder,
+                      }}
+                      aria-label="Clear search"
+                    >
+                      <X size={14} />
+                    </button>
                   )}
                 </div>
-              ))
+              </div>
             )}
+
+            {/* Options list */}
+            <div style={optionsContainerStyle}>
+              {filteredOptions.length === 0 ? (
+                <div style={{ 
+                  padding: 12, 
+                  textAlign: 'center', 
+                  fontSize: 13, 
+                  color: COMBOBOX_TOKENS.option.fgMuted,
+                  fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+                }}>
+                  No element found
+                </div>
+              ) : (
+                filteredOptions.map((option, index) => (
+                  <div
+                    key={option.value}
+                    role="option"
+                    aria-selected={selectedValues.includes(option.value)}
+                    style={getOptionStyle(index, option)}
+                    onClick={() => handleSelect(option)}
+                    onMouseEnter={() => setHighlightedIndex(index)}
+                  >
+                    <span>{highlightText(option.label, search)}</span>
+                    {selectedValues.includes(option.value) && (
+                      <Check size={16} style={{ color: '#2050f6', flexShrink: 0 }} />
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         )}
       </div>
