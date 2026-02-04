@@ -13,14 +13,16 @@ const meta: Meta<typeof Chip> = {
         component: `
 # Chip
 
-Based on Figma Design System: [Chip Component](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=1476-26875)
+Chip component matching Figma design.
+
+Based on Figma: [Chip](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=1478-29203)
 
 ## Features
 - **2 Variants**: Filled, Outlined
-- **2 Sizes**: Small (24px), Medium (32px)
-- **States**: Default, Selected, Disabled
-- **Removable**: Optional remove button
-- **Icons**: Optional left icon
+- **States**: Default, Hover, Active/Open, Selected, Disabled
+- **Right Elements**: Remove, Dropdown, Count, Custom
+- **Divider**: Optional divider before right element
+- **Focus Ring**: Accessible focus indicator
         `,
       },
     },
@@ -34,6 +36,59 @@ export const Default: Story = {
   args: {
     children: 'Chip',
   },
+};
+
+export const AllStates: Story = {
+  name: 'All States (Figma Reference)',
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 32, padding: 24, backgroundColor: '#f8fafc' }}>
+      {/* Filled Variant */}
+      <div>
+        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>Filled (Light)</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <span style={{ width: 100, fontSize: 12, color: '#71717a' }}>Default:</span>
+            <Chip variant="filled">Label</Chip>
+          </div>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <span style={{ width: 100, fontSize: 12, color: '#71717a' }}>Hover:</span>
+            <Chip variant="filled">Label</Chip>
+          </div>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <span style={{ width: 100, fontSize: 12, color: '#71717a' }}>Active:</span>
+            <Chip variant="filled" active>Label</Chip>
+          </div>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <span style={{ width: 100, fontSize: 12, color: '#71717a' }}>Disabled:</span>
+            <Chip variant="filled" disabled>Label</Chip>
+          </div>
+        </div>
+      </div>
+
+      {/* Outlined Variant (Blue) */}
+      <div>
+        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>Outlined (Blue)</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <span style={{ width: 100, fontSize: 12, color: '#71717a' }}>Default:</span>
+            <Chip variant="outlined" selected>Label</Chip>
+          </div>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <span style={{ width: 100, fontSize: 12, color: '#71717a' }}>Hover:</span>
+            <Chip variant="outlined" selected>Label</Chip>
+          </div>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <span style={{ width: 100, fontSize: 12, color: '#71717a' }}>Active:</span>
+            <Chip variant="outlined" selected active>Label</Chip>
+          </div>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <span style={{ width: 100, fontSize: 12, color: '#71717a' }}>Disabled:</span>
+            <Chip variant="outlined" selected disabled>Label</Chip>
+          </div>
+        </div>
+      </div>
+    </div>
+  ),
 };
 
 export const Variants: Story = {
@@ -64,6 +119,62 @@ export const Variants: Story = {
   ),
 };
 
+export const WithRightElements: Story = {
+  name: 'With Right Elements',
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, padding: 24, backgroundColor: '#f8fafc' }}>
+      {/* With Dropdown */}
+      <div>
+        <h3 style={{ margin: '0 0 12px', fontSize: 14, fontWeight: 500, color: '#71717a' }}>
+          With Dropdown Arrow
+        </h3>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <Chip variant="filled" rightElement="dropdown">Label</Chip>
+          <Chip variant="filled" rightElement="dropdown" active>Label</Chip>
+          <Chip variant="outlined" selected rightElement="dropdown">Label</Chip>
+          <Chip variant="outlined" selected rightElement="dropdown" active>Label</Chip>
+        </div>
+      </div>
+
+      {/* With Count */}
+      <div>
+        <h3 style={{ margin: '0 0 12px', fontSize: 14, fontWeight: 500, color: '#71717a' }}>
+          With Count
+        </h3>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <Chip variant="filled" rightElement="count" count={9}>Label</Chip>
+          <Chip variant="filled" rightElement="count" count={9} selected>Label</Chip>
+          <Chip variant="outlined" selected rightElement="count" count={9}>Label</Chip>
+        </div>
+      </div>
+
+      {/* With Remove */}
+      <div>
+        <h3 style={{ margin: '0 0 12px', fontSize: 14, fontWeight: 500, color: '#71717a' }}>
+          With Remove Button
+        </h3>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <Chip variant="filled" rightElement="remove">Label</Chip>
+          <Chip variant="filled" rightElement="remove" selected>Label</Chip>
+          <Chip variant="outlined" selected rightElement="remove">Label</Chip>
+        </div>
+      </div>
+
+      {/* With Divider */}
+      <div>
+        <h3 style={{ margin: '0 0 12px', fontSize: 14, fontWeight: 500, color: '#71717a' }}>
+          With Divider
+        </h3>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <Chip variant="filled" rightElement="count" count={9} showDivider>Label</Chip>
+          <Chip variant="filled" rightElement="dropdown" showDivider>Label</Chip>
+          <Chip variant="outlined" selected rightElement="remove" showDivider>Label</Chip>
+        </div>
+      </div>
+    </div>
+  ),
+};
+
 export const Sizes: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
@@ -75,6 +186,7 @@ export const Sizes: Story = {
           <Chip size="sm">Small</Chip>
           <Chip size="sm" selected>Selected</Chip>
           <Chip size="sm" leftIcon={Tag}>With Icon</Chip>
+          <Chip size="sm" rightElement="remove">Removable</Chip>
         </div>
       </div>
       
@@ -86,6 +198,7 @@ export const Sizes: Story = {
           <Chip size="md">Medium</Chip>
           <Chip size="md" selected>Selected</Chip>
           <Chip size="md" leftIcon={Tag}>With Icon</Chip>
+          <Chip size="md" rightElement="remove">Removable</Chip>
         </div>
       </div>
     </div>
@@ -99,6 +212,8 @@ export const WithIcons: Story = {
       <Chip leftIcon={Star}>Featured</Chip>
       <Chip leftIcon={Filter}>Filter</Chip>
       <Chip leftIcon={User}>User</Chip>
+      <Chip leftIcon={Tag} rightElement="dropdown">With Dropdown</Chip>
+      <Chip leftIcon={Star} rightElement="count" count={5}>With Count</Chip>
     </div>
   ),
 };
@@ -119,7 +234,7 @@ export const Removable: Story = {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           {chips.map(chip => (
-            <Chip key={chip} removable onRemove={() => removeChip(chip)}>
+            <Chip key={chip} rightElement="remove" onRemove={() => removeChip(chip)}>
               {chip}
             </Chip>
           ))}
@@ -188,78 +303,97 @@ export const FilterExample: Story = {
   },
 };
 
-export const TagsInput: Story = {
-  name: 'Tags Input',
+export const DropdownExample: Story = {
+  name: 'Dropdown Chips',
   render: () => {
-    const [tags, setTags] = React.useState(['JavaScript', 'React']);
-    const [input, setInput] = React.useState('');
-    
-    const addTag = () => {
-      if (input.trim() && !tags.includes(input.trim())) {
-        setTags([...tags, input.trim()]);
-        setInput('');
-      }
-    };
-    
-    const removeTag = (tag: string) => {
-      setTags(tags.filter(t => t !== tag));
-    };
+    const [activeChip, setActiveChip] = React.useState<string | null>(null);
     
     return (
-      <div style={{ 
-        padding: 16, 
-        backgroundColor: '#fff', 
-        borderRadius: 8,
-        border: '1px solid #e4e4e7',
-        width: 350,
-      }}>
-        <label style={{ 
-          display: 'block', 
-          marginBottom: 8, 
-          fontSize: 14, 
-          fontWeight: 500 
-        }}>
-          Skills
-        </label>
-        
-        <div style={{ 
-          display: 'flex', 
-          flexWrap: 'wrap', 
-          gap: 8, 
-          padding: 8,
-          border: '1px solid #d4d4d8',
-          borderRadius: 8,
-          minHeight: 44,
-        }}>
-          {tags.map(tag => (
-            <Chip 
-              key={tag} 
-              size="sm" 
-              removable 
-              onRemove={() => removeTag(tag)}
-            >
-              {tag}
-            </Chip>
-          ))}
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && addTag()}
-            placeholder="Add skill..."
-            style={{
-              flex: 1,
-              minWidth: 80,
-              border: 'none',
-              outline: 'none',
-              fontSize: 14,
-              padding: '4px 0',
-            }}
-          />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <Chip 
+            variant="filled"
+            rightElement="dropdown"
+            active={activeChip === 'option1'}
+            onClick={() => setActiveChip(activeChip === 'option1' ? null : 'option1')}
+          >
+            Option 1
+          </Chip>
+          <Chip 
+            variant="filled"
+            rightElement="dropdown"
+            active={activeChip === 'option2'}
+            onClick={() => setActiveChip(activeChip === 'option2' ? null : 'option2')}
+          >
+            Option 2
+          </Chip>
+          <Chip 
+            variant="outlined"
+            selected
+            rightElement="dropdown"
+            active={activeChip === 'option3'}
+            onClick={() => setActiveChip(activeChip === 'option3' ? null : 'option3')}
+          >
+            Option 3
+          </Chip>
         </div>
-        <p style={{ margin: '8px 0 0', fontSize: 12, color: '#71717a' }}>
-          Press Enter to add a skill
-        </p>
+        {activeChip && (
+          <p style={{ fontSize: 12, color: '#71717a' }}>
+            Active: {activeChip}
+          </p>
+        )}
       </div>
     );
   },
+};
+
+export const AllVariations: Story = {
+  name: 'All Variations (Figma Reference)',
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 32, padding: 24, backgroundColor: '#f8fafc' }}>
+      {/* Filled States */}
+      <div>
+        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>Filled - All States</h3>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <Chip variant="filled">Label</Chip>
+          <Chip variant="filled" rightElement="dropdown">Label</Chip>
+          <Chip variant="filled" rightElement="dropdown" active>Label</Chip>
+          <Chip variant="filled" disabled>Label</Chip>
+        </div>
+      </div>
+
+      {/* Outlined Selected States */}
+      <div>
+        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>Outlined Selected - All States</h3>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <Chip variant="outlined" selected>Label</Chip>
+          <Chip variant="outlined" selected rightElement="dropdown">Label</Chip>
+          <Chip variant="outlined" selected rightElement="dropdown" active>Label</Chip>
+          <Chip variant="outlined" selected disabled>Label</Chip>
+        </div>
+      </div>
+
+      {/* With Count */}
+      <div>
+        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>With Count</h3>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <Chip variant="filled" rightElement="count" count={9}>Label</Chip>
+          <Chip variant="filled" rightElement="count" count={9} selected>Label</Chip>
+          <Chip variant="outlined" selected rightElement="count" count={9}>Label</Chip>
+          <Chip variant="filled" rightElement="count" count={9} showDivider>Label</Chip>
+        </div>
+      </div>
+
+      {/* With Icons */}
+      <div>
+        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>With Icons</h3>
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <Chip variant="filled" leftIcon={Tag}>Label</Chip>
+          <Chip variant="filled" leftIcon={Tag} rightElement="dropdown">Label</Chip>
+          <Chip variant="outlined" selected leftIcon={Star}>Label</Chip>
+          <Chip variant="outlined" selected leftIcon={Filter} rightElement="count" count={5}>Label</Chip>
+        </div>
+      </div>
+    </div>
+  ),
 };

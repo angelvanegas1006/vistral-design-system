@@ -1,31 +1,41 @@
 import * as React from "react"
-import { forwardRef } from "react"
-import { X } from "lucide-react"
+import { forwardRef, useState } from "react"
+import { X, ChevronDown, ChevronUp } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 
 /**
  * Chip Design Tokens from Figma
- * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=1476-26875
+ * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=1478-29203
  */
 const CHIP_TOKENS = {
   // Variants
   variants: {
     filled: {
-      bg: '#f4f4f5',          // zinc-100
-      bgHover: '#e4e4e7',     // zinc-200
-      bgSelected: '#2050f6',  // spaceblue-600
-      fg: '#3f3f46',          // zinc-700
-      fgSelected: '#ffffff',
+      bg: '#ffffff',          // white
+      bgHover: '#f4f4f5',     // zinc-100
+      bgActive: '#e4e4e7',    // zinc-200
+      bgSelected: '#dbeafe',  // blue-100 (light blue)
+      bgSelectedHover: '#bfdbfe', // blue-200
+      fg: '#18181b',          // zinc-900
+      fgSelected: '#2050f6',  // spaceblue-600
     },
     outlined: {
       bg: 'transparent',
       bgHover: '#f4f4f5',     // zinc-100
+      bgActive: '#e4e4e7',    // zinc-200
       bgSelected: '#eef4ff',  // spaceblue-50
+      bgSelectedHover: '#dbeafe', // blue-100
       border: '#d4d4d8',      // zinc-300
+      borderHover: '#a1a1aa', // zinc-400
       borderSelected: '#2050f6',
-      fg: '#3f3f46',
+      fg: '#18181b',
       fgSelected: '#2050f6',
     },
+  },
+  disabled: {
+    bg: '#f4f4f5',
+    border: '#e4e4e7',
+    fg: '#a1a1aa',
   },
   // Sizes
   sizes: {
@@ -33,6 +43,8 @@ const CHIP_TOKENS = {
     md: { height: 32, paddingX: 12, fontSize: 14, iconSize: 16, gap: 6 },
   },
   radius: 9999, // Pill shape
+  // Focus ring
+  focusRing: '0 0 0 3px rgba(32, 80, 246, 0.2)',
 } as const
 
 type ChipVariant = 'filled' | 'outlined'
@@ -43,12 +55,18 @@ export interface ChipProps extends Omit<React.HTMLAttributes<HTMLButtonElement>,
   size?: ChipSize
   /** Selected state */
   selected?: boolean
+  /** Active/Open state (for dropdowns) */
+  active?: boolean
   /** Disabled state */
   disabled?: boolean
   /** Left icon */
   leftIcon?: LucideIcon
-  /** Show remove button */
-  removable?: boolean
+  /** Right element: 'remove' | 'dropdown' | 'count' | ReactNode */
+  rightElement?: 'remove' | 'dropdown' | 'count' | React.ReactNode
+  /** Count number (when rightElement is 'count') */
+  count?: number
+  /** Show divider before right element */
+  showDivider?: boolean
   /** Callback when chip is clicked */
   onClick?: () => void
   /** Callback when remove button is clicked */
@@ -60,28 +78,39 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
     variant = 'filled',
     size = 'md',
     selected = false,
+    active = false,
     disabled = false,
     leftIcon: LeftIcon,
-    removable = false,
+    rightElement,
+    count,
+    showDivider = false,
     onClick,
     onRemove,
+    onFocus,
+    onBlur,
     style, 
     children, 
     ...props 
   }, ref) => {
-    const [isHovered, setIsHovered] = React.useState(false)
+    const [isHovered, setIsHovered] = useState(false)
+    const [isFocused, setIsFocused] = useState(false)
     const tokens = CHIP_TOKENS.variants[variant]
     const sizeTokens = CHIP_TOKENS.sizes[size]
 
     // Get background color based on state
     const getBgColor = () => {
-      if (selected) return tokens.bgSelected
-      if (isHovered && !disabled) return tokens.bgHover
+      if (disabled) return CHIP_TOKENS.disabled.bg
+      if (selected) {
+        return isHovered ? tokens.bgSelectedHover : tokens.bgSelected
+      }
+      if (active) return tokens.bgActive
+      if (isHovered) return tokens.bgHover
       return tokens.bg
     }
 
     // Get text color based on state
     const getFgColor = () => {
+      if (disabled) return CHIP_TOKENS.disabled.fg
       if (selected) return tokens.fgSelected
       return tokens.fg
     }
@@ -89,7 +118,9 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
     // Get border color (for outlined variant)
     const getBorderColor = () => {
       if (variant !== 'outlined') return 'transparent'
+      if (disabled) return CHIP_TOKENS.disabled.border
       if (selected) return (tokens as typeof CHIP_TOKENS.variants.outlined).borderSelected
+      if (isHovered) return (tokens as typeof CHIP_TOKENS.variants.outlined).borderHover
       return (tokens as typeof CHIP_TOKENS.variants.outlined).border
     }
 
@@ -100,7 +131,7 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
       gap: sizeTokens.gap,
       height: sizeTokens.height,
       paddingLeft: sizeTokens.paddingX,
-      paddingRight: removable ? sizeTokens.gap : sizeTokens.paddingX,
+      paddingRight: rightElement ? sizeTokens.gap : sizeTokens.paddingX,
       fontSize: sizeTokens.fontSize,
       fontWeight: 500,
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
@@ -113,7 +144,26 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
       opacity: disabled ? 0.5 : 1,
       transition: 'all 150ms ease-in-out',
       outline: 'none',
+      boxShadow: isFocused && !disabled ? CHIP_TOKENS.focusRing : 'none',
       ...style,
+    }
+
+    const dividerStyle: React.CSSProperties = {
+      width: 1,
+      height: sizeTokens.height - 8,
+      backgroundColor: variant === 'outlined' && selected 
+        ? '#2050f6' 
+        : '#d4d4d8',
+      margin: '0 4px',
+    }
+
+    const rightElementStyle: React.CSSProperties = {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 4,
+      marginRight: -sizeTokens.gap,
+      color: 'inherit',
     }
 
     const removeButtonStyle: React.CSSProperties = {
@@ -122,7 +172,6 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
       justifyContent: 'center',
       width: sizeTokens.height - 8,
       height: sizeTokens.height - 8,
-      marginRight: -sizeTokens.gap,
       padding: 0,
       background: 'none',
       border: 'none',
@@ -142,6 +191,75 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
       if (!disabled) onRemove?.()
     }
 
+    const handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
+      setIsFocused(true)
+      onFocus?.(e)
+    }
+
+    const handleBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
+      setIsFocused(false)
+      onBlur?.(e)
+    }
+
+    const renderRightElement = () => {
+      if (!rightElement) return null
+
+      if (rightElement === 'remove') {
+        return (
+          <>
+            {showDivider && <span style={dividerStyle} />}
+            <span 
+              role="button"
+              tabIndex={-1}
+              style={removeButtonStyle}
+              onClick={handleRemove}
+              onMouseOver={(e) => (e.currentTarget.style.opacity = '1')}
+              onMouseOut={(e) => (e.currentTarget.style.opacity = '0.6')}
+              aria-label="Remove"
+            >
+              <X size={sizeTokens.iconSize - 2} />
+            </span>
+          </>
+        )
+      }
+
+      if (rightElement === 'dropdown') {
+        return (
+          <>
+            {showDivider && <span style={dividerStyle} />}
+            <span style={rightElementStyle}>
+              {active ? (
+                <ChevronUp size={sizeTokens.iconSize - 2} />
+              ) : (
+                <ChevronDown size={sizeTokens.iconSize - 2} />
+              )}
+            </span>
+          </>
+        )
+      }
+
+      if (rightElement === 'count' && count !== undefined) {
+        return (
+          <>
+            {showDivider && <span style={dividerStyle} />}
+            <span style={rightElementStyle}>
+              ({count})
+            </span>
+          </>
+        )
+      }
+
+      // Custom ReactNode
+      return (
+        <>
+          {showDivider && <span style={dividerStyle} />}
+          <span style={rightElementStyle}>
+            {rightElement}
+          </span>
+        </>
+      )
+    }
+
     return (
       <button
         ref={ref}
@@ -149,26 +267,17 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
         style={chipStyle}
         disabled={disabled}
         onClick={handleClick}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         aria-pressed={selected}
+        aria-expanded={active}
         {...props}
       >
         {LeftIcon && <LeftIcon size={sizeTokens.iconSize} />}
         {children}
-        {removable && (
-          <span 
-            role="button"
-            tabIndex={-1}
-            style={removeButtonStyle}
-            onClick={handleRemove}
-            onMouseOver={(e) => (e.currentTarget.style.opacity = '1')}
-            onMouseOut={(e) => (e.currentTarget.style.opacity = '0.6')}
-            aria-label="Remove"
-          >
-            <X size={sizeTokens.iconSize - 2} />
-          </span>
-        )}
+        {renderRightElement()}
       </button>
     )
   }
