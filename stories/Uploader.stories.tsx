@@ -12,17 +12,28 @@ const meta: Meta<typeof Uploader> = {
         component: `
 # Uploader
 
-File upload component with drag & drop support.
+Uploader component matching Figma design.
 
-Based on Figma Design System: [Uploader Component](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=450-8246)
+Based on Figma:
+- [Uploader Documentation](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=459-8589)
+- [Uploader States](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=459-14574)
+- [File List Examples](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=459-14603)
 
 ## Features
-- **Variants**: Dropzone, Button, Gallery
+- **Variants**: Dropzone (large), Button (compact)
 - **Drag & Drop**: Drop files directly into the zone
 - **Click to Browse**: Traditional file picker
-- **File Previews**: Thumbnails for images
+- **File Previews**: Thumbnails for images, icons for documents
+- **Upload Progress**: Shows progress percentage with spinner
+- **Error States**: Invalid format, size limit, quantity limit, duplicate, network failure
 - **File List**: Shows uploaded files with size and remove button
-- **Validation**: Max size and max files limits
+
+## Best Practices
+- Set maximum file number/size clearly
+- Show immediate visual feedback
+- Use multiple upload inputs for multi-file use cases
+- Define file types and size limits clearly
+- Maximize interactive area (touch target)
         `,
       },
     },
@@ -38,10 +49,73 @@ export const Default: Story = {
     <div style={{ width: 400 }}>
       <Uploader 
         variant="dropzone"
-        label="Upload files"
-        helperText="Max 10MB per file. Supports images, PDFs, and documents."
+        helperText="Or click to browse (max 10 files, up to 5MB each)"
+        maxFiles={10}
+        maxSize={5 * 1024 * 1024}
         onChange={(files) => console.log('Files:', files)}
       />
+    </div>
+  ),
+};
+
+export const AllStates: Story = {
+  name: 'All States (Figma Reference)',
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: 400 }}>
+      <div>
+        <Uploader 
+          variant="dropzone"
+          helperText="Or click to browse (max 10 files, up to 5MB each)"
+          maxFiles={10}
+          maxSize={5 * 1024 * 1024}
+        />
+      </div>
+      <div>
+        <Uploader 
+          variant="dropzone"
+          helperText="Or click to browse (max 10 files, up to 5MB each)"
+          maxFiles={10}
+          maxSize={5 * 1024 * 1024}
+        />
+      </div>
+      <div>
+        <Uploader 
+          variant="dropzone"
+          error="This is an error description."
+          helperText="Or click to browse (max 10 files, up to 5MB each)"
+          maxFiles={10}
+          maxSize={5 * 1024 * 1024}
+        />
+      </div>
+      <div>
+        <Uploader 
+          variant="button"
+          buttonText="Upload a file"
+          helperText="PDF, JPG or PNG less than 5MB"
+          accept=".pdf,.jpg,.png"
+          maxSize={5 * 1024 * 1024}
+        />
+      </div>
+      <div>
+        <Uploader 
+          variant="button"
+          buttonText="Upload a file"
+          helperText="PDF, JPG or PNG less than 5MB"
+          accept=".pdf,.jpg,.png"
+          maxSize={5 * 1024 * 1024}
+          disabled
+        />
+      </div>
+      <div>
+        <Uploader 
+          variant="button"
+          buttonText="Upload a file"
+          error="This is an error description."
+          helperText="PDF, JPG or PNG less than 5MB"
+          accept=".pdf,.jpg,.png"
+          maxSize={5 * 1024 * 1024}
+        />
+      </div>
     </div>
   ),
 };
@@ -52,26 +126,96 @@ export const ButtonVariant: Story = {
     <div style={{ width: 400 }}>
       <Uploader 
         variant="button"
-        label="Upload document"
-        buttonText="Select file"
-        helperText="PDF, DOC, DOCX up to 10MB"
+        buttonText="Upload a file"
+        helperText="PDF, JPG or PNG less than 5MB"
+        accept=".pdf,.jpg,.png"
+        maxSize={5 * 1024 * 1024}
         onChange={(files) => console.log('Files:', files)}
       />
     </div>
   ),
 };
 
-export const GalleryVariant: Story = {
-  name: 'Gallery Variant',
+export const WithFiles: Story = {
+  name: 'With Uploaded Files',
+  render: () => {
+    const [files, setFiles] = React.useState<File[]>([]);
+    
+    return (
+      <div style={{ width: 400 }}>
+        <Uploader 
+          variant="dropzone"
+          helperText="Or click to browse (max 10 files, up to 5MB each)"
+          maxFiles={10}
+          maxSize={5 * 1024 * 1024}
+          onChange={(newFiles) => {
+            setFiles(newFiles);
+            console.log('Files:', newFiles);
+          }}
+        />
+        {files.length > 0 && (
+          <div style={{ marginTop: 16, padding: 12, backgroundColor: '#f4f4f5', borderRadius: 8 }}>
+            <p style={{ margin: 0, fontSize: 12, color: '#71717a' }}>
+              {files.length} file{files.length !== 1 ? 's' : ''} selected
+            </p>
+          </div>
+        )}
+      </div>
+    );
+  },
+};
+
+export const WithProgress: Story = {
+  name: 'With Upload Progress',
   render: () => (
     <div style={{ width: 400 }}>
       <Uploader 
-        variant="gallery"
-        label="Property photos"
-        accept="image/*"
-        helperText="Upload images to see them in a gallery grid"
+        variant="dropzone"
+        helperText="Or click to browse (max 10 files, up to 5MB each)"
+        maxFiles={10}
+        maxSize={5 * 1024 * 1024}
+        simulateProgress
         onChange={(files) => console.log('Files:', files)}
       />
+    </div>
+  ),
+};
+
+export const ErrorStates: Story = {
+  name: 'Error States',
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: 400 }}>
+      <div>
+        <h4 style={{ margin: '0 0 8px', fontSize: 12, fontWeight: 600, color: '#71717a' }}>
+          Invalid Format
+        </h4>
+        <Uploader 
+          variant="dropzone"
+          accept=".jpg,.png,.gif"
+          error="This file format is not supported. Please upload files in JPG, PNG, or GIF."
+          maxSize={5 * 1024 * 1024}
+        />
+      </div>
+      <div>
+        <h4 style={{ margin: '0 0 8px', fontSize: 12, fontWeight: 600, color: '#71717a' }}>
+          Size Limit
+        </h4>
+        <Uploader 
+          variant="dropzone"
+          maxSize={100 * 1024}
+          error="File size exceeds size limit of 100.0 KB. Reduce file size or choose another document."
+        />
+      </div>
+      <div>
+        <h4 style={{ margin: '0 0 8px', fontSize: 12, fontWeight: 600, color: '#71717a' }}>
+          Quantity Limit
+        </h4>
+        <Uploader 
+          variant="dropzone"
+          maxFiles={25}
+          error="You can only upload a maximum of 25 documents. Remove one before adding another."
+        />
+      </div>
     </div>
   ),
 };
@@ -81,9 +225,11 @@ export const ImagesOnly: Story = {
   render: () => (
     <div style={{ width: 400 }}>
       <Uploader 
-        label="Upload images"
+        variant="dropzone"
         accept="image/*"
-        helperText="Only image files are accepted (JPG, PNG, GIF, WebP)"
+        helperText="Or click to browse (max 10 files, up to 5MB each)"
+        maxFiles={10}
+        maxSize={5 * 1024 * 1024}
         onChange={(files) => console.log('Files:', files)}
       />
     </div>
@@ -99,22 +245,8 @@ export const SingleFile: Story = {
         multiple={false}
         accept=".pdf,.doc,.docx"
         buttonText="Choose document"
-        helperText="Upload a single PDF or Word document"
-        onChange={(files) => console.log('Files:', files)}
-      />
-    </div>
-  ),
-};
-
-export const WithLimits: Story = {
-  name: 'With Limits',
-  render: () => (
-    <div style={{ width: 400 }}>
-      <Uploader 
-        label="Upload files (max 3 files, 5MB each)"
-        maxFiles={3}
+        helperText="PDF, DOC or DOCX less than 5MB"
         maxSize={5 * 1024 * 1024}
-        helperText="Maximum 3 files, 5MB each"
         onChange={(files) => console.log('Files:', files)}
       />
     </div>
@@ -131,72 +263,33 @@ export const Disabled: Story = {
       />
       <Uploader 
         variant="button"
-        buttonText="Select file"
+        buttonText="Upload a file"
         disabled
       />
     </div>
   ),
 };
 
-export const AllVariants: Story = {
-  name: 'All Variants',
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 32, width: 450 }}>
-      <div>
-        <h4 style={{ margin: '0 0 12px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>
-          Dropzone
-        </h4>
-        <Uploader 
-          variant="dropzone"
-          helperText="Drag & drop or click to browse"
-        />
-      </div>
-      
-      <div>
-        <h4 style={{ margin: '0 0 12px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>
-          Button
-        </h4>
-        <Uploader 
-          variant="button"
-          buttonText="Select file"
-          helperText="Click button to choose files"
-        />
-      </div>
-      
-      <div>
-        <h4 style={{ margin: '0 0 12px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>
-          Gallery (for images)
-        </h4>
-        <Uploader 
-          variant="gallery"
-          accept="image/*"
-          helperText="Upload images to see gallery grid"
-        />
-      </div>
-    </div>
-  ),
-};
-
-export const PropertyImages: Story = {
-  name: 'Property Images Example',
+export const ProfilePicture: Story = {
+  name: 'Profile Picture Example',
   render: () => (
     <div style={{ 
-      width: 500, 
+      width: 400, 
       padding: 24, 
       backgroundColor: '#fff', 
       borderRadius: 12,
       border: '1px solid #e4e4e7',
     }}>
       <h3 style={{ margin: '0 0 20px', fontSize: 18, fontWeight: 600 }}>
-        Property Photos
+        Upload Profile Picture
       </h3>
       <Uploader 
-        variant="gallery"
+        variant="dropzone"
+        multiple={false}
         accept="image/*"
-        maxFiles={20}
-        maxSize={10 * 1024 * 1024}
-        helperText="Upload up to 20 photos. Max 10MB each. First image will be the cover."
-        onChange={(files) => console.log('Property images:', files)}
+        helperText="Or click to browse (JPG, PNG or GIF, up to 5MB)"
+        maxSize={5 * 1024 * 1024}
+        onChange={(files) => console.log('Profile picture:', files)}
       />
     </div>
   ),
@@ -220,9 +313,33 @@ export const DocumentUpload: Story = {
         accept=".pdf,.doc,.docx"
         maxFiles={5}
         label="Required documents"
-        helperText="Upload title deed, ID documents, and contracts (PDF or Word)"
+        helperText="Or click to browse (max 5 files, up to 5MB each)"
+        maxSize={5 * 1024 * 1024}
         onChange={(files) => console.log('Documents:', files)}
       />
     </div>
   ),
+};
+
+export const FileListExample: Story = {
+  name: 'File List Example (Figma Reference)',
+  render: () => {
+    const [files, setFiles] = React.useState<File[]>([]);
+    
+    return (
+      <div style={{ width: 400 }}>
+        <Uploader 
+          variant="dropzone"
+          helperText="Or click to browse (max 10 files, up to 5MB each)"
+          maxFiles={10}
+          maxSize={5 * 1024 * 1024}
+          simulateProgress
+          onChange={(newFiles) => {
+            setFiles(newFiles);
+            console.log('Files:', newFiles);
+          }}
+        />
+      </div>
+    );
+  },
 };
