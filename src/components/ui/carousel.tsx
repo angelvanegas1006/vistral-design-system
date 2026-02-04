@@ -4,27 +4,41 @@ import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react"
 
 /**
  * Carousel Design Tokens from Figma
- * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=1364-2863
+ * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=1364-4180
  */
 const CAROUSEL_TOKENS = {
-  // Navigation buttons
+  // Navigation buttons (Desktop: 72px)
   nav: {
-    size: 40,
+    size: 72, // Desktop size from Figma
+    sizeMobile: 40, // Mobile size
     bg: '#ffffff',
     bgHover: '#f4f4f5',
     shadow: '0px 2px 8px rgba(0, 0, 0, 0.1)',
     radius: 9999,
     color: '#18181b',
+    offsetX: 8, // 8px from edge
+    offsetY: 48, // 48px from top/bottom center
   },
-  // Dots
+  // Dots pagination
   dots: {
     size: 8,
     gap: 8,
     bg: '#d4d4d8',
     bgActive: '#2050f6',
   },
+  // Thumbnails
+  thumbnails: {
+    size: 60,
+    gap: 8,
+    radius: 8,
+  },
   // Slide
   gap: 16,
+  // Counter
+  counter: {
+    fontSize: 14,
+    color: '#71717a',
+  },
 } as const
 
 export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -36,6 +50,10 @@ export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
   showArrows?: boolean
   /** Show dot indicators */
   showDots?: boolean
+  /** Show thumbnail indicators */
+  showThumbnails?: boolean
+  /** Show counter (e.g., "1 of 5") */
+  showCounter?: boolean
   /** Loop infinitely */
   loop?: boolean
   /** Slides to show at once */
@@ -46,6 +64,10 @@ export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
   gap?: number
   /** Height for vertical orientation */
   height?: number | string
+  /** Mobile variant (shrinking edges) */
+  mobileVariant?: 'multi-item' | 'uncontained' | 'hero'
+  /** Enable edge masking (mobile) */
+  edgeMasking?: boolean
 }
 
 const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
@@ -54,11 +76,15 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     autoPlay = 0,
     showArrows = true,
     showDots = true,
+    showThumbnails = false,
+    showCounter = false,
     loop = false,
     slidesToShow = 1,
     slidesToScroll = 1,
     gap = CAROUSEL_TOKENS.gap,
     height = 400,
+    mobileVariant = 'multi-item',
+    edgeMasking = false,
     style,
     children,
     ...props
@@ -71,6 +97,7 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     const slides = React.Children.toArray(children)
     const totalSlides = slides.length
     const maxIndex = Math.max(0, totalSlides - slidesToShow)
+    const totalPages = Math.ceil(totalSlides / slidesToShow)
 
     const goTo = useCallback((index: number) => {
       if (loop) {
@@ -102,6 +129,11 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     const viewportStyle: React.CSSProperties = {
       overflow: 'hidden',
       height: isVertical ? '100%' : 'auto',
+      position: 'relative',
+      ...(edgeMasking && {
+        maskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
+        WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)',
+      }),
     }
 
     const trackStyle: React.CSSProperties = isVertical
@@ -135,8 +167,8 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 
     const navButtonStyleHorizontal = (side: 'left' | 'right'): React.CSSProperties => ({
       position: 'absolute',
-      top: '50%',
-      [side]: 8,
+      top: `calc(50% - ${CAROUSEL_TOKENS.nav.offsetY}px)`,
+      [side]: CAROUSEL_TOKENS.nav.offsetX,
       transform: 'translateY(-50%)',
       display: 'flex',
       alignItems: 'center',
@@ -150,13 +182,13 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       color: CAROUSEL_TOKENS.nav.color,
       cursor: 'pointer',
       zIndex: 1,
-      transition: 'background-color 150ms ease',
+      transition: 'all 150ms ease',
     })
 
     const navButtonStyleVertical = (position: 'top' | 'bottom'): React.CSSProperties => ({
       position: 'absolute',
       left: '50%',
-      [position]: 8,
+      [position]: CAROUSEL_TOKENS.nav.offsetX,
       transform: 'translateX(-50%)',
       display: 'flex',
       alignItems: 'center',
@@ -170,7 +202,7 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       color: CAROUSEL_TOKENS.nav.color,
       cursor: 'pointer',
       zIndex: 1,
-      transition: 'background-color 150ms ease',
+      transition: 'all 150ms ease',
     })
 
     const dotsContainerStyle: React.CSSProperties = isVertical
@@ -192,6 +224,14 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
           marginTop: 16,
         }
 
+    const thumbnailsContainerStyle: React.CSSProperties = {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: CAROUSEL_TOKENS.thumbnails.gap,
+      marginTop: 16,
+    }
+
     const getDotStyle = (index: number): React.CSSProperties => ({
       width: CAROUSEL_TOKENS.dots.size,
       height: CAROUSEL_TOKENS.dots.size,
@@ -205,8 +245,28 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       transition: 'background-color 150ms ease',
     })
 
+    const getThumbnailStyle = (index: number): React.CSSProperties => ({
+      width: CAROUSEL_TOKENS.thumbnails.size,
+      height: CAROUSEL_TOKENS.thumbnails.size,
+      borderRadius: CAROUSEL_TOKENS.thumbnails.radius,
+      overflow: 'hidden',
+      border: `2px solid ${index === currentIndex ? CAROUSEL_TOKENS.dots.bgActive : 'transparent'}`,
+      cursor: 'pointer',
+      opacity: index === currentIndex ? 1 : 0.7,
+      transition: 'all 150ms ease',
+    })
+
+    const counterStyle: React.CSSProperties = {
+      fontSize: CAROUSEL_TOKENS.counter.fontSize,
+      color: CAROUSEL_TOKENS.counter.color,
+      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      textAlign: 'center',
+      marginTop: 8,
+    }
+
     const canGoPrev = loop || currentIndex > 0
     const canGoNext = loop || currentIndex < maxIndex
+    const currentSlide = currentIndex + 1
 
     return (
       <div
@@ -214,6 +274,8 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
         style={containerStyle}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        role="region"
+        aria-label="Carousel"
         {...props}
       >
         <div style={viewportStyle}>
@@ -230,21 +292,29 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
           <>
             <button
               type="button"
-              style={{ ...navButtonStyleHorizontal('left'), opacity: canGoPrev ? 1 : 0.5 }}
+              style={{ 
+                ...navButtonStyleHorizontal('left'), 
+                opacity: canGoPrev ? 1 : 0.5,
+                backgroundColor: isHovered && canGoPrev ? CAROUSEL_TOKENS.nav.bgHover : CAROUSEL_TOKENS.nav.bg,
+              }}
               onClick={prev}
               disabled={!canGoPrev}
               aria-label="Previous slide"
             >
-              <ChevronLeft size={20} />
+              <ChevronLeft size={24} />
             </button>
             <button
               type="button"
-              style={{ ...navButtonStyleHorizontal('right'), opacity: canGoNext ? 1 : 0.5 }}
+              style={{ 
+                ...navButtonStyleHorizontal('right'), 
+                opacity: canGoNext ? 1 : 0.5,
+                backgroundColor: isHovered && canGoNext ? CAROUSEL_TOKENS.nav.bgHover : CAROUSEL_TOKENS.nav.bg,
+              }}
               onClick={next}
               disabled={!canGoNext}
               aria-label="Next slide"
             >
-              <ChevronRight size={20} />
+              <ChevronRight size={24} />
             </button>
           </>
         )}
@@ -253,28 +323,42 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
           <>
             <button
               type="button"
-              style={{ ...navButtonStyleVertical('top'), opacity: canGoPrev ? 1 : 0.5 }}
+              style={{ 
+                ...navButtonStyleVertical('top'), 
+                opacity: canGoPrev ? 1 : 0.5,
+                backgroundColor: isHovered && canGoPrev ? CAROUSEL_TOKENS.nav.bgHover : CAROUSEL_TOKENS.nav.bg,
+              }}
               onClick={prev}
               disabled={!canGoPrev}
               aria-label="Previous slide"
             >
-              <ChevronUp size={20} />
+              <ChevronUp size={24} />
             </button>
             <button
               type="button"
-              style={{ ...navButtonStyleVertical('bottom'), opacity: canGoNext ? 1 : 0.5 }}
+              style={{ 
+                ...navButtonStyleVertical('bottom'), 
+                opacity: canGoNext ? 1 : 0.5,
+                backgroundColor: isHovered && canGoNext ? CAROUSEL_TOKENS.nav.bgHover : CAROUSEL_TOKENS.nav.bg,
+              }}
               onClick={next}
               disabled={!canGoNext}
               aria-label="Next slide"
             >
-              <ChevronDown size={20} />
+              <ChevronDown size={24} />
             </button>
           </>
         )}
 
-        {showDots && totalSlides > slidesToShow && (
+        {showCounter && (
+          <div style={counterStyle}>
+            {currentSlide} of {totalSlides}
+          </div>
+        )}
+
+        {showDots && totalSlides > slidesToShow && !showThumbnails && (
           <div style={dotsContainerStyle}>
-            {Array.from({ length: maxIndex + 1 }).map((_, index) => (
+            {Array.from({ length: totalSlides }).map((_, index) => (
               <button
                 key={index}
                 type="button"
@@ -282,6 +366,28 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
                 onClick={() => goTo(index)}
                 aria-label={`Go to slide ${index + 1}`}
               />
+            ))}
+          </div>
+        )}
+
+        {showThumbnails && totalSlides > slidesToShow && (
+          <div style={thumbnailsContainerStyle}>
+            {slides.map((slide, index) => (
+              <button
+                key={index}
+                type="button"
+                style={getThumbnailStyle(index)}
+                onClick={() => goTo(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              >
+                {React.isValidElement(slide) && React.cloneElement(slide as React.ReactElement<any>, {
+                  style: {
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                  },
+                })}
+              </button>
             ))}
           </div>
         )}
