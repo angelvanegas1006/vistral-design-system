@@ -7,25 +7,28 @@ import { Minus, Plus } from "lucide-react"
  * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=418-6699
  */
 const NUMBER_STEPPER_TOKENS = {
-  // Container
-  height: 44,
-  radius: 8,
-  border: '#d4d4d8',
-  borderFocus: '#2050f6',
-  bg: '#ffffff',
-  // Buttons
-  button: {
-    size: 32,
-    bg: '#f4f4f5',
-    bgHover: '#e4e4e7',
-    bgDisabled: '#f4f4f5',
-    fg: '#18181b',
-    fgDisabled: '#a1a1aa',
-    radius: 6,
+  // Container (inline row layout)
+  height: 40,
+  gap: 16,
+  // Stepper control
+  control: {
+    gap: 8,
   },
-  // Input
+  // Buttons (circular outline style)
+  button: {
+    size: 28,
+    bg: 'transparent',
+    bgHover: '#f4f4f5',
+    bgDisabled: 'transparent',
+    fg: '#18181b',
+    fgDisabled: '#d4d4d8',
+    border: '#d4d4d8',
+    borderHover: '#a1a1aa',
+    radius: 9999, // Full circle
+  },
+  // Input/Value display
   input: {
-    width: 48,
+    minWidth: 24,
     fontSize: 16,
     fontWeight: 500,
     fg: '#18181b',
@@ -35,6 +38,11 @@ const NUMBER_STEPPER_TOKENS = {
     fontSize: 14,
     fontWeight: 500,
     color: '#18181b',
+  },
+  // Divider
+  divider: {
+    width: 1,
+    color: '#e4e4e7',
   },
 } as const
 
@@ -61,6 +69,8 @@ export interface NumberStepperProps extends Omit<React.HTMLAttributes<HTMLDivEle
   error?: boolean
   /** Error message */
   errorMessage?: string
+  /** Show divider between label and control */
+  showDivider?: boolean
 }
 
 const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
@@ -76,10 +86,12 @@ const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
     helperText,
     error = false,
     errorMessage,
+    showDivider = true,
     style,
     ...props
   }, ref) => {
     const [internalValue, setInternalValue] = useState(defaultValue)
+    const [hoveredButton, setHoveredButton] = useState<'dec' | 'inc' | null>(null)
     const generatedId = useId()
 
     const isControlled = controlledValue !== undefined
@@ -108,66 +120,76 @@ const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
       }
     }
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = parseInt(e.target.value, 10)
-      if (!isNaN(newValue)) {
-        updateValue(newValue)
-      }
-    }
-
+    // Container: horizontal row with label left, controls right
     const containerStyle: React.CSSProperties = {
       display: 'flex',
       flexDirection: 'column',
-      gap: 6,
+      gap: 4,
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
       ...style,
+    }
+
+    const rowStyle: React.CSSProperties = {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: NUMBER_STEPPER_TOKENS.gap,
+      minHeight: NUMBER_STEPPER_TOKENS.height,
+      opacity: disabled ? 0.5 : 1,
     }
 
     const labelStyle: React.CSSProperties = {
       fontSize: NUMBER_STEPPER_TOKENS.label.fontSize,
       fontWeight: NUMBER_STEPPER_TOKENS.label.fontWeight,
       color: error ? '#dc2626' : NUMBER_STEPPER_TOKENS.label.color,
+      margin: 0,
     }
 
-    const inputWrapperStyle: React.CSSProperties = {
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 4,
-      height: NUMBER_STEPPER_TOKENS.height,
-      padding: 4,
-      backgroundColor: NUMBER_STEPPER_TOKENS.bg,
-      border: `1px solid ${error ? '#dc2626' : NUMBER_STEPPER_TOKENS.border}`,
-      borderRadius: NUMBER_STEPPER_TOKENS.radius,
-      opacity: disabled ? 0.5 : 1,
+    const dividerStyle: React.CSSProperties = {
+      flex: 1,
+      height: NUMBER_STEPPER_TOKENS.divider.width,
+      backgroundColor: NUMBER_STEPPER_TOKENS.divider.color,
+      marginLeft: 8,
+      marginRight: 8,
     }
 
-    const buttonStyle = (isEnabled: boolean): React.CSSProperties => ({
+    const controlStyle: React.CSSProperties = {
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
-      width: NUMBER_STEPPER_TOKENS.button.size,
-      height: NUMBER_STEPPER_TOKENS.button.size,
-      backgroundColor: NUMBER_STEPPER_TOKENS.button.bg,
-      color: isEnabled && !disabled 
-        ? NUMBER_STEPPER_TOKENS.button.fg 
-        : NUMBER_STEPPER_TOKENS.button.fgDisabled,
-      border: 'none',
-      borderRadius: NUMBER_STEPPER_TOKENS.button.radius,
-      cursor: isEnabled && !disabled ? 'pointer' : 'not-allowed',
-      transition: 'background-color 150ms ease',
-    })
+      gap: NUMBER_STEPPER_TOKENS.control.gap,
+    }
 
-    const inputStyle: React.CSSProperties = {
-      width: NUMBER_STEPPER_TOKENS.input.width,
-      height: '100%',
-      border: 'none',
-      outline: 'none',
-      textAlign: 'center',
+    const getButtonStyle = (isEnabled: boolean, buttonType: 'dec' | 'inc'): React.CSSProperties => {
+      const isHovered = hoveredButton === buttonType
+      return {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: NUMBER_STEPPER_TOKENS.button.size,
+        height: NUMBER_STEPPER_TOKENS.button.size,
+        backgroundColor: isHovered && isEnabled && !disabled 
+          ? NUMBER_STEPPER_TOKENS.button.bgHover 
+          : NUMBER_STEPPER_TOKENS.button.bg,
+        color: isEnabled && !disabled 
+          ? NUMBER_STEPPER_TOKENS.button.fg 
+          : NUMBER_STEPPER_TOKENS.button.fgDisabled,
+        border: `1px solid ${isEnabled && !disabled 
+          ? (isHovered ? NUMBER_STEPPER_TOKENS.button.borderHover : NUMBER_STEPPER_TOKENS.button.border)
+          : NUMBER_STEPPER_TOKENS.button.fgDisabled}`,
+        borderRadius: NUMBER_STEPPER_TOKENS.button.radius,
+        cursor: isEnabled && !disabled ? 'pointer' : 'not-allowed',
+        transition: 'all 150ms ease',
+        padding: 0,
+      }
+    }
+
+    const valueStyle: React.CSSProperties = {
+      minWidth: NUMBER_STEPPER_TOKENS.input.minWidth,
       fontSize: NUMBER_STEPPER_TOKENS.input.fontSize,
       fontWeight: NUMBER_STEPPER_TOKENS.input.fontWeight,
       color: NUMBER_STEPPER_TOKENS.input.fg,
+      textAlign: 'center',
       fontFamily: 'inherit',
-      backgroundColor: 'transparent',
     }
 
     const helperStyle: React.CSSProperties = {
@@ -178,46 +200,44 @@ const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
 
     return (
       <div ref={ref} style={containerStyle} {...props}>
-        {label && (
-          <label htmlFor={generatedId} style={labelStyle}>
-            {label}
-          </label>
-        )}
+        <div style={rowStyle}>
+          {label && (
+            <label htmlFor={generatedId} style={labelStyle}>
+              {label}
+            </label>
+          )}
 
-        <div style={inputWrapperStyle}>
-          <button
-            type="button"
-            onClick={handleDecrement}
-            disabled={!canDecrement || disabled}
-            style={buttonStyle(canDecrement)}
-            aria-label="Decrease value"
-          >
-            <Minus size={18} />
-          </button>
+          {showDivider && label && <div style={dividerStyle} />}
 
-          <input
-            id={generatedId}
-            type="text"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            value={value}
-            onChange={handleInputChange}
-            disabled={disabled}
-            style={inputStyle}
-            aria-valuemin={min}
-            aria-valuemax={max}
-            aria-valuenow={value}
-          />
+          <div style={controlStyle}>
+            <button
+              type="button"
+              onClick={handleDecrement}
+              disabled={!canDecrement || disabled}
+              style={getButtonStyle(canDecrement, 'dec')}
+              onMouseEnter={() => setHoveredButton('dec')}
+              onMouseLeave={() => setHoveredButton(null)}
+              aria-label="Decrease value"
+            >
+              <Minus size={16} />
+            </button>
 
-          <button
-            type="button"
-            onClick={handleIncrement}
-            disabled={!canIncrement || disabled}
-            style={buttonStyle(canIncrement)}
-            aria-label="Increase value"
-          >
-            <Plus size={18} />
-          </button>
+            <span id={generatedId} style={valueStyle}>
+              {value}
+            </span>
+
+            <button
+              type="button"
+              onClick={handleIncrement}
+              disabled={!canIncrement || disabled}
+              style={getButtonStyle(canIncrement, 'inc')}
+              onMouseEnter={() => setHoveredButton('inc')}
+              onMouseLeave={() => setHoveredButton(null)}
+              aria-label="Increase value"
+            >
+              <Plus size={16} />
+            </button>
+          </div>
         </div>
 
         {(helperText || errorMessage) && (

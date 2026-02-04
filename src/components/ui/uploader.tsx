@@ -48,6 +48,8 @@ type UploadedFile = {
 }
 
 export interface UploaderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  /** Visual variant */
+  variant?: 'dropzone' | 'button' | 'gallery'
   /** Accepted file types (e.g., "image/*", ".pdf,.doc") */
   accept?: string
   /** Allow multiple files */
@@ -68,10 +70,13 @@ export interface UploaderProps extends Omit<React.HTMLAttributes<HTMLDivElement>
   showPreviews?: boolean
   /** Disabled state */
   disabled?: boolean
+  /** Button text for button variant */
+  buttonText?: string
 }
 
 const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
   ({
+    variant = 'dropzone',
     accept,
     multiple = true,
     maxSize = 10 * 1024 * 1024, // 10MB default
@@ -82,6 +87,7 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
     helperText,
     showPreviews = true,
     disabled = false,
+    buttonText = 'Select file',
     style,
     ...props
   }, ref) => {
@@ -265,37 +271,228 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
       color: UPLOADER_TOKENS.text.secondary,
     }
 
+    const buttonStyle: React.CSSProperties = {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 8,
+      padding: '10px 16px',
+      backgroundColor: '#ffffff',
+      color: UPLOADER_TOKENS.text.primary,
+      border: '1px solid #d4d4d8',
+      borderRadius: 8,
+      fontSize: 14,
+      fontWeight: 500,
+      cursor: disabled ? 'not-allowed' : 'pointer',
+      transition: 'all 150ms ease',
+      opacity: disabled ? 0.5 : 1,
+    }
+
+    const galleryStyle: React.CSSProperties = {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))',
+      gap: 12,
+      marginTop: 16,
+    }
+
+    const galleryItemStyle: React.CSSProperties = {
+      position: 'relative',
+      aspectRatio: '1',
+      borderRadius: 8,
+      overflow: 'hidden',
+      backgroundColor: '#f4f4f5',
+    }
+
+    const galleryRemoveStyle: React.CSSProperties = {
+      position: 'absolute',
+      top: 4,
+      right: 4,
+      width: 24,
+      height: 24,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+      color: '#ffffff',
+      border: 'none',
+      borderRadius: 4,
+      cursor: 'pointer',
+      padding: 0,
+    }
+
+    const renderDropzone = () => (
+      <div
+        style={dropzoneStyle}
+        onClick={handleClick}
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+      >
+        <Upload size={32} style={iconStyle} />
+        <p style={{ 
+          margin: 0, 
+          fontSize: 14, 
+          fontWeight: 500,
+          color: UPLOADER_TOKENS.text.primary,
+        }}>
+          Drag & drop files here
+        </p>
+        <p style={{ 
+          margin: '4px 0 0', 
+          fontSize: 13, 
+          color: UPLOADER_TOKENS.text.secondary,
+        }}>
+          or{' '}
+          <span style={{ color: UPLOADER_TOKENS.text.link, fontWeight: 500 }}>
+            click to browse
+          </span>
+        </p>
+      </div>
+    )
+
+    const renderButton = () => (
+      <button
+        type="button"
+        style={buttonStyle}
+        onClick={handleClick}
+        disabled={disabled}
+      >
+        <Upload size={18} />
+        {buttonText}
+      </button>
+    )
+
+    const renderFileList = () => (
+      showPreviews && files.length > 0 && (
+        <div style={fileListStyle}>
+          {files.map((uploadedFile) => {
+            const FileIcon = getFileIcon(uploadedFile.file)
+            
+            return (
+              <div key={uploadedFile.id} style={fileItemStyle}>
+                <div style={thumbnailStyle}>
+                  {uploadedFile.preview ? (
+                    <img
+                      src={uploadedFile.preview}
+                      alt={uploadedFile.file.name}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                      }}
+                    />
+                  ) : (
+                    <FileIcon size={20} color="#71717a" />
+                  )}
+                </div>
+                
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{
+                    margin: 0,
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: UPLOADER_TOKENS.text.primary,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}>
+                    {uploadedFile.file.name}
+                  </p>
+                  <p style={{
+                    margin: '2px 0 0',
+                    fontSize: 12,
+                    color: UPLOADER_TOKENS.text.secondary,
+                  }}>
+                    {formatFileSize(uploadedFile.file.size)}
+                  </p>
+                </div>
+                
+                <button
+                  type="button"
+                  style={removeButtonStyle}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    removeFile(uploadedFile.id)
+                  }}
+                  aria-label="Remove file"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            )
+          })}
+        </div>
+      )
+    )
+
+    const renderGallery = () => (
+      showPreviews && files.length > 0 && (
+        <div style={galleryStyle}>
+          {files.map((uploadedFile) => {
+            const FileIcon = getFileIcon(uploadedFile.file)
+            
+            return (
+              <div key={uploadedFile.id} style={galleryItemStyle}>
+                {uploadedFile.preview ? (
+                  <img
+                    src={uploadedFile.preview}
+                    alt={uploadedFile.file.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                  />
+                ) : (
+                  <div style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center',
+                    height: '100%',
+                  }}>
+                    <FileIcon size={32} color="#71717a" />
+                  </div>
+                )}
+                <button
+                  type="button"
+                  style={galleryRemoveStyle}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    removeFile(uploadedFile.id)
+                  }}
+                  aria-label="Remove file"
+                >
+                  <X size={14} />
+                </button>
+              </div>
+            )
+          })}
+          {/* Add button in gallery */}
+          <div 
+            style={{
+              ...galleryItemStyle,
+              border: '2px dashed #d4d4d8',
+              backgroundColor: 'transparent',
+              cursor: disabled ? 'not-allowed' : 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              opacity: disabled ? 0.5 : 1,
+            }}
+            onClick={handleClick}
+          >
+            <Upload size={24} color="#a1a1aa" />
+          </div>
+        </div>
+      )
+    )
+
     return (
       <div ref={ref} style={containerStyle} {...props}>
         {label && <label style={labelStyle}>{label}</label>}
 
-        <div
-          style={dropzoneStyle}
-          onClick={handleClick}
-          onDrop={handleDrop}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-        >
-          <Upload size={32} style={iconStyle} />
-          <p style={{ 
-            margin: 0, 
-            fontSize: 14, 
-            fontWeight: 500,
-            color: UPLOADER_TOKENS.text.primary,
-          }}>
-            Drag & drop files here
-          </p>
-          <p style={{ 
-            margin: '4px 0 0', 
-            fontSize: 13, 
-            color: UPLOADER_TOKENS.text.secondary,
-          }}>
-            or{' '}
-            <span style={{ color: UPLOADER_TOKENS.text.link, fontWeight: 500 }}>
-              click to browse
-            </span>
-          </p>
-        </div>
+        {variant === 'dropzone' && renderDropzone()}
+        {variant === 'button' && renderButton()}
+        {variant === 'gallery' && files.length === 0 && renderDropzone()}
 
         <input
           ref={inputRef}
@@ -309,66 +506,7 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
 
         {helperText && <p style={helperStyle}>{helperText}</p>}
 
-        {showPreviews && files.length > 0 && (
-          <div style={fileListStyle}>
-            {files.map((uploadedFile) => {
-              const FileIcon = getFileIcon(uploadedFile.file)
-              
-              return (
-                <div key={uploadedFile.id} style={fileItemStyle}>
-                  <div style={thumbnailStyle}>
-                    {uploadedFile.preview ? (
-                      <img
-                        src={uploadedFile.preview}
-                        alt={uploadedFile.file.name}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                        }}
-                      />
-                    ) : (
-                      <FileIcon size={20} color="#71717a" />
-                    )}
-                  </div>
-                  
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{
-                      margin: 0,
-                      fontSize: 14,
-                      fontWeight: 500,
-                      color: UPLOADER_TOKENS.text.primary,
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                    }}>
-                      {uploadedFile.file.name}
-                    </p>
-                    <p style={{
-                      margin: '2px 0 0',
-                      fontSize: 12,
-                      color: UPLOADER_TOKENS.text.secondary,
-                    }}>
-                      {formatFileSize(uploadedFile.file.size)}
-                    </p>
-                  </div>
-                  
-                  <button
-                    type="button"
-                    style={removeButtonStyle}
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      removeFile(uploadedFile.id)
-                    }}
-                    aria-label="Remove file"
-                  >
-                    <X size={16} />
-                  </button>
-                </div>
-              )
-            })}
-          </div>
-        )}
+        {variant === 'gallery' ? renderGallery() : renderFileList()}
       </div>
     )
   }

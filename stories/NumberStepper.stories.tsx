@@ -17,10 +17,10 @@ Quantity input component with increment/decrement buttons.
 Based on Figma Design System: [Stepper Component](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=418-6699)
 
 ## Features
-- **Increment/Decrement**: +/- buttons for easy quantity adjustment
+- **Inline Layout**: Label left, controls right with divider
+- **Circular Buttons**: Outlined +/- buttons
 - **Min/Max**: Define value boundaries
 - **Step**: Custom step increment
-- **Labels**: Built-in label and helper text
 - **States**: Normal, disabled, error
         `,
       },
@@ -32,90 +32,64 @@ export default meta;
 type Story = StoryObj<typeof NumberStepper>;
 
 export const Default: Story = {
-  args: {
-    label: 'Quantity',
-    defaultValue: 1,
-    min: 0,
-    max: 10,
-  },
-};
-
-export const WithLabel: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-      <NumberStepper label="Habitaciones" defaultValue={2} />
-      <NumberStepper label="Baños" defaultValue={1} />
-      <NumberStepper label="Huéspedes" defaultValue={4} />
+    <div style={{ width: 280 }}>
+      <NumberStepper label="Habitaciones" defaultValue={0} min={0} max={10} />
     </div>
   ),
 };
 
-export const MinMax: Story = {
-  name: 'Min/Max Limits',
+export const WithValues: Story = {
+  name: 'Multiple Values',
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-      <NumberStepper 
-        label="Adults (min 1, max 10)" 
-        defaultValue={2} 
-        min={1} 
-        max={10} 
-      />
-      <NumberStepper 
-        label="Children (min 0, max 5)" 
-        defaultValue={0} 
-        min={0} 
-        max={5} 
-      />
+    <div style={{ width: 280, display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <NumberStepper label="Habitaciones" defaultValue={3} />
+      <NumberStepper label="Baños" defaultValue={5} />
     </div>
   ),
 };
 
-export const CustomStep: Story = {
-  name: 'Custom Step',
+export const WithoutDivider: Story = {
+  name: 'Without Divider',
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-      <NumberStepper 
-        label="Quantity (step 5)" 
-        defaultValue={10} 
-        step={5}
-        min={0}
-        max={100}
-      />
-      <NumberStepper 
-        label="Price (step 10)" 
-        defaultValue={50} 
-        step={10}
-        min={0}
-        max={200}
-      />
+    <div style={{ width: 200, display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <NumberStepper label="Adults" defaultValue={2} showDivider={false} />
+      <NumberStepper label="Children" defaultValue={1} showDivider={false} />
     </div>
   ),
 };
 
 export const States: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-      <NumberStepper label="Normal" defaultValue={3} />
-      <NumberStepper label="Disabled" defaultValue={5} disabled />
-      <NumberStepper 
-        label="Error" 
-        defaultValue={0} 
-        error 
-        errorMessage="Minimum 1 required"
-      />
+    <div style={{ width: 280, display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Normal</p>
+        <NumberStepper label="Habitaciones" defaultValue={3} />
+      </div>
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Disabled</p>
+        <NumberStepper label="Habitaciones" defaultValue={5} disabled />
+      </div>
+      <div>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Error</p>
+        <NumberStepper 
+          label="Habitaciones" 
+          defaultValue={0} 
+          error 
+          errorMessage="This is an error description."
+        />
+      </div>
     </div>
   ),
 };
 
-export const WithHelperText: Story = {
+export const MinMaxBoundary: Story = {
+  name: 'At Boundaries',
   render: () => (
-    <NumberStepper 
-      label="Habitaciones" 
-      defaultValue={2} 
-      min={1}
-      max={8}
-      helperText="Máximo 8 habitaciones por reserva"
-    />
+    <div style={{ width: 280, display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <NumberStepper label="At minimum (0)" defaultValue={0} min={0} max={10} />
+      <NumberStepper label="At maximum (10)" defaultValue={10} min={0} max={10} />
+    </div>
   ),
 };
 
@@ -124,15 +98,15 @@ export const Controlled: Story = {
     const [value, setValue] = React.useState(3);
     
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div style={{ width: 280 }}>
         <NumberStepper 
-          label="Controlled Value" 
+          label="Controlled" 
           value={value}
           onChange={setValue}
           min={0}
           max={10}
         />
-        <p style={{ fontSize: 14, color: '#71717a' }}>
+        <p style={{ fontSize: 13, color: '#71717a', marginTop: 12 }}>
           Current value: <strong>{value}</strong>
         </p>
       </div>
@@ -154,11 +128,34 @@ export const PropertyForm: Story = {
         Property Details
       </h3>
       
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <NumberStepper label="Bedrooms" defaultValue={2} min={0} max={10} />
         <NumberStepper label="Bathrooms" defaultValue={1} min={1} max={5} />
         <NumberStepper label="Parking Spots" defaultValue={1} min={0} max={4} />
         <NumberStepper label="Max Guests" defaultValue={4} min={1} max={16} />
+      </div>
+    </div>
+  ),
+};
+
+export const CompactList: Story = {
+  name: 'Compact List',
+  render: () => (
+    <div style={{ 
+      width: 260,
+      backgroundColor: '#fff', 
+      borderRadius: 12,
+      border: '1px solid #e4e4e7',
+      overflow: 'hidden',
+    }}>
+      <div style={{ padding: '12px 16px', borderBottom: '1px solid #e4e4e7' }}>
+        <NumberStepper label="Habitaciones" defaultValue={0} />
+      </div>
+      <div style={{ padding: '12px 16px', borderBottom: '1px solid #e4e4e7' }}>
+        <NumberStepper label="Camas" defaultValue={0} />
+      </div>
+      <div style={{ padding: '12px 16px' }}>
+        <NumberStepper label="Baños" defaultValue={0} />
       </div>
     </div>
   ),

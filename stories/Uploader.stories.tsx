@@ -17,6 +17,7 @@ File upload component with drag & drop support.
 Based on Figma Design System: [Uploader Component](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=450-8246)
 
 ## Features
+- **Variants**: Dropzone, Button, Gallery
 - **Drag & Drop**: Drop files directly into the zone
 - **Click to Browse**: Traditional file picker
 - **File Previews**: Thumbnails for images
@@ -32,11 +33,43 @@ export default meta;
 type Story = StoryObj<typeof Uploader>;
 
 export const Default: Story = {
+  name: 'Dropzone (Default)',
   render: () => (
     <div style={{ width: 400 }}>
       <Uploader 
+        variant="dropzone"
         label="Upload files"
         helperText="Max 10MB per file. Supports images, PDFs, and documents."
+        onChange={(files) => console.log('Files:', files)}
+      />
+    </div>
+  ),
+};
+
+export const ButtonVariant: Story = {
+  name: 'Button Variant',
+  render: () => (
+    <div style={{ width: 400 }}>
+      <Uploader 
+        variant="button"
+        label="Upload document"
+        buttonText="Select file"
+        helperText="PDF, DOC, DOCX up to 10MB"
+        onChange={(files) => console.log('Files:', files)}
+      />
+    </div>
+  ),
+};
+
+export const GalleryVariant: Story = {
+  name: 'Gallery Variant',
+  render: () => (
+    <div style={{ width: 400 }}>
+      <Uploader 
+        variant="gallery"
+        label="Property photos"
+        accept="image/*"
+        helperText="Upload images to see them in a gallery grid"
         onChange={(files) => console.log('Files:', files)}
       />
     </div>
@@ -62,9 +95,10 @@ export const SingleFile: Story = {
   render: () => (
     <div style={{ width: 400 }}>
       <Uploader 
-        label="Upload document"
+        variant="button"
         multiple={false}
         accept=".pdf,.doc,.docx"
+        buttonText="Choose document"
         helperText="Upload a single PDF or Word document"
         onChange={(files) => console.log('Files:', files)}
       />
@@ -89,26 +123,56 @@ export const WithLimits: Story = {
 
 export const Disabled: Story = {
   render: () => (
-    <div style={{ width: 400 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: 400 }}>
       <Uploader 
-        label="Upload files"
+        variant="dropzone"
+        label="Dropzone disabled"
         disabled
-        helperText="Uploads are currently disabled"
+      />
+      <Uploader 
+        variant="button"
+        buttonText="Select file"
+        disabled
       />
     </div>
   ),
 };
 
-export const NoPreviews: Story = {
-  name: 'Without Previews',
+export const AllVariants: Story = {
+  name: 'All Variants',
   render: () => (
-    <div style={{ width: 400 }}>
-      <Uploader 
-        label="Upload files"
-        showPreviews={false}
-        helperText="File previews are hidden"
-        onChange={(files) => console.log('Files:', files)}
-      />
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 32, width: 450 }}>
+      <div>
+        <h4 style={{ margin: '0 0 12px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>
+          Dropzone
+        </h4>
+        <Uploader 
+          variant="dropzone"
+          helperText="Drag & drop or click to browse"
+        />
+      </div>
+      
+      <div>
+        <h4 style={{ margin: '0 0 12px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>
+          Button
+        </h4>
+        <Uploader 
+          variant="button"
+          buttonText="Select file"
+          helperText="Click button to choose files"
+        />
+      </div>
+      
+      <div>
+        <h4 style={{ margin: '0 0 12px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>
+          Gallery (for images)
+        </h4>
+        <Uploader 
+          variant="gallery"
+          accept="image/*"
+          helperText="Upload images to see gallery grid"
+        />
+      </div>
     </div>
   ),
 };
@@ -127,6 +191,7 @@ export const PropertyImages: Story = {
         Property Photos
       </h3>
       <Uploader 
+        variant="gallery"
         accept="image/*"
         maxFiles={20}
         maxSize={10 * 1024 * 1024}
@@ -151,6 +216,7 @@ export const DocumentUpload: Story = {
         Legal Documents
       </h3>
       <Uploader 
+        variant="dropzone"
         accept=".pdf,.doc,.docx"
         maxFiles={5}
         label="Required documents"
