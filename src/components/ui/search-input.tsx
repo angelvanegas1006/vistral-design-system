@@ -122,7 +122,10 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     const inputStyle: React.CSSProperties = {
       width: '100%',
       height,
-      padding: `0 ${clearable && value ? height : SEARCH_INPUT_TOKENS.paddingX}px 0 ${height}px`,
+      paddingLeft: height, // Space for icon on the left
+      paddingRight: clearable && value ? height : SEARCH_INPUT_TOKENS.paddingX, // Space for clear button on the right
+      paddingTop: 0,
+      paddingBottom: 0,
       fontSize,
       fontFamily: 'inherit',
       backgroundColor: filled ? SEARCH_INPUT_TOKENS.bgFilled : SEARCH_INPUT_TOKENS.bg,
@@ -131,6 +134,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       outline: 'none',
       transition: 'border-color 150ms ease, box-shadow 150ms ease',
       opacity: disabled ? 0.5 : 1,
+      boxSizing: 'border-box',
       ...(isFocused && filled && {
         boxShadow: `0 0 0 2px ${SEARCH_INPUT_TOKENS.borderFocus}`,
       }),
@@ -147,6 +151,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       justifyContent: 'center',
       color: SEARCH_INPUT_TOKENS.iconColor,
       pointerEvents: 'none',
+      zIndex: 1,
     }
 
     const clearButtonStyle: React.CSSProperties = {

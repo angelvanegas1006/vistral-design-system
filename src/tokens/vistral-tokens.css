@@ -1,5 +1,5 @@
 /* Vistral Design Tokens - CSS Variables */
-/* Generated from vistral-tokens.json */
+/* Generated from component tokens and Figma design system */
 /* Do not edit manually - use npm run tokens:generate */
 
 /* Import Inter font */
@@ -131,7 +131,7 @@
   --vistral-shadow-level-4: 0px 0px 32px 0px #00000033;
   
   /* ========================================
-     BUTTON TOKENS (from Figma Design System)
+     COLOR TOKENS (from Figma Design System)
      ======================================== */
   
   /* Spaceblue Brand Colors */
@@ -143,61 +143,84 @@
   --vistral-spaceblue-800: #162eb7;
   --vistral-spaceblue-900: #182c90;
   
-  /* Button - Primary */
-  --vistral-button-primary-bg: var(--vistral-spaceblue-600);
-  --vistral-button-primary-bg-hover: var(--vistral-spaceblue-700);
-  --vistral-button-primary-bg-active: var(--vistral-spaceblue-800);
-  --vistral-button-primary-fg: #ffffff;
+  /* Primary Colors (using Spaceblue) */
+  --vistral-color-primary-50: var(--vistral-spaceblue-50);
+  --vistral-color-primary-100: var(--vistral-spaceblue-100);
+  --vistral-color-primary-200: var(--vistral-spaceblue-200);
+  --vistral-color-primary-500: var(--vistral-spaceblue-600);
+  --vistral-color-primary-600: var(--vistral-spaceblue-600);
+  --vistral-color-primary-700: var(--vistral-spaceblue-700);
+  --vistral-color-primary-800: var(--vistral-spaceblue-800);
+  --vistral-color-primary-900: var(--vistral-spaceblue-900);
   
-  /* Button - Secondary */
-  --vistral-button-secondary-bg: var(--vistral-spaceblue-100);
-  --vistral-button-secondary-bg-hover: var(--vistral-spaceblue-50);
-  --vistral-button-secondary-bg-active: var(--vistral-spaceblue-200);
-  --vistral-button-secondary-fg: var(--vistral-spaceblue-800);
-  --vistral-button-secondary-fg-active: var(--vistral-spaceblue-900);
+  /* Semantic Colors */
+  --vistral-color-success: #10b981;
+  --vistral-color-success-hover: #059669;
+  --vistral-color-warning: #f59e0b;
+  --vistral-color-warning-hover: #d97706;
+  --vistral-color-error: #ef4444;
+  --vistral-color-error-hover: #dc2626;
+  --vistral-color-info: #3b82f6;
+  --vistral-color-info-hover: #2563eb;
   
-  /* Button - Ghost */
-  --vistral-button-ghost-bg: transparent;
-  --vistral-button-ghost-bg-hover: var(--vistral-spaceblue-50);
-  --vistral-button-ghost-bg-active: var(--vistral-spaceblue-200);
-  --vistral-button-ghost-fg: var(--vistral-spaceblue-800);
-  --vistral-button-ghost-fg-active: var(--vistral-spaceblue-900);
+  /* Neutral Grays */
+  --vistral-gray-50: #f9fafb;
+  --vistral-gray-100: #f3f4f6;
+  --vistral-gray-200: #e5e7eb;
+  --vistral-gray-300: #d1d5db;
+  --vistral-gray-400: #9ca3af;
+  --vistral-gray-500: #6b7280;
+  --vistral-gray-600: #4b5563;
+  --vistral-gray-700: #374151;
+  --vistral-gray-800: #1f2937;
+  --vistral-gray-900: #111827;
+  --vistral-gray-950: #030712;
   
-  /* Button - Destructive */
-  --vistral-button-destructive-bg: #dc2626;
-  --vistral-button-destructive-bg-hover: #b91c1c;
-  --vistral-button-destructive-bg-active: #991b1b;
-  --vistral-button-destructive-fg: #ffffff;
+  /* Zinc (used in components) */
+  --vistral-zinc-50: #fafafa;
+  --vistral-zinc-100: #f4f4f5;
+  --vistral-zinc-200: #e4e4e7;
+  --vistral-zinc-300: #d4d4d8;
+  --vistral-zinc-400: #a1a1aa;
+  --vistral-zinc-500: #71717a;
+  --vistral-zinc-600: #52525b;
+  --vistral-zinc-700: #3f3f46;
+  --vistral-zinc-800: #27272a;
+  --vistral-zinc-900: #18181b;
   
-  /* Button - Destructive Ghost */
-  --vistral-button-destructive-ghost-bg: transparent;
-  --vistral-button-destructive-ghost-bg-hover: #f4f4f5;
-  --vistral-button-destructive-ghost-bg-active: #e4e4e7;
-  --vistral-button-destructive-ghost-fg: #b91c1c;
+  /* Background Colors */
+  --vistral-bg-default: #ffffff;
+  --vistral-bg-elevated: #f4f4f5;
+  --vistral-bg-card: #ffffff;
   
-  /* Button - Disabled */
-  --vistral-button-disabled-bg: #e5e5e5;
-  --vistral-button-disabled-fg: #737373;
+  /* Text Colors */
+  --vistral-text-primary: #18181b;
+  --vistral-text-secondary: #71717a;
+  --vistral-text-tertiary: #a1a1aa;
+  --vistral-text-disabled: #d4d4d8;
   
-  /* Button - Focus Ring */
-  --vistral-button-focus-ring: 0px 0px 0px 2px rgba(0, 0, 0, 0.32);
+  /* Border Colors */
+  --vistral-border-default: #d4d4d8;
+  --vistral-border-hover: #a1a1aa;
+  --vistral-border-focus: #2050f6;
+  --vistral-border-error: #ef4444;
+}
+
+/* Dark Mode Tokens */
+.dark {
+  --vistral-bg-default: #000000;
+  --vistral-bg-elevated: #1a1a1a;
+  --vistral-bg-card: #1f1f1f;
   
-  /* Button - Border Radius (Full/Pill) */
-  --vistral-button-radius: 9999px;
+  --vistral-text-primary: #ffffff;
+  --vistral-text-secondary: #a3a3a3;
+  --vistral-text-tertiary: #71717a;
+  --vistral-text-disabled: #52525b;
   
-  /* Button - Sizes */
-  --vistral-button-height-sm: 32px;
-  --vistral-button-height-md: 40px;
-  --vistral-button-height-lg: 48px;
-  --vistral-button-padding-x-sm: 12px;
-  --vistral-button-padding-x-md: 16px;
-  --vistral-button-padding-x-lg: 24px;
-  --vistral-button-font-size-sm: 12px;
-  --vistral-button-font-size-md: 14px;
-  --vistral-button-font-size-lg: 16px;
-  --vistral-button-icon-size-sm: 16px;
-  --vistral-button-icon-size-md: 20px;
-  --vistral-button-icon-size-lg: 24px;
+  --vistral-border-default: #333333;
+  --vistral-border-hover: #52525b;
+  --vistral-border-focus: #2050f6;
+  --vistral-border-error: #ef4444;
 }
 
 /* Base styles */

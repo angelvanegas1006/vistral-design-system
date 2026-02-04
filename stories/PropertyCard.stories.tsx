@@ -16,13 +16,15 @@ const meta: Meta<typeof PropertyCard> = {
 
 Real estate listing card component matching Figma design.
 
-## Structure
-1. **Image** with type badge (Apartment) and favorite button
-2. **Title + Status** badge inline
-3. **Location** text
-4. **Feature pills** (Flat, beds, baths, area)
-5. **Price section** (Purchase price + Net yield)
-6. **Info rows** (Estimated rent, Total investment, Capital gain)
+Based on Figma: [PropertyCard](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=4363-15881)
+
+## Features
+- **Edge-to-edge image** - fills card width
+- **Type badge** - Apartment, Project, House
+- **Status badges** - Available, Reserved, Sold, Coming Soon
+- **Value labels** - Off market, High Yield, New Construction, High Value
+- **Net Yield in BLUE** color
+- **Info rows** with optional info icon
         `,
       },
     },
@@ -34,46 +36,124 @@ type Story = StoryObj<typeof PropertyCard>;
 
 export const Default: Story = {
   render: () => (
-    <div style={{ width: 340 }}>
+    <div style={{ width: 280 }}>
       <PropertyCard
         image={DEMO_IMAGE}
         type="Apartment"
         title="Property in Navacerrada"
         status="available"
-        location="Madrid, Spain"
-        category="Flat"
+        location="Madrid · Navacerrada"
         bedrooms={2}
         bathrooms={1}
         area={85}
         price={90000}
         yieldPercent={6}
         infoRows={[
-          { label: 'Estimated rent', value: '650€/month' },
-          { label: 'Total investment', value: '113,100€' },
-          { label: 'Capital gain', value: '90.000€', hasInfo: true },
+          { label: 'Estimated rent', value: '650€' },
+          { label: 'Cashflow', value: '90.000€' },
+          { label: 'Furniture', value: 'T0034', hasInfo: true },
         ]}
       />
     </div>
   ),
 };
 
+export const StatusManagement: Story = {
+  name: 'Status Management',
+  render: () => (
+    <div style={{ display: 'flex', gap: 16 }}>
+      <div style={{ width: 260 }}>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Available</p>
+        <PropertyCard
+          image={DEMO_IMAGE}
+          type="Apartment"
+          title="Property in San Sebastián..."
+          status="available"
+          location="Madrid · Vallecas"
+          bedrooms={4}
+          bathrooms={1}
+          area={85}
+          price={90000}
+          yieldPercent={6}
+          infoRows={[
+            { label: 'Estimated rent', value: '650€' },
+            { label: 'Cashflow', value: '90.000€' },
+          ]}
+        />
+      </div>
+      <div style={{ width: 260 }}>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Reserved</p>
+        <PropertyCard
+          image={DEMO_IMAGE}
+          type="Apartment"
+          title="Property in San Sebastián..."
+          status="reserved"
+          location="Madrid · Vallecas"
+          bedrooms={4}
+          bathrooms={1}
+          area={85}
+          price={90000}
+          yieldPercent={6}
+          infoRows={[
+            { label: 'Estimated rent', value: '650€' },
+            { label: 'Cashflow', value: '90.000€' },
+          ]}
+        />
+      </div>
+      <div style={{ width: 260 }}>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Sold</p>
+        <PropertyCard
+          image={DEMO_IMAGE}
+          type="Apartment"
+          title="Property in San Sebastián..."
+          status="sold"
+          location="Madrid · Vallecas"
+          bedrooms={4}
+          bathrooms={1}
+          area={85}
+          price={90000}
+          yieldPercent={6}
+          infoRows={[
+            { label: 'Estimated rent', value: '650€' },
+            { label: 'Cashflow', value: '90.000€' },
+          ]}
+        />
+      </div>
+      <div style={{ width: 260 }}>
+        <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Coming Soon</p>
+        <PropertyCard
+          image={DEMO_IMAGE}
+          type="Apartment"
+          title="Property in San Sebastián..."
+          status="comingSoon"
+          location="Madrid · Vallecas"
+          bedrooms={4}
+          bathrooms={1}
+          area={85}
+          price={90000}
+          yieldPercent={6}
+        />
+      </div>
+    </div>
+  ),
+};
+
 export const Available: Story = {
   render: () => (
-    <div style={{ width: 340 }}>
+    <div style={{ width: 280 }}>
       <PropertyCard
         image={DEMO_IMAGE}
         type="Apartment"
         title="Modern Downtown Loft"
         status="available"
-        location="Barcelona, Spain"
-        category="Flat"
+        location="Barcelona · Downtown"
         bedrooms={3}
         bathrooms={2}
         area={120}
         price={185000}
         yieldPercent={7.2}
         infoRows={[
-          { label: 'Estimated rent', value: '1,200€/month' },
+          { label: 'Estimated rent', value: '1,200€' },
           { label: 'Total investment', value: '198,500€' },
           { label: 'Capital gain', value: '145.000€', hasInfo: true },
         ]}
@@ -84,21 +164,20 @@ export const Available: Story = {
 
 export const Reserved: Story = {
   render: () => (
-    <div style={{ width: 340 }}>
+    <div style={{ width: 280 }}>
       <PropertyCard
         image={DEMO_IMAGE}
         type="House"
         title="Beach House with Views"
         status="reserved"
-        location="Valencia, Spain"
-        category="House"
+        location="Valencia · Beach"
         bedrooms={4}
         bathrooms={3}
         area={180}
         price={320000}
         yieldPercent={5.8}
         infoRows={[
-          { label: 'Estimated rent', value: '2,100€/month' },
+          { label: 'Estimated rent', value: '2,100€' },
           { label: 'Total investment', value: '345,000€' },
         ]}
       />
@@ -108,14 +187,13 @@ export const Reserved: Story = {
 
 export const Sold: Story = {
   render: () => (
-    <div style={{ width: 340 }}>
+    <div style={{ width: 280 }}>
       <PropertyCard
         image={DEMO_IMAGE}
         type="Apartment"
         title="City Center Studio"
         status="sold"
-        location="Madrid, Spain"
-        category="Studio"
+        location="Madrid · Centro"
         bedrooms={1}
         bathrooms={1}
         area={45}
@@ -128,7 +206,7 @@ export const Sold: Story = {
 
 export const ComingSoon: Story = {
   render: () => (
-    <div style={{ width: 340 }}>
+    <div style={{ width: 280 }}>
       <PropertyCard
         image={DEMO_IMAGE}
         type="Project"
@@ -137,6 +215,109 @@ export const ComingSoon: Story = {
         location="Málaga, Spain"
         price={150000}
       />
+    </div>
+  ),
+};
+
+export const ValueLabels: Story = {
+  name: 'Value Added Labels',
+  render: () => (
+    <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+      <div style={{ width: 260 }}>
+        <PropertyCard
+          image={DEMO_IMAGE}
+          type="Apartment"
+          title="Property in San Sebastián..."
+          valueLabels={['offMarket']}
+          location="Madrid · Vallecas"
+          bedrooms={4}
+          bathrooms={1}
+          area={85}
+          price={134880}
+          yieldPercent={6}
+          infoRows={[
+            { label: 'Estimated rent', value: '650€' },
+            { label: 'Cashflow', value: '90.000€' },
+            { label: 'Furniture', value: 'T0034' },
+          ]}
+        />
+      </div>
+      <div style={{ width: 260 }}>
+        <PropertyCard
+          image={DEMO_IMAGE}
+          type="Apartment"
+          title="Property in San Sebastián..."
+          valueLabels={['highYield']}
+          location="Madrid · Vallecas"
+          bedrooms={4}
+          bathrooms={1}
+          area={85}
+          price={134500}
+          yieldPercent={8}
+          infoRows={[
+            { label: 'Estimated rent', value: '650€' },
+            { label: 'Cashflow', value: '90.000€' },
+            { label: 'Furniture', value: 'T0034' },
+          ]}
+        />
+      </div>
+      <div style={{ width: 260 }}>
+        <PropertyCard
+          image={DEMO_IMAGE}
+          type="Apartment"
+          title="Property in San Sebastián..."
+          valueLabels={['newConstruction']}
+          location="Madrid · Vallecas"
+          bedrooms={4}
+          bathrooms={1}
+          area={85}
+          price={134880}
+          yieldPercent={6}
+          infoRows={[
+            { label: 'Estimated rent', value: '650€' },
+            { label: 'Cashflow', value: '90.000€' },
+            { label: 'Furniture', value: 'T0034' },
+          ]}
+        />
+      </div>
+      <div style={{ width: 260 }}>
+        <PropertyCard
+          image={DEMO_IMAGE}
+          type="Apartment"
+          title="Property in San Sebastián..."
+          valueLabels={['highValue']}
+          location="Madrid · Vallecas"
+          bedrooms={4}
+          bathrooms={1}
+          area={85}
+          price={134880}
+          yieldPercent={6}
+          infoRows={[
+            { label: 'Estimated rent', value: '650€' },
+            { label: 'Cashflow', value: '90.000€' },
+            { label: 'Furniture', value: 'T0034' },
+          ]}
+        />
+      </div>
+      <div style={{ width: 260 }}>
+        <PropertyCard
+          image={DEMO_IMAGE}
+          type="Apartment"
+          title="Property Value Example..."
+          valueLabels={['highYield', 'newConstruction']}
+          location="Madrid · Vallecas"
+          bedrooms={4}
+          bathrooms={1}
+          area={85}
+          price={134880}
+          yieldPercent={6}
+          infoRows={[
+            { label: 'Estimated rent', value: '650€' },
+            { label: 'Cashflow', value: '90.000€' },
+            { label: 'Furniture', value: 'T0034' },
+          ]}
+        />
+      </div>
     </div>
   ),
 };

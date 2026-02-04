@@ -247,38 +247,46 @@ export interface SelectItemProps
 const SelectItem = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Item>,
   SelectItemProps
->(({ className, children, ...props }, ref) => (
-  <SelectPrimitive.Item
-    ref={ref}
-    className={cn(
-      // Base styles
-      "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none",
-      // Design system tokens
-      "focus:bg-[#f4f4f5] focus:text-[#18181b]",
-      "data-[highlighted]:bg-[#f4f4f5]",
-      "data-[state=checked]:bg-[#eef4ff] data-[state=checked]:text-[#2050f6]",
-      "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      // Dark mode
-      "dark:focus:bg-[#262626] dark:data-[highlighted]:bg-[#262626]",
-      "dark:data-[state=checked]:bg-[#1e3a8a] dark:data-[state=checked]:text-[#93c5fd]",
-      className
-    )}
-    style={{
-      height: SELECT_TOKENS.option.height,
-      paddingLeft: SELECT_TOKENS.option.paddingX,
-      paddingRight: SELECT_TOKENS.option.paddingX,
-      ...props.style,
-    }}
-    {...props}
-  >
-    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-      <SelectPrimitive.ItemIndicator>
-        <Check className="h-4 w-4" />
-      </SelectPrimitive.ItemIndicator>
-    </span>
-    <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
-  </SelectPrimitive.Item>
-))
+>(({ className, children, ...props }, ref) => {
+  // Calculate padding to accommodate checkmark (8px left + 16px icon + 8px gap = 32px)
+  const checkmarkWidth = 16 // h-4 w-4 = 16px
+  const checkmarkLeft = 8 // left-2 = 8px
+  const gapAfterCheckmark = 8 // space between checkmark and text
+  const minPaddingLeft = checkmarkLeft + checkmarkWidth + gapAfterCheckmark // 32px
+  
+  return (
+    <SelectPrimitive.Item
+      ref={ref}
+      className={cn(
+        // Base styles
+        "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pr-2 text-sm outline-none",
+        // Design system tokens
+        "focus:bg-[#f4f4f5] focus:text-[#18181b]",
+        "data-[highlighted]:bg-[#f4f4f5]",
+        "data-[state=checked]:bg-[#eef4ff] data-[state=checked]:text-[#2050f6]",
+        "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        // Dark mode
+        "dark:focus:bg-[#262626] dark:data-[highlighted]:bg-[#262626]",
+        "dark:data-[state=checked]:bg-[#1e3a8a] dark:data-[state=checked]:text-[#93c5fd]",
+        className
+      )}
+      style={{
+        height: SELECT_TOKENS.option.height,
+        paddingLeft: Math.max(minPaddingLeft, SELECT_TOKENS.option.paddingX + 20), // Ensure enough space for checkmark
+        paddingRight: SELECT_TOKENS.option.paddingX,
+        ...props.style,
+      }}
+      {...props}
+    >
+      <span className="absolute left-2 flex h-4 w-4 items-center justify-center">
+        <SelectPrimitive.ItemIndicator>
+          <Check className="h-4 w-4" />
+        </SelectPrimitive.ItemIndicator>
+      </span>
+      <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+    </SelectPrimitive.Item>
+  )
+})
 SelectItem.displayName = SelectPrimitive.Item.displayName
 
 // ============================================================================

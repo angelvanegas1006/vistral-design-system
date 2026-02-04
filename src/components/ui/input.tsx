@@ -1,6 +1,7 @@
 import * as React from "react"
 import { forwardRef, useId } from "react"
 import type { LucideIcon } from "lucide-react"
+import { Loader2 } from "lucide-react"
 
 /**
  * Input Design Tokens from Figma
@@ -113,11 +114,16 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       alignItems: 'center',
     }
 
+    // Calculate padding to accommodate icons
+    // Following design system spacing rules: icon position + icon size + spacing gap
+    // Icon is positioned at paddingX, then we need iconSize + spacing gap (12px from tokens)
+    const iconPadding = sizeTokens.paddingX + sizeTokens.iconSize + 12; // paddingX (icon position) + icon size + 12px gap
+    
     const inputStyle: React.CSSProperties = {
       width: '100%',
       height: sizeTokens.height,
-      paddingLeft: LeftIcon ? sizeTokens.height : sizeTokens.paddingX,
-      paddingRight: RightIcon ? sizeTokens.height : sizeTokens.paddingX,
+      paddingLeft: LeftIcon ? iconPadding : sizeTokens.paddingX,
+      paddingRight: RightIcon ? iconPadding : sizeTokens.paddingX,
       fontSize: sizeTokens.fontSize,
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
       color: stateTokens.fg,
@@ -136,9 +142,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const iconStyle = (position: 'left' | 'right'): React.CSSProperties => ({
       position: 'absolute',
-      [position]: sizeTokens.paddingX,
+      [position]: sizeTokens.paddingX, // Icon positioned at base padding
+      top: '50%',
+      transform: 'translateY(-50%)',
       color: disabled ? '#d4d4d8' : '#71717a',
       pointerEvents: 'none',
+      zIndex: 1,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     })
 
     const helperStyle: React.CSSProperties = {
@@ -161,7 +173,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          {LeftIcon && <LeftIcon size={sizeTokens.iconSize} style={iconStyle('left')} />}
+          {LeftIcon && (
+            <div style={iconStyle('left')}>
+              <LeftIcon size={sizeTokens.iconSize} />
+            </div>
+          )}
           
           <input
             ref={ref}
@@ -175,7 +191,16 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
           
-          {RightIcon && <RightIcon size={sizeTokens.iconSize} style={iconStyle('right')} />}
+          {RightIcon && (
+            <div style={iconStyle('right')}>
+              <RightIcon 
+                size={sizeTokens.iconSize}
+                style={{
+                  animation: RightIcon === Loader2 ? 'spin 1s linear infinite' : undefined,
+                }}
+              />
+            </div>
+          )}
         </div>
         
         {(helperText || errorMessage) && (
