@@ -27,7 +27,8 @@ const PROPERTY_CARD_TOKENS = {
     fg: '#ffffff',
     fontSize: 12,
     fontWeight: 600,
-    padding: '6px 14px',
+    height: 24, // Fixed height for consistency
+    padding: '4px 12px', // Consistent padding with value labels
     radius: 20,
   },
   // Value added labels (on image, max 2)
@@ -303,12 +304,16 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
       position: 'absolute',
       top: 12,
       left: 12,
+      height: PROPERTY_CARD_TOKENS.typeBadge.height,
       padding: PROPERTY_CARD_TOKENS.typeBadge.padding,
       fontSize: PROPERTY_CARD_TOKENS.typeBadge.fontSize,
       fontWeight: PROPERTY_CARD_TOKENS.typeBadge.fontWeight,
       backgroundColor: PROPERTY_CARD_TOKENS.typeBadge.bg,
       color: PROPERTY_CARD_TOKENS.typeBadge.fg,
       borderRadius: PROPERTY_CARD_TOKENS.typeBadge.radius,
+      display: 'inline-flex',
+      alignItems: 'center',
+      whiteSpace: 'nowrap',
       zIndex: 2,
     }
 
@@ -316,6 +321,7 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
     const getValueLabelStyle = (label: ValueLabel): React.CSSProperties => {
       const tokens = PROPERTY_CARD_TOKENS.valueLabel[label]
       return {
+        height: 24, // Fixed height to match type badge
         padding: '4px 12px',
         fontSize: 12,
         fontWeight: 600,
@@ -323,7 +329,8 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
         color: tokens.fg,
         borderRadius: 9999, // Pill shape - fully rounded ends
         whiteSpace: 'nowrap',
-        display: 'inline-block',
+        display: 'inline-flex',
+        alignItems: 'center',
       }
     }
 
