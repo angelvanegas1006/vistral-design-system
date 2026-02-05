@@ -1,7 +1,7 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { EmptyState } from '../src/components/ui/empty-state';
-import { ShoppingCart, Users, FileText, CloudOff } from 'lucide-react';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { EmptyState } from '../src/components/ui/empty-state'
+import { ShoppingCart, Users, FileText, CloudOff } from 'lucide-react'
 
 const meta: Meta<typeof EmptyState> = {
   title: 'Components/EmptyState',
@@ -24,10 +24,10 @@ Display when there's no content to show.
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof EmptyState>;
+export default meta
+type Story = StoryObj<typeof EmptyState>
 
 export const Default: Story = {
   args: {
@@ -35,7 +35,7 @@ export const Default: Story = {
     title: 'No messages',
     description: 'You have no messages in your inbox.',
   },
-};
+}
 
 export const WithActions: Story = {
   render: () => (
@@ -53,7 +53,7 @@ export const WithActions: Story = {
       }}
     />
   ),
-};
+}
 
 export const PresetIcons: Story = {
   render: () => (
@@ -66,7 +66,7 @@ export const PresetIcons: Story = {
       <EmptyState icon="offline" title="You're offline" size="sm" />
     </div>
   ),
-};
+}
 
 export const CustomIcons: Story = {
   render: () => (
@@ -85,7 +85,7 @@ export const CustomIcons: Story = {
       />
     </div>
   ),
-};
+}
 
 export const Sizes: Story = {
   render: () => (
@@ -110,7 +110,7 @@ export const Sizes: Story = {
       />
     </div>
   ),
-};
+}
 
 export const ErrorState: Story = {
   name: 'Error State',
@@ -129,7 +129,7 @@ export const ErrorState: Story = {
       }}
     />
   ),
-};
+}
 
 export const OfflineState: Story = {
   name: 'Offline State',
@@ -144,40 +144,46 @@ export const OfflineState: Story = {
       }}
     />
   ),
-};
+}
 
 export const InCard: Story = {
   name: 'In Card',
   render: () => (
-    <div style={{ 
-      width: 500, 
-      padding: 24, 
-      backgroundColor: '#fff', 
-      borderRadius: 12,
-      border: '1px solid #e4e4e7',
-    }}>
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center',
-        marginBottom: 16,
-        paddingBottom: 16,
-        borderBottom: '1px solid #e4e4e7',
-      }}>
+    <div
+      style={{
+        width: 500,
+        padding: 24,
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        border: '1px solid #e4e4e7',
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: 16,
+          paddingBottom: 16,
+          borderBottom: '1px solid #e4e4e7',
+        }}
+      >
         <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600 }}>Recent Documents</h3>
-        <button style={{
-          padding: '6px 12px',
-          backgroundColor: '#2050f6',
-          color: 'white',
-          border: 'none',
-          borderRadius: 6,
-          fontSize: 13,
-          cursor: 'pointer',
-        }}>
+        <button
+          style={{
+            padding: '6px 12px',
+            backgroundColor: '#2050f6',
+            color: 'white',
+            border: 'none',
+            borderRadius: 6,
+            fontSize: 13,
+            cursor: 'pointer',
+          }}
+        >
           Upload
         </button>
       </div>
-      
+
       <EmptyState
         icon={FileText}
         title="No documents yet"
@@ -186,4 +192,4 @@ export const InCard: Story = {
       />
     </div>
   ),
-};
+}

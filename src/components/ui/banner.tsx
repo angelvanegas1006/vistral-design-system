@@ -1,7 +1,7 @@
-import * as React from "react"
-import { forwardRef, useState } from "react"
-import { X, Info, AlertCircle, CheckCircle, AlertTriangle, Megaphone } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, useState } from 'react'
+import { X, Info, AlertCircle, CheckCircle, AlertTriangle, Megaphone } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 /**
  * Banner Design Tokens from Figma
@@ -55,19 +55,22 @@ export interface BannerProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const Banner = forwardRef<HTMLDivElement, BannerProps>(
-  ({
-    variant = 'info',
-    title,
-    icon: customIcon,
-    hideIcon = false,
-    dismissible = false,
-    onDismiss,
-    action,
-    fixed = false,
-    style,
-    children,
-    ...props
-  }, ref) => {
+  (
+    {
+      variant = 'info',
+      title,
+      icon: customIcon,
+      hideIcon = false,
+      dismissible = false,
+      onDismiss,
+      action,
+      fixed = false,
+      style,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const [isVisible, setIsVisible] = useState(true)
 
     if (!isVisible) return null
@@ -155,12 +158,12 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
     return (
       <div ref={ref} role="alert" style={containerStyle} {...props}>
         {!hideIcon && <Icon size={20} style={iconStyle} />}
-        
+
         <div style={contentStyle}>
           {title && <p style={titleStyle}>{title}</p>}
           {children && <p style={messageStyle}>{children}</p>}
         </div>
-        
+
         <div style={actionsStyle}>
           {action && (
             <button type="button" style={actionButtonStyle} onClick={action.onClick}>
@@ -178,7 +181,7 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
   }
 )
 
-Banner.displayName = "Banner"
+Banner.displayName = 'Banner'
 
 // ============================================================================
 // Promo Banner (special full-width promotional)
@@ -195,15 +198,18 @@ export interface PromoBannerProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const PromoBanner = forwardRef<HTMLDivElement, PromoBannerProps>(
-  ({
-    background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    color = '#ffffff',
-    dismissible = true,
-    onDismiss,
-    style,
-    children,
-    ...props
-  }, ref) => {
+  (
+    {
+      background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      color = '#ffffff',
+      dismissible = true,
+      onDismiss,
+      style,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const [isVisible, setIsVisible] = useState(true)
 
     if (!isVisible) return null
@@ -253,6 +259,6 @@ const PromoBanner = forwardRef<HTMLDivElement, PromoBannerProps>(
   }
 )
 
-PromoBanner.displayName = "PromoBanner"
+PromoBanner.displayName = 'PromoBanner'
 
 export { Banner, PromoBanner, BANNER_TOKENS }

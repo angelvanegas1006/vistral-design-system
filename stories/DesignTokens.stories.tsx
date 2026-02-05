@@ -1,15 +1,15 @@
-import type { Meta, StoryObj } from "@storybook/react"
-import tokensJson from "../src/tokens/vistral-tokens.json"
-import type { DesignTokens } from "../lib/figma-sync/types"
+import type { Meta, StoryObj } from '@storybook/react'
+import tokensJson from '../src/tokens/vistral-tokens.json'
+import type { DesignTokens } from '../lib/figma-sync/types'
 
 const tokens = tokensJson as DesignTokens
 
 const meta = {
-  title: "Design System/Tokens",
+  title: 'Design System/Tokens',
   parameters: {
-    layout: "fullscreen",
+    layout: 'fullscreen',
   },
-  tags: ["autodocs"],
+  tags: ['autodocs'],
 } satisfies Meta
 
 export default meta
@@ -20,21 +20,19 @@ type Story = StoryObj<typeof meta>
  */
 function ColorSwatch({ name, value }: { name: string; value: string }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
       <div
         style={{
-          width: "100px",
-          height: "100px",
+          width: '100px',
+          height: '100px',
           backgroundColor: value,
-          borderRadius: "8px",
-          border: "1px solid #e5e7eb",
-          boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+          borderRadius: '8px',
+          border: '1px solid #e5e7eb',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
         }}
       />
-      <div style={{ fontSize: "12px", fontWeight: 500 }}>{name}</div>
-      <div style={{ fontSize: "11px", color: "#6b7280", fontFamily: "monospace" }}>
-        {value}
-      </div>
+      <div style={{ fontSize: '12px', fontWeight: 500 }}>{name}</div>
+      <div style={{ fontSize: '11px', color: '#6b7280', fontFamily: 'monospace' }}>{value}</div>
     </div>
   )
 }
@@ -54,20 +52,25 @@ function TypographyExample({
   lineHeight?: string
 }) {
   return (
-    <div style={{ marginBottom: "2rem" }}>
-      <div style={{ fontSize: "12px", color: "#6b7280", marginBottom: "0.5rem" }}>
-        {name}
-      </div>
+    <div style={{ marginBottom: '2rem' }}>
+      <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '0.5rem' }}>{name}</div>
       <div
         style={{
-          fontSize: fontSize || "16px",
+          fontSize: fontSize || '16px',
           fontWeight: fontWeight || 400,
-          lineHeight: lineHeight || "1.5",
+          lineHeight: lineHeight || '1.5',
         }}
       >
         The quick brown fox jumps over the lazy dog
       </div>
-      <div style={{ fontSize: "11px", color: "#9ca3af", marginTop: "0.25rem", fontFamily: "monospace" }}>
+      <div
+        style={{
+          fontSize: '11px',
+          color: '#9ca3af',
+          marginTop: '0.25rem',
+          fontFamily: 'monospace',
+        }}
+      >
         {fontSize && `font-size: ${fontSize}`}
         {fontWeight && ` | font-weight: ${fontWeight}`}
         {lineHeight && ` | line-height: ${lineHeight}`}
@@ -81,19 +84,17 @@ function TypographyExample({
  */
 function SpacingExample({ name, value }: { name: string; value: string }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1rem" }}>
-      <div style={{ width: "100px", fontSize: "12px", fontWeight: 500 }}>{name}</div>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+      <div style={{ width: '100px', fontSize: '12px', fontWeight: 500 }}>{name}</div>
       <div
         style={{
           width: value,
-          height: "24px",
-          backgroundColor: "#3b82f6",
-          borderRadius: "4px",
+          height: '24px',
+          backgroundColor: '#3b82f6',
+          borderRadius: '4px',
         }}
       />
-      <div style={{ fontSize: "11px", color: "#6b7280", fontFamily: "monospace" }}>
-        {value}
-      </div>
+      <div style={{ fontSize: '11px', color: '#6b7280', fontFamily: 'monospace' }}>{value}</div>
     </div>
   )
 }
@@ -103,19 +104,17 @@ function SpacingExample({ name, value }: { name: string; value: string }) {
  */
 function RadiusExample({ name, value }: { name: string; value: string }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1rem" }}>
-      <div style={{ width: "100px", fontSize: "12px", fontWeight: 500 }}>{name}</div>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+      <div style={{ width: '100px', fontSize: '12px', fontWeight: 500 }}>{name}</div>
       <div
         style={{
-          width: "60px",
-          height: "60px",
-          backgroundColor: "#3b82f6",
+          width: '60px',
+          height: '60px',
+          backgroundColor: '#3b82f6',
           borderRadius: value,
         }}
       />
-      <div style={{ fontSize: "11px", color: "#6b7280", fontFamily: "monospace" }}>
-        {value}
-      </div>
+      <div style={{ fontSize: '11px', color: '#6b7280', fontFamily: 'monospace' }}>{value}</div>
     </div>
   )
 }
@@ -123,32 +122,32 @@ function RadiusExample({ name, value }: { name: string; value: string }) {
 export const Colors: Story = {
   render: () => {
     // Helper function to flatten nested color objects
-    const flattenColors = (obj: any, prefix = ""): Array<{ name: string; value: string }> => {
+    const flattenColors = (obj: any, prefix = ''): Array<{ name: string; value: string }> => {
       const result: Array<{ name: string; value: string }> = []
       Object.entries(obj).forEach(([key, value]) => {
         const fullKey = prefix ? `${prefix}-${key}` : key
-        if (typeof value === "string") {
+        if (typeof value === 'string') {
           result.push({ name: fullKey, value })
-        } else if (typeof value === "object" && value !== null) {
+        } else if (typeof value === 'object' && value !== null) {
           result.push(...flattenColors(value, fullKey))
         }
       })
       return result
     }
-    
+
     return (
-      <div style={{ padding: "2rem" }}>
-        <h2 style={{ marginBottom: "2rem" }}>Colors</h2>
-        
+      <div style={{ padding: '2rem' }}>
+        <h2 style={{ marginBottom: '2rem' }}>Colors</h2>
+
         {Object.entries(tokens.colors).map(([category, values]) => {
-          if (!values || typeof values !== "object") return null
-          
+          if (!values || typeof values !== 'object') return null
+
           const flatColors = flattenColors(values)
-          
+
           return (
-            <div key={category} style={{ marginBottom: "3rem" }}>
-              <h3 style={{ marginBottom: "1rem", textTransform: "capitalize" }}>{category}</h3>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "1.5rem" }}>
+            <div key={category} style={{ marginBottom: '3rem' }}>
+              <h3 style={{ marginBottom: '1rem', textTransform: 'capitalize' }}>{category}</h3>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.5rem' }}>
                 {flatColors.map(({ name, value }) => (
                   <ColorSwatch key={name} name={name} value={value} />
                 ))}
@@ -163,16 +162,16 @@ export const Colors: Story = {
 
 export const Typography: Story = {
   render: () => (
-    <div style={{ padding: "2rem", maxWidth: "800px" }}>
-      <h2 style={{ marginBottom: "2rem" }}>Typography</h2>
-      
+    <div style={{ padding: '2rem', maxWidth: '800px' }}>
+      <h2 style={{ marginBottom: '2rem' }}>Typography</h2>
+
       {tokens.typography.fontFamily && (
-        <div style={{ marginBottom: "2rem" }}>
-          <h3 style={{ marginBottom: "1rem" }}>Font Families</h3>
+        <div style={{ marginBottom: '2rem' }}>
+          <h3 style={{ marginBottom: '1rem' }}>Font Families</h3>
           {Object.entries(tokens.typography.fontFamily).map(([name, value]) => (
-            <div key={name} style={{ marginBottom: "0.5rem" }}>
-              <span style={{ fontWeight: 500 }}>{name}:</span>{" "}
-              <span style={{ fontFamily: "monospace" }}>{value}</span>
+            <div key={name} style={{ marginBottom: '0.5rem' }}>
+              <span style={{ fontWeight: 500 }}>{name}:</span>{' '}
+              <span style={{ fontFamily: 'monospace' }}>{value}</span>
             </div>
           ))}
         </div>
@@ -180,7 +179,7 @@ export const Typography: Story = {
 
       {tokens.typography.fontSize && (
         <div>
-          <h3 style={{ marginBottom: "1rem" }}>Font Sizes</h3>
+          <h3 style={{ marginBottom: '1rem' }}>Font Sizes</h3>
           {Object.entries(tokens.typography.fontSize).map(([name, fontSize]) => {
             const fontWeight = tokens.typography.fontWeight?.[name]
             const lineHeight = tokens.typography.lineHeight?.[name]
@@ -202,8 +201,8 @@ export const Typography: Story = {
 
 export const Spacing: Story = {
   render: () => (
-    <div style={{ padding: "2rem", maxWidth: "600px" }}>
-      <h2 style={{ marginBottom: "2rem" }}>Spacing</h2>
+    <div style={{ padding: '2rem', maxWidth: '600px' }}>
+      <h2 style={{ marginBottom: '2rem' }}>Spacing</h2>
       {Object.entries(tokens.spacing).map(([name, value]) => (
         <SpacingExample key={name} name={name} value={value} />
       ))}
@@ -213,8 +212,8 @@ export const Spacing: Story = {
 
 export const Radius: Story = {
   render: () => (
-    <div style={{ padding: "2rem" }}>
-      <h2 style={{ marginBottom: "2rem" }}>Border Radius</h2>
+    <div style={{ padding: '2rem' }}>
+      <h2 style={{ marginBottom: '2rem' }}>Border Radius</h2>
       {Object.entries(tokens.radius).map(([name, value]) => (
         <RadiusExample key={name} name={name} value={value} />
       ))}
@@ -224,31 +223,31 @@ export const Radius: Story = {
 
 export const Shadows: Story = {
   render: () => (
-    <div style={{ padding: "2rem" }}>
-      <h2 style={{ marginBottom: "2rem" }}>Shadows</h2>
+    <div style={{ padding: '2rem' }}>
+      <h2 style={{ marginBottom: '2rem' }}>Shadows</h2>
       {tokens.shadows ? (
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem" }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem' }}>
           {Object.entries(tokens.shadows).map(([name, value]) => (
-            <div key={name} style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <div key={name} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <div
                 style={{
-                  width: "120px",
-                  height: "120px",
-                  backgroundColor: "#ffffff",
-                  borderRadius: "8px",
+                  width: '120px',
+                  height: '120px',
+                  backgroundColor: '#ffffff',
+                  borderRadius: '8px',
                   boxShadow: value,
-                  border: "1px solid #e5e7eb",
+                  border: '1px solid #e5e7eb',
                 }}
               />
-              <div style={{ fontSize: "12px", fontWeight: 500 }}>{name}</div>
-              <div style={{ fontSize: "11px", color: "#6b7280", fontFamily: "monospace" }}>
+              <div style={{ fontSize: '12px', fontWeight: 500 }}>{name}</div>
+              <div style={{ fontSize: '11px', color: '#6b7280', fontFamily: 'monospace' }}>
                 {value}
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <div style={{ color: "#6b7280" }}>No shadows defined</div>
+        <div style={{ color: '#6b7280' }}>No shadows defined</div>
       )}
     </div>
   ),
@@ -256,19 +255,19 @@ export const Shadows: Story = {
 
 export const Breakpoints: Story = {
   render: () => (
-    <div style={{ padding: "2rem" }}>
-      <h2 style={{ marginBottom: "2rem" }}>Breakpoints</h2>
+    <div style={{ padding: '2rem' }}>
+      <h2 style={{ marginBottom: '2rem' }}>Breakpoints</h2>
       {tokens.breakpoints ? (
-        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {Object.entries(tokens.breakpoints).map(([name, value]) => (
-            <div key={name} style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-              <div style={{ width: "100px", fontSize: "12px", fontWeight: 500 }}>{name}</div>
-              <div style={{ fontSize: "14px", fontFamily: "monospace" }}>{value}</div>
+            <div key={name} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <div style={{ width: '100px', fontSize: '12px', fontWeight: 500 }}>{name}</div>
+              <div style={{ fontSize: '14px', fontFamily: 'monospace' }}>{value}</div>
             </div>
           ))}
         </div>
       ) : (
-        <div style={{ color: "#6b7280" }}>No breakpoints defined</div>
+        <div style={{ color: '#6b7280' }}>No breakpoints defined</div>
       )}
     </div>
   ),

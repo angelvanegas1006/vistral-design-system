@@ -16,6 +16,7 @@ Este documento contiene el plan completo para integrar Figma MCP y Storybook en 
 ## Plan Completo
 
 El plan detallado está disponible en:
+
 - `.cursor/plans/figma_mcp_y_storybook_integration_4313c021.plan.md` (formato Cursor)
 - Este archivo (resumen)
 
@@ -33,6 +34,7 @@ El plan detallado está disponible en:
 **Paso 2:** Setup Storybook básico
 
 Ejecutar:
+
 ```bash
 npm run storybook
 ```

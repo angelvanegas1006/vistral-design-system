@@ -1,7 +1,7 @@
-import * as React from "react"
-import { forwardRef, createContext, useContext, useState, useRef, useEffect } from "react"
-import { Check, ChevronRight } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, createContext, useContext, useState, useRef, useEffect } from 'react'
+import { Check, ChevronRight } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 /**
  * Context Menu Design Tokens from Figma
@@ -91,7 +91,7 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ children, onOpenChange }) => 
   )
 }
 
-ContextMenu.displayName = "ContextMenu"
+ContextMenu.displayName = 'ContextMenu'
 
 // ============================================================================
 // ContextMenu Trigger
@@ -124,7 +124,7 @@ const ContextMenuTrigger = forwardRef<HTMLDivElement, ContextMenuTriggerProps>(
   }
 )
 
-ContextMenuTrigger.displayName = "ContextMenuTrigger"
+ContextMenuTrigger.displayName = 'ContextMenuTrigger'
 
 // ============================================================================
 // ContextMenu Content
@@ -222,7 +222,7 @@ const ContextMenuContent = forwardRef<HTMLDivElement, ContextMenuContentProps>(
   }
 )
 
-ContextMenuContent.displayName = "ContextMenuContent"
+ContextMenuContent.displayName = 'ContextMenuContent'
 
 // ============================================================================
 // ContextMenu Label (non-interactive group header)
@@ -249,7 +249,7 @@ const ContextMenuLabel = forwardRef<HTMLDivElement, ContextMenuLabelProps>(
   }
 )
 
-ContextMenuLabel.displayName = "ContextMenuLabel"
+ContextMenuLabel.displayName = 'ContextMenuLabel'
 
 // ============================================================================
 // ContextMenu Item
@@ -270,7 +270,21 @@ export interface ContextMenuItemProps extends React.HTMLAttributes<HTMLDivElemen
 }
 
 const ContextMenuItem = forwardRef<HTMLDivElement, ContextMenuItemProps>(
-  ({ icon: Icon, rightIcon: RightIcon, shortcut, disabled, destructive, hasSubmenu, style, onClick, children, ...props }, ref) => {
+  (
+    {
+      icon: Icon,
+      rightIcon: RightIcon,
+      shortcut,
+      disabled,
+      destructive,
+      hasSubmenu,
+      style,
+      onClick,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const { closeMenu } = useContextMenu()
     const [isHovered, setIsHovered] = useState(false)
 
@@ -289,10 +303,10 @@ const ContextMenuItem = forwardRef<HTMLDivElement, ContextMenuItemProps>(
       height: CONTEXT_MENU_TOKENS.item.height,
       padding: `0 ${CONTEXT_MENU_TOKENS.item.paddingX}px`,
       fontSize: CONTEXT_MENU_TOKENS.item.fontSize,
-      color: disabled 
-        ? CONTEXT_MENU_TOKENS.item.fgMuted 
-        : destructive 
-          ? CONTEXT_MENU_TOKENS.item.fgDestructive 
+      color: disabled
+        ? CONTEXT_MENU_TOKENS.item.fgMuted
+        : destructive
+          ? CONTEXT_MENU_TOKENS.item.fgDestructive
           : CONTEXT_MENU_TOKENS.item.fg,
       backgroundColor: isHovered && !disabled ? CONTEXT_MENU_TOKENS.item.bgHover : 'transparent',
       borderRadius: CONTEXT_MENU_TOKENS.item.radius,
@@ -315,12 +329,17 @@ const ContextMenuItem = forwardRef<HTMLDivElement, ContextMenuItemProps>(
         {Icon && <Icon size={CONTEXT_MENU_TOKENS.item.iconSize} style={{ flexShrink: 0 }} />}
         <span style={{ flex: 1 }}>{children}</span>
         {shortcut && (
-          <span style={{ fontSize: 11, color: CONTEXT_MENU_TOKENS.item.fgMuted, marginLeft: 'auto' }}>
+          <span
+            style={{ fontSize: 11, color: CONTEXT_MENU_TOKENS.item.fgMuted, marginLeft: 'auto' }}
+          >
             {shortcut}
           </span>
         )}
         {hasSubmenu && !shortcut && (
-          <ChevronRight size={CONTEXT_MENU_TOKENS.item.iconSize} style={{ color: CONTEXT_MENU_TOKENS.item.fgMuted, flexShrink: 0 }} />
+          <ChevronRight
+            size={CONTEXT_MENU_TOKENS.item.iconSize}
+            style={{ color: CONTEXT_MENU_TOKENS.item.fgMuted, flexShrink: 0 }}
+          />
         )}
         {RightIcon && !hasSubmenu && !shortcut && (
           <RightIcon size={CONTEXT_MENU_TOKENS.item.iconSize} style={{ flexShrink: 0 }} />
@@ -330,7 +349,7 @@ const ContextMenuItem = forwardRef<HTMLDivElement, ContextMenuItemProps>(
   }
 )
 
-ContextMenuItem.displayName = "ContextMenuItem"
+ContextMenuItem.displayName = 'ContextMenuItem'
 
 // ============================================================================
 // ContextMenu Separator
@@ -349,7 +368,7 @@ const ContextMenuSeparator = forwardRef<HTMLHRElement, React.HTMLAttributes<HTML
   }
 )
 
-ContextMenuSeparator.displayName = "ContextMenuSeparator"
+ContextMenuSeparator.displayName = 'ContextMenuSeparator'
 
 // ============================================================================
 // ContextMenu Checkbox Item
@@ -368,7 +387,9 @@ const ContextMenuCheckboxItem = forwardRef<HTMLDivElement, ContextMenuCheckboxIt
 
     return (
       <ContextMenuItem ref={ref} onClick={handleClick} {...props}>
-        <span style={{ width: 16, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <span
+          style={{ width: 16, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        >
           {checked && <Check size={12} style={{ color: '#2050f6' }} />}
         </span>
         {children}
@@ -377,7 +398,7 @@ const ContextMenuCheckboxItem = forwardRef<HTMLDivElement, ContextMenuCheckboxIt
   }
 )
 
-ContextMenuCheckboxItem.displayName = "ContextMenuCheckboxItem"
+ContextMenuCheckboxItem.displayName = 'ContextMenuCheckboxItem'
 
 // ============================================================================
 // ContextMenu Radio Item
@@ -415,16 +436,14 @@ const ContextMenuRadioItem = forwardRef<HTMLDivElement, ContextMenuRadioItemProp
 
     return (
       <ContextMenuItem ref={ref} onClick={handleClick} {...props}>
-        <span style={radioStyle}>
-          {checked && <span style={innerDotStyle} />}
-        </span>
+        <span style={radioStyle}>{checked && <span style={innerDotStyle} />}</span>
         {children}
       </ContextMenuItem>
     )
   }
 )
 
-ContextMenuRadioItem.displayName = "ContextMenuRadioItem"
+ContextMenuRadioItem.displayName = 'ContextMenuRadioItem'
 
 // ============================================================================
 // ContextMenu Submenu
@@ -486,7 +505,7 @@ const ContextMenuSubmenu: React.FC<ContextMenuSubmenuProps> = ({ label, children
   )
 }
 
-ContextMenuSubmenu.displayName = "ContextMenuSubmenu"
+ContextMenuSubmenu.displayName = 'ContextMenuSubmenu'
 
 // Add keyframes
 if (typeof document !== 'undefined') {

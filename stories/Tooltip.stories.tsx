@@ -1,10 +1,13 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { 
-  TooltipProvider, Tooltip, TooltipTrigger, TooltipContent 
-} from '../src/components/ui/tooltip';
-import { Button } from '../src/components/ui/button';
-import { HelpCircle, Info, Settings, AlertCircle } from 'lucide-react';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import {
+  TooltipProvider,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from '../src/components/ui/tooltip'
+import { Button } from '../src/components/ui/button'
+import { HelpCircle, Info, Settings, AlertCircle } from 'lucide-react'
 
 const meta: Meta<typeof Tooltip> = {
   title: 'Components/Tooltip',
@@ -30,7 +33,7 @@ Based on Figma Design System: [Tooltip Component](https://www.figma.com/design/i
     },
   },
   decorators: [
-    (Story) => (
+    Story => (
       <TooltipProvider>
         <div style={{ padding: 80 }}>
           <Story />
@@ -38,42 +41,44 @@ Based on Figma Design System: [Tooltip Component](https://www.figma.com/design/i
       </TooltipProvider>
     ),
   ],
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof Tooltip>;
+export default meta
+type Story = StoryObj<typeof Tooltip>
 
 export const Default: Story = {
   render: () => (
     <Tooltip>
       <TooltipTrigger asChild>
-        <button style={{
-          padding: '8px 16px',
-          backgroundColor: '#2050f6',
-          color: 'white',
-          border: 'none',
-          borderRadius: 8,
-          cursor: 'pointer',
-        }}>
+        <button
+          style={{
+            padding: '8px 16px',
+            backgroundColor: '#2050f6',
+            color: 'white',
+            border: 'none',
+            borderRadius: 8,
+            cursor: 'pointer',
+          }}
+        >
           Hover me
         </button>
       </TooltipTrigger>
-      <TooltipContent>
-        This is a tooltip
-      </TooltipContent>
+      <TooltipContent>This is a tooltip</TooltipContent>
     </Tooltip>
   ),
-};
+}
 
 export const Positions: Story = {
   name: 'All Positions',
   render: () => (
-    <div style={{ 
-      display: 'grid', 
-      gridTemplateColumns: 'repeat(3, 1fr)',
-      gap: 16,
-      padding: 40,
-    }}>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gap: 16,
+        padding: 40,
+      }}
+    >
       <div /> {/* Empty cell */}
       <Tooltip>
         <TooltipTrigger asChild>
@@ -82,7 +87,6 @@ export const Positions: Story = {
         <TooltipContent side="top">Tooltip on top</TooltipContent>
       </Tooltip>
       <div /> {/* Empty cell */}
-      
       <Tooltip>
         <TooltipTrigger asChild>
           <button style={buttonStyle}>Left</button>
@@ -98,7 +102,6 @@ export const Positions: Story = {
         </TooltipTrigger>
         <TooltipContent side="right">Tooltip on right</TooltipContent>
       </Tooltip>
-      
       <div /> {/* Empty cell */}
       <Tooltip>
         <TooltipTrigger asChild>
@@ -109,7 +112,7 @@ export const Positions: Story = {
       <div /> {/* Empty cell */}
     </div>
   ),
-};
+}
 
 const buttonStyle: React.CSSProperties = {
   padding: '8px 16px',
@@ -119,7 +122,7 @@ const buttonStyle: React.CSSProperties = {
   borderRadius: 8,
   cursor: 'pointer',
   fontSize: 14,
-};
+}
 
 export const Sizes: Story = {
   render: () => (
@@ -130,7 +133,7 @@ export const Sizes: Story = {
         </TooltipTrigger>
         <TooltipContent size="sm">Small size</TooltipContent>
       </Tooltip>
-      
+
       <Tooltip>
         <TooltipTrigger asChild>
           <button style={buttonStyle}>Medium tooltip</button>
@@ -139,7 +142,7 @@ export const Sizes: Story = {
       </Tooltip>
     </div>
   ),
-};
+}
 
 export const WithIcons: Story = {
   name: 'With Icons',
@@ -153,7 +156,7 @@ export const WithIcons: Story = {
         </TooltipTrigger>
         <TooltipContent>Need help?</TooltipContent>
       </Tooltip>
-      
+
       <Tooltip>
         <TooltipTrigger asChild>
           <button style={iconButtonStyle}>
@@ -162,7 +165,7 @@ export const WithIcons: Story = {
         </TooltipTrigger>
         <TooltipContent>More information</TooltipContent>
       </Tooltip>
-      
+
       <Tooltip>
         <TooltipTrigger asChild>
           <button style={iconButtonStyle}>
@@ -171,7 +174,7 @@ export const WithIcons: Story = {
         </TooltipTrigger>
         <TooltipContent>Settings</TooltipContent>
       </Tooltip>
-      
+
       <Tooltip>
         <TooltipTrigger asChild>
           <button style={iconButtonStyle}>
@@ -182,7 +185,7 @@ export const WithIcons: Story = {
       </Tooltip>
     </div>
   ),
-};
+}
 
 const iconButtonStyle: React.CSSProperties = {
   display: 'flex',
@@ -195,7 +198,7 @@ const iconButtonStyle: React.CSSProperties = {
   border: 'none',
   borderRadius: 8,
   cursor: 'pointer',
-};
+}
 
 export const LongContent: Story = {
   name: 'Long Content',
@@ -209,7 +212,7 @@ export const LongContent: Story = {
       </TooltipContent>
     </Tooltip>
   ),
-};
+}
 
 export const CustomDelay: Story = {
   name: 'Custom Delay',
@@ -221,14 +224,14 @@ export const CustomDelay: Story = {
         </TooltipTrigger>
         <TooltipContent>Shows immediately</TooltipContent>
       </Tooltip>
-      
+
       <Tooltip delayDuration={300}>
         <TooltipTrigger asChild>
           <button style={buttonStyle}>Default (300ms)</button>
         </TooltipTrigger>
         <TooltipContent>Default delay</TooltipContent>
       </Tooltip>
-      
+
       <Tooltip delayDuration={700}>
         <TooltipTrigger asChild>
           <button style={buttonStyle}>Slow (700ms)</button>
@@ -237,7 +240,7 @@ export const CustomDelay: Story = {
       </Tooltip>
     </div>
   ),
-};
+}
 
 export const WithButton: Story = {
   name: 'With Design System Button',
@@ -249,14 +252,14 @@ export const WithButton: Story = {
         </TooltipTrigger>
         <TooltipContent>Primary action</TooltipContent>
       </Tooltip>
-      
+
       <Tooltip>
         <TooltipTrigger asChild>
           <Button variant="secondary">Secondary</Button>
         </TooltipTrigger>
         <TooltipContent>Secondary action</TooltipContent>
       </Tooltip>
-      
+
       <Tooltip>
         <TooltipTrigger asChild>
           <Button variant="ghost">Ghost</Button>
@@ -265,7 +268,7 @@ export const WithButton: Story = {
       </Tooltip>
     </div>
   ),
-};
+}
 
 export const DisabledButton: Story = {
   name: 'On Disabled Element',
@@ -281,4 +284,4 @@ export const DisabledButton: Story = {
       <TooltipContent>This action is currently unavailable</TooltipContent>
     </Tooltip>
   ),
-};
+}

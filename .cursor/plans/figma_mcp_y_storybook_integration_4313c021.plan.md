@@ -3,31 +3,31 @@ name: Figma MCP y Storybook Integration
 overview: Configurar integración con Figma MCP para sincronizar componentes desde Figma, crear Storybook propio para documentación y desarrollo, y establecer workflow de migración gradual desde Prophero hacia el design system propio de Vistral.
 todos:
   - id: paso-0-setup-repo
-    content: "PASO 0: Setup inicial del repositorio - Crear vistral-design-system al mismo nivel que vistral_supply, inicializar como paquete npm, configurar TypeScript, copiar y adaptar reglas de Cursor (.cursor/rules/), crear VISTRAL_DESIGN_SYSTEM_RULES.md, estructura base lista"
+    content: 'PASO 0: Setup inicial del repositorio - Crear vistral-design-system al mismo nivel que vistral_supply, inicializar como paquete npm, configurar TypeScript, copiar y adaptar reglas de Cursor (.cursor/rules/), crear VISTRAL_DESIGN_SYSTEM_RULES.md, estructura base lista'
     status: completed
   - id: paso-1-figma-mcp-setup
-    content: "PASO 1: Configurar Figma MCP (sofisticado pero sencillo) - Sistema de configuración centralizado con validación, cliente reutilizable con error handling, soporte multi-archivo. Ejecución: crear config.ts, variables de entorno, script de prueba npm run figma:test"
+    content: 'PASO 1: Configurar Figma MCP (sofisticado pero sencillo) - Sistema de configuración centralizado con validación, cliente reutilizable con error handling, soporte multi-archivo. Ejecución: crear config.ts, variables de entorno, script de prueba npm run figma:test'
     status: completed
   - id: paso-2-storybook-basico
-    content: "PASO 2: Setup Storybook básico (escalable) - Configuración modular multi-framework, sistema de temas preparado, estructura escalable, webpack optimizado. Ejecución: npx storybook init o manual, config mínima, npm run storybook"
+    content: 'PASO 2: Setup Storybook básico (escalable) - Configuración modular multi-framework, sistema de temas preparado, estructura escalable, webpack optimizado. Ejecución: npx storybook init o manual, config mínima, npm run storybook'
     status: pending
   - id: paso-3-primer-story-manual
-    content: "PASO 3: Crear primer story manual - Story para Button existente, validar funcionamiento en Storybook"
+    content: 'PASO 3: Crear primer story manual - Story para Button existente, validar funcionamiento en Storybook'
     status: pending
   - id: paso-4-extraccion-tokens-basica
-    content: "PASO 4: Extracción de tokens (escalable) - Sistema de mapeo configurable, soporte multi-tipo, validación Zod, cache inteligente. Ejecución: npm run figma:sync:tokens, config en token-mapping.ts, output JSON claro"
+    content: 'PASO 4: Extracción de tokens (escalable) - Sistema de mapeo configurable, soporte multi-tipo, validación Zod, cache inteligente. Ejecución: npm run figma:sync:tokens, config en token-mapping.ts, output JSON claro'
     status: pending
   - id: paso-5-generar-css-tokens
-    content: "PASO 5: Generar CSS desde tokens (multi-formato) - Generador pluggable CSS/SCSS/JS/TS, soporte temas, types autogenerados. Ejecución: npm run tokens:generate, integración automática en globals.css"
+    content: 'PASO 5: Generar CSS desde tokens (multi-formato) - Generador pluggable CSS/SCSS/JS/TS, soporte temas, types autogenerados. Ejecución: npm run tokens:generate, integración automática en globals.css'
     status: pending
   - id: paso-6-story-tokens
-    content: "PASO 6: Story de tokens - Crear DesignTokens.stories.tsx para visualizar tokens, validar en Storybook"
+    content: 'PASO 6: Story de tokens - Crear DesignTokens.stories.tsx para visualizar tokens, validar en Storybook'
     status: pending
   - id: paso-7-sincronizar-primer-componente
-    content: "PASO 7: Sincronizar primer componente (templates inteligentes) - Sistema de templates, detección automática variantes/estados, generación props TypeScript, validación pre-generación. Ejecución: npm run figma:sync:component Button, templates configurables, output claro"
+    content: 'PASO 7: Sincronizar primer componente (templates inteligentes) - Sistema de templates, detección automática variantes/estados, generación props TypeScript, validación pre-generación. Ejecución: npm run figma:sync:component Button, templates configurables, output claro'
     status: pending
   - id: paso-8-mejoras-incrementales
-    content: "PASO 8+: Mejoras incrementales - Agregar addons Storybook, documentación, CI/CD según necesidad (ejecutar según prioridad)"
+    content: 'PASO 8+: Mejoras incrementales - Agregar addons Storybook, documentación, CI/CD según necesidad (ejecutar según prioridad)'
     status: pending
 isProject: false
 ---
@@ -225,18 +225,19 @@ npm run figma:sync:all       # Sincronizar todo
 
 ```typescript
 // components/ui/[ComponentName].tsx
-import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "@/lib/utils"
+import { cva, type VariantProps } from 'class-variance-authority'
+import { cn } from '@/lib/utils'
 
-const componentVariants = cva(
-  "base-classes",
-  {
-    variants: {
-      variant: { /* desde Figma */ },
-      size: { /* desde Figma */ }
-    }
-  }
-)
+const componentVariants = cva('base-classes', {
+  variants: {
+    variant: {
+      /* desde Figma */
+    },
+    size: {
+      /* desde Figma */
+    },
+  },
+})
 
 export interface ComponentNameProps extends VariantProps<typeof componentVariants> {
   // Props desde Figma
@@ -380,7 +381,7 @@ vistral-design-system/
 
 ```typescript
 // vistral_supply/components/ui/Button.tsx
-import { Button } from "@vistral/design-system"
+import { Button } from '@vistral/design-system'
 // o usar directamente los componentes
 ```
 
@@ -635,7 +636,8 @@ Este plan está diseñado para ejecutarse paso a paso, validando cada etapa ante
 
 1. **Paso 0: Setup inicial del repositorio** - Crear estructura base del paquete npm
 2. **Paso 1: Configurar Figma MCP** - Obtener tokens y configurar acceso básico
-  - Validar conexión antes de continuar
+
+- Validar conexión antes de continuar
 
 ## Métricas de Éxito
 
@@ -644,4 +646,3 @@ Este plan está diseñado para ejecutarse paso a paso, validando cada etapa ante
 - ✅ Al menos 5 componentes sincronizados y documentados
 - ✅ Tokens extraídos y generando CSS/TS correctamente
 - ✅ Workflow documentado y probado por el equipo
-

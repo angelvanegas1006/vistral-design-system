@@ -1,6 +1,6 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { Slider, RangeSlider } from '../src/components/ui/slider';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { Slider, RangeSlider } from '../src/components/ui/slider'
 
 const meta: Meta<typeof Slider> = {
   title: 'Components/Slider',
@@ -23,10 +23,10 @@ Range input slider component.
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof Slider>;
+export default meta
+type Story = StoryObj<typeof Slider>
 
 export const Default: Story = {
   render: () => (
@@ -34,7 +34,7 @@ export const Default: Story = {
       <Slider defaultValue={50} />
     </div>
   ),
-};
+}
 
 export const WithValue: Story = {
   render: () => (
@@ -42,7 +42,7 @@ export const WithValue: Story = {
       <Slider defaultValue={75} showValue />
     </div>
   ),
-};
+}
 
 export const CustomRange: Story = {
   render: () => (
@@ -57,7 +57,7 @@ export const CustomRange: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const Steps: Story = {
   render: () => (
@@ -76,7 +76,7 @@ export const Steps: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const Disabled: Story = {
   render: () => (
@@ -84,29 +84,29 @@ export const Disabled: Story = {
       <Slider defaultValue={50} disabled showValue />
     </div>
   ),
-};
+}
 
 export const Controlled: Story = {
   render: () => {
-    const [value, setValue] = React.useState(30);
-    
+    const [value, setValue] = React.useState(30)
+
     return (
       <div style={{ width: 300 }}>
         <Slider value={value} onChange={setValue} showValue />
         <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
-          <button 
+          <button
             onClick={() => setValue(0)}
             style={{ padding: '4px 12px', borderRadius: 4, border: '1px solid #e4e4e7' }}
           >
             Min
           </button>
-          <button 
+          <button
             onClick={() => setValue(50)}
             style={{ padding: '4px 12px', borderRadius: 4, border: '1px solid #e4e4e7' }}
           >
             50
           </button>
-          <button 
+          <button
             onClick={() => setValue(100)}
             style={{ padding: '4px 12px', borderRadius: 4, border: '1px solid #e4e4e7' }}
           >
@@ -114,9 +114,9 @@ export const Controlled: Story = {
           </button>
         </div>
       </div>
-    );
+    )
   },
-};
+}
 
 export const Range: Story = {
   name: 'Range Slider',
@@ -126,63 +126,54 @@ export const Range: Story = {
       <RangeSlider defaultValue={[20, 80]} />
     </div>
   ),
-};
+}
 
 export const RangeControlled: Story = {
   name: 'Range Slider Controlled',
   render: () => {
-    const [value, setValue] = React.useState<[number, number]>([200, 800]);
-    
+    const [value, setValue] = React.useState<[number, number]>([200, 800])
+
     return (
       <div style={{ width: 300 }}>
         <p style={{ margin: '0 0 8px', fontSize: 13, color: '#71717a' }}>
           Price: ${value[0]} - ${value[1]}
         </p>
-        <RangeSlider 
-          value={value} 
-          onChange={setValue}
-          min={0}
-          max={1000}
-          step={50}
-          minGap={100}
-        />
+        <RangeSlider value={value} onChange={setValue} min={0} max={1000} step={50} minGap={100} />
       </div>
-    );
+    )
   },
-};
+}
 
 export const PriceFilter: Story = {
   name: 'Price Filter Example',
   render: () => {
-    const [range, setRange] = React.useState<[number, number]>([50, 500]);
-    
+    const [range, setRange] = React.useState<[number, number]>([50, 500])
+
     return (
-      <div style={{ 
-        width: 280, 
-        padding: 20, 
-        backgroundColor: '#fff', 
-        borderRadius: 12,
-        border: '1px solid #e4e4e7',
-      }}>
+      <div
+        style={{
+          width: 280,
+          padding: 20,
+          backgroundColor: '#fff',
+          borderRadius: 12,
+          border: '1px solid #e4e4e7',
+        }}
+      >
         <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600 }}>Price Range</h3>
-        <RangeSlider 
-          value={range} 
-          onChange={setRange}
-          min={0}
-          max={1000}
-          step={10}
-        />
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          marginTop: 12,
-          fontSize: 14,
-          color: '#3f3f46',
-        }}>
+        <RangeSlider value={range} onChange={setRange} min={0} max={1000} step={10} />
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginTop: 12,
+            fontSize: 14,
+            color: '#3f3f46',
+          }}
+        >
           <span>${range[0]}</span>
           <span>${range[1]}</span>
         </div>
       </div>
-    );
+    )
   },
-};
+}

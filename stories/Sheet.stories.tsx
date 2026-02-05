@@ -1,11 +1,18 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
 import {
-  Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle,
-  SheetDescription, SheetBody, SheetFooter, SheetClose,
-} from '../src/components/ui/sheet';
-import { Button } from '../src/components/ui/button';
-import { Input } from '../src/components/ui/input';
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+  SheetBody,
+  SheetFooter,
+  SheetClose,
+} from '../src/components/ui/sheet'
+import { Button } from '../src/components/ui/button'
+import { Input } from '../src/components/ui/input'
 
 const meta: Meta = {
   title: 'Components/Sheet',
@@ -27,9 +34,9 @@ Side panel that slides in from any edge.
       },
     },
   },
-};
+}
 
-export default meta;
+export default meta
 
 export const Default: StoryObj = {
   render: () => (
@@ -57,7 +64,7 @@ export const Default: StoryObj = {
       </SheetContent>
     </Sheet>
   ),
-};
+}
 
 export const LeftSide: StoryObj = {
   render: () => (
@@ -75,7 +82,7 @@ export const LeftSide: StoryObj = {
       </SheetContent>
     </Sheet>
   ),
-};
+}
 
 export const BottomSheet: StoryObj = {
   render: () => (
@@ -89,15 +96,21 @@ export const BottomSheet: StoryObj = {
         </SheetHeader>
         <SheetBody>
           <div style={{ display: 'flex', gap: 8 }}>
-            <Button variant="secondary" style={{ flex: 1 }}>Share</Button>
-            <Button variant="secondary" style={{ flex: 1 }}>Copy</Button>
-            <Button variant="destructive" style={{ flex: 1 }}>Delete</Button>
+            <Button variant="secondary" style={{ flex: 1 }}>
+              Share
+            </Button>
+            <Button variant="secondary" style={{ flex: 1 }}>
+              Copy
+            </Button>
+            <Button variant="destructive" style={{ flex: 1 }}>
+              Delete
+            </Button>
           </div>
         </SheetBody>
       </SheetContent>
     </Sheet>
   ),
-};
+}
 
 export const LargeSheet: StoryObj = {
   render: () => (
@@ -111,11 +124,9 @@ export const LargeSheet: StoryObj = {
           <SheetDescription>View complete order information.</SheetDescription>
         </SheetHeader>
         <SheetBody>
-          <div style={{ color: '#71717a' }}>
-            Large content area for detailed information...
-          </div>
+          <div style={{ color: '#71717a' }}>Large content area for detailed information...</div>
         </SheetBody>
       </SheetContent>
     </Sheet>
   ),
-};
+}

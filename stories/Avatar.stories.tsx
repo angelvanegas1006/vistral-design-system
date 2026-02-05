@@ -1,6 +1,6 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { Avatar, AvatarGroup } from '../src/components/ui/avatar';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { Avatar, AvatarGroup } from '../src/components/ui/avatar'
 
 const meta: Meta<typeof Avatar> = {
   title: 'Components/Avatar',
@@ -24,17 +24,17 @@ Based on Figma Design System: [Avatar Component](https://www.figma.com/design/i0
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof Avatar>;
+export default meta
+type Story = StoryObj<typeof Avatar>
 
 export const Default: Story = {
   args: {
     name: 'John Doe',
     size: 'md',
   },
-};
+}
 
 export const AllSizes: Story = {
   render: () => (
@@ -47,29 +47,17 @@ export const AllSizes: Story = {
       <Avatar name="John Doe" size="2xl" />
     </div>
   ),
-};
+}
 
 export const WithImage: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-      <Avatar 
-        src="https://i.pravatar.cc/150?img=1" 
-        name="John Doe" 
-        size="md" 
-      />
-      <Avatar 
-        src="https://i.pravatar.cc/150?img=5" 
-        name="Jane Smith" 
-        size="md" 
-      />
-      <Avatar 
-        src="https://i.pravatar.cc/150?img=8" 
-        name="Mike Johnson" 
-        size="md" 
-      />
+      <Avatar src="https://i.pravatar.cc/150?img=1" name="John Doe" size="md" />
+      <Avatar src="https://i.pravatar.cc/150?img=5" name="Jane Smith" size="md" />
+      <Avatar src="https://i.pravatar.cc/150?img=8" name="Mike Johnson" size="md" />
     </div>
   ),
-};
+}
 
 export const Initials: Story = {
   render: () => (
@@ -81,18 +69,20 @@ export const Initials: Story = {
       <Avatar name="李明" size="lg" />
     </div>
   ),
-};
+}
 
 export const ColorVariations: Story = {
   name: 'Color Variations',
   render: () => (
     <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-      {['Alice', 'Bob', 'Charlie', 'Diana', 'Eve', 'Frank', 'Grace', 'Henry', 'Ivy', 'Jack'].map(name => (
-        <Avatar key={name} name={name} size="lg" />
-      ))}
+      {['Alice', 'Bob', 'Charlie', 'Diana', 'Eve', 'Frank', 'Grace', 'Henry', 'Ivy', 'Jack'].map(
+        name => (
+          <Avatar key={name} name={name} size="lg" />
+        )
+      )}
     </div>
   ),
-};
+}
 
 export const StatusIndicators: Story = {
   render: () => (
@@ -115,7 +105,7 @@ export const StatusIndicators: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const Fallbacks: Story = {
   render: () => (
@@ -134,7 +124,7 @@ export const Fallbacks: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const Group: Story = {
   name: 'Avatar Group',
@@ -150,7 +140,7 @@ export const Group: Story = {
           <Avatar name="Mike Johnson" />
         </AvatarGroup>
       </div>
-      
+
       <div>
         <h3 style={{ margin: '0 0 12px', fontSize: 14, fontWeight: 500, color: '#71717a' }}>
           With Max (showing +3)
@@ -165,7 +155,7 @@ export const Group: Story = {
           <Avatar name="Grace" />
         </AvatarGroup>
       </div>
-      
+
       <div>
         <h3 style={{ margin: '0 0 12px', fontSize: 14, fontWeight: 500, color: '#71717a' }}>
           Large Size
@@ -181,32 +171,43 @@ export const Group: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const TeamCard: Story = {
   name: 'Team Card Example',
   render: () => (
-    <div style={{ 
-      padding: 20, 
-      backgroundColor: '#fff', 
-      borderRadius: 12,
-      border: '1px solid #e4e4e7',
-      width: 320,
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+    <div
+      style={{
+        padding: 20,
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        border: '1px solid #e4e4e7',
+        width: 320,
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: 16,
+        }}
+      >
         <h3 style={{ margin: 0, fontSize: 16, fontWeight: 600 }}>Design Team</h3>
-        <span style={{ 
-          padding: '4px 8px', 
-          backgroundColor: '#dcfce7', 
-          color: '#15803d',
-          borderRadius: 9999,
-          fontSize: 12,
-          fontWeight: 500,
-        }}>
+        <span
+          style={{
+            padding: '4px 8px',
+            backgroundColor: '#dcfce7',
+            color: '#15803d',
+            borderRadius: 9999,
+            fontSize: 12,
+            fontWeight: 500,
+          }}
+        >
           Active
         </span>
       </div>
-      
+
       <AvatarGroup size="sm" max={5}>
         <Avatar name="Sarah Chen" showStatus status="online" />
         <Avatar name="Mike Peters" showStatus status="online" />
@@ -215,10 +216,8 @@ export const TeamCard: Story = {
         <Avatar name="Emma Davis" showStatus status="online" />
         <Avatar name="James Wilson" />
       </AvatarGroup>
-      
-      <p style={{ margin: '12px 0 0', fontSize: 13, color: '#71717a' }}>
-        3 members online
-      </p>
+
+      <p style={{ margin: '12px 0 0', fontSize: 13, color: '#71717a' }}>3 members online</p>
     </div>
   ),
-};
+}

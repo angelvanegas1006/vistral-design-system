@@ -1,11 +1,17 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
 import {
-  ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem,
-  ContextMenuSeparator, ContextMenuCheckboxItem, ContextMenuRadioItem,
-  ContextMenuLabel, ContextMenuSubmenu,
-} from '../src/components/ui/context-menu';
-import { Copy, Trash2, Edit, Share, Download, Star, Folder, File, Image, Video } from 'lucide-react';
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuCheckboxItem,
+  ContextMenuRadioItem,
+  ContextMenuLabel,
+  ContextMenuSubmenu,
+} from '../src/components/ui/context-menu'
+import { Copy, Trash2, Edit, Share, Download, Star, Folder, File, Image, Video } from 'lucide-react'
 
 const meta: Meta = {
   title: 'Components/ContextMenu',
@@ -34,25 +40,27 @@ Based on Figma: [Context Menu](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkL
       },
     },
   },
-};
+}
 
-export default meta;
+export default meta
 
 export const Default: StoryObj = {
   render: () => (
     <ContextMenu>
       <ContextMenuTrigger>
-        <div style={{
-          width: 300,
-          height: 150,
-          border: '2px dashed #e4e4e7',
-          borderRadius: 12,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: '#71717a',
-          fontSize: 14,
-        }}>
+        <div
+          style={{
+            width: 300,
+            height: 150,
+            border: '2px dashed #e4e4e7',
+            borderRadius: 12,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#71717a',
+            fontSize: 14,
+          }}
+        >
           Right click here
         </div>
       </ContextMenuTrigger>
@@ -61,28 +69,32 @@ export const Default: StoryObj = {
         <ContextMenuItem icon={Copy}>Menu Item</ContextMenuItem>
         <ContextMenuItem icon={Share}>Menu Item</ContextMenuItem>
         <ContextMenuSeparator />
-        <ContextMenuItem icon={Trash2} destructive>Menu Item</ContextMenuItem>
+        <ContextMenuItem icon={Trash2} destructive>
+          Menu Item
+        </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   ),
-};
+}
 
 export const WithLabels: StoryObj = {
   name: 'With Labels',
   render: () => (
     <ContextMenu>
       <ContextMenuTrigger>
-        <div style={{
-          width: 300,
-          height: 150,
-          border: '2px dashed #e4e4e7',
-          borderRadius: 12,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: '#71717a',
-          fontSize: 14,
-        }}>
+        <div
+          style={{
+            width: 300,
+            height: 150,
+            border: '2px dashed #e4e4e7',
+            borderRadius: 12,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#71717a',
+            fontSize: 14,
+          }}
+        >
           Right click here
         </div>
       </ContextMenuTrigger>
@@ -93,52 +105,21 @@ export const WithLabels: StoryObj = {
         <ContextMenuItem icon={Share}>Menu Item</ContextMenuItem>
         <ContextMenuSeparator />
         <ContextMenuLabel>Danger Zone</ContextMenuLabel>
-        <ContextMenuItem icon={Trash2} destructive>Menu Item</ContextMenuItem>
+        <ContextMenuItem icon={Trash2} destructive>
+          Menu Item
+        </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   ),
-};
+}
 
 export const WithShortcuts: StoryObj = {
   name: 'With Shortcuts',
   render: () => (
     <ContextMenu>
       <ContextMenuTrigger>
-        <div style={{
-          width: 300,
-          height: 150,
-          border: '2px dashed #e4e4e7',
-          borderRadius: 12,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: '#71717a',
-          fontSize: 14,
-        }}>
-          Right click here
-        </div>
-      </ContextMenuTrigger>
-      <ContextMenuContent>
-        <ContextMenuItem icon={Copy} shortcut="⌘C">Menu Item</ContextMenuItem>
-        <ContextMenuItem icon={Edit} shortcut="⌘E">Menu Item</ContextMenuItem>
-        <ContextMenuItem icon={Download} shortcut="⌘D">Menu Item</ContextMenuItem>
-        <ContextMenuSeparator />
-        <ContextMenuItem icon={Trash2} shortcut="⌫" destructive>Menu Item</ContextMenuItem>
-      </ContextMenuContent>
-    </ContextMenu>
-  ),
-};
-
-export const WithCheckboxes: StoryObj = {
-  name: 'With Checkboxes',
-  render: () => {
-    const [starred, setStarred] = React.useState(false);
-    const [shared, setShared] = React.useState(true);
-    
-    return (
-      <ContextMenu>
-        <ContextMenuTrigger>
-          <div style={{
+        <div
+          style={{
             width: 300,
             height: 150,
             border: '2px dashed #e4e4e7',
@@ -148,7 +129,52 @@ export const WithCheckboxes: StoryObj = {
             justifyContent: 'center',
             color: '#71717a',
             fontSize: 14,
-          }}>
+          }}
+        >
+          Right click here
+        </div>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuItem icon={Copy} shortcut="⌘C">
+          Menu Item
+        </ContextMenuItem>
+        <ContextMenuItem icon={Edit} shortcut="⌘E">
+          Menu Item
+        </ContextMenuItem>
+        <ContextMenuItem icon={Download} shortcut="⌘D">
+          Menu Item
+        </ContextMenuItem>
+        <ContextMenuSeparator />
+        <ContextMenuItem icon={Trash2} shortcut="⌫" destructive>
+          Menu Item
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  ),
+}
+
+export const WithCheckboxes: StoryObj = {
+  name: 'With Checkboxes',
+  render: () => {
+    const [starred, setStarred] = React.useState(false)
+    const [shared, setShared] = React.useState(true)
+
+    return (
+      <ContextMenu>
+        <ContextMenuTrigger>
+          <div
+            style={{
+              width: 300,
+              height: 150,
+              border: '2px dashed #e4e4e7',
+              borderRadius: 12,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#71717a',
+              fontSize: 14,
+            }}
+          >
             Right click here
           </div>
         </ContextMenuTrigger>
@@ -161,22 +187,72 @@ export const WithCheckboxes: StoryObj = {
           </ContextMenuCheckboxItem>
           <ContextMenuSeparator />
           <ContextMenuItem icon={Edit}>Menu Item</ContextMenuItem>
-          <ContextMenuItem icon={Trash2} destructive>Menu Item</ContextMenuItem>
+          <ContextMenuItem icon={Trash2} destructive>
+            Menu Item
+          </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
-    );
+    )
   },
-};
+}
 
 export const WithRadio: StoryObj = {
   name: 'With Radio Buttons',
   render: () => {
-    const [selected, setSelected] = React.useState('option1');
-    
+    const [selected, setSelected] = React.useState('option1')
+
     return (
       <ContextMenu>
         <ContextMenuTrigger>
-          <div style={{
+          <div
+            style={{
+              width: 300,
+              height: 150,
+              border: '2px dashed #e4e4e7',
+              borderRadius: 12,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#71717a',
+              fontSize: 14,
+            }}
+          >
+            Right click here
+          </div>
+        </ContextMenuTrigger>
+        <ContextMenuContent>
+          <ContextMenuLabel>View</ContextMenuLabel>
+          <ContextMenuRadioItem
+            checked={selected === 'option1'}
+            onCheckedChange={() => setSelected('option1')}
+          >
+            Menu Item
+          </ContextMenuRadioItem>
+          <ContextMenuRadioItem
+            checked={selected === 'option2'}
+            onCheckedChange={() => setSelected('option2')}
+          >
+            Menu Item
+          </ContextMenuRadioItem>
+          <ContextMenuRadioItem
+            checked={selected === 'option3'}
+            onCheckedChange={() => setSelected('option3')}
+          >
+            Menu Item
+          </ContextMenuRadioItem>
+        </ContextMenuContent>
+      </ContextMenu>
+    )
+  },
+}
+
+export const WithSubmenu: StoryObj = {
+  name: 'With Submenu',
+  render: () => (
+    <ContextMenu>
+      <ContextMenuTrigger>
+        <div
+          style={{
             width: 300,
             height: 150,
             border: '2px dashed #e4e4e7',
@@ -186,43 +262,8 @@ export const WithRadio: StoryObj = {
             justifyContent: 'center',
             color: '#71717a',
             fontSize: 14,
-          }}>
-            Right click here
-          </div>
-        </ContextMenuTrigger>
-        <ContextMenuContent>
-          <ContextMenuLabel>View</ContextMenuLabel>
-          <ContextMenuRadioItem checked={selected === 'option1'} onCheckedChange={() => setSelected('option1')}>
-            Menu Item
-          </ContextMenuRadioItem>
-          <ContextMenuRadioItem checked={selected === 'option2'} onCheckedChange={() => setSelected('option2')}>
-            Menu Item
-          </ContextMenuRadioItem>
-          <ContextMenuRadioItem checked={selected === 'option3'} onCheckedChange={() => setSelected('option3')}>
-            Menu Item
-          </ContextMenuRadioItem>
-        </ContextMenuContent>
-      </ContextMenu>
-    );
-  },
-};
-
-export const WithSubmenu: StoryObj = {
-  name: 'With Submenu',
-  render: () => (
-    <ContextMenu>
-      <ContextMenuTrigger>
-        <div style={{
-          width: 300,
-          height: 150,
-          border: '2px dashed #e4e4e7',
-          borderRadius: 12,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: '#71717a',
-          fontSize: 14,
-        }}>
+          }}
+        >
           Right click here
         </div>
       </ContextMenuTrigger>
@@ -235,61 +276,75 @@ export const WithSubmenu: StoryObj = {
           <ContextMenuItem icon={Video}>Menu Item</ContextMenuItem>
         </ContextMenuSubmenu>
         <ContextMenuSeparator />
-        <ContextMenuItem icon={Trash2} destructive>Menu Item</ContextMenuItem>
+        <ContextMenuItem icon={Trash2} destructive>
+          Menu Item
+        </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   ),
-};
+}
 
 export const WithDisabled: StoryObj = {
   name: 'With Disabled Items',
   render: () => (
     <ContextMenu>
       <ContextMenuTrigger>
-        <div style={{
-          width: 300,
-          height: 150,
-          border: '2px dashed #e4e4e7',
-          borderRadius: 12,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: '#71717a',
-          fontSize: 14,
-        }}>
+        <div
+          style={{
+            width: 300,
+            height: 150,
+            border: '2px dashed #e4e4e7',
+            borderRadius: 12,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#71717a',
+            fontSize: 14,
+          }}
+        >
           Right click here
         </div>
       </ContextMenuTrigger>
       <ContextMenuContent>
         <ContextMenuItem icon={Edit}>Menu Item</ContextMenuItem>
-        <ContextMenuItem icon={Copy} disabled>Menu Item</ContextMenuItem>
-        <ContextMenuItem icon={Share} disabled>Menu Item</ContextMenuItem>
+        <ContextMenuItem icon={Copy} disabled>
+          Menu Item
+        </ContextMenuItem>
+        <ContextMenuItem icon={Share} disabled>
+          Menu Item
+        </ContextMenuItem>
         <ContextMenuSeparator />
-        <ContextMenuItem icon={Trash2} destructive>Menu Item</ContextMenuItem>
+        <ContextMenuItem icon={Trash2} destructive>
+          Menu Item
+        </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   ),
-};
+}
 
 export const FileExample: StoryObj = {
   name: 'File Browser Example',
   render: () => (
     <ContextMenu>
       <ContextMenuTrigger>
-        <div style={{
-          width: 120,
-          padding: 16,
-          backgroundColor: '#f4f4f5',
-          borderRadius: 8,
-          textAlign: 'center',
-        }}>
-          <div style={{
-            width: 48,
-            height: 48,
-            margin: '0 auto 8px',
-            backgroundColor: '#dbeafe',
+        <div
+          style={{
+            width: 120,
+            padding: 16,
+            backgroundColor: '#f4f4f5',
             borderRadius: 8,
-          }} />
+            textAlign: 'center',
+          }}
+        >
+          <div
+            style={{
+              width: 48,
+              height: 48,
+              margin: '0 auto 8px',
+              backgroundColor: '#dbeafe',
+              borderRadius: 8,
+            }}
+          />
           <span style={{ fontSize: 13 }}>Document.pdf</span>
         </div>
       </ContextMenuTrigger>
@@ -300,11 +355,13 @@ export const FileExample: StoryObj = {
         <ContextMenuItem icon={Share}>Share</ContextMenuItem>
         <ContextMenuItem icon={Star}>Add to Favorites</ContextMenuItem>
         <ContextMenuSeparator />
-        <ContextMenuItem icon={Trash2} destructive>Move to Trash</ContextMenuItem>
+        <ContextMenuItem icon={Trash2} destructive>
+          Move to Trash
+        </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   ),
-};
+}
 
 export const AllVariations: StoryObj = {
   name: 'All Variations (Figma Reference)',
@@ -315,17 +372,19 @@ export const AllVariations: StoryObj = {
         <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Basic</p>
         <ContextMenu>
           <ContextMenuTrigger>
-            <div style={{
-              width: 200,
-              height: 100,
-              border: '2px dashed #e4e4e7',
-              borderRadius: 8,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#71717a',
-              fontSize: 13,
-            }}>
+            <div
+              style={{
+                width: 200,
+                height: 100,
+                border: '2px dashed #e4e4e7',
+                borderRadius: 8,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#71717a',
+                fontSize: 13,
+              }}
+            >
               Right click
             </div>
           </ContextMenuTrigger>
@@ -342,17 +401,19 @@ export const AllVariations: StoryObj = {
         <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>With Icons</p>
         <ContextMenu>
           <ContextMenuTrigger>
-            <div style={{
-              width: 200,
-              height: 100,
-              border: '2px dashed #e4e4e7',
-              borderRadius: 8,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#71717a',
-              fontSize: 13,
-            }}>
+            <div
+              style={{
+                width: 200,
+                height: 100,
+                border: '2px dashed #e4e4e7',
+                borderRadius: 8,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#71717a',
+                fontSize: 13,
+              }}
+            >
               Right click
             </div>
           </ContextMenuTrigger>
@@ -369,17 +430,19 @@ export const AllVariations: StoryObj = {
         <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>With Labels</p>
         <ContextMenu>
           <ContextMenuTrigger>
-            <div style={{
-              width: 200,
-              height: 100,
-              border: '2px dashed #e4e4e7',
-              borderRadius: 8,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#71717a',
-              fontSize: 13,
-            }}>
+            <div
+              style={{
+                width: 200,
+                height: 100,
+                border: '2px dashed #e4e4e7',
+                borderRadius: 8,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#71717a',
+                fontSize: 13,
+              }}
+            >
               Right click
             </div>
           </ContextMenuTrigger>
@@ -388,7 +451,9 @@ export const AllVariations: StoryObj = {
             <ContextMenuItem>Menu Item</ContextMenuItem>
             <ContextMenuItem>Menu Item</ContextMenuItem>
             <ContextMenuSeparator />
-            <ContextMenuItem icon={Trash2} destructive>Menu Item</ContextMenuItem>
+            <ContextMenuItem icon={Trash2} destructive>
+              Menu Item
+            </ContextMenuItem>
           </ContextMenuContent>
         </ContextMenu>
       </div>
@@ -398,17 +463,19 @@ export const AllVariations: StoryObj = {
         <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>With Checkboxes</p>
         <ContextMenu>
           <ContextMenuTrigger>
-            <div style={{
-              width: 200,
-              height: 100,
-              border: '2px dashed #e4e4e7',
-              borderRadius: 8,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#71717a',
-              fontSize: 13,
-            }}>
+            <div
+              style={{
+                width: 200,
+                height: 100,
+                border: '2px dashed #e4e4e7',
+                borderRadius: 8,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#71717a',
+                fontSize: 13,
+              }}
+            >
               Right click
             </div>
           </ContextMenuTrigger>
@@ -425,17 +492,19 @@ export const AllVariations: StoryObj = {
         <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>With Radio</p>
         <ContextMenu>
           <ContextMenuTrigger>
-            <div style={{
-              width: 200,
-              height: 100,
-              border: '2px dashed #e4e4e7',
-              borderRadius: 8,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#71717a',
-              fontSize: 13,
-            }}>
+            <div
+              style={{
+                width: 200,
+                height: 100,
+                border: '2px dashed #e4e4e7',
+                borderRadius: 8,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#71717a',
+                fontSize: 13,
+              }}
+            >
               Right click
             </div>
           </ContextMenuTrigger>
@@ -448,4 +517,4 @@ export const AllVariations: StoryObj = {
       </div>
     </div>
   ),
-};
+}

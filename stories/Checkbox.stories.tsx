@@ -1,6 +1,6 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { Checkbox, CheckboxGroup } from '../src/components/ui/checkbox';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { Checkbox, CheckboxGroup } from '../src/components/ui/checkbox'
 
 const meta: Meta<typeof Checkbox> = {
   title: 'Components/Checkbox',
@@ -27,24 +27,34 @@ Based on Figma: [Checkbox](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/D
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof Checkbox>;
+export default meta
+type Story = StoryObj<typeof Checkbox>
 
 export const Default: Story = {
   args: {
     label: 'Accept terms and conditions',
   },
-};
+}
 
 export const AllStates: Story = {
   name: 'All States (Figma Reference)',
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, padding: 24, backgroundColor: '#f8fafc' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 24,
+        padding: 24,
+        backgroundColor: '#f8fafc',
+      }}
+    >
       {/* Unchecked States */}
       <div>
-        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>Unchecked</h3>
+        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>
+          Unchecked
+        </h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <Checkbox label="Label" description="Description" />
           <Checkbox label="Label" description="Description" showHoverBg />
@@ -54,7 +64,9 @@ export const AllStates: Story = {
 
       {/* Checked States */}
       <div>
-        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>Checked</h3>
+        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>
+          Checked
+        </h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <Checkbox label="Label" description="Description" checked />
           <Checkbox label="Label" description="Description" checked showHoverBg />
@@ -64,7 +76,9 @@ export const AllStates: Story = {
 
       {/* Indeterminate States */}
       <div>
-        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>Indeterminate</h3>
+        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>
+          Indeterminate
+        </h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <Checkbox label="Label" description="Description" indeterminate />
           <Checkbox label="Label" description="Description" indeterminate showHoverBg />
@@ -74,7 +88,9 @@ export const AllStates: Story = {
 
       {/* Disabled States */}
       <div>
-        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>Disabled</h3>
+        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>
+          Disabled
+        </h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <Checkbox label="Label" description="Description" disabled />
           <Checkbox label="Label" description="Description" disabled checked />
@@ -83,36 +99,42 @@ export const AllStates: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const WithDescription: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <Checkbox 
+      <Checkbox
         label="Marketing emails"
         description="Receive emails about new products, features, and more."
       />
-      <Checkbox 
+      <Checkbox
         label="Security updates"
         description="Get notified about security updates and alerts."
         checked
       />
-      <Checkbox 
-        label="Newsletter"
-        description="Weekly digest of the best content."
-        disabled
-      />
+      <Checkbox label="Newsletter" description="Weekly digest of the best content." disabled />
     </div>
   ),
-};
+}
 
 export const PositionVariations: Story = {
   name: 'Position Variations',
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, padding: 24, backgroundColor: '#f8fafc' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 24,
+        padding: 24,
+        backgroundColor: '#f8fafc',
+      }}
+    >
       {/* Left Position (Default) */}
       <div>
-        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>Checkbox on Left (Default)</h3>
+        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>
+          Checkbox on Left (Default)
+        </h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <Checkbox label="Label" description="Description" position="left" />
           <Checkbox label="Label" description="Description" position="left" checked />
@@ -122,7 +144,9 @@ export const PositionVariations: Story = {
 
       {/* Right Position */}
       <div>
-        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>Checkbox on Right</h3>
+        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>
+          Checkbox on Right
+        </h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           <Checkbox label="Label" description="Description" position="right" />
           <Checkbox label="Label" description="Description" position="right" checked />
@@ -131,58 +155,39 @@ export const PositionVariations: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const WithHoverBackground: Story = {
   name: 'With Hover Background',
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      <Checkbox 
-        label="Option 1"
-        description="Hover to see background"
-        showHoverBg
-      />
-      <Checkbox 
-        label="Option 2"
-        description="Hover to see background"
-        checked
-        showHoverBg
-      />
-      <Checkbox 
-        label="Option 3"
-        description="Hover to see background"
-        indeterminate
-        showHoverBg
-      />
+      <Checkbox label="Option 1" description="Hover to see background" showHoverBg />
+      <Checkbox label="Option 2" description="Hover to see background" checked showHoverBg />
+      <Checkbox label="Option 3" description="Hover to see background" indeterminate showHoverBg />
     </div>
   ),
-};
+}
 
 export const ErrorStates: Story = {
   name: 'Error States',
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <Checkbox 
-        label="Required field"
-        description="This field is required"
-        error
-      />
-      <Checkbox 
+      <Checkbox label="Required field" description="This field is required" error />
+      <Checkbox
         label="Invalid selection"
         description="Please select a valid option"
         error
         checked
       />
-      <div style={{ 
-        padding: 16, 
-        backgroundColor: '#fff', 
-        borderRadius: 8,
-        border: '1px solid #e4e4e7',
-      }}>
-        <CheckboxGroup 
-          label="Select at least one option"
-          error="This is an error description."
-        >
+      <div
+        style={{
+          padding: 16,
+          backgroundColor: '#fff',
+          borderRadius: 8,
+          border: '1px solid #e4e4e7',
+        }}
+      >
+        <CheckboxGroup label="Select at least one option" error="This is an error description.">
           <Checkbox label="Label" description="Description" error />
           <Checkbox label="Label" description="Description" error />
           <Checkbox label="Label" description="Description" error />
@@ -190,7 +195,7 @@ export const ErrorStates: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const CheckboxGroupExample: Story = {
   name: 'Checkbox Group',
@@ -199,61 +204,63 @@ export const CheckboxGroupExample: Story = {
       terms: false,
       privacy: false,
       marketing: false,
-    });
-    
-    const allChecked = values.terms && values.privacy && values.marketing;
-    const someChecked = values.terms || values.privacy || values.marketing;
-    
+    })
+
+    const allChecked = values.terms && values.privacy && values.marketing
+    const someChecked = values.terms || values.privacy || values.marketing
+
     const toggleAll = () => {
-      const newValue = !allChecked;
+      const newValue = !allChecked
       setValues({
         terms: newValue,
         privacy: newValue,
         marketing: newValue,
-      });
-    };
-    
+      })
+    }
+
     return (
-      <div style={{ 
-        padding: 24, 
-        backgroundColor: '#fff', 
-        borderRadius: 8,
-        border: '1px solid #e4e4e7',
-        width: 400,
-      }}>
+      <div
+        style={{
+          padding: 24,
+          backgroundColor: '#fff',
+          borderRadius: 8,
+          border: '1px solid #e4e4e7',
+          width: 400,
+        }}
+      >
         <CheckboxGroup label="Preferences">
-          <Checkbox 
+          <Checkbox
             label="Select all"
             checked={allChecked}
             indeterminate={someChecked && !allChecked}
             onCheckedChange={toggleAll}
           />
-          
+
           <div style={{ marginLeft: 28, display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <Checkbox 
+            <Checkbox
               label="Terms of Service"
               description="I agree to the terms of service"
               checked={values.terms}
-              onCheckedChange={(checked) => setValues(v => ({ ...v, terms: checked }))}
+              onCheckedChange={checked => setValues(v => ({ ...v, terms: checked }))}
             />
-            <Checkbox 
+            <Checkbox
               label="Privacy Policy"
               description="I agree to the privacy policy"
               checked={values.privacy}
-              onCheckedChange={(checked) => setValues(v => ({ ...v, privacy: checked }))}
+              onCheckedChange={checked => setValues(v => ({ ...v, privacy: checked }))}
             />
-            <Checkbox 
+            <Checkbox
               label="Marketing"
               description="Send me marketing emails"
               checked={values.marketing}
-              onCheckedChange={(checked) => setValues(v => ({ ...v, marketing: checked }))}
+              onCheckedChange={checked => setValues(v => ({ ...v, marketing: checked }))}
             />
           </div>
         </CheckboxGroup>
       </div>
-    );
+    )
   },
-};
+}
 
 export const HorizontalGroup: Story = {
   name: 'Horizontal Group',
@@ -266,20 +273,20 @@ export const HorizontalGroup: Story = {
       </CheckboxGroup>
     </div>
   ),
-};
+}
 
 export const Controlled: Story = {
   render: () => {
-    const [checked, setChecked] = React.useState(false);
-    
+    const [checked, setChecked] = React.useState(false)
+
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <Checkbox 
+        <Checkbox
           label={`Checkbox is ${checked ? 'checked' : 'unchecked'}`}
           checked={checked}
           onCheckedChange={setChecked}
         />
-        <button 
+        <button
           onClick={() => setChecked(!checked)}
           style={{
             padding: '8px 16px',
@@ -292,9 +299,9 @@ export const Controlled: Story = {
           Toggle from outside
         </button>
       </div>
-    );
+    )
   },
-};
+}
 
 export const AllVariations: Story = {
   name: 'All Variations (Figma Reference)',
@@ -302,7 +309,9 @@ export const AllVariations: Story = {
     <div style={{ display: 'flex', gap: 48, padding: 24, backgroundColor: '#f8fafc' }}>
       {/* Left Position Column */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: '#71717a' }}>Checkbox Left</h3>
+        <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: '#71717a' }}>
+          Checkbox Left
+        </h3>
         <Checkbox label="Label" description="Description" />
         <Checkbox label="Label" description="Description" checked />
         <Checkbox label="Label" description="Description" error />
@@ -312,7 +321,9 @@ export const AllVariations: Story = {
 
       {/* Right Position Column */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: '#71717a' }}>Checkbox Right</h3>
+        <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: '#71717a' }}>
+          Checkbox Right
+        </h3>
         <Checkbox label="Label" description="Description" position="right" />
         <Checkbox label="Label" description="Description" position="right" checked />
         <Checkbox label="Label" description="Description" position="right" error />
@@ -322,11 +333,13 @@ export const AllVariations: Story = {
 
       {/* With Hover Background */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: '#71717a' }}>With Hover BG</h3>
+        <h3 style={{ margin: 0, fontSize: 14, fontWeight: 600, color: '#71717a' }}>
+          With Hover BG
+        </h3>
         <Checkbox label="Label" description="Description" showHoverBg />
         <Checkbox label="Label" description="Description" checked showHoverBg />
         <Checkbox label="Label" description="Description" disabled showHoverBg />
       </div>
     </div>
   ),
-};
+}

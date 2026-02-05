@@ -1,33 +1,33 @@
 /**
  * Export Logos from Figma as SVG
- * 
+ *
  * This script fetches logo components from Figma and exports them as SVG files.
- * 
+ *
  * Usage: npx tsx scripts/export-logos.ts
  */
 
-import { writeFileSync, mkdirSync, existsSync } from "fs"
-import { resolve, dirname } from "path"
-import { fileURLToPath } from "url"
-import { config } from "dotenv"
+import { writeFileSync, mkdirSync, existsSync } from 'fs'
+import { resolve, dirname } from 'path'
+import { fileURLToPath } from 'url'
+import { config } from 'dotenv'
 
 // ES Module __dirname fix
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 // Load environment variables
-config({ path: resolve(__dirname, "../.env.local") })
+config({ path: resolve(__dirname, '../.env.local') })
 
 const FIGMA_TOKEN = process.env.FIGMA_TOKEN
-const FIGMA_FILE_ID = process.env.FIGMA_FILE_ID || "i0plqavJ8VqpKeqr6TkLtD"
-const FIGMA_API_BASE = "https://api.figma.com/v1"
+const FIGMA_FILE_ID = process.env.FIGMA_FILE_ID || 'i0plqavJ8VqpKeqr6TkLtD'
+const FIGMA_API_BASE = 'https://api.figma.com/v1'
 
 if (!FIGMA_TOKEN) {
-  console.error("❌ FIGMA_TOKEN is required in .env.local")
+  console.error('❌ FIGMA_TOKEN is required in .env.local')
   process.exit(1)
 }
 
-const OUTPUT_DIR = resolve(__dirname, "../public/assets/logos")
+const OUTPUT_DIR = resolve(__dirname, '../public/assets/logos')
 
 interface FigmaNode {
   id: string
@@ -42,7 +42,7 @@ interface FigmaNode {
 async function figmaFetch<T>(endpoint: string): Promise<T> {
   const response = await fetch(`${FIGMA_API_BASE}${endpoint}`, {
     headers: {
-      "X-Figma-Token": FIGMA_TOKEN!,
+      'X-Figma-Token': FIGMA_TOKEN!,
     },
   })
 
@@ -76,7 +76,7 @@ function findNodesByName(node: FigmaNode, pattern: RegExp, results: FigmaNode[] 
 async function exportNodesAsSvg(nodeIds: string[]): Promise<Record<string, string>> {
   if (nodeIds.length === 0) return {}
 
-  const idsParam = nodeIds.join(",")
+  const idsParam = nodeIds.join(',')
   const data = await figmaFetch<{ images: Record<string, string> }>(
     `/images/${FIGMA_FILE_ID}?ids=${idsParam}&format=svg`
   )
@@ -101,12 +101,12 @@ async function downloadSvg(url: string): Promise<string> {
 function sanitizeFilename(name: string): string {
   return name
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "")
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
 }
 
 async function main() {
-  console.log("🎨 Exporting logos from Figma...")
+  console.log('🎨 Exporting logos from Figma...')
   console.log(`📁 Output directory: ${OUTPUT_DIR}`)
 
   // Create output directory
@@ -116,31 +116,31 @@ async function main() {
 
   try {
     // 1. Fetch Figma file structure
-    console.log("\n📥 Fetching Figma file structure...")
+    console.log('\n📥 Fetching Figma file structure...')
     const fileData = await figmaFetch<{ document: FigmaNode }>(`/files/${FIGMA_FILE_ID}`)
 
     // 2. Find logo-related nodes
-    console.log("🔍 Searching for logo components...")
+    console.log('🔍 Searching for logo components...')
     const logoPattern = /logo|logomark|logotype|prophero|vistral/i
     const logoNodes = findNodesByName(fileData.document, logoPattern)
 
     console.log(`   Found ${logoNodes.length} potential logo nodes:`)
-    logoNodes.forEach((node) => {
+    logoNodes.forEach(node => {
       console.log(`   - ${node.name} (${node.type}, id: ${node.id})`)
     })
 
     if (logoNodes.length === 0) {
-      console.log("\n⚠️  No logo nodes found. Try searching manually in Figma.")
+      console.log('\n⚠️  No logo nodes found. Try searching manually in Figma.')
       return
     }
 
     // 3. Filter to only COMPONENT and COMPONENT_SET types (or FRAME for grouped logos)
-    const exportableNodes = logoNodes.filter(
-      (node) => ["COMPONENT", "COMPONENT_SET", "FRAME", "GROUP", "INSTANCE"].includes(node.type)
+    const exportableNodes = logoNodes.filter(node =>
+      ['COMPONENT', 'COMPONENT_SET', 'FRAME', 'GROUP', 'INSTANCE'].includes(node.type)
     )
 
     if (exportableNodes.length === 0) {
-      console.log("\n⚠️  No exportable logo components found.")
+      console.log('\n⚠️  No exportable logo components found.')
       return
     }
 
@@ -152,7 +152,7 @@ async function main() {
 
     for (let i = 0; i < exportableNodes.length; i += batchSize) {
       const batch = exportableNodes.slice(i, i + batchSize)
-      const nodeIds = batch.map((n) => n.id)
+      const nodeIds = batch.map(n => n.id)
 
       try {
         const imageUrls = await exportNodesAsSvg(nodeIds)
@@ -180,7 +180,7 @@ async function main() {
 
         // Rate limit delay between batches
         if (i + batchSize < exportableNodes.length) {
-          await new Promise((r) => setTimeout(r, 1000))
+          await new Promise(r => setTimeout(r, 1000))
         }
       } catch (err) {
         console.log(`   ❌ Batch export failed: ${err}`)
@@ -188,9 +188,8 @@ async function main() {
     }
 
     console.log(`\n✅ Exported ${exported} logo files to ${OUTPUT_DIR}`)
-
   } catch (error) {
-    console.error("\n❌ Error:", error)
+    console.error('\n❌ Error:', error)
     process.exit(1)
   }
 }

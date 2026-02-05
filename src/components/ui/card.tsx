@@ -1,5 +1,5 @@
-import * as React from "react"
-import { forwardRef } from "react"
+import * as React from 'react'
+import { forwardRef } from 'react'
 
 /**
  * Card Design Tokens from Figma
@@ -48,9 +48,11 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
       backgroundColor: CARD_TOKENS.bg,
       border: `1px solid ${CARD_TOKENS.border}`,
       borderRadius: CARD_TOKENS.radius,
-      boxShadow: flat ? 'none' : (isHovered && hoverable) 
-        ? '0px 0px 24px 0px rgba(0, 0, 0, 0.1)' 
-        : CARD_TOKENS.shadow,
+      boxShadow: flat
+        ? 'none'
+        : isHovered && hoverable
+          ? '0px 0px 24px 0px rgba(0, 0, 0, 0.1)'
+          : CARD_TOKENS.shadow,
       padding: CARD_TOKENS.padding[size],
       minHeight: CARD_TOKENS.sizes[size].minHeight,
       display: 'flex',
@@ -73,7 +75,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
   }
 )
 
-Card.displayName = "Card"
+Card.displayName = 'Card'
 
 // ============================================================================
 // Card Header
@@ -103,7 +105,7 @@ const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
   }
 )
 
-CardHeader.displayName = "CardHeader"
+CardHeader.displayName = 'CardHeader'
 
 // ============================================================================
 // Card Title
@@ -132,7 +134,7 @@ const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(
   }
 )
 
-CardTitle.displayName = "CardTitle"
+CardTitle.displayName = 'CardTitle'
 
 // ============================================================================
 // Card Description
@@ -159,7 +161,7 @@ const CardDescription = forwardRef<HTMLParagraphElement, CardDescriptionProps>(
   }
 )
 
-CardDescription.displayName = "CardDescription"
+CardDescription.displayName = 'CardDescription'
 
 // ============================================================================
 // Card Content
@@ -182,7 +184,7 @@ const CardContent = forwardRef<HTMLDivElement, CardContentProps>(
   }
 )
 
-CardContent.displayName = "CardContent"
+CardContent.displayName = 'CardContent'
 
 // ============================================================================
 // Card Footer
@@ -220,14 +222,6 @@ const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
   }
 )
 
-CardFooter.displayName = "CardFooter"
+CardFooter.displayName = 'CardFooter'
 
-export { 
-  Card, 
-  CardHeader, 
-  CardTitle, 
-  CardDescription, 
-  CardContent, 
-  CardFooter,
-  CARD_TOKENS,
-}
+export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CARD_TOKENS }

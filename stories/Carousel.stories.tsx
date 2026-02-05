@@ -1,6 +1,6 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { Carousel, CarouselItem } from '../src/components/ui/carousel';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { Carousel, CarouselItem } from '../src/components/ui/carousel'
 
 const meta: Meta<typeof Carousel> = {
   title: 'Components/Carousel',
@@ -26,41 +26,45 @@ Based on Figma: [Carousel](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/D
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof Carousel>;
+export default meta
+type Story = StoryObj<typeof Carousel>
 
 const SlideBox = ({ children, color }: { children: React.ReactNode; color: string }) => (
-  <div style={{
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 240,
-    backgroundColor: color,
-    borderRadius: 12,
-    color: 'white',
-    fontSize: 24,
-    fontWeight: 600,
-  }}>
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: 240,
+      backgroundColor: color,
+      borderRadius: 12,
+      color: 'white',
+      fontSize: 24,
+      fontWeight: 600,
+    }}
+  >
     {children}
   </div>
-);
+)
 
 const ImagePlaceholder = ({ index }: { index: number }) => (
-  <div style={{
-    width: '100%',
-    height: 240,
-    backgroundColor: '#f4f4f5',
-    borderRadius: 12,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    border: '1px solid #e4e4e7',
-  }}>
+  <div
+    style={{
+      width: '100%',
+      height: 240,
+      backgroundColor: '#f4f4f5',
+      borderRadius: 12,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      border: '1px solid #e4e4e7',
+    }}
+  >
     <span style={{ color: '#a1a1aa', fontSize: 14 }}>Image {index}</span>
   </div>
-);
+)
 
 export const Default: Story = {
   render: () => (
@@ -74,7 +78,7 @@ export const Default: Story = {
       </Carousel>
     </div>
   ),
-};
+}
 
 export const WithCounter: Story = {
   name: 'With Counter',
@@ -89,7 +93,7 @@ export const WithCounter: Story = {
       </Carousel>
     </div>
   ),
-};
+}
 
 export const SingleItem: Story = {
   name: 'Single Item (Desktop)',
@@ -104,7 +108,7 @@ export const SingleItem: Story = {
       </Carousel>
     </div>
   ),
-};
+}
 
 export const TwoItems: Story = {
   name: 'Two Items',
@@ -119,7 +123,7 @@ export const TwoItems: Story = {
       </Carousel>
     </div>
   ),
-};
+}
 
 export const ThreeItems: Story = {
   name: 'Three Items',
@@ -135,7 +139,7 @@ export const ThreeItems: Story = {
       </Carousel>
     </div>
   ),
-};
+}
 
 export const WithThumbnails: Story = {
   name: 'With Thumbnails',
@@ -150,14 +154,14 @@ export const WithThumbnails: Story = {
       </Carousel>
     </div>
   ),
-};
+}
 
 export const MobileMultiItem: Story = {
   name: 'Mobile - Multi Item',
   render: () => (
     <div style={{ width: 360 }}>
-      <Carousel 
-        slidesToShow={1.2} 
+      <Carousel
+        slidesToShow={1.2}
         slidesToScroll={1}
         edgeMasking
         mobileVariant="multi-item"
@@ -171,18 +175,13 @@ export const MobileMultiItem: Story = {
       </Carousel>
     </div>
   ),
-};
+}
 
 export const MobileHero: Story = {
   name: 'Mobile - Hero',
   render: () => (
     <div style={{ width: 360 }}>
-      <Carousel 
-        slidesToShow={1}
-        slidesToScroll={1}
-        mobileVariant="hero"
-        showCounter
-      >
+      <Carousel slidesToShow={1} slidesToScroll={1} mobileVariant="hero" showCounter>
         <SlideBox color="#2050f6">Hero 1</SlideBox>
         <SlideBox color="#7c3aed">Hero 2</SlideBox>
         <SlideBox color="#db2777">Hero 3</SlideBox>
@@ -191,7 +190,7 @@ export const MobileHero: Story = {
       </Carousel>
     </div>
   ),
-};
+}
 
 export const Vertical: Story = {
   name: 'Vertical Orientation',
@@ -206,7 +205,7 @@ export const Vertical: Story = {
       </Carousel>
     </div>
   ),
-};
+}
 
 export const AutoPlay: Story = {
   name: 'Auto Play',
@@ -220,7 +219,7 @@ export const AutoPlay: Story = {
       </Carousel>
     </div>
   ),
-};
+}
 
 export const NoControls: Story = {
   name: 'No Controls',
@@ -233,12 +232,20 @@ export const NoControls: Story = {
       </Carousel>
     </div>
   ),
-};
+}
 
 export const AllVariations: Story = {
   name: 'All Variations (Figma Reference)',
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 48, padding: 24, backgroundColor: '#f8fafc' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 48,
+        padding: 24,
+        backgroundColor: '#f8fafc',
+      }}
+    >
       {/* Desktop Single */}
       <div>
         <h3 style={{ margin: '0 0 16px', fontSize: 16, fontWeight: 600 }}>Desktop - Single Item</h3>
@@ -286,8 +293,8 @@ export const AllVariations: Story = {
       <div>
         <h3 style={{ margin: '0 0 16px', fontSize: 16, fontWeight: 600 }}>Mobile - Multi Item</h3>
         <div style={{ width: 360 }}>
-          <Carousel 
-            slidesToShow={1.2} 
+          <Carousel
+            slidesToShow={1.2}
             slidesToScroll={1}
             edgeMasking
             mobileVariant="multi-item"
@@ -331,4 +338,4 @@ export const AllVariations: Story = {
       </div>
     </div>
   ),
-};
+}

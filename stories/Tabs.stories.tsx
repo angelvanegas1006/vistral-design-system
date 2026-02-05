@@ -1,7 +1,7 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '../src/components/ui/tabs';
-import { Home, Settings, User, Bell, Star, Filter } from 'lucide-react';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '../src/components/ui/tabs'
+import { Home, Settings, User, Bell, Star, Filter } from 'lucide-react'
 
 const meta: Meta<typeof Tabs> = {
   title: 'Components/Tabs',
@@ -36,10 +36,10 @@ Based on Figma:
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof Tabs>;
+export default meta
+type Story = StoryObj<typeof Tabs>
 
 export const Default: Story = {
   name: 'Level 1 - Main Tabs',
@@ -51,23 +51,17 @@ export const Default: Story = {
         <TabsTrigger value="tab3">Tab</TabsTrigger>
       </TabsList>
       <TabsContent value="tab1">
-        <p style={{ margin: 0, color: '#52525b' }}>
-          Content for tab 1
-        </p>
+        <p style={{ margin: 0, color: '#52525b' }}>Content for tab 1</p>
       </TabsContent>
       <TabsContent value="tab2">
-        <p style={{ margin: 0, color: '#52525b' }}>
-          Content for tab 2
-        </p>
+        <p style={{ margin: 0, color: '#52525b' }}>Content for tab 2</p>
       </TabsContent>
       <TabsContent value="tab3">
-        <p style={{ margin: 0, color: '#52525b' }}>
-          Content for tab 3
-        </p>
+        <p style={{ margin: 0, color: '#52525b' }}>Content for tab 3</p>
       </TabsContent>
     </Tabs>
   ),
-};
+}
 
 export const SegmentedControls: Story = {
   name: 'Level 2 - Segmented Controls',
@@ -93,16 +87,22 @@ export const SegmentedControls: Story = {
       </TabsContent>
     </Tabs>
   ),
-};
+}
 
 export const WithIcons: Story = {
   name: 'With Icons',
   render: () => (
     <Tabs defaultValue="home" level={1} style={{ width: 500 }}>
       <TabsList>
-        <TabsTrigger value="home" icon={Home}>Home</TabsTrigger>
-        <TabsTrigger value="settings" icon={Settings}>Settings</TabsTrigger>
-        <TabsTrigger value="profile" icon={User}>Profile</TabsTrigger>
+        <TabsTrigger value="home" icon={Home}>
+          Home
+        </TabsTrigger>
+        <TabsTrigger value="settings" icon={Settings}>
+          Settings
+        </TabsTrigger>
+        <TabsTrigger value="profile" icon={User}>
+          Profile
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="home">
         <p style={{ margin: 0, color: '#52525b' }}>Home content</p>
@@ -115,15 +115,19 @@ export const WithIcons: Story = {
       </TabsContent>
     </Tabs>
   ),
-};
+}
 
 export const WithBadges: Story = {
   name: 'With Notification Badges',
   render: () => (
     <Tabs defaultValue="inbox" level={1} style={{ width: 500 }}>
       <TabsList>
-        <TabsTrigger value="inbox" badge={3}>Inbox</TabsTrigger>
-        <TabsTrigger value="sent" badge>Sent</TabsTrigger>
+        <TabsTrigger value="inbox" badge={3}>
+          Inbox
+        </TabsTrigger>
+        <TabsTrigger value="sent" badge>
+          Sent
+        </TabsTrigger>
         <TabsTrigger value="drafts">Drafts</TabsTrigger>
         <TabsTrigger value="archived">Archived</TabsTrigger>
       </TabsList>
@@ -141,15 +145,19 @@ export const WithBadges: Story = {
       </TabsContent>
     </Tabs>
   ),
-};
+}
 
 export const WithTags: Story = {
   name: 'With Tags',
   render: () => (
     <Tabs defaultValue="features" level={1} style={{ width: 500 }}>
       <TabsList>
-        <TabsTrigger value="features" tag="New">Features</TabsTrigger>
-        <TabsTrigger value="pricing" tag="Pro">Pricing</TabsTrigger>
+        <TabsTrigger value="features" tag="New">
+          Features
+        </TabsTrigger>
+        <TabsTrigger value="pricing" tag="Pro">
+          Pricing
+        </TabsTrigger>
         <TabsTrigger value="about">About</TabsTrigger>
       </TabsList>
       <TabsContent value="features">
@@ -163,16 +171,22 @@ export const WithTags: Story = {
       </TabsContent>
     </Tabs>
   ),
-};
+}
 
 export const WithIconsAndBadges: Story = {
   name: 'With Icons and Badges',
   render: () => (
     <Tabs defaultValue="notifications" level={1} style={{ width: 500 }}>
       <TabsList>
-        <TabsTrigger value="notifications" icon={Bell} badge={5}>Notifications</TabsTrigger>
-        <TabsTrigger value="messages" icon={User} badge>Messages</TabsTrigger>
-        <TabsTrigger value="favorites" icon={Star}>Favorites</TabsTrigger>
+        <TabsTrigger value="notifications" icon={Bell} badge={5}>
+          Notifications
+        </TabsTrigger>
+        <TabsTrigger value="messages" icon={User} badge>
+          Messages
+        </TabsTrigger>
+        <TabsTrigger value="favorites" icon={Star}>
+          Favorites
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="notifications">
         <p style={{ margin: 0, color: '#52525b' }}>Notifications content</p>
@@ -185,7 +199,7 @@ export const WithIconsAndBadges: Story = {
       </TabsContent>
     </Tabs>
   ),
-};
+}
 
 export const AllStates: Story = {
   name: 'All States (Figma Reference)',
@@ -198,7 +212,9 @@ export const AllStates: Story = {
             <TabsTrigger value="tab1">Tab</TabsTrigger>
             <TabsTrigger value="tab2">Tab</TabsTrigger>
             <TabsTrigger value="tab3">Tab</TabsTrigger>
-            <TabsTrigger value="tab4" disabled>Tab</TabsTrigger>
+            <TabsTrigger value="tab4" disabled>
+              Tab
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="tab1">Content 1</TabsContent>
           <TabsContent value="tab2">Content 2</TabsContent>
@@ -208,13 +224,17 @@ export const AllStates: Story = {
       </div>
 
       <div>
-        <p style={{ marginBottom: 8, fontSize: 12, color: '#71717a' }}>Level 2 - Segmented Controls</p>
+        <p style={{ marginBottom: 8, fontSize: 12, color: '#71717a' }}>
+          Level 2 - Segmented Controls
+        </p>
         <Tabs defaultValue="tab1" level={2}>
           <TabsList>
             <TabsTrigger value="tab1">Tab</TabsTrigger>
             <TabsTrigger value="tab2">Tab</TabsTrigger>
             <TabsTrigger value="tab3">Tab</TabsTrigger>
-            <TabsTrigger value="tab4" disabled>Tab</TabsTrigger>
+            <TabsTrigger value="tab4" disabled>
+              Tab
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="tab1">Content 1</TabsContent>
           <TabsContent value="tab2">Content 2</TabsContent>
@@ -224,7 +244,7 @@ export const AllStates: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const ManyTabs: Story = {
   name: 'Many Tabs',
@@ -244,7 +264,7 @@ export const ManyTabs: Story = {
       ))}
     </Tabs>
   ),
-};
+}
 
 export const SegmentedControlsMany: Story = {
   name: 'Segmented Controls - Many Options',
@@ -264,17 +284,15 @@ export const SegmentedControlsMany: Story = {
       ))}
     </Tabs>
   ),
-};
+}
 
 export const Controlled: Story = {
   render: () => {
-    const [tab, setTab] = React.useState('tab1');
-    
+    const [tab, setTab] = React.useState('tab1')
+
     return (
       <div style={{ width: 500 }}>
-        <p style={{ margin: '0 0 16px', fontSize: 14, color: '#71717a' }}>
-          Active tab: {tab}
-        </p>
+        <p style={{ margin: '0 0 16px', fontSize: 14, color: '#71717a' }}>Active tab: {tab}</p>
         <Tabs value={tab} onValueChange={setTab} level={1}>
           <TabsList>
             <TabsTrigger value="tab1">First</TabsTrigger>
@@ -286,9 +304,9 @@ export const Controlled: Story = {
           <TabsContent value="tab3">Content for third tab</TabsContent>
         </Tabs>
       </div>
-    );
+    )
   },
-};
+}
 
 export const WithDisabled: Story = {
   name: 'With Disabled',
@@ -297,44 +315,48 @@ export const WithDisabled: Story = {
       <TabsList>
         <TabsTrigger value="tab1">Available</TabsTrigger>
         <TabsTrigger value="tab2">Also Available</TabsTrigger>
-        <TabsTrigger value="tab3" disabled>Disabled</TabsTrigger>
+        <TabsTrigger value="tab3" disabled>
+          Disabled
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="tab1">This tab is available</TabsContent>
       <TabsContent value="tab2">This tab is also available</TabsContent>
       <TabsContent value="tab3">You can't see this</TabsContent>
     </Tabs>
   ),
-};
+}
 
 export const ProductPage: Story = {
   name: 'Product Page Example',
   render: () => (
-    <div style={{ 
-      width: 600, 
-      padding: 24, 
-      backgroundColor: '#fff', 
-      borderRadius: 12,
-      border: '1px solid #e4e4e7',
-    }}>
-      <h2 style={{ margin: '0 0 16px', fontSize: 20, fontWeight: 600 }}>
-        MacBook Pro
-      </h2>
-      
+    <div
+      style={{
+        width: 600,
+        padding: 24,
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        border: '1px solid #e4e4e7',
+      }}
+    >
+      <h2 style={{ margin: '0 0 16px', fontSize: 20, fontWeight: 600 }}>MacBook Pro</h2>
+
       <Tabs defaultValue="description" level={1}>
         <TabsList>
           <TabsTrigger value="description">Description</TabsTrigger>
           <TabsTrigger value="specs">Specifications</TabsTrigger>
-          <TabsTrigger value="reviews" badge={24}>Reviews</TabsTrigger>
+          <TabsTrigger value="reviews" badge={24}>
+            Reviews
+          </TabsTrigger>
         </TabsList>
-        
+
         <TabsContent value="description">
           <p style={{ margin: 0, color: '#52525b', lineHeight: 1.6 }}>
-            The most powerful MacBook Pro ever is here. With the blazing-fast 
-            M3 Pro or M3 Max chip, up to 22 hours of battery life, and a stunning 
-            Liquid Retina XDR display, it's a beast of a machine.
+            The most powerful MacBook Pro ever is here. With the blazing-fast M3 Pro or M3 Max chip,
+            up to 22 hours of battery life, and a stunning Liquid Retina XDR display, it's a beast
+            of a machine.
           </p>
         </TabsContent>
-        
+
         <TabsContent value="specs">
           <table style={{ width: '100%', fontSize: 14, borderCollapse: 'collapse' }}>
             <tbody>
@@ -353,7 +375,7 @@ export const ProductPage: Story = {
             </tbody>
           </table>
         </TabsContent>
-        
+
         <TabsContent value="reviews">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {[
@@ -363,7 +385,10 @@ export const ProductPage: Story = {
               <div key={i} style={{ padding: 12, backgroundColor: '#fafafa', borderRadius: 8 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
                   <span style={{ fontWeight: 500 }}>{review.author}</span>
-                  <span>{'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}</span>
+                  <span>
+                    {'★'.repeat(review.rating)}
+                    {'☆'.repeat(5 - review.rating)}
+                  </span>
                 </div>
                 <p style={{ margin: 0, color: '#52525b', fontSize: 14 }}>{review.text}</p>
               </div>
@@ -373,33 +398,35 @@ export const ProductPage: Story = {
       </Tabs>
     </div>
   ),
-};
+}
 
 export const FilterExample: Story = {
   name: 'Filter Example (Segmented Controls)',
   render: () => {
-    const [filter, setFilter] = React.useState('all');
-    
+    const [filter, setFilter] = React.useState('all')
+
     return (
-      <div style={{ 
-        width: 500, 
-        padding: 24, 
-        backgroundColor: '#fff', 
-        borderRadius: 12,
-        border: '1px solid #e4e4e7',
-      }}>
-        <h3 style={{ margin: '0 0 16px', fontSize: 18, fontWeight: 600 }}>
-          Properties
-        </h3>
-        
+      <div
+        style={{
+          width: 500,
+          padding: 24,
+          backgroundColor: '#fff',
+          borderRadius: 12,
+          border: '1px solid #e4e4e7',
+        }}
+      >
+        <h3 style={{ margin: '0 0 16px', fontSize: 18, fontWeight: 600 }}>Properties</h3>
+
         <Tabs value={filter} onValueChange={setFilter} level={2}>
           <TabsList>
-            <TabsTrigger value="all" icon={Filter}>All</TabsTrigger>
+            <TabsTrigger value="all" icon={Filter}>
+              All
+            </TabsTrigger>
             <TabsTrigger value="active">Active</TabsTrigger>
             <TabsTrigger value="pending">Pending</TabsTrigger>
             <TabsTrigger value="sold">Sold</TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="all">
             <p style={{ margin: 0, color: '#52525b' }}>
               Showing all properties ({Math.floor(Math.random() * 100)})
@@ -422,14 +449,22 @@ export const FilterExample: Story = {
           </TabsContent>
         </Tabs>
       </div>
-    );
+    )
   },
-};
+}
 
 export const AllVariations: Story = {
   name: 'All Variations (Figma Reference)',
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 32, padding: 24, backgroundColor: '#f8fafc' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 32,
+        padding: 24,
+        backgroundColor: '#f8fafc',
+      }}
+    >
       <div>
         <h3 style={{ marginBottom: 16, fontSize: 16, fontWeight: 600 }}>Level 1 - Main Tabs</h3>
         <Tabs defaultValue="tab1" level={1}>
@@ -445,7 +480,9 @@ export const AllVariations: Story = {
       </div>
 
       <div>
-        <h3 style={{ marginBottom: 16, fontSize: 16, fontWeight: 600 }}>Level 2 - Segmented Controls</h3>
+        <h3 style={{ marginBottom: 16, fontSize: 16, fontWeight: 600 }}>
+          Level 2 - Segmented Controls
+        </h3>
         <Tabs defaultValue="tab1" level={2}>
           <TabsList>
             <TabsTrigger value="tab1">Tab</TabsTrigger>
@@ -462,9 +499,15 @@ export const AllVariations: Story = {
         <h3 style={{ marginBottom: 16, fontSize: 16, fontWeight: 600 }}>With Icons and Badges</h3>
         <Tabs defaultValue="tab1" level={1}>
           <TabsList>
-            <TabsTrigger value="tab1" icon={Home} badge={3}>Home</TabsTrigger>
-            <TabsTrigger value="tab2" icon={Bell} badge>Notifications</TabsTrigger>
-            <TabsTrigger value="tab3" icon={User}>Profile</TabsTrigger>
+            <TabsTrigger value="tab1" icon={Home} badge={3}>
+              Home
+            </TabsTrigger>
+            <TabsTrigger value="tab2" icon={Bell} badge>
+              Notifications
+            </TabsTrigger>
+            <TabsTrigger value="tab3" icon={User}>
+              Profile
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="tab1">Content</TabsContent>
           <TabsContent value="tab2">Content</TabsContent>
@@ -476,8 +519,12 @@ export const AllVariations: Story = {
         <h3 style={{ marginBottom: 16, fontSize: 16, fontWeight: 600 }}>With Tags</h3>
         <Tabs defaultValue="tab1" level={1}>
           <TabsList>
-            <TabsTrigger value="tab1" tag="New">Features</TabsTrigger>
-            <TabsTrigger value="tab2" tag="Pro">Pricing</TabsTrigger>
+            <TabsTrigger value="tab1" tag="New">
+              Features
+            </TabsTrigger>
+            <TabsTrigger value="tab2" tag="Pro">
+              Pricing
+            </TabsTrigger>
             <TabsTrigger value="tab3">About</TabsTrigger>
           </TabsList>
           <TabsContent value="tab1">Content</TabsContent>
@@ -487,4 +534,4 @@ export const AllVariations: Story = {
       </div>
     </div>
   ),
-};
+}

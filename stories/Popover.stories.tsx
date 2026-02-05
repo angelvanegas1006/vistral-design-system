@@ -1,9 +1,9 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { Popover, PopoverTrigger, PopoverContent, PopoverClose } from '../src/components/ui/popover';
-import { Button } from '../src/components/ui/button';
-import { Input } from '../src/components/ui/input';
-import { Settings, Info } from 'lucide-react';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { Popover, PopoverTrigger, PopoverContent, PopoverClose } from '../src/components/ui/popover'
+import { Button } from '../src/components/ui/button'
+import { Input } from '../src/components/ui/input'
+import { Settings, Info } from 'lucide-react'
 
 const meta: Meta = {
   title: 'Components/Popover',
@@ -24,9 +24,9 @@ Floating content panel triggered by a button.
       },
     },
   },
-};
+}
 
-export default meta;
+export default meta
 
 export const Default: StoryObj = {
   render: () => (
@@ -44,14 +44,16 @@ export const Default: StoryObj = {
       </Popover>
     </div>
   ),
-};
+}
 
 export const WithForm: StoryObj = {
   render: () => (
     <div style={{ position: 'relative', display: 'inline-block' }}>
       <Popover>
         <PopoverTrigger asChild>
-          <Button variant="secondary" leftIcon={Settings}>Settings</Button>
+          <Button variant="secondary" leftIcon={Settings}>
+            Settings
+          </Button>
         </PopoverTrigger>
         <PopoverContent style={{ width: 280 }}>
           <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600 }}>Dimensions</h3>
@@ -61,7 +63,9 @@ export const WithForm: StoryObj = {
           </div>
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 16 }}>
             <PopoverClose asChild>
-              <Button variant="ghost" size="sm">Cancel</Button>
+              <Button variant="ghost" size="sm">
+                Cancel
+              </Button>
             </PopoverClose>
             <Button size="sm">Apply</Button>
           </div>
@@ -69,16 +73,18 @@ export const WithForm: StoryObj = {
       </Popover>
     </div>
   ),
-};
+}
 
 export const Positions: StoryObj = {
   render: () => (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, padding: 60 }}>
-      {(['top', 'bottom', 'left', 'right'] as const).map((side) => (
+      {(['top', 'bottom', 'left', 'right'] as const).map(side => (
         <div key={side} style={{ position: 'relative', display: 'inline-block' }}>
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="secondary" size="sm">{side}</Button>
+              <Button variant="secondary" size="sm">
+                {side}
+              </Button>
             </PopoverTrigger>
             <PopoverContent side={side}>
               <p style={{ margin: 0, fontSize: 13 }}>Popover on {side}</p>
@@ -88,16 +94,18 @@ export const Positions: StoryObj = {
       ))}
     </div>
   ),
-};
+}
 
 export const Alignments: StoryObj = {
   render: () => (
     <div style={{ display: 'flex', gap: 16 }}>
-      {(['start', 'center', 'end'] as const).map((align) => (
+      {(['start', 'center', 'end'] as const).map(align => (
         <div key={align} style={{ position: 'relative', display: 'inline-block' }}>
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="secondary" size="sm">Align {align}</Button>
+              <Button variant="secondary" size="sm">
+                Align {align}
+              </Button>
             </PopoverTrigger>
             <PopoverContent align={align}>
               <p style={{ margin: 0, fontSize: 13 }}>Aligned to {align}</p>
@@ -107,7 +115,7 @@ export const Alignments: StoryObj = {
       ))}
     </div>
   ),
-};
+}
 
 export const InfoPopover: StoryObj = {
   name: 'Info Tooltip Style',
@@ -117,14 +125,16 @@ export const InfoPopover: StoryObj = {
       <div style={{ position: 'relative', display: 'inline-block' }}>
         <Popover>
           <PopoverTrigger asChild>
-            <button style={{ 
-              padding: 4, 
-              background: 'none', 
-              border: 'none', 
-              cursor: 'pointer',
-              color: '#71717a',
-              display: 'flex',
-            }}>
+            <button
+              style={{
+                padding: 4,
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                color: '#71717a',
+                display: 'flex',
+              }}
+            >
               <Info size={16} />
             </button>
           </PopoverTrigger>
@@ -138,4 +148,4 @@ export const InfoPopover: StoryObj = {
       </div>
     </div>
   ),
-};
+}

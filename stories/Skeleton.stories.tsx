@@ -1,6 +1,6 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { Skeleton, SkeletonText, SkeletonCard, SkeletonAvatar } from '../src/components/ui/skeleton';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { Skeleton, SkeletonText, SkeletonCard, SkeletonAvatar } from '../src/components/ui/skeleton'
 
 const meta: Meta<typeof Skeleton> = {
   title: 'Components/Skeleton',
@@ -23,10 +23,10 @@ Loading placeholder component.
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof Skeleton>;
+export default meta
+type Story = StoryObj<typeof Skeleton>
 
 export const Default: Story = {
   render: () => (
@@ -36,7 +36,7 @@ export const Default: Story = {
       <Skeleton width="60%" height={20} />
     </div>
   ),
-};
+}
 
 export const Shapes: Story = {
   render: () => (
@@ -47,7 +47,7 @@ export const Shapes: Story = {
       <Skeleton width={100} height={100} circle />
     </div>
   ),
-};
+}
 
 export const Text: Story = {
   render: () => (
@@ -55,7 +55,7 @@ export const Text: Story = {
       <SkeletonText lines={4} />
     </div>
   ),
-};
+}
 
 export const Avatar: Story = {
   render: () => (
@@ -66,7 +66,7 @@ export const Avatar: Story = {
       <SkeletonAvatar size={64} />
     </div>
   ),
-};
+}
 
 export const Card: Story = {
   render: () => (
@@ -75,18 +75,20 @@ export const Card: Story = {
       <SkeletonCard style={{ width: 280 }} showImage={false} />
     </div>
   ),
-};
+}
 
 export const ProfileCard: Story = {
   name: 'Profile Card Loading',
   render: () => (
-    <div style={{ 
-      width: 350, 
-      padding: 24, 
-      backgroundColor: '#fff', 
-      borderRadius: 12,
-      border: '1px solid #e4e4e7',
-    }}>
+    <div
+      style={{
+        width: 350,
+        padding: 24,
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        border: '1px solid #e4e4e7',
+      }}
+    >
       <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16 }}>
         <SkeletonAvatar size={64} />
         <div style={{ flex: 1 }}>
@@ -101,39 +103,43 @@ export const ProfileCard: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const TableLoading: Story = {
   name: 'Table Loading',
   render: () => (
-    <div style={{ 
-      width: 500, 
-      backgroundColor: '#fff', 
-      borderRadius: 12,
-      border: '1px solid #e4e4e7',
-      overflow: 'hidden',
-    }}>
+    <div
+      style={{
+        width: 500,
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        border: '1px solid #e4e4e7',
+        overflow: 'hidden',
+      }}
+    >
       {/* Header */}
-      <div style={{ 
-        display: 'flex', 
-        gap: 16, 
-        padding: 16, 
-        backgroundColor: '#fafafa',
-        borderBottom: '1px solid #e4e4e7',
-      }}>
+      <div
+        style={{
+          display: 'flex',
+          gap: 16,
+          padding: 16,
+          backgroundColor: '#fafafa',
+          borderBottom: '1px solid #e4e4e7',
+        }}
+      >
         <Skeleton width={120} height={16} />
         <Skeleton width={100} height={16} />
         <Skeleton width={80} height={16} />
         <Skeleton width={60} height={16} />
       </div>
-      
+
       {/* Rows */}
-      {[1, 2, 3, 4].map((i) => (
-        <div 
+      {[1, 2, 3, 4].map(i => (
+        <div
           key={i}
-          style={{ 
-            display: 'flex', 
-            gap: 16, 
+          style={{
+            display: 'flex',
+            gap: 16,
             padding: 16,
             borderBottom: i < 4 ? '1px solid #e4e4e7' : 'none',
             alignItems: 'center',
@@ -150,7 +156,7 @@ export const TableLoading: Story = {
       ))}
     </div>
   ),
-};
+}
 
 export const NoAnimation: Story = {
   name: 'Without Animation',
@@ -161,4 +167,4 @@ export const NoAnimation: Story = {
       <Skeleton width="60%" height={20} animate={false} />
     </div>
   ),
-};
+}

@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef } from "react"
-import { User } from "lucide-react"
+import * as React from 'react'
+import { forwardRef } from 'react'
+import { User } from 'lucide-react'
 
 /**
  * Avatar Design Tokens from Figma
@@ -18,14 +18,14 @@ const AVATAR_TOKENS = {
   },
   // Default colors for initials (based on name hash) - reduced palette
   colors: [
-    { bg: '#dbeafe', fg: '#1d4ed8' },  // blue
-    { bg: '#dcfce7', fg: '#15803d' },  // green
-    { bg: '#fef3c7', fg: '#b45309' },  // amber
+    { bg: '#dbeafe', fg: '#1d4ed8' }, // blue
+    { bg: '#dcfce7', fg: '#15803d' }, // green
+    { bg: '#fef3c7', fg: '#b45309' }, // amber
   ],
   // Fallback
   fallback: {
-    bg: '#f4f4f5',   // zinc-100
-    fg: '#71717a',   // zinc-500
+    bg: '#f4f4f5', // zinc-100
+    fg: '#71717a', // zinc-500
   },
   // Border for group overlap
   border: '#ffffff',
@@ -39,7 +39,7 @@ function hashString(str: string): number {
   let hash = 0
   for (let i = 0; i < str.length; i++) {
     const char = str.charCodeAt(i)
-    hash = ((hash << 5) - hash) + char
+    hash = (hash << 5) - hash + char
     hash = hash & hash
   }
   return Math.abs(hash)
@@ -75,24 +75,27 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
-  ({ 
-    src,
-    alt,
-    name,
-    size = 'md',
-    initials,
-    showStatus = false,
-    status = 'online',
-    style, 
-    ...props 
-  }, ref) => {
+  (
+    {
+      src,
+      alt,
+      name,
+      size = 'md',
+      initials,
+      showStatus = false,
+      status = 'online',
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const [imgError, setImgError] = React.useState(false)
     const sizeTokens = AVATAR_TOKENS.sizes[size]
-    
+
     // Get color based on name
     const colorIndex = name ? hashString(name) % AVATAR_TOKENS.colors.length : 0
     const colors = name ? AVATAR_TOKENS.colors[colorIndex] : AVATAR_TOKENS.fallback
-    
+
     // Determine what to show
     const showImage = src && !imgError
     const displayInitials = initials || (name ? getInitials(name) : null)
@@ -123,10 +126,10 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
     }
 
     const statusColors = {
-      online: '#22c55e',   // green-500
-      offline: '#71717a',  // zinc-500
-      busy: '#ef4444',     // red-500
-      away: '#f59e0b',     // amber-500
+      online: '#22c55e', // green-500
+      offline: '#71717a', // zinc-500
+      busy: '#ef4444', // red-500
+      away: '#f59e0b', // amber-500
     }
 
     const statusSize = Math.max(8, sizeTokens.size * 0.25)
@@ -145,9 +148,9 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
     return (
       <span ref={ref} style={avatarStyle} {...props}>
         {showImage ? (
-          <img 
-            src={src} 
-            alt={alt || name || 'Avatar'} 
+          <img
+            src={src}
+            alt={alt || name || 'Avatar'}
             style={imgStyle}
             onError={() => setImgError(true)}
           />
@@ -162,7 +165,7 @@ const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
   }
 )
 
-Avatar.displayName = "Avatar"
+Avatar.displayName = 'Avatar'
 
 // ============================================================================
 // Avatar Group
@@ -179,14 +182,7 @@ export interface AvatarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
-  ({ 
-    max = 5,
-    size = 'md',
-    overlap = 0.3,
-    style, 
-    children, 
-    ...props 
-  }, ref) => {
+  ({ max = 5, size = 'md', overlap = 0.3, style, children, ...props }, ref) => {
     const sizeTokens = AVATAR_TOKENS.sizes[size]
     const overlapPx = sizeTokens.size * overlap
 
@@ -225,9 +221,7 @@ const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
 
     return (
       <div ref={ref} style={groupStyle} {...props}>
-        {remainingCount > 0 && (
-          <span style={counterStyle}>+{remainingCount}</span>
-        )}
+        {remainingCount > 0 && <span style={counterStyle}>+{remainingCount}</span>}
         {visibleChildren.reverse().map((child, index) => (
           <span key={index} style={itemStyle}>
             {React.cloneElement(child as React.ReactElement<{ size?: string }>, { size })}
@@ -238,6 +232,6 @@ const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
   }
 )
 
-AvatarGroup.displayName = "AvatarGroup"
+AvatarGroup.displayName = 'AvatarGroup'
 
 export { Avatar, AvatarGroup, AVATAR_TOKENS }

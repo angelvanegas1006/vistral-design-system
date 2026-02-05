@@ -1,6 +1,6 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { DatePicker } from '../src/components/ui/date-picker';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { DatePicker } from '../src/components/ui/date-picker'
 
 const meta: Meta<typeof DatePicker> = {
   title: 'Components/DatePicker',
@@ -23,44 +23,36 @@ Input with calendar dropdown.
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof DatePicker>;
+export default meta
+type Story = StoryObj<typeof DatePicker>
 
 export const Default: Story = {
   render: () => {
-    const [date, setDate] = React.useState<Date | undefined>();
+    const [date, setDate] = React.useState<Date | undefined>()
     return (
       <div style={{ width: 280 }}>
-        <DatePicker
-          value={date}
-          onChange={setDate}
-          label="Select Date"
-        />
+        <DatePicker value={date} onChange={setDate} label="Select Date" />
       </div>
-    );
+    )
   },
-};
+}
 
 export const WithDefaultValue: Story = {
   render: () => {
-    const [date, setDate] = React.useState<Date | undefined>(new Date());
+    const [date, setDate] = React.useState<Date | undefined>(new Date())
     return (
       <div style={{ width: 280 }}>
-        <DatePicker
-          value={date}
-          onChange={setDate}
-          label="Date"
-        />
+        <DatePicker value={date} onChange={setDate} label="Date" />
       </div>
-    );
+    )
   },
-};
+}
 
 export const WithHelperText: Story = {
   render: () => {
-    const [date, setDate] = React.useState<Date | undefined>();
+    const [date, setDate] = React.useState<Date | undefined>()
     return (
       <div style={{ width: 280 }}>
         <DatePicker
@@ -70,13 +62,13 @@ export const WithHelperText: Story = {
           helperText="Select your preferred appointment date"
         />
       </div>
-    );
+    )
   },
-};
+}
 
 export const WithError: Story = {
   render: () => {
-    const [date, setDate] = React.useState<Date | undefined>();
+    const [date, setDate] = React.useState<Date | undefined>()
     return (
       <div style={{ width: 280 }}>
         <DatePicker
@@ -87,17 +79,17 @@ export const WithError: Story = {
           helperText="Please select a valid date"
         />
       </div>
-    );
+    )
   },
-};
+}
 
 export const FutureDatesOnly: Story = {
   render: () => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    
-    const [date, setDate] = React.useState<Date | undefined>();
-    
+    const tomorrow = new Date()
+    tomorrow.setDate(tomorrow.getDate() + 1)
+
+    const [date, setDate] = React.useState<Date | undefined>()
+
     return (
       <div style={{ width: 280 }}>
         <DatePicker
@@ -108,44 +100,35 @@ export const FutureDatesOnly: Story = {
           minDate={tomorrow}
         />
       </div>
-    );
+    )
   },
-};
+}
 
 export const CustomFormat: Story = {
   render: () => {
-    const [date, setDate] = React.useState<Date | undefined>(new Date());
-    
+    const [date, setDate] = React.useState<Date | undefined>(new Date())
+
     const formatDate = (d: Date) => {
       return d.toLocaleDateString('en-US', {
         weekday: 'long',
         year: 'numeric',
         month: 'long',
         day: 'numeric',
-      });
-    };
-    
+      })
+    }
+
     return (
       <div style={{ width: 320 }}>
-        <DatePicker
-          value={date}
-          onChange={setDate}
-          label="Event Date"
-          formatDate={formatDate}
-        />
+        <DatePicker value={date} onChange={setDate} label="Event Date" formatDate={formatDate} />
       </div>
-    );
+    )
   },
-};
+}
 
 export const Disabled: Story = {
   render: () => (
     <div style={{ width: 280 }}>
-      <DatePicker
-        value={new Date()}
-        label="Date"
-        disabled
-      />
+      <DatePicker value={new Date()} label="Date" disabled />
     </div>
   ),
-};
+}

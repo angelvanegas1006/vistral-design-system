@@ -1,10 +1,19 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { 
-  Navbar, NavbarBrand, NavbarTitle, NavbarActions, NavbarButton, NavbarBack,
-  NavbarDivider, NavbarToolsButton, NavbarSecondaryButton, NavbarPrimaryButton, NavbarLeft
-} from '../src/components/ui/navbar';
-import { Menu, Bell, Search, User, Settings, MoreVertical, ChevronLeft } from 'lucide-react';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarTitle,
+  NavbarActions,
+  NavbarButton,
+  NavbarBack,
+  NavbarDivider,
+  NavbarToolsButton,
+  NavbarSecondaryButton,
+  NavbarPrimaryButton,
+  NavbarLeft,
+} from '../src/components/ui/navbar'
+import { Menu, Bell, Search, User, Settings, MoreVertical, ChevronLeft } from 'lucide-react'
 
 const meta: Meta<typeof Navbar> = {
   title: 'Components/Navbar',
@@ -28,10 +37,10 @@ Top navigation bar component.
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof Navbar>;
+export default meta
+type Story = StoryObj<typeof Navbar>
 
 export const Default: Story = {
   render: () => (
@@ -44,13 +53,15 @@ export const Default: Story = {
       </NavbarActions>
     </Navbar>
   ),
-};
+}
 
 export const WithLogo: Story = {
   render: () => (
     <Navbar>
-      <NavbarBrand 
-        logo={<div style={{ width: 32, height: 32, backgroundColor: '#2050f6', borderRadius: 8 }} />}
+      <NavbarBrand
+        logo={
+          <div style={{ width: 32, height: 32, backgroundColor: '#2050f6', borderRadius: 8 }} />
+        }
         name="PropHero"
         href="/"
       />
@@ -60,7 +71,7 @@ export const WithLogo: Story = {
       </NavbarActions>
     </Navbar>
   ),
-};
+}
 
 export const MobileHeader: Story = {
   name: 'Mobile Header',
@@ -75,7 +86,7 @@ export const MobileHeader: Story = {
       </Navbar>
     </div>
   ),
-};
+}
 
 export const WithActionsBar: Story = {
   name: 'With Actions (Figma Design)',
@@ -106,7 +117,7 @@ export const WithActionsBar: Story = {
       </Navbar>
     </div>
   ),
-};
+}
 
 export const BackWithTitle: Story = {
   name: 'Back + Title',
@@ -122,7 +133,7 @@ export const BackWithTitle: Story = {
       </NavbarActions>
     </Navbar>
   ),
-};
+}
 
 export const WithMenu: Story = {
   render: () => (
@@ -137,14 +148,16 @@ export const WithMenu: Story = {
       </NavbarActions>
     </Navbar>
   ),
-};
+}
 
 export const Transparent: Story = {
   render: () => (
-    <div style={{ 
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
-      padding: '0 0 100px 0' 
-    }}>
+    <div
+      style={{
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        padding: '0 0 100px 0',
+      }}
+    >
       <Navbar transparent bordered={false}>
         <NavbarBrand name="Vistral" />
         <NavbarActions>
@@ -154,27 +167,29 @@ export const Transparent: Story = {
       </Navbar>
     </div>
   ),
-};
+}
 
 export const AppExample: Story = {
   name: 'App Example',
   render: () => (
     <div style={{ minHeight: 300, backgroundColor: '#fafafa' }}>
       <Navbar>
-        <NavbarBrand 
+        <NavbarBrand
           logo={
-            <div style={{ 
-              width: 32, 
-              height: 32, 
-              backgroundColor: '#2050f6', 
-              borderRadius: 8,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'white',
-              fontWeight: 700,
-              fontSize: 14,
-            }}>
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                backgroundColor: '#2050f6',
+                borderRadius: 8,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontWeight: 700,
+                fontSize: 14,
+              }}
+            >
               P
             </div>
           }
@@ -183,20 +198,22 @@ export const AppExample: Story = {
         <NavbarActions>
           <NavbarButton icon={Search} aria-label="Search" />
           <NavbarButton icon={Bell} badge aria-label="Notifications" />
-          <div style={{ 
-            width: 32, 
-            height: 32, 
-            borderRadius: '50%', 
-            backgroundColor: '#e4e4e7',
-            marginLeft: 8,
-          }} />
+          <div
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: '50%',
+              backgroundColor: '#e4e4e7',
+              marginLeft: 8,
+            }}
+          />
         </NavbarActions>
       </Navbar>
-      
+
       <div style={{ padding: 24 }}>
         <h1 style={{ margin: '0 0 8px', fontSize: 24, fontWeight: 600 }}>Welcome back!</h1>
         <p style={{ margin: 0, color: '#71717a' }}>Here's what's happening today.</p>
       </div>
     </div>
   ),
-};
+}

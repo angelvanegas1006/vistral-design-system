@@ -1,6 +1,6 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { NumberStepper } from '../src/components/ui/number-stepper';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { NumberStepper } from '../src/components/ui/number-stepper'
 
 const meta: Meta<typeof NumberStepper> = {
   title: 'Components/NumberStepper',
@@ -35,10 +35,10 @@ Based on Figma Design System: [Stepper Component](https://www.figma.com/design/i
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof NumberStepper>;
+export default meta
+type Story = StoryObj<typeof NumberStepper>
 
 export const Default: Story = {
   render: () => (
@@ -46,7 +46,7 @@ export const Default: Story = {
       <NumberStepper label="Habitaciones" defaultValue={0} min={0} max={10} />
     </div>
   ),
-};
+}
 
 export const WithValues: Story = {
   name: 'Multiple Values',
@@ -56,7 +56,7 @@ export const WithValues: Story = {
       <NumberStepper label="Baños" defaultValue={5} />
     </div>
   ),
-};
+}
 
 export const WithoutDivider: Story = {
   name: 'Without Divider',
@@ -66,7 +66,7 @@ export const WithoutDivider: Story = {
       <NumberStepper label="Children" defaultValue={1} showDivider={false} />
     </div>
   ),
-};
+}
 
 export const AllStates: Story = {
   name: 'All States (Figma Reference)',
@@ -92,7 +92,7 @@ export const AllStates: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const States: Story = {
   render: () => (
@@ -107,16 +107,16 @@ export const States: Story = {
       </div>
       <div>
         <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Error</p>
-        <NumberStepper 
-          label="Habitaciones" 
-          defaultValue={0} 
-          error 
+        <NumberStepper
+          label="Habitaciones"
+          defaultValue={0}
+          error
           errorMessage="This is an error description."
         />
       </div>
     </div>
   ),
-};
+}
 
 export const MinMaxBoundary: Story = {
   name: 'At Boundaries',
@@ -136,92 +136,83 @@ export const MinMaxBoundary: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const EditableInput: Story = {
   name: 'Editable Input Field',
   render: () => {
-    const [value, setValue] = React.useState(3);
-    
+    const [value, setValue] = React.useState(3)
+
     return (
       <div style={{ width: 280 }}>
         <p style={{ fontSize: 12, color: '#71717a', marginBottom: 12 }}>
           Click the input field to edit directly, or use ArrowUp/ArrowDown keys
         </p>
-        <NumberStepper 
-          label="Habitaciones" 
-          value={value}
-          onChange={setValue}
-          min={0}
-          max={10}
-        />
+        <NumberStepper label="Habitaciones" value={value} onChange={setValue} min={0} max={10} />
         <p style={{ fontSize: 13, color: '#71717a', marginTop: 12 }}>
           Current value: <strong>{value}</strong>
         </p>
       </div>
-    );
+    )
   },
-};
+}
 
 export const KeyboardNavigation: Story = {
   name: 'Keyboard Navigation',
   render: () => (
     <div style={{ width: 320, padding: 24, backgroundColor: '#f9fafb', borderRadius: 12 }}>
-      <h3 style={{ margin: '0 0 16px', fontSize: 16, fontWeight: 600 }}>
-        Keyboard Shortcuts
-      </h3>
+      <h3 style={{ margin: '0 0 16px', fontSize: 16, fontWeight: 600 }}>Keyboard Shortcuts</h3>
       <ul style={{ fontSize: 13, color: '#71717a', margin: '0 0 20px', paddingLeft: 20 }}>
-        <li><strong>Tab</strong> - Navigate between buttons and input</li>
-        <li><strong>ArrowUp</strong> - Increment value (when input is focused)</li>
-        <li><strong>ArrowDown</strong> - Decrement value (when input is focused)</li>
-        <li><strong>Enter/Space</strong> - Activate button</li>
-        <li><strong>Type numbers</strong> - Edit value directly in input field</li>
+        <li>
+          <strong>Tab</strong> - Navigate between buttons and input
+        </li>
+        <li>
+          <strong>ArrowUp</strong> - Increment value (when input is focused)
+        </li>
+        <li>
+          <strong>ArrowDown</strong> - Decrement value (when input is focused)
+        </li>
+        <li>
+          <strong>Enter/Space</strong> - Activate button
+        </li>
+        <li>
+          <strong>Type numbers</strong> - Edit value directly in input field
+        </li>
       </ul>
-      <NumberStepper 
-        label="Try it out" 
-        defaultValue={5} 
-        min={0} 
-        max={10}
-      />
+      <NumberStepper label="Try it out" defaultValue={5} min={0} max={10} />
     </div>
   ),
-};
+}
 
 export const Controlled: Story = {
   render: () => {
-    const [value, setValue] = React.useState(3);
-    
+    const [value, setValue] = React.useState(3)
+
     return (
       <div style={{ width: 280 }}>
-        <NumberStepper 
-          label="Controlled" 
-          value={value}
-          onChange={setValue}
-          min={0}
-          max={10}
-        />
+        <NumberStepper label="Controlled" value={value} onChange={setValue} min={0} max={10} />
         <p style={{ fontSize: 13, color: '#71717a', marginTop: 12 }}>
           Current value: <strong>{value}</strong>
         </p>
       </div>
-    );
+    )
   },
-};
+}
 
 export const PropertyForm: Story = {
   name: 'Property Form Example',
   render: () => (
-    <div style={{ 
-      width: 320, 
-      padding: 24, 
-      backgroundColor: '#fff', 
-      borderRadius: 12,
-      border: '1px solid #e4e4e7',
-    }}>
-      <h3 style={{ margin: '0 0 20px', fontSize: 18, fontWeight: 600 }}>
-        Property Details
-      </h3>
-      
+    <div
+      style={{
+        width: 320,
+        padding: 24,
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        border: '1px solid #e4e4e7',
+      }}
+    >
+      <h3 style={{ margin: '0 0 20px', fontSize: 18, fontWeight: 600 }}>Property Details</h3>
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <NumberStepper label="Bedrooms" defaultValue={2} min={0} max={10} />
         <NumberStepper label="Bathrooms" defaultValue={1} min={1} max={5} />
@@ -230,18 +221,20 @@ export const PropertyForm: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const CompactList: Story = {
   name: 'Compact List',
   render: () => (
-    <div style={{ 
-      width: 260,
-      backgroundColor: '#fff', 
-      borderRadius: 12,
-      border: '1px solid #e4e4e7',
-      overflow: 'hidden',
-    }}>
+    <div
+      style={{
+        width: 260,
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        border: '1px solid #e4e4e7',
+        overflow: 'hidden',
+      }}
+    >
       <div style={{ padding: '12px 16px', borderBottom: '1px solid #e4e4e7' }}>
         <NumberStepper label="Habitaciones" defaultValue={0} />
       </div>
@@ -253,4 +246,4 @@ export const CompactList: Story = {
       </div>
     </div>
   ),
-};
+}

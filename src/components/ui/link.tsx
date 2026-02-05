@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef } from "react"
-import { ExternalLink } from "lucide-react"
+import * as React from 'react'
+import { forwardRef } from 'react'
+import { ExternalLink } from 'lucide-react'
 
 /**
  * Link Design Tokens from Figma
@@ -8,15 +8,15 @@ import { ExternalLink } from "lucide-react"
  */
 const LINK_TOKENS = {
   // Single color scheme (no variants per designer feedback)
-  color: '#2050f6',           // spaceblue-600
-  colorHover: '#1337e2',      // spaceblue-700
-  colorActive: '#162eb7',     // spaceblue-800
-  colorFocus: '#2050f6',      // Same as default
+  color: '#2050f6', // spaceblue-600
+  colorHover: '#1337e2', // spaceblue-700
+  colorActive: '#162eb7', // spaceblue-800
+  colorFocus: '#2050f6', // Same as default
   // Focus ring
   focusRing: '0 0 0 2px rgba(32, 80, 246, 0.25)',
   // Disabled
   disabled: {
-    color: '#a1a1aa',             // zinc-400
+    color: '#a1a1aa', // zinc-400
     cursor: 'not-allowed',
   },
 } as const
@@ -35,18 +35,21 @@ export interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement>
 }
 
 const Link = forwardRef<HTMLAnchorElement, LinkProps>(
-  ({ 
-    underline = 'hover',
-    external = false,
-    disabled = false,
-    size = 'inherit',
-    href,
-    target,
-    rel,
-    style, 
-    children, 
-    ...props 
-  }, ref) => {
+  (
+    {
+      underline = 'hover',
+      external = false,
+      disabled = false,
+      size = 'inherit',
+      href,
+      target,
+      rel,
+      style,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const [isHovered, setIsHovered] = React.useState(false)
     const [isActive, setIsActive] = React.useState(false)
     const [isFocused, setIsFocused] = React.useState(false)
@@ -118,7 +121,10 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>(
         style={linkStyle}
         onClick={handleClick}
         onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => { setIsHovered(false); setIsActive(false) }}
+        onMouseLeave={() => {
+          setIsHovered(false)
+          setIsActive(false)
+        }}
         onMouseDown={() => setIsActive(true)}
         onMouseUp={() => setIsActive(false)}
         onFocus={() => setIsFocused(true)}
@@ -135,6 +141,6 @@ const Link = forwardRef<HTMLAnchorElement, LinkProps>(
   }
 )
 
-Link.displayName = "Link"
+Link.displayName = 'Link'
 
 export { Link, LINK_TOKENS }

@@ -1,7 +1,7 @@
-import * as React from "react"
-import { forwardRef, useState, useRef } from "react"
-import { Search, X, Filter } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, useState, useRef } from 'react'
+import { Search, X, Filter } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 /**
  * Search Input Design Tokens from Figma
@@ -54,7 +54,10 @@ const SEARCH_INPUT_TOKENS = {
   },
 } as const
 
-export interface SearchInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'size'> {
+export interface SearchInputProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  'onChange' | 'size'
+> {
   /** Current value */
   value?: string
   /** Callback when value changes */
@@ -88,26 +91,29 @@ export interface SearchInputProps extends Omit<React.InputHTMLAttributes<HTMLInp
 }
 
 const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
-  ({
-    value: controlledValue,
-    onChange,
-    onSearch,
-    placeholder = 'Search...',
-    size = 'md',
-    rounded = false,
-    clearable = true,
-    showFilter = false,
-    onFilterClick,
-    filterCount,
-    filterIcon: FilterIcon,
-    filled = false,
-    label,
-    helperText,
-    error = false,
-    disabled,
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      value: controlledValue,
+      onChange,
+      onSearch,
+      placeholder = 'Search...',
+      size = 'md',
+      rounded = false,
+      clearable = true,
+      showFilter = false,
+      onFilterClick,
+      filterCount,
+      filterIcon: FilterIcon,
+      filled = false,
+      label,
+      helperText,
+      error = false,
+      disabled,
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const [internalValue, setInternalValue] = useState('')
     const [isFocused, setIsFocused] = useState(false)
     const inputRef = useRef<HTMLInputElement>(null)
@@ -165,7 +171,9 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       width: '100%',
       height,
       paddingLeft: height, // Space for icon on the left
-      paddingRight: (clearable && value ? height : SEARCH_INPUT_TOKENS.paddingX) + (showFilter ? height + 8 : 0), // Space for clear button and filter
+      paddingRight:
+        (clearable && value ? height : SEARCH_INPUT_TOKENS.paddingX) +
+        (showFilter ? height + 8 : 0), // Space for clear button and filter
       paddingTop: 0,
       paddingBottom: 0,
       fontSize,
@@ -177,9 +185,10 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       transition: 'border-color 150ms ease, box-shadow 150ms ease',
       opacity: disabled ? 0.5 : 1,
       boxSizing: 'border-box',
-      ...(isFocused && filled && {
-        boxShadow: `0 0 0 2px ${SEARCH_INPUT_TOKENS.borderFocus}`,
-      }),
+      ...(isFocused &&
+        filled && {
+          boxShadow: `0 0 0 2px ${SEARCH_INPUT_TOKENS.borderFocus}`,
+        }),
     }
 
     const iconContainerStyle: React.CSSProperties = {
@@ -224,7 +233,9 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       width: SEARCH_INPUT_TOKENS.filterButton.size,
       height: SEARCH_INPUT_TOKENS.filterButton.size,
       padding: 0,
-      background: filterCount ? SEARCH_INPUT_TOKENS.filterButton.bgActive : SEARCH_INPUT_TOKENS.filterButton.bg,
+      background: filterCount
+        ? SEARCH_INPUT_TOKENS.filterButton.bgActive
+        : SEARCH_INPUT_TOKENS.filterButton.bg,
       border: 'none',
       borderRadius: SEARCH_INPUT_TOKENS.filterButton.radius,
       cursor: disabled ? 'not-allowed' : 'pointer',
@@ -258,25 +269,25 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     return (
       <div style={wrapperStyle} role="search">
         {label && (
-          <label 
+          <label
             htmlFor={inputId}
-            style={{ 
-              display: 'block', 
-              marginBottom: 6, 
-              fontSize: 14, 
-              fontWeight: 500, 
-              color: disabled ? '#a1a1aa' : '#18181b' 
+            style={{
+              display: 'block',
+              marginBottom: 6,
+              fontSize: 14,
+              fontWeight: 500,
+              color: disabled ? '#a1a1aa' : '#18181b',
             }}
           >
             {label}
           </label>
         )}
-        
+
         <div style={containerStyle}>
           <span style={iconContainerStyle}>
             <Search size={iconSize} />
           </span>
-          
+
           <input
             ref={inputRef || ref}
             id={inputId}
@@ -294,17 +305,17 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             aria-describedby={helperId}
             {...props}
           />
-          
+
           {clearable && value && (
-            <button 
-              type="button" 
-              style={clearButtonStyle} 
+            <button
+              type="button"
+              style={clearButtonStyle}
               onClick={handleClear}
               aria-label="Clear search"
-              onMouseEnter={(e) => {
+              onMouseEnter={e => {
                 e.currentTarget.style.backgroundColor = SEARCH_INPUT_TOKENS.clearButton.bgHover
               }}
-              onMouseLeave={(e) => {
+              onMouseLeave={e => {
                 e.currentTarget.style.backgroundColor = SEARCH_INPUT_TOKENS.clearButton.bg
               }}
             >
@@ -319,22 +330,18 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
               onClick={onFilterClick}
               disabled={disabled}
               aria-label={`Filter search results${filterCount ? `, ${filterCount} filter${filterCount > 1 ? 's' : ''} applied` : ''}`}
-              onMouseEnter={(e) => {
+              onMouseEnter={e => {
                 if (!disabled) {
                   e.currentTarget.style.backgroundColor = SEARCH_INPUT_TOKENS.filterButton.bgHover
                 }
               }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = filterCount 
-                  ? SEARCH_INPUT_TOKENS.filterButton.bgActive 
+              onMouseLeave={e => {
+                e.currentTarget.style.backgroundColor = filterCount
+                  ? SEARCH_INPUT_TOKENS.filterButton.bgActive
                   : SEARCH_INPUT_TOKENS.filterButton.bg
               }}
             >
-              {FilterIcon ? (
-                <FilterIcon size={16} />
-              ) : (
-                <Filter size={16} />
-              )}
+              {FilterIcon ? <FilterIcon size={16} /> : <Filter size={16} />}
               {filterCount !== undefined && filterCount > 0 && (
                 <span style={filterBadgeStyle}>{filterCount}</span>
               )}
@@ -343,7 +350,7 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         </div>
 
         {helperText && (
-          <p 
+          <p
             id={helperId}
             style={{
               margin: '6px 0 0',
@@ -360,6 +367,6 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
   }
 )
 
-SearchInput.displayName = "SearchInput"
+SearchInput.displayName = 'SearchInput'
 
 export { SearchInput, SEARCH_INPUT_TOKENS }

@@ -1,7 +1,7 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { Stepper, StepperStep } from '../src/components/ui/stepper';
-import { Button } from '../src/components/ui/button';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { Stepper, StepperStep } from '../src/components/ui/stepper'
+import { Button } from '../src/components/ui/button'
 
 const meta: Meta<typeof Stepper> = {
   title: 'Components/Stepper',
@@ -23,10 +23,10 @@ Multi-step wizard indicator.
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof Stepper>;
+export default meta
+type Story = StoryObj<typeof Stepper>
 
 export const Default: Story = {
   render: () => (
@@ -38,7 +38,7 @@ export const Default: Story = {
       </Stepper>
     </div>
   ),
-};
+}
 
 export const Vertical: Story = {
   render: () => (
@@ -51,40 +51,33 @@ export const Vertical: Story = {
       </Stepper>
     </div>
   ),
-};
+}
 
 export const Interactive: Story = {
   render: () => {
-    const [step, setStep] = React.useState(0);
-    const steps = ['Details', 'Address', 'Payment', 'Review'];
-    
+    const [step, setStep] = React.useState(0)
+    const steps = ['Details', 'Address', 'Payment', 'Review']
+
     return (
       <div style={{ width: 700 }}>
         <Stepper currentStep={step}>
-          {steps.map((label) => (
+          {steps.map(label => (
             <StepperStep key={label} label={label} />
           ))}
         </Stepper>
-        
+
         <div style={{ marginTop: 32, display: 'flex', gap: 8 }}>
-          <Button 
-            variant="secondary" 
-            disabled={step === 0}
-            onClick={() => setStep(s => s - 1)}
-          >
+          <Button variant="secondary" disabled={step === 0} onClick={() => setStep(s => s - 1)}>
             Previous
           </Button>
-          <Button 
-            disabled={step === steps.length - 1}
-            onClick={() => setStep(s => s + 1)}
-          >
+          <Button disabled={step === steps.length - 1} onClick={() => setStep(s => s + 1)}>
             {step === steps.length - 2 ? 'Complete' : 'Next'}
           </Button>
         </div>
       </div>
-    );
+    )
   },
-};
+}
 
 export const WithError: Story = {
   render: () => (
@@ -96,4 +89,4 @@ export const WithError: Story = {
       </Stepper>
     </div>
   ),
-};
+}

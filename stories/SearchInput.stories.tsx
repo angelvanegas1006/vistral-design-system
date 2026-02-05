@@ -1,6 +1,6 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { SearchInput } from '../src/components/ui/search-input';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { SearchInput } from '../src/components/ui/search-input'
 
 const meta: Meta<typeof SearchInput> = {
   title: 'Components/SearchInput',
@@ -33,90 +33,73 @@ Based on Figma:
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof SearchInput>;
+export default meta
+type Story = StoryObj<typeof SearchInput>
 
 export const Default: Story = {
   render: () => {
-    const [value, setValue] = React.useState('');
-    
+    const [value, setValue] = React.useState('')
+
     return (
       <div style={{ width: 400 }}>
-        <SearchInput
-          value={value}
-          onChange={setValue}
-          placeholder="Search..."
-        />
+        <SearchInput value={value} onChange={setValue} placeholder="Search..." />
       </div>
-    );
+    )
   },
-};
+}
 
 export const Focused: Story = {
   name: 'Focused State',
   render: () => {
-    const [value, setValue] = React.useState('');
-    const inputRef = React.useRef<HTMLInputElement>(null);
-    
+    const [value, setValue] = React.useState('')
+    const inputRef = React.useRef<HTMLInputElement>(null)
+
     React.useEffect(() => {
-      inputRef.current?.focus();
-    }, []);
-    
+      inputRef.current?.focus()
+    }, [])
+
     return (
       <div style={{ width: 400 }}>
-        <SearchInput
-          ref={inputRef}
-          value={value}
-          onChange={setValue}
-          placeholder="Search..."
-        />
+        <SearchInput ref={inputRef} value={value} onChange={setValue} placeholder="Search..." />
       </div>
-    );
+    )
   },
-};
+}
 
 export const Filled: Story = {
   name: 'Filled State',
   render: () => {
-    const [value, setValue] = React.useState('Searching');
-    
+    const [value, setValue] = React.useState('Searching')
+
     return (
       <div style={{ width: 400 }}>
-        <SearchInput
-          value={value}
-          onChange={setValue}
-          placeholder="Search..."
-        />
+        <SearchInput value={value} onChange={setValue} placeholder="Search..." />
       </div>
-    );
+    )
   },
-};
+}
 
 export const WithValue: Story = {
   name: 'With Value',
   render: () => {
-    const [value, setValue] = React.useState('First search value');
-    
+    const [value, setValue] = React.useState('First search value')
+
     return (
       <div style={{ width: 400 }}>
-        <SearchInput
-          value={value}
-          onChange={setValue}
-          placeholder="Search..."
-        />
+        <SearchInput value={value} onChange={setValue} placeholder="Search..." />
       </div>
-    );
+    )
   },
-};
+}
 
 export const WithFilter: Story = {
   name: 'With Filter Button',
   render: () => {
-    const [value, setValue] = React.useState('');
-    const [filterCount, setFilterCount] = React.useState(0);
-    
+    const [value, setValue] = React.useState('')
+    const [filterCount, setFilterCount] = React.useState(0)
+
     return (
       <div style={{ width: 400 }}>
         <SearchInput
@@ -126,20 +109,20 @@ export const WithFilter: Story = {
           showFilter
           filterCount={filterCount}
           onFilterClick={() => {
-            setFilterCount(filterCount === 0 ? 1 : 0);
-            alert('Filter clicked');
+            setFilterCount(filterCount === 0 ? 1 : 0)
+            alert('Filter clicked')
           }}
         />
       </div>
-    );
+    )
   },
-};
+}
 
 export const WithFilterActive: Story = {
   name: 'With Active Filter',
   render: () => {
-    const [value, setValue] = React.useState('');
-    
+    const [value, setValue] = React.useState('')
+
     return (
       <div style={{ width: 400 }}>
         <SearchInput
@@ -151,28 +134,24 @@ export const WithFilterActive: Story = {
           onFilterClick={() => alert('Filter clicked')}
         />
       </div>
-    );
+    )
   },
-};
+}
 
 export const Disabled: Story = {
   name: 'Disabled State',
   render: () => (
     <div style={{ width: 400 }}>
-      <SearchInput
-        value=""
-        placeholder="Search..."
-        disabled
-      />
+      <SearchInput value="" placeholder="Search..." disabled />
     </div>
   ),
-};
+}
 
 export const Error: Story = {
   name: 'Error State',
   render: () => {
-    const [value, setValue] = React.useState('');
-    
+    const [value, setValue] = React.useState('')
+
     return (
       <div style={{ width: 400 }}>
         <SearchInput
@@ -183,76 +162,51 @@ export const Error: Story = {
           helperText="Please enter a valid search term"
         />
       </div>
-    );
+    )
   },
-};
+}
 
 export const Rounded: Story = {
   name: 'Rounded (Pill Shape)',
   render: () => {
-    const [value, setValue] = React.useState('');
-    
+    const [value, setValue] = React.useState('')
+
     return (
       <div style={{ width: 400 }}>
-        <SearchInput
-          value={value}
-          onChange={setValue}
-          placeholder="Search..."
-          rounded
-        />
+        <SearchInput value={value} onChange={setValue} placeholder="Search..." rounded />
       </div>
-    );
+    )
   },
-};
+}
 
 export const FilledBackground: Story = {
   name: 'Filled Background',
   render: () => {
-    const [value, setValue] = React.useState('');
-    
+    const [value, setValue] = React.useState('')
+
     return (
       <div style={{ width: 400 }}>
-        <SearchInput
-          value={value}
-          onChange={setValue}
-          placeholder="Search..."
-          filled
-        />
+        <SearchInput value={value} onChange={setValue} placeholder="Search..." filled />
       </div>
-    );
+    )
   },
-};
+}
 
 export const Sizes: Story = {
   render: () => {
-    const [value1, setValue1] = React.useState('');
-    const [value2, setValue2] = React.useState('');
-    const [value3, setValue3] = React.useState('');
-    
+    const [value1, setValue1] = React.useState('')
+    const [value2, setValue2] = React.useState('')
+    const [value3, setValue3] = React.useState('')
+
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: 400 }}>
-        <SearchInput
-          value={value1}
-          onChange={setValue1}
-          placeholder="Small search..."
-          size="sm"
-        />
-        <SearchInput
-          value={value2}
-          onChange={setValue2}
-          placeholder="Medium search..."
-          size="md"
-        />
-        <SearchInput
-          value={value3}
-          onChange={setValue3}
-          placeholder="Large search..."
-          size="lg"
-        />
+        <SearchInput value={value1} onChange={setValue1} placeholder="Small search..." size="sm" />
+        <SearchInput value={value2} onChange={setValue2} placeholder="Medium search..." size="md" />
+        <SearchInput value={value3} onChange={setValue3} placeholder="Large search..." size="lg" />
       </div>
-    );
+    )
   },
-};
+}
 
 export const AllStates: Story = {
   name: 'All States (Figma Reference)',
@@ -260,46 +214,32 @@ export const AllStates: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: 400 }}>
       <div>
         <p style={{ marginBottom: 8, fontSize: 12, color: '#71717a' }}>Default/Empty</p>
-        <SearchInput
-          value=""
-          placeholder="Search..."
-        />
+        <SearchInput value="" placeholder="Search..." />
       </div>
-      
+
       <div>
         <p style={{ marginBottom: 8, fontSize: 12, color: '#71717a' }}>Focused/Typing</p>
-        <SearchInput
-          value=""
-          placeholder="Search..."
-        />
+        <SearchInput value="" placeholder="Search..." />
       </div>
-      
+
       <div>
         <p style={{ marginBottom: 8, fontSize: 12, color: '#71717a' }}>Filled</p>
-        <SearchInput
-          value="Searching"
-          onChange={() => {}}
-          placeholder="Search..."
-        />
+        <SearchInput value="Searching" onChange={() => {}} placeholder="Search..." />
       </div>
-      
+
       <div>
         <p style={{ marginBottom: 8, fontSize: 12, color: '#71717a' }}>With Value</p>
-        <SearchInput
-          value="First search value"
-          onChange={() => {}}
-          placeholder="Search..."
-        />
+        <SearchInput value="First search value" onChange={() => {}} placeholder="Search..." />
       </div>
     </div>
   ),
-};
+}
 
 export const WithLabel: Story = {
   name: 'With Label',
   render: () => {
-    const [value, setValue] = React.useState('');
-    
+    const [value, setValue] = React.useState('')
+
     return (
       <div style={{ width: 400 }}>
         <SearchInput
@@ -309,15 +249,15 @@ export const WithLabel: Story = {
           placeholder="Search for properties..."
         />
       </div>
-    );
+    )
   },
-};
+}
 
 export const WithHelperText: Story = {
   name: 'With Helper Text',
   render: () => {
-    const [value, setValue] = React.useState('');
-    
+    const [value, setValue] = React.useState('')
+
     return (
       <div style={{ width: 400 }}>
         <SearchInput
@@ -327,26 +267,28 @@ export const WithHelperText: Story = {
           helperText="Type to search through available properties"
         />
       </div>
-    );
+    )
   },
-};
+}
 
 export const FormExample: Story = {
   name: 'Form Example',
   render: () => {
-    const [search, setSearch] = React.useState('');
-    const [filterCount, setFilterCount] = React.useState(0);
-    
+    const [search, setSearch] = React.useState('')
+    const [filterCount, setFilterCount] = React.useState(0)
+
     return (
-      <div style={{ 
-        width: 500, 
-        padding: 24, 
-        backgroundColor: '#fff',
-        borderRadius: 12,
-        border: '1px solid #e4e4e7',
-      }}>
+      <div
+        style={{
+          width: 500,
+          padding: 24,
+          backgroundColor: '#fff',
+          borderRadius: 12,
+          border: '1px solid #e4e4e7',
+        }}
+      >
         <h3 style={{ margin: '0 0 16px', fontSize: 18, fontWeight: 600 }}>Property Search</h3>
-        
+
         <SearchInput
           value={search}
           onChange={setSearch}
@@ -354,11 +296,11 @@ export const FormExample: Story = {
           showFilter
           filterCount={filterCount}
           onFilterClick={() => {
-            setFilterCount(filterCount === 0 ? 1 : 0);
+            setFilterCount(filterCount === 0 ? 1 : 0)
           }}
           helperText="Search by location, price, or property type"
         />
       </div>
-    );
+    )
   },
-};
+}

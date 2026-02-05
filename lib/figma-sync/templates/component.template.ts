@@ -1,6 +1,6 @@
 /**
  * Component Template
- * 
+ *
  * Template for generating React components from Figma
  * Placeholders:
  * - {{COMPONENT_NAME}} - Component name (PascalCase)

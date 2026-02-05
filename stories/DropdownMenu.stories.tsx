@@ -1,5 +1,5 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -8,12 +8,23 @@ import {
   DropdownMenuSeparator,
   DropdownMenuLabel,
   DropdownMenuCheckboxItem,
-} from '../src/components/ui/dropdown-menu';
-import { Button } from '../src/components/ui/button';
-import { 
-  User, Settings, CreditCard, LogOut, Plus, Trash2, Copy, 
-  Edit, Share, Download, Archive, MoreHorizontal, Check
-} from 'lucide-react';
+} from '../src/components/ui/dropdown-menu'
+import { Button } from '../src/components/ui/button'
+import {
+  User,
+  Settings,
+  CreditCard,
+  LogOut,
+  Plus,
+  Trash2,
+  Copy,
+  Edit,
+  Share,
+  Download,
+  Archive,
+  MoreHorizontal,
+  Check,
+} from 'lucide-react'
 
 const meta: Meta = {
   title: 'Components/DropdownMenu',
@@ -36,9 +47,9 @@ Context menu / dropdown menu component.
       },
     },
   },
-};
+}
 
-export default meta;
+export default meta
 
 export const Default: StoryObj = {
   render: () => (
@@ -57,7 +68,7 @@ export const Default: StoryObj = {
       </DropdownMenu>
     </div>
   ),
-};
+}
 
 export const WithShortcuts: StoryObj = {
   render: () => (
@@ -67,17 +78,27 @@ export const WithShortcuts: StoryObj = {
           <Button variant="secondary">Edit</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem icon={Copy} shortcut="⌘C">Copy</DropdownMenuItem>
-          <DropdownMenuItem icon={Edit} shortcut="⌘E">Edit</DropdownMenuItem>
-          <DropdownMenuItem icon={Download} shortcut="⌘D">Download</DropdownMenuItem>
+          <DropdownMenuItem icon={Copy} shortcut="⌘C">
+            Copy
+          </DropdownMenuItem>
+          <DropdownMenuItem icon={Edit} shortcut="⌘E">
+            Edit
+          </DropdownMenuItem>
+          <DropdownMenuItem icon={Download} shortcut="⌘D">
+            Download
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem icon={Archive} shortcut="⌘A">Archive</DropdownMenuItem>
-          <DropdownMenuItem icon={Trash2} shortcut="⌘⌫" destructive>Delete</DropdownMenuItem>
+          <DropdownMenuItem icon={Archive} shortcut="⌘A">
+            Archive
+          </DropdownMenuItem>
+          <DropdownMenuItem icon={Trash2} shortcut="⌘⌫" destructive>
+            Delete
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
   ),
-};
+}
 
 export const WithLabels: StoryObj = {
   render: () => (
@@ -98,14 +119,14 @@ export const WithLabels: StoryObj = {
       </DropdownMenu>
     </div>
   ),
-};
+}
 
 export const WithCheckboxItems: StoryObj = {
   render: () => {
-    const [showStatus, setShowStatus] = React.useState(true);
-    const [showActivity, setShowActivity] = React.useState(false);
-    const [showNotifications, setShowNotifications] = React.useState(true);
-    
+    const [showStatus, setShowStatus] = React.useState(true)
+    const [showActivity, setShowActivity] = React.useState(false)
+    const [showNotifications, setShowNotifications] = React.useState(true)
+
     return (
       <div style={{ position: 'relative', display: 'inline-block' }}>
         <DropdownMenu>
@@ -114,20 +135,14 @@ export const WithCheckboxItems: StoryObj = {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>Show</DropdownMenuLabel>
-            <DropdownMenuCheckboxItem 
-              checked={showStatus} 
-              onCheckedChange={setShowStatus}
-            >
+            <DropdownMenuCheckboxItem checked={showStatus} onCheckedChange={setShowStatus}>
               Status Bar
             </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem 
-              checked={showActivity} 
-              onCheckedChange={setShowActivity}
-            >
+            <DropdownMenuCheckboxItem checked={showActivity} onCheckedChange={setShowActivity}>
               Activity Panel
             </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem 
-              checked={showNotifications} 
+            <DropdownMenuCheckboxItem
+              checked={showNotifications}
               onCheckedChange={setShowNotifications}
             >
               Notifications
@@ -135,9 +150,9 @@ export const WithCheckboxItems: StoryObj = {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    );
+    )
   },
-};
+}
 
 export const Disabled: StoryObj = {
   render: () => (
@@ -149,33 +164,39 @@ export const Disabled: StoryObj = {
         <DropdownMenuContent>
           <DropdownMenuItem icon={Edit}>Edit</DropdownMenuItem>
           <DropdownMenuItem icon={Copy}>Duplicate</DropdownMenuItem>
-          <DropdownMenuItem icon={Share} disabled>Share (No permission)</DropdownMenuItem>
+          <DropdownMenuItem icon={Share} disabled>
+            Share (No permission)
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem icon={Trash2} destructive disabled>Delete</DropdownMenuItem>
+          <DropdownMenuItem icon={Trash2} destructive disabled>
+            Delete
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
   ),
-};
+}
 
 export const MoreActions: StoryObj = {
   name: 'More Actions Button',
   render: () => (
-    <div style={{ 
-      padding: 16, 
-      backgroundColor: '#fff', 
-      borderRadius: 8,
-      border: '1px solid #e4e4e7',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      width: 350,
-    }}>
+    <div
+      style={{
+        padding: 16,
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        border: '1px solid #e4e4e7',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: 350,
+      }}
+    >
       <div>
         <h3 style={{ margin: '0 0 4px', fontSize: 14, fontWeight: 600 }}>Project Alpha</h3>
         <p style={{ margin: 0, fontSize: 13, color: '#71717a' }}>Last updated 2 hours ago</p>
       </div>
-      
+
       <div style={{ position: 'relative' }}>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -190,13 +211,15 @@ export const MoreActions: StoryObj = {
             <DropdownMenuItem icon={Download}>Export</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem icon={Archive}>Archive</DropdownMenuItem>
-            <DropdownMenuItem icon={Trash2} destructive>Delete</DropdownMenuItem>
+            <DropdownMenuItem icon={Trash2} destructive>
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
     </div>
   ),
-};
+}
 
 export const UserMenu: StoryObj = {
   name: 'User Menu',
@@ -204,28 +227,32 @@ export const UserMenu: StoryObj = {
     <div style={{ position: 'relative', display: 'inline-block' }}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 8,
-            padding: '8px 12px',
-            backgroundColor: '#fff',
-            border: '1px solid #e4e4e7',
-            borderRadius: 8,
-            cursor: 'pointer',
-          }}>
-            <div style={{
-              width: 32,
-              height: 32,
-              borderRadius: '50%',
-              backgroundColor: '#dbeafe',
+          <button
+            style={{
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              color: '#1d4ed8',
-              fontWeight: 600,
-              fontSize: 14,
-            }}>
+              gap: 8,
+              padding: '8px 12px',
+              backgroundColor: '#fff',
+              border: '1px solid #e4e4e7',
+              borderRadius: 8,
+              cursor: 'pointer',
+            }}
+          >
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: '50%',
+                backgroundColor: '#dbeafe',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#1d4ed8',
+                fontWeight: 600,
+                fontSize: 14,
+              }}
+            >
               JD
             </div>
             <span style={{ fontSize: 14, fontWeight: 500 }}>John Doe</span>
@@ -245,4 +272,4 @@ export const UserMenu: StoryObj = {
       </DropdownMenu>
     </div>
   ),
-};
+}

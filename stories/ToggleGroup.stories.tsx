@@ -1,7 +1,7 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { ToggleGroup, ToggleGroupItem } from '../src/components/ui/toggle-group';
-import { AlignLeft, AlignCenter, AlignRight, Grid, List, LayoutGrid } from 'lucide-react';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { ToggleGroup, ToggleGroupItem } from '../src/components/ui/toggle-group'
+import { AlignLeft, AlignCenter, AlignRight, Grid, List, LayoutGrid } from 'lucide-react'
 
 const meta: Meta<typeof ToggleGroup> = {
   title: 'Components/ToggleGroup',
@@ -23,65 +23,83 @@ Segmented control for switching between options.
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof ToggleGroup>;
+export default meta
+type Story = StoryObj<typeof ToggleGroup>
 
 export const Default: Story = {
   render: () => {
-    const [value, setValue] = React.useState('center');
+    const [value, setValue] = React.useState('center')
     return (
-      <ToggleGroup value={value} onValueChange={(v) => setValue(v as string)}>
-        <ToggleGroupItem value="left"><AlignLeft size={16} /></ToggleGroupItem>
-        <ToggleGroupItem value="center"><AlignCenter size={16} /></ToggleGroupItem>
-        <ToggleGroupItem value="right"><AlignRight size={16} /></ToggleGroupItem>
+      <ToggleGroup value={value} onValueChange={v => setValue(v as string)}>
+        <ToggleGroupItem value="left">
+          <AlignLeft size={16} />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="center">
+          <AlignCenter size={16} />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="right">
+          <AlignRight size={16} />
+        </ToggleGroupItem>
       </ToggleGroup>
-    );
+    )
   },
-};
+}
 
 export const WithText: Story = {
   render: () => {
-    const [value, setValue] = React.useState('monthly');
+    const [value, setValue] = React.useState('monthly')
     return (
-      <ToggleGroup value={value} onValueChange={(v) => setValue(v as string)}>
+      <ToggleGroup value={value} onValueChange={v => setValue(v as string)}>
         <ToggleGroupItem value="monthly">Monthly</ToggleGroupItem>
         <ToggleGroupItem value="yearly">Yearly</ToggleGroupItem>
       </ToggleGroup>
-    );
+    )
   },
-};
+}
 
 export const MultiSelect: Story = {
   render: () => {
-    const [value, setValue] = React.useState<string[]>(['bold']);
+    const [value, setValue] = React.useState<string[]>(['bold'])
     return (
-      <ToggleGroup value={value} onValueChange={(v) => setValue(v as string[])} multiple>
-        <ToggleGroupItem value="bold"><strong>B</strong></ToggleGroupItem>
-        <ToggleGroupItem value="italic"><em>I</em></ToggleGroupItem>
-        <ToggleGroupItem value="underline"><u>U</u></ToggleGroupItem>
+      <ToggleGroup value={value} onValueChange={v => setValue(v as string[])} multiple>
+        <ToggleGroupItem value="bold">
+          <strong>B</strong>
+        </ToggleGroupItem>
+        <ToggleGroupItem value="italic">
+          <em>I</em>
+        </ToggleGroupItem>
+        <ToggleGroupItem value="underline">
+          <u>U</u>
+        </ToggleGroupItem>
       </ToggleGroup>
-    );
+    )
   },
-};
+}
 
 export const ViewSwitcher: Story = {
   name: 'View Switcher',
   render: () => {
-    const [view, setView] = React.useState('grid');
+    const [view, setView] = React.useState('grid')
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'center' }}>
-        <ToggleGroup value={view} onValueChange={(v) => setView(v as string)}>
-          <ToggleGroupItem value="list"><List size={16} /></ToggleGroupItem>
-          <ToggleGroupItem value="grid"><Grid size={16} /></ToggleGroupItem>
-          <ToggleGroupItem value="gallery"><LayoutGrid size={16} /></ToggleGroupItem>
+        <ToggleGroup value={view} onValueChange={v => setView(v as string)}>
+          <ToggleGroupItem value="list">
+            <List size={16} />
+          </ToggleGroupItem>
+          <ToggleGroupItem value="grid">
+            <Grid size={16} />
+          </ToggleGroupItem>
+          <ToggleGroupItem value="gallery">
+            <LayoutGrid size={16} />
+          </ToggleGroupItem>
         </ToggleGroup>
         <span style={{ fontSize: 13, color: '#71717a' }}>Current view: {view}</span>
       </div>
-    );
+    )
   },
-};
+}
 
 export const Sizes: Story = {
   render: () => (
@@ -100,16 +118,16 @@ export const Sizes: Story = {
       </ToggleGroup>
     </div>
   ),
-};
+}
 
 export const PricingToggle: Story = {
   name: 'Pricing Toggle',
   render: () => {
-    const [billing, setBilling] = React.useState('monthly');
-    
+    const [billing, setBilling] = React.useState('monthly')
+
     return (
       <div style={{ textAlign: 'center' }}>
-        <ToggleGroup value={billing} onValueChange={(v) => setBilling(v as string)}>
+        <ToggleGroup value={billing} onValueChange={v => setBilling(v as string)}>
           <ToggleGroupItem value="monthly">Monthly</ToggleGroupItem>
           <ToggleGroupItem value="yearly">Yearly (Save 20%)</ToggleGroupItem>
         </ToggleGroup>
@@ -120,6 +138,6 @@ export const PricingToggle: Story = {
           </span>
         </p>
       </div>
-    );
+    )
   },
-};
+}

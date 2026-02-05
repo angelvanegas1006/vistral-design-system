@@ -1,7 +1,7 @@
-import * as React from "react"
-import { forwardRef, useState } from "react"
-import { X } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, useState } from 'react'
+import { X } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 /**
  * Tag Design Tokens from Figma
@@ -98,19 +98,22 @@ export interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const Tag = forwardRef<HTMLSpanElement, TagProps>(
-  ({
-    variant = 'default',
-    size = 'md',
-    icon: Icon,
-    closable = false,
-    onClose,
-    clickable = false,
-    'aria-label': ariaLabel,
-    style,
-    children,
-    onClick,
-    ...props
-  }, ref) => {
+  (
+    {
+      variant = 'default',
+      size = 'md',
+      icon: Icon,
+      closable = false,
+      onClose,
+      clickable = false,
+      'aria-label': ariaLabel,
+      style,
+      children,
+      onClick,
+      ...props
+    },
+    ref
+  ) => {
     const [isHovered, setIsHovered] = useState(false)
     const tokens = TAG_TOKENS.variants[variant]
     const sizeTokens = TAG_TOKENS.sizes[size]
@@ -138,9 +141,10 @@ const Tag = forwardRef<HTMLSpanElement, TagProps>(
       whiteSpace: 'nowrap',
       cursor: clickable ? 'pointer' : 'default',
       transition: 'all 150ms ease',
-      ...(clickable && isHovered && {
-        opacity: 0.8,
-      }),
+      ...(clickable &&
+        isHovered && {
+          opacity: 0.8,
+        }),
       ...style,
     }
 
@@ -161,11 +165,11 @@ const Tag = forwardRef<HTMLSpanElement, TagProps>(
       flexShrink: 0,
     }
 
-    const finalAriaLabel = ariaLabel || (
-      typeof children === 'string' 
+    const finalAriaLabel =
+      ariaLabel ||
+      (typeof children === 'string'
         ? `${children} tag${closable ? ', click to remove' : ''}`
-        : undefined
-    )
+        : undefined)
 
     return (
       <span
@@ -186,11 +190,11 @@ const Tag = forwardRef<HTMLSpanElement, TagProps>(
             aria-label={`Remove ${typeof children === 'string' ? children : 'tag'}`}
             style={closeButtonStyle}
             onClick={handleClose}
-            onMouseEnter={(e) => {
+            onMouseEnter={e => {
               e.currentTarget.style.backgroundColor = TAG_TOKENS.close.bgHover
               e.currentTarget.style.color = TAG_TOKENS.close.fgHover
             }}
-            onMouseLeave={(e) => {
+            onMouseLeave={e => {
               e.currentTarget.style.backgroundColor = 'transparent'
               e.currentTarget.style.color = TAG_TOKENS.close.fg
             }}
@@ -203,6 +207,6 @@ const Tag = forwardRef<HTMLSpanElement, TagProps>(
   }
 )
 
-Tag.displayName = "Tag"
+Tag.displayName = 'Tag'
 
 export { Tag, TAG_TOKENS }

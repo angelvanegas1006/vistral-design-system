@@ -1,5 +1,5 @@
-import * as React from "react"
-import { forwardRef } from "react"
+import * as React from 'react'
+import { forwardRef } from 'react'
 
 /**
  * Skeleton Design Tokens
@@ -35,15 +35,7 @@ export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
-  ({
-    width,
-    height = 20,
-    radius = 'md',
-    circle = false,
-    animate = true,
-    style,
-    ...props
-  }, ref) => {
+  ({ width, height = 20, radius = 'md', circle = false, animate = true, style, ...props }, ref) => {
     const size = circle ? (typeof height === 'number' ? height : 40) : undefined
 
     const skeletonStyle: React.CSSProperties = {
@@ -57,12 +49,14 @@ const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
       ...style,
     }
 
-    const shimmerStyle: React.CSSProperties = animate ? {
-      position: 'absolute',
-      inset: 0,
-      background: SKELETON_TOKENS.shimmer,
-      animation: `skeleton-shimmer ${SKELETON_TOKENS.animation.duration} infinite`,
-    } : {}
+    const shimmerStyle: React.CSSProperties = animate
+      ? {
+          position: 'absolute',
+          inset: 0,
+          background: SKELETON_TOKENS.shimmer,
+          animation: `skeleton-shimmer ${SKELETON_TOKENS.animation.duration} infinite`,
+        }
+      : {}
 
     return (
       <div ref={ref} style={skeletonStyle} {...props}>
@@ -72,7 +66,7 @@ const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
   }
 )
 
-Skeleton.displayName = "Skeleton"
+Skeleton.displayName = 'Skeleton'
 
 // ============================================================================
 // Skeleton Text (multiple lines)
@@ -110,7 +104,7 @@ const SkeletonText = forwardRef<HTMLDivElement, SkeletonTextProps>(
   }
 )
 
-SkeletonText.displayName = "SkeletonText"
+SkeletonText.displayName = 'SkeletonText'
 
 // ============================================================================
 // Skeleton Card (common card skeleton)
@@ -141,9 +135,7 @@ const SkeletonCard = forwardRef<HTMLDivElement, SkeletonCardProps>(
 
     return (
       <div ref={ref} style={cardStyle} {...props}>
-        {showImage && (
-          <Skeleton width="100%" height={imageHeight} radius="none" />
-        )}
+        {showImage && <Skeleton width="100%" height={imageHeight} radius="none" />}
         <div style={contentStyle}>
           <Skeleton width="60%" height={20} />
           <SkeletonText lines={2} />
@@ -157,7 +149,7 @@ const SkeletonCard = forwardRef<HTMLDivElement, SkeletonCardProps>(
   }
 )
 
-SkeletonCard.displayName = "SkeletonCard"
+SkeletonCard.displayName = 'SkeletonCard'
 
 // ============================================================================
 // Skeleton Avatar
@@ -169,20 +161,11 @@ export interface SkeletonAvatarProps extends React.HTMLAttributes<HTMLDivElement
 
 const SkeletonAvatar = forwardRef<HTMLDivElement, SkeletonAvatarProps>(
   ({ size = 40, style, ...props }, ref) => {
-    return (
-      <Skeleton
-        ref={ref}
-        circle
-        width={size}
-        height={size}
-        style={style}
-        {...props}
-      />
-    )
+    return <Skeleton ref={ref} circle width={size} height={size} style={style} {...props} />
   }
 )
 
-SkeletonAvatar.displayName = "SkeletonAvatar"
+SkeletonAvatar.displayName = 'SkeletonAvatar'
 
 // Add keyframes
 if (typeof document !== 'undefined') {

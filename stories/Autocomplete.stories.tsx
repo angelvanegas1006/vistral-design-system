@@ -1,6 +1,6 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { Autocomplete } from '../src/components/ui/autocomplete';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { Autocomplete } from '../src/components/ui/autocomplete'
 
 const meta: Meta<typeof Autocomplete> = {
   title: 'Components/Autocomplete',
@@ -23,10 +23,10 @@ Search input with suggestions dropdown.
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof Autocomplete>;
+export default meta
+type Story = StoryObj<typeof Autocomplete>
 
 const fruits = [
   { value: 'apple', label: 'Apple' },
@@ -37,11 +37,11 @@ const fruits = [
   { value: 'fig', label: 'Fig' },
   { value: 'grape', label: 'Grape' },
   { value: 'honeydew', label: 'Honeydew' },
-];
+]
 
 export const Default: Story = {
   render: () => {
-    const [value, setValue] = React.useState('');
+    const [value, setValue] = React.useState('')
     return (
       <div style={{ width: 300 }}>
         <Autocomplete
@@ -51,13 +51,13 @@ export const Default: Story = {
           placeholder="Search fruits..."
         />
       </div>
-    );
+    )
   },
-};
+}
 
 export const WithSelection: Story = {
   render: () => {
-    const [value, setValue] = React.useState('apple');
+    const [value, setValue] = React.useState('apple')
     return (
       <div style={{ width: 300 }}>
         <Autocomplete
@@ -66,13 +66,11 @@ export const WithSelection: Story = {
           onChange={setValue}
           placeholder="Search fruits..."
         />
-        <p style={{ marginTop: 8, fontSize: 13, color: '#71717a' }}>
-          Selected: {value || 'none'}
-        </p>
+        <p style={{ marginTop: 8, fontSize: 13, color: '#71717a' }}>Selected: {value || 'none'}</p>
       </div>
-    );
+    )
   },
-};
+}
 
 export const Countries: Story = {
   render: () => {
@@ -87,10 +85,10 @@ export const Countries: Story = {
       { value: 'it', label: 'Italy' },
       { value: 'jp', label: 'Japan' },
       { value: 'cn', label: 'China' },
-    ];
-    
-    const [value, setValue] = React.useState('');
-    
+    ]
+
+    const [value, setValue] = React.useState('')
+
     return (
       <div style={{ width: 300 }}>
         <Autocomplete
@@ -100,19 +98,14 @@ export const Countries: Story = {
           placeholder="Select country..."
         />
       </div>
-    );
+    )
   },
-};
+}
 
 export const Disabled: Story = {
   render: () => (
     <div style={{ width: 300 }}>
-      <Autocomplete
-        options={fruits}
-        value="apple"
-        placeholder="Search..."
-        disabled
-      />
+      <Autocomplete options={fruits} value="apple" placeholder="Search..." disabled />
     </div>
   ),
-};
+}

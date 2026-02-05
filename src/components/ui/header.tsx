@@ -1,5 +1,5 @@
-import * as React from "react"
-import { forwardRef } from "react"
+import * as React from 'react'
+import { forwardRef } from 'react'
 
 /**
  * Header Design Tokens from Figma
@@ -47,16 +47,7 @@ export interface PageHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
-  ({
-    title,
-    description,
-    level = 'h1',
-    actions,
-    breadcrumb,
-    style,
-    children,
-    ...props
-  }, ref) => {
+  ({ title, description, level = 'h1', actions, breadcrumb, style, children, ...props }, ref) => {
     const containerStyle: React.CSSProperties = {
       padding: `${HEADER_TOKENS.page.paddingY}px ${HEADER_TOKENS.page.paddingX}px`,
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
@@ -97,27 +88,25 @@ const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
     return (
       <div ref={ref} style={containerStyle} {...props}>
         {breadcrumb && (
-          <div style={{ marginBottom: HEADER_TOKENS.breadcrumb.marginBottom }}>
-            {breadcrumb}
-          </div>
+          <div style={{ marginBottom: HEADER_TOKENS.breadcrumb.marginBottom }}>{breadcrumb}</div>
         )}
-        
+
         <div style={headerRowStyle}>
           <div style={{ flex: 1, minWidth: 0 }}>
             <TitleTag style={titleStyle}>{title}</TitleTag>
             {description && <p style={descriptionStyle}>{description}</p>}
           </div>
-          
+
           {actions && <div style={actionsStyle}>{actions}</div>}
         </div>
-        
+
         {children}
       </div>
     )
   }
 )
 
-PageHeader.displayName = "PageHeader"
+PageHeader.displayName = 'PageHeader'
 
 // ============================================================================
 // Section Header
@@ -166,17 +155,13 @@ const SectionHeader = forwardRef<HTMLDivElement, SectionHeaderProps>(
           <h3 style={titleStyle}>{title}</h3>
           {description && <p style={descriptionStyle}>{description}</p>}
         </div>
-        {actions && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            {actions}
-          </div>
-        )}
+        {actions && <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>{actions}</div>}
       </div>
     )
   }
 )
 
-SectionHeader.displayName = "SectionHeader"
+SectionHeader.displayName = 'SectionHeader'
 
 // ============================================================================
 // Card Header (for use inside cards)
@@ -233,11 +218,6 @@ const CardHeaderTitle = forwardRef<HTMLDivElement, CardHeaderTitleProps>(
   }
 )
 
-CardHeaderTitle.displayName = "CardHeaderTitle"
+CardHeaderTitle.displayName = 'CardHeaderTitle'
 
-export {
-  PageHeader,
-  SectionHeader,
-  CardHeaderTitle,
-  HEADER_TOKENS,
-}
+export { PageHeader, SectionHeader, CardHeaderTitle, HEADER_TOKENS }

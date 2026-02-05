@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef, useState } from "react"
-import { Plus, Minus } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, useState } from 'react'
+import { Plus, Minus } from 'lucide-react'
 
 /**
  * Number Input Design Tokens from Figma
@@ -30,7 +30,10 @@ const NUMBER_INPUT_TOKENS = {
   },
 } as const
 
-export interface NumberInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value' | 'type'> {
+export interface NumberInputProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  'onChange' | 'value' | 'type'
+> {
   /** Current value */
   value?: number
   /** Default value */
@@ -60,23 +63,26 @@ export interface NumberInputProps extends Omit<React.InputHTMLAttributes<HTMLInp
 }
 
 const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
-  ({
-    value: controlledValue,
-    defaultValue = 0,
-    onChange,
-    min,
-    max,
-    step = 1,
-    disabled = false,
-    error = false,
-    label,
-    helperText,
-    hideButtons = false,
-    formatValue,
-    parseValue,
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      value: controlledValue,
+      defaultValue = 0,
+      onChange,
+      min,
+      max,
+      step = 1,
+      disabled = false,
+      error = false,
+      label,
+      helperText,
+      hideButtons = false,
+      formatValue,
+      parseValue,
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const [internalValue, setInternalValue] = useState(defaultValue)
     const [isFocused, setIsFocused] = useState(false)
     const [inputValue, setInputValue] = useState('')
@@ -112,7 +118,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const raw = e.target.value
       setInputValue(raw)
-      
+
       const parsed = parseValue ? parseValue(raw) : parseFloat(raw)
       if (!isNaN(parsed)) {
         setValue(parsed)
@@ -129,9 +135,11 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       setInputValue(formatValue ? formatValue(value) : value.toString())
     }
 
-    const displayValue = isFocused 
-      ? inputValue 
-      : (formatValue ? formatValue(value) : value.toString())
+    const displayValue = isFocused
+      ? inputValue
+      : formatValue
+        ? formatValue(value)
+        : value.toString()
 
     const canDecrement = min === undefined || value > min
     const canIncrement = max === undefined || value < max
@@ -168,7 +176,10 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       backgroundColor: NUMBER_INPUT_TOKENS.button.bg,
       border: 'none',
       cursor: canClick && !disabled ? 'pointer' : 'not-allowed',
-      color: canClick && !disabled ? NUMBER_INPUT_TOKENS.button.fg : NUMBER_INPUT_TOKENS.button.fgDisabled,
+      color:
+        canClick && !disabled
+          ? NUMBER_INPUT_TOKENS.button.fg
+          : NUMBER_INPUT_TOKENS.button.fgDisabled,
       transition: 'background-color 150ms ease',
     })
 
@@ -187,7 +198,15 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     return (
       <div style={wrapperStyle}>
         {label && (
-          <label style={{ display: 'block', marginBottom: 6, fontSize: 14, fontWeight: 500, color: '#18181b' }}>
+          <label
+            style={{
+              display: 'block',
+              marginBottom: 6,
+              fontSize: 14,
+              fontWeight: 500,
+              color: '#18181b',
+            }}
+          >
             {label}
           </label>
         )}
@@ -204,7 +223,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
               <Minus size={16} />
             </button>
           )}
-          
+
           <input
             ref={ref}
             type="text"
@@ -217,7 +236,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
             style={inputStyle}
             {...props}
           />
-          
+
           {!hideButtons && (
             <button
               type="button"
@@ -241,6 +260,6 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
   }
 )
 
-NumberInput.displayName = "NumberInput"
+NumberInput.displayName = 'NumberInput'
 
 export { NumberInput, NUMBER_INPUT_TOKENS }

@@ -1,6 +1,6 @@
 /**
  * Type definitions for Figma API responses
- * 
+ *
  * These types match the Figma REST API specification
  * See: https://www.figma.com/developers/api
  */
@@ -51,13 +51,20 @@ export interface FigmaComponentSet {
 export interface FigmaStyle {
   key: string
   name: string
-  styleType: "FILL" | "TEXT" | "EFFECT" | "GRID"
+  styleType: 'FILL' | 'TEXT' | 'EFFECT' | 'GRID'
   description?: string
   node_id?: string // Node ID to fetch actual style values
 }
 
 export interface FigmaFill {
-  type: "SOLID" | "GRADIENT_LINEAR" | "GRADIENT_RADIAL" | "GRADIENT_ANGULAR" | "GRADIENT_DIAMOND" | "IMAGE" | "VIDEO"
+  type:
+    | 'SOLID'
+    | 'GRADIENT_LINEAR'
+    | 'GRADIENT_RADIAL'
+    | 'GRADIENT_ANGULAR'
+    | 'GRADIENT_DIAMOND'
+    | 'IMAGE'
+    | 'VIDEO'
   color?: FigmaColor
   opacity?: number
   gradientStops?: FigmaColorStop[]
@@ -76,13 +83,13 @@ export interface FigmaColorStop {
 }
 
 export interface FigmaStroke {
-  type: "SOLID" | "GRADIENT_LINEAR" | "GRADIENT_RADIAL" | "GRADIENT_ANGULAR" | "GRADIENT_DIAMOND"
+  type: 'SOLID' | 'GRADIENT_LINEAR' | 'GRADIENT_RADIAL' | 'GRADIENT_ANGULAR' | 'GRADIENT_DIAMOND'
   color?: FigmaColor
   opacity?: number
 }
 
 export interface FigmaEffect {
-  type: "INNER_SHADOW" | "DROP_SHADOW" | "LAYER_BLUR" | "BACKGROUND_BLUR"
+  type: 'INNER_SHADOW' | 'DROP_SHADOW' | 'LAYER_BLUR' | 'BACKGROUND_BLUR'
   visible: boolean
   radius: number
   color?: FigmaColor
@@ -98,16 +105,16 @@ export interface FigmaTextStyle {
   italic?: boolean
   fontWeight: number
   fontSize: number
-  textCase?: "UPPER" | "LOWER" | "TITLE" | "SMALL_CAPS" | "SMALL_CAPS_FORCED"
-  textDecoration?: "UNDERLINE" | "STRIKETHROUGH"
-  letterSpacing?: { value: number; unit: "PIXELS" | "PERCENT" }
-  lineHeight?: { value: number; unit: "PIXELS" | "PERCENT" | "AUTO" }
-  textAlignHorizontal?: "LEFT" | "CENTER" | "RIGHT" | "JUSTIFIED"
-  textAlignVertical?: "TOP" | "CENTER" | "BOTTOM"
+  textCase?: 'UPPER' | 'LOWER' | 'TITLE' | 'SMALL_CAPS' | 'SMALL_CAPS_FORCED'
+  textDecoration?: 'UNDERLINE' | 'STRIKETHROUGH'
+  letterSpacing?: { value: number; unit: 'PIXELS' | 'PERCENT' }
+  lineHeight?: { value: number; unit: 'PIXELS' | 'PERCENT' | 'AUTO' }
+  textAlignHorizontal?: 'LEFT' | 'CENTER' | 'RIGHT' | 'JUSTIFIED'
+  textAlignVertical?: 'TOP' | 'CENTER' | 'BOTTOM'
 }
 
 export interface FigmaComponentPropertyDefinition {
-  type: "BOOLEAN" | "TEXT" | "INSTANCE_SWAP" | "VARIANT"
+  type: 'BOOLEAN' | 'TEXT' | 'INSTANCE_SWAP' | 'VARIANT'
   defaultValue?: boolean | string
   variantOptions?: string[]
 }
@@ -164,15 +171,18 @@ export interface DesignTokens {
     views?: Record<string, { name: string; description: string }>
     mobile?: Record<string, string>
   }
-  grid?: Record<string, {
-    name: string
-    widthRange: string
-    columns: number
-    margin: string
-    gutter: string
-    behavior: string
-    alignment?: string
-  }>
+  grid?: Record<
+    string,
+    {
+      name: string
+      widthRange: string
+      columns: number
+      margin: string
+      gutter: string
+      behavior: string
+      alignment?: string
+    }
+  >
   stack?: Record<string, string>
   documentation?: Record<string, PageDocumentation> // Documentation by tab/page name
 }

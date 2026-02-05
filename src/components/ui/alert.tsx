@@ -1,7 +1,7 @@
-import * as React from "react"
-import { forwardRef } from "react"
-import { AlertCircle, CheckCircle2, AlertTriangle, Info, X } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
+import * as React from 'react'
+import { forwardRef } from 'react'
+import { AlertCircle, CheckCircle2, AlertTriangle, Info, X } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 /**
  * Alert Design Tokens from Figma
@@ -9,28 +9,28 @@ import type { LucideIcon } from "lucide-react"
  */
 const ALERT_TOKENS = {
   variants: {
-    info: { 
-      bg: '#eff6ff',      // blue-50
-      border: '#bfdbfe',  // blue-200
-      fg: '#1d4ed8',      // blue-700
+    info: {
+      bg: '#eff6ff', // blue-50
+      border: '#bfdbfe', // blue-200
+      fg: '#1d4ed8', // blue-700
       icon: Info,
     },
-    success: { 
-      bg: '#f0fdf4',      // green-50
-      border: '#bbf7d0',  // green-200
-      fg: '#15803d',      // green-700
+    success: {
+      bg: '#f0fdf4', // green-50
+      border: '#bbf7d0', // green-200
+      fg: '#15803d', // green-700
       icon: CheckCircle2,
     },
-    warning: { 
-      bg: '#fffbeb',      // amber-50
-      border: '#fde68a',  // amber-200
-      fg: '#b45309',      // amber-700
+    warning: {
+      bg: '#fffbeb', // amber-50
+      border: '#fde68a', // amber-200
+      fg: '#b45309', // amber-700
       icon: AlertTriangle,
     },
-    error: { 
-      bg: '#fef2f2',      // red-50
-      border: '#fecaca',  // red-200
-      fg: '#b91c1c',      // red-700
+    error: {
+      bg: '#fef2f2', // red-50
+      border: '#fecaca', // red-200
+      fg: '#b91c1c', // red-700
       icon: AlertCircle,
     },
   },
@@ -61,19 +61,22 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
 const AlertContext = React.createContext<{ fg: string } | null>(null)
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>(
-  ({ 
-    variant = 'info', 
-    icon,
-    dismissible = false,
-    onDismiss,
-    actionLabel,
-    onAction,
-    style, 
-    children, 
-    ...props 
-  }, ref) => {
+  (
+    {
+      variant = 'info',
+      icon,
+      dismissible = false,
+      onDismiss,
+      actionLabel,
+      onAction,
+      style,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const tokens = ALERT_TOKENS.variants[variant]
-    const IconComponent = icon === null ? null : (icon || tokens.icon)
+    const IconComponent = icon === null ? null : icon || tokens.icon
 
     const alertStyle: React.CSSProperties = {
       display: 'flex',
@@ -136,21 +139,12 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(
           <div style={contentStyle}>{children}</div>
           <div style={actionsStyle}>
             {actionLabel && (
-              <button 
-                type="button"
-                style={actionButtonStyle} 
-                onClick={onAction}
-              >
+              <button type="button" style={actionButtonStyle} onClick={onAction}>
                 {actionLabel}
               </button>
             )}
             {dismissible && (
-              <button 
-                type="button"
-                style={dismissStyle} 
-                onClick={onDismiss}
-                aria-label="Dismiss"
-              >
+              <button type="button" style={dismissStyle} onClick={onDismiss} aria-label="Dismiss">
                 <X size={16} />
               </button>
             )}
@@ -161,7 +155,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(
   }
 )
 
-Alert.displayName = "Alert"
+Alert.displayName = 'Alert'
 
 // ============================================================================
 // Alert Title
@@ -171,7 +165,7 @@ export interface AlertTitleProps extends React.HTMLAttributes<HTMLHeadingElement
 const AlertTitle = forwardRef<HTMLHeadingElement, AlertTitleProps>(
   ({ style, children, ...props }, ref) => {
     const context = React.useContext(AlertContext)
-    
+
     const titleStyle: React.CSSProperties = {
       margin: 0,
       fontSize: 14,
@@ -190,7 +184,7 @@ const AlertTitle = forwardRef<HTMLHeadingElement, AlertTitleProps>(
   }
 )
 
-AlertTitle.displayName = "AlertTitle"
+AlertTitle.displayName = 'AlertTitle'
 
 // ============================================================================
 // Alert Description
@@ -200,7 +194,7 @@ export interface AlertDescriptionProps extends React.HTMLAttributes<HTMLParagrap
 const AlertDescription = forwardRef<HTMLParagraphElement, AlertDescriptionProps>(
   ({ style, children, ...props }, ref) => {
     const context = React.useContext(AlertContext)
-    
+
     const descStyle: React.CSSProperties = {
       margin: '4px 0 0 0',
       fontSize: 14,
@@ -219,6 +213,6 @@ const AlertDescription = forwardRef<HTMLParagraphElement, AlertDescriptionProps>
   }
 )
 
-AlertDescription.displayName = "AlertDescription"
+AlertDescription.displayName = 'AlertDescription'
 
 export { Alert, AlertTitle, AlertDescription, ALERT_TOKENS }

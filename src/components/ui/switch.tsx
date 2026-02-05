@@ -1,5 +1,5 @@
-import * as React from "react"
-import { forwardRef, useId } from "react"
+import * as React from 'react'
+import { forwardRef, useId } from 'react'
 
 /**
  * Switch/Toggle Design Tokens from Figma
@@ -9,10 +9,10 @@ const SWITCH_TOKENS = {
   // Track
   track: {
     radius: 9999,
-    bgOff: '#e4e4e7',        // Light gray when OFF
-    bgOn: '#2050f6',         // Blue when ON
+    bgOff: '#e4e4e7', // Light gray when OFF
+    bgOn: '#2050f6', // Blue when ON
     bgDisabledOff: '#f4f4f5', // Very light gray disabled OFF
-    bgDisabledOn: '#93c5fd',  // Light blue disabled ON
+    bgDisabledOn: '#93c5fd', // Light blue disabled ON
   },
   // Thumb
   thumb: {
@@ -43,7 +43,10 @@ const SWITCH_TOKENS = {
 type SwitchSize = 'sm' | 'md' | 'lg'
 type LabelPosition = 'left' | 'right'
 
-export interface SwitchProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
+export interface SwitchProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  'type' | 'size'
+> {
   /** Size variant */
   size?: SwitchSize
   /** Checked state */
@@ -61,19 +64,22 @@ export interface SwitchProps extends Omit<React.InputHTMLAttributes<HTMLInputEle
 }
 
 const Switch = forwardRef<HTMLInputElement, SwitchProps>(
-  ({
-    size = 'md',
-    checked,
-    defaultChecked = false,
-    onCheckedChange,
-    label,
-    description,
-    labelPosition = 'right',
-    disabled,
-    id: providedId,
-    onChange,
-    ...props
-  }, ref) => {
+  (
+    {
+      size = 'md',
+      checked,
+      defaultChecked = false,
+      onCheckedChange,
+      label,
+      description,
+      labelPosition = 'right',
+      disabled,
+      id: providedId,
+      onChange,
+      ...props
+    },
+    ref
+  ) => {
     const [internalChecked, setInternalChecked] = React.useState(defaultChecked)
     const generatedId = useId()
     const id = providedId || generatedId
@@ -128,7 +134,7 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
 
     // Thumb positioning
     const thumbOffset = sizeTokens.thumbOffset
-    const thumbTravel = sizeTokens.trackWidth - sizeTokens.thumbSize - (thumbOffset * 2)
+    const thumbTravel = sizeTokens.trackWidth - sizeTokens.thumbSize - thumbOffset * 2
 
     const thumbStyle: React.CSSProperties = {
       position: 'absolute',
@@ -192,12 +198,13 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       </span>
     )
 
-    const labelElement = (label || description) ? (
-      <span style={labelContainerStyle}>
-        {label && <span style={labelStyle}>{label}</span>}
-        {description && <span style={descriptionStyle}>{description}</span>}
-      </span>
-    ) : null
+    const labelElement =
+      label || description ? (
+        <span style={labelContainerStyle}>
+          {label && <span style={labelStyle}>{label}</span>}
+          {description && <span style={descriptionStyle}>{description}</span>}
+        </span>
+      ) : null
 
     return (
       <label htmlFor={id} style={containerStyle}>
@@ -208,6 +215,6 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
   }
 )
 
-Switch.displayName = "Switch"
+Switch.displayName = 'Switch'
 
 export { Switch, SWITCH_TOKENS }

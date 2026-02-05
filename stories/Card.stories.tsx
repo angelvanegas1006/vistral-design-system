@@ -1,15 +1,15 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { 
-  Card, 
-  CardHeader, 
-  CardTitle, 
-  CardDescription, 
-  CardContent, 
-  CardFooter 
-} from '../src/components/ui/card';
-import { Button } from '../src/components/ui/button';
-import { MoreHorizontal, Heart, Share2, MapPin, Bed, Bath, Square } from 'lucide-react';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from '../src/components/ui/card'
+import { Button } from '../src/components/ui/button'
+import { MoreHorizontal, Heart, Share2, MapPin, Bed, Bath, Square } from 'lucide-react'
 
 const meta: Meta<typeof Card> = {
   title: 'Components/Card',
@@ -53,10 +53,10 @@ Based on Figma Design System: [Card Component](https://www.figma.com/design/i0pl
     flat: { control: 'boolean' },
     hoverable: { control: 'boolean' },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof Card>;
+export default meta
+type Story = StoryObj<typeof Card>
 
 export const Default: Story = {
   render: () => (
@@ -66,72 +66,86 @@ export const Default: Story = {
         <CardDescription>This is a card description.</CardDescription>
       </CardHeader>
       <CardContent>
-        <div style={{ 
-          border: '2px dashed #d4d4d8', 
-          borderRadius: 4, 
-          padding: 16, 
-          textAlign: 'center',
-          color: '#a1a1aa',
-          fontSize: 14,
-        }}>
+        <div
+          style={{
+            border: '2px dashed #d4d4d8',
+            borderRadius: 4,
+            padding: 16,
+            textAlign: 'center',
+            color: '#a1a1aa',
+            fontSize: 14,
+          }}
+        >
           Custom Content
         </div>
       </CardContent>
       <CardFooter>
-        <Button variant="secondary" style={{ flex: 1 }}>Button</Button>
-        <Button variant="primary" style={{ flex: 1 }}>Button</Button>
+        <Button variant="secondary" style={{ flex: 1 }}>
+          Button
+        </Button>
+        <Button variant="primary" style={{ flex: 1 }}>
+          Button
+        </Button>
       </CardFooter>
     </Card>
   ),
-};
+}
 
 export const Sizes: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}>
-      {(['sm', 'md', 'lg'] as const).map((size) => (
+      {(['sm', 'md', 'lg'] as const).map(size => (
         <Card key={size} size={size} style={{ width: 280 }}>
           <CardHeader>
             <CardTitle>Card {size.toUpperCase()}</CardTitle>
             <CardDescription>Size: {size}</CardDescription>
           </CardHeader>
           <CardContent>
-            <div style={{ 
-              border: '2px dashed #d4d4d8', 
-              borderRadius: 4, 
-              padding: 12, 
-              textAlign: 'center',
-              color: '#a1a1aa',
-              fontSize: 12,
-            }}>
+            <div
+              style={{
+                border: '2px dashed #d4d4d8',
+                borderRadius: 4,
+                padding: 12,
+                textAlign: 'center',
+                color: '#a1a1aa',
+                fontSize: 12,
+              }}
+            >
               Content
             </div>
           </CardContent>
           <CardFooter>
-            <Button size="sm" variant="secondary" style={{ flex: 1 }}>Cancel</Button>
-            <Button size="sm" style={{ flex: 1 }}>Confirm</Button>
+            <Button size="sm" variant="secondary" style={{ flex: 1 }}>
+              Cancel
+            </Button>
+            <Button size="sm" style={{ flex: 1 }}>
+              Confirm
+            </Button>
           </CardFooter>
         </Card>
       ))}
     </div>
   ),
-};
+}
 
 export const WithRightContent: Story = {
   name: 'With Right Content',
   render: () => (
     <Card style={{ width: 369 }}>
-      <CardHeader rightContent={
-        <Button variant="ghost" iconOnly size="sm" aria-label="More options">
-          <MoreHorizontal size={16} />
-        </Button>
-      }>
+      <CardHeader
+        rightContent={
+          <Button variant="ghost" iconOnly size="sm" aria-label="More options">
+            <MoreHorizontal size={16} />
+          </Button>
+        }
+      >
         <CardTitle>Card with Actions</CardTitle>
         <CardDescription>Has a menu button on the right.</CardDescription>
       </CardHeader>
       <CardContent>
         <p style={{ margin: 0, fontSize: 14, color: '#52525b', lineHeight: 1.6 }}>
-          This card demonstrates the right content slot in the header,
-          which is perfect for action buttons or icons.
+          This card demonstrates the right content slot in the header, which is perfect for action
+          buttons or icons.
         </p>
       </CardContent>
       <CardFooter align="right">
@@ -140,7 +154,7 @@ export const WithRightContent: Story = {
       </CardFooter>
     </Card>
   ),
-};
+}
 
 export const Hoverable: Story = {
   render: () => (
@@ -156,7 +170,7 @@ export const Hoverable: Story = {
           </p>
         </CardContent>
       </Card>
-      
+
       <Card flat style={{ width: 280 }}>
         <CardHeader>
           <CardTitle>Flat Card</CardTitle>
@@ -170,26 +184,30 @@ export const Hoverable: Story = {
       </Card>
     </div>
   ),
-};
+}
 
 export const PropertyCard: Story = {
   name: 'Property Listing Card',
   render: () => (
     <Card hoverable style={{ width: 340, padding: 0, overflow: 'hidden' }}>
       {/* Image */}
-      <div style={{ 
-        height: 180, 
-        backgroundColor: '#f4f4f5',
-        backgroundImage: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        position: 'relative',
-      }}>
-        <div style={{ 
-          position: 'absolute', 
-          top: 12, 
-          right: 12,
-          display: 'flex',
-          gap: 8,
-        }}>
+      <div
+        style={{
+          height: 180,
+          backgroundColor: '#f4f4f5',
+          backgroundImage: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          position: 'relative',
+        }}
+      >
+        <div
+          style={{
+            position: 'absolute',
+            top: 12,
+            right: 12,
+            display: 'flex',
+            gap: 8,
+          }}
+        >
           <Button variant="secondary" iconOnly size="sm" aria-label="Like">
             <Heart size={14} />
           </Button>
@@ -198,7 +216,7 @@ export const PropertyCard: Story = {
           </Button>
         </div>
       </div>
-      
+
       {/* Content */}
       <div style={{ padding: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
@@ -207,50 +225,62 @@ export const PropertyCard: Story = {
             Manila, Philippines
           </span>
         </div>
-        
-        <h3 style={{ 
-          margin: '0 0 4px', 
-          fontSize: 16, 
-          fontWeight: 600, 
-          fontFamily: 'Inter, sans-serif',
-          color: '#09090b',
-        }}>
+
+        <h3
+          style={{
+            margin: '0 0 4px',
+            fontSize: 16,
+            fontWeight: 600,
+            fontFamily: 'Inter, sans-serif',
+            color: '#09090b',
+          }}
+        >
           Modern Studio Apartment
         </h3>
-        
-        <p style={{ 
-          margin: '0 0 12px', 
-          fontSize: 20, 
-          fontWeight: 700, 
-          color: '#2050f6',
-          fontFamily: 'Inter, sans-serif',
-        }}>
+
+        <p
+          style={{
+            margin: '0 0 12px',
+            fontSize: 20,
+            fontWeight: 700,
+            color: '#2050f6',
+            fontFamily: 'Inter, sans-serif',
+          }}
+        >
           ₱15,000 <span style={{ fontSize: 14, fontWeight: 400, color: '#71717a' }}>/month</span>
         </p>
-        
-        <div style={{ 
-          display: 'flex', 
-          gap: 16, 
-          paddingTop: 12, 
-          borderTop: '1px solid #e4e4e7',
-        }}>
+
+        <div
+          style={{
+            display: 'flex',
+            gap: 16,
+            paddingTop: 12,
+            borderTop: '1px solid #e4e4e7',
+          }}
+        >
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <Bed size={16} color="#71717a" />
-            <span style={{ fontSize: 13, color: '#52525b', fontFamily: 'Inter, sans-serif' }}>1 Bed</span>
+            <span style={{ fontSize: 13, color: '#52525b', fontFamily: 'Inter, sans-serif' }}>
+              1 Bed
+            </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <Bath size={16} color="#71717a" />
-            <span style={{ fontSize: 13, color: '#52525b', fontFamily: 'Inter, sans-serif' }}>1 Bath</span>
+            <span style={{ fontSize: 13, color: '#52525b', fontFamily: 'Inter, sans-serif' }}>
+              1 Bath
+            </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <Square size={16} color="#71717a" />
-            <span style={{ fontSize: 13, color: '#52525b', fontFamily: 'Inter, sans-serif' }}>32 sqm</span>
+            <span style={{ fontSize: 13, color: '#52525b', fontFamily: 'Inter, sans-serif' }}>
+              32 sqm
+            </span>
           </div>
         </div>
       </div>
     </Card>
   ),
-};
+}
 
 export const FormCard: Story = {
   name: 'Form Card',
@@ -263,18 +293,20 @@ export const FormCard: Story = {
       <CardContent>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div>
-            <label style={{ 
-              display: 'block', 
-              fontSize: 14, 
-              fontWeight: 500, 
-              marginBottom: 6,
-              color: '#09090b',
-              fontFamily: 'Inter, sans-serif',
-            }}>
+            <label
+              style={{
+                display: 'block',
+                fontSize: 14,
+                fontWeight: 500,
+                marginBottom: 6,
+                color: '#09090b',
+                fontFamily: 'Inter, sans-serif',
+              }}
+            >
               Email
             </label>
-            <input 
-              type="email" 
+            <input
+              type="email"
               placeholder="Enter your email"
               style={{
                 width: '100%',
@@ -289,18 +321,20 @@ export const FormCard: Story = {
             />
           </div>
           <div>
-            <label style={{ 
-              display: 'block', 
-              fontSize: 14, 
-              fontWeight: 500, 
-              marginBottom: 6,
-              color: '#09090b',
-              fontFamily: 'Inter, sans-serif',
-            }}>
+            <label
+              style={{
+                display: 'block',
+                fontSize: 14,
+                fontWeight: 500,
+                marginBottom: 6,
+                color: '#09090b',
+                fontFamily: 'Inter, sans-serif',
+              }}
+            >
               Password
             </label>
-            <input 
-              type="password" 
+            <input
+              type="password"
               placeholder="Enter your password"
               style={{
                 width: '100%',
@@ -322,7 +356,7 @@ export const FormCard: Story = {
       </CardFooter>
     </Card>
   ),
-};
+}
 
 export const StatsCard: Story = {
   name: 'Stats Card',
@@ -334,33 +368,39 @@ export const StatsCard: Story = {
         { label: 'Pending Reviews', value: '18', change: '-3', positive: false },
       ].map((stat, i) => (
         <Card key={i} size="sm" style={{ width: 180, padding: 16 }}>
-          <span style={{ 
-            fontSize: 12, 
-            color: '#71717a', 
-            fontFamily: 'Inter, sans-serif',
-            textTransform: 'uppercase',
-            letterSpacing: 0.5,
-          }}>
+          <span
+            style={{
+              fontSize: 12,
+              color: '#71717a',
+              fontFamily: 'Inter, sans-serif',
+              textTransform: 'uppercase',
+              letterSpacing: 0.5,
+            }}
+          >
             {stat.label}
           </span>
-          <div style={{ 
-            fontSize: 28, 
-            fontWeight: 700, 
-            color: '#09090b',
-            fontFamily: 'Inter, sans-serif',
-            marginTop: 4,
-          }}>
+          <div
+            style={{
+              fontSize: 28,
+              fontWeight: 700,
+              color: '#09090b',
+              fontFamily: 'Inter, sans-serif',
+              marginTop: 4,
+            }}
+          >
             {stat.value}
           </div>
-          <span style={{ 
-            fontSize: 12, 
-            color: stat.positive ? '#16a34a' : '#dc2626',
-            fontFamily: 'Inter, sans-serif',
-          }}>
+          <span
+            style={{
+              fontSize: 12,
+              color: stat.positive ? '#16a34a' : '#dc2626',
+              fontFamily: 'Inter, sans-serif',
+            }}
+          >
             {stat.change} from last month
           </span>
         </Card>
       ))}
     </div>
   ),
-};
+}

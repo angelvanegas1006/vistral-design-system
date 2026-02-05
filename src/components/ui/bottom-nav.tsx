@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef, createContext, useContext, useState } from "react"
-import type { LucideIcon } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, createContext, useContext, useState } from 'react'
+import type { LucideIcon } from 'lucide-react'
 
 /**
  * Bottom Navigation Design Tokens from Figma
@@ -73,16 +73,19 @@ export interface BottomNavProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 const BottomNav = forwardRef<HTMLElement, BottomNavProps>(
-  ({
-    value: controlledValue,
-    defaultValue = '',
-    onValueChange,
-    fixed = true,
-    showLabels = true,
-    style,
-    children,
-    ...props
-  }, ref) => {
+  (
+    {
+      value: controlledValue,
+      defaultValue = '',
+      onValueChange,
+      fixed = true,
+      showLabels = true,
+      style,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const [internalValue, setInternalValue] = useState(defaultValue)
 
     const isControlled = controlledValue !== undefined
@@ -125,7 +128,7 @@ const BottomNav = forwardRef<HTMLElement, BottomNavProps>(
   }
 )
 
-BottomNav.displayName = "BottomNav"
+BottomNav.displayName = 'BottomNav'
 
 // ============================================================================
 // BottomNav Item
@@ -146,16 +149,19 @@ export interface BottomNavItemProps extends React.ButtonHTMLAttributes<HTMLButto
 }
 
 const BottomNavItem = forwardRef<HTMLButtonElement, BottomNavItemProps>(
-  ({
-    value: itemValue,
-    icon: Icon,
-    activeIcon: ActiveIcon,
-    label,
-    badge,
-    hideLabel,
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      value: itemValue,
+      icon: Icon,
+      activeIcon: ActiveIcon,
+      label,
+      badge,
+      hideLabel,
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const { value, onValueChange, showLabels } = useBottomNav()
     const [isHovered, setIsHovered] = useState(false)
     const isActive = value === itemValue
@@ -187,7 +193,11 @@ const BottomNavItem = forwardRef<HTMLButtonElement, BottomNavItemProps>(
       gap: BOTTOM_NAV_TOKENS.item.gap,
       padding: `${BOTTOM_NAV_TOKENS.item.activePillPaddingY}px ${BOTTOM_NAV_TOKENS.item.activePillPaddingX}px`,
       borderRadius: BOTTOM_NAV_TOKENS.item.activePillRadius,
-      backgroundColor: isActive ? BOTTOM_NAV_TOKENS.item.activePillBg : isHovered ? 'rgba(0,0,0,0.04)' : 'transparent',
+      backgroundColor: isActive
+        ? BOTTOM_NAV_TOKENS.item.activePillBg
+        : isHovered
+          ? 'rgba(0,0,0,0.04)'
+          : 'transparent',
       transition: 'background-color 200ms ease',
     }
 
@@ -247,9 +257,7 @@ const BottomNavItem = forwardRef<HTMLButtonElement, BottomNavItemProps>(
           <div style={iconContainerStyle}>
             <IconComponent size={BOTTOM_NAV_TOKENS.item.iconSize} />
             {badge !== undefined && badge > 0 && (
-              <span style={badgeStyle}>
-                {badge > 99 ? '99+' : badge}
-              </span>
+              <span style={badgeStyle}>{badge > 99 ? '99+' : badge}</span>
             )}
           </div>
           {shouldShowLabel && <span style={labelStyle}>{label}</span>}
@@ -259,7 +267,7 @@ const BottomNavItem = forwardRef<HTMLButtonElement, BottomNavItemProps>(
   }
 )
 
-BottomNavItem.displayName = "BottomNavItem"
+BottomNavItem.displayName = 'BottomNavItem'
 
 // ============================================================================
 // BottomNav Search Item (Special variant from Figma)
@@ -294,7 +302,16 @@ const BottomNavSearch = forwardRef<HTMLButtonElement, BottomNavSearchProps>(
 
     // Default search icon
     const SearchIcon = () => (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <circle cx="11" cy="11" r="8" />
         <path d="m21 21-4.3-4.3" />
       </svg>
@@ -318,6 +335,6 @@ const BottomNavSearch = forwardRef<HTMLButtonElement, BottomNavSearchProps>(
   }
 )
 
-BottomNavSearch.displayName = "BottomNavSearch"
+BottomNavSearch.displayName = 'BottomNavSearch'
 
 export { BottomNav, BottomNavItem, BottomNavSearch, BOTTOM_NAV_TOKENS }

@@ -1,7 +1,7 @@
-import * as React from "react"
-import { forwardRef } from "react"
-import { Loader2 } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
+import * as React from 'react'
+import { forwardRef } from 'react'
+import { Loader2 } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 /**
  * Button Design Tokens from Figma
@@ -80,7 +80,14 @@ const BUTTON_TOKENS = {
   radius: 9999,
 } as const
 
-type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'destructive-outline' | 'destructive-ghost'
+type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'outline'
+  | 'ghost'
+  | 'destructive'
+  | 'destructive-outline'
+  | 'destructive-ghost'
 type ButtonSize = 'sm' | 'md' | 'lg'
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -247,30 +254,25 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {isLoading ? (
-          <Loader2 
-            size={sizeTokens.iconSize} 
-            style={{ animation: 'spin 1s linear infinite' }} 
-          />
+          <Loader2 size={sizeTokens.iconSize} style={{ animation: 'spin 1s linear infinite' }} />
         ) : LeftIcon ? (
           <LeftIcon size={sizeTokens.iconSize} />
         ) : iconOnly && React.isValidElement(children) ? (
           // When iconOnly is true and children is a React element (icon), render it
-          React.cloneElement(children as React.ReactElement<{ size?: number }>, { 
-            size: sizeTokens.iconSize 
+          React.cloneElement(children as React.ReactElement<{ size?: number }>, {
+            size: sizeTokens.iconSize,
           })
         ) : null}
-        
+
         {!iconOnly && children}
-        
-        {!isLoading && RightIcon && !iconOnly && (
-          <RightIcon size={sizeTokens.iconSize} />
-        )}
+
+        {!isLoading && RightIcon && !iconOnly && <RightIcon size={sizeTokens.iconSize} />}
       </button>
     )
   }
 )
 
-Button.displayName = "Button"
+Button.displayName = 'Button'
 
 // Add keyframes for spinner animation
 if (typeof document !== 'undefined') {

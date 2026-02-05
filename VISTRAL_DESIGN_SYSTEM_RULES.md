@@ -31,6 +31,7 @@ Ver `.cursor/rules/README.md` para más detalles sobre el sistema de reglas.
 - **Package Manager:** npm/pnpm
 
 **Dependencias clave en `package.json`:**
+
 - `react`, `react-dom` (peer dependencies)
 - `@radix-ui/*` (dialog, dropdown-menu, label, select, etc.)
 - `class-variance-authority`, `clsx`, `tailwind-merge`
@@ -155,6 +156,7 @@ npm run build
 ```
 
 Genera:
+
 - `dist/index.js` (CJS)
 - `dist/index.mjs` (ESM)
 - `dist/index.d.ts` (Types)
@@ -162,6 +164,7 @@ Genera:
 ### Uso en otros proyectos
 
 **Workspace (desarrollo local):**
+
 ```json
 {
   "dependencies": {
@@ -171,6 +174,7 @@ Genera:
 ```
 
 **NPM (producción):**
+
 ```json
 {
   "dependencies": {

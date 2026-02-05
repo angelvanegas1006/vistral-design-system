@@ -1,7 +1,7 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { DataBlock, DataBlockGrid } from '../src/components/ui/data-block';
-import { DollarSign, Users, ShoppingCart, TrendingUp, Eye, MousePointer } from 'lucide-react';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { DataBlock, DataBlockGrid } from '../src/components/ui/data-block'
+import { DollarSign, Users, ShoppingCart, TrendingUp, Eye, MousePointer } from 'lucide-react'
 
 const meta: Meta<typeof DataBlock> = {
   title: 'Components/DataBlock',
@@ -24,21 +24,16 @@ Metric/KPI display component.
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof DataBlock>;
+export default meta
+type Story = StoryObj<typeof DataBlock>
 
 export const Default: Story = {
   render: () => (
-    <DataBlock
-      label="Total Revenue"
-      value="$45,231"
-      trend={12.5}
-      trendLabel="vs last month"
-    />
+    <DataBlock label="Total Revenue" value="$45,231" trend={12.5} trendLabel="vs last month" />
   ),
-};
+}
 
 export const WithIcon: Story = {
   render: () => (
@@ -52,7 +47,7 @@ export const WithIcon: Story = {
       iconColor="#16a34a"
     />
   ),
-};
+}
 
 export const NegativeTrend: Story = {
   render: () => (
@@ -66,7 +61,7 @@ export const NegativeTrend: Story = {
       iconColor="#dc2626"
     />
   ),
-};
+}
 
 export const Sizes: Story = {
   render: () => (
@@ -76,18 +71,11 @@ export const Sizes: Story = {
       <DataBlock label="Large" value="1,234" size="lg" />
     </div>
   ),
-};
+}
 
 export const Loading: Story = {
-  render: () => (
-    <DataBlock
-      label="Loading..."
-      value=""
-      loading
-      icon={DollarSign}
-    />
-  ),
-};
+  render: () => <DataBlock label="Loading..." value="" loading icon={DollarSign} />,
+}
 
 export const DashboardGrid: Story = {
   name: 'Dashboard Grid',
@@ -127,7 +115,7 @@ export const DashboardGrid: Story = {
       />
     </DataBlockGrid>
   ),
-};
+}
 
 export const AnalyticsDashboard: Story = {
   name: 'Analytics Dashboard',
@@ -148,13 +136,8 @@ export const AnalyticsDashboard: Story = {
           trendLabel="vs last period"
           icon={Users}
         />
-        <DataBlock
-          label="Avg. Session"
-          value="4m 32s"
-          trend={-5.1}
-          trendLabel="vs last period"
-        />
+        <DataBlock label="Avg. Session" value="4m 32s" trend={-5.1} trendLabel="vs last period" />
       </DataBlockGrid>
     </div>
   ),
-};
+}

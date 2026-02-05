@@ -1,5 +1,5 @@
-import * as React from "react"
-import { forwardRef } from "react"
+import * as React from 'react'
+import { forwardRef } from 'react'
 
 /**
  * Text Design Tokens from Figma
@@ -98,18 +98,9 @@ export interface TextProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 const Text = forwardRef<HTMLElement, TextProps>(
-  ({
-    variant = 'body',
-    color,
-    as,
-    weight,
-    size,
-    style,
-    children,
-    ...props
-  }, ref) => {
+  ({ variant = 'body', color, as, weight, size, style, children, ...props }, ref) => {
     const variantTokens = TEXT_TOKENS.variants[variant]
-    
+
     // Determine semantic HTML element
     const getElement = (): 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div' => {
       if (as) return as
@@ -119,9 +110,7 @@ const Text = forwardRef<HTMLElement, TextProps>(
     }
 
     const Element = getElement()
-    const textColor = color 
-      ? TEXT_TOKENS.colors[color] 
-      : variantTokens.color
+    const textColor = color ? TEXT_TOKENS.colors[color] : variantTokens.color
 
     const textStyle: React.CSSProperties = {
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
@@ -141,6 +130,6 @@ const Text = forwardRef<HTMLElement, TextProps>(
   }
 )
 
-Text.displayName = "Text"
+Text.displayName = 'Text'
 
 export { Text, TEXT_TOKENS }

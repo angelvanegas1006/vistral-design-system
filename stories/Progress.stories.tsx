@@ -1,6 +1,6 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { ProgressBar, ProgressCircle } from '../src/components/ui/progress';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { ProgressBar, ProgressCircle } from '../src/components/ui/progress'
 
 const meta: Meta<typeof ProgressBar> = {
   title: 'Components/Progress',
@@ -26,9 +26,9 @@ Based on Figma Design System:
       },
     },
   },
-};
+}
 
-export default meta;
+export default meta
 
 export const Bar: StoryObj<typeof ProgressBar> = {
   render: () => (
@@ -39,14 +39,14 @@ export const Bar: StoryObj<typeof ProgressBar> = {
         </h3>
         <ProgressBar value={60} />
       </div>
-      
+
       <div>
         <h3 style={{ margin: '0 0 12px', fontSize: 14, fontWeight: 500, color: '#71717a' }}>
           With Label
         </h3>
         <ProgressBar value={75} showLabel />
       </div>
-      
+
       <div>
         <h3 style={{ margin: '0 0 12px', fontSize: 14, fontWeight: 500, color: '#71717a' }}>
           Sizes
@@ -57,7 +57,7 @@ export const Bar: StoryObj<typeof ProgressBar> = {
           <ProgressBar value={50} size="lg" />
         </div>
       </div>
-      
+
       <div>
         <h3 style={{ margin: '0 0 12px', fontSize: 14, fontWeight: 500, color: '#71717a' }}>
           Statuses
@@ -68,7 +68,7 @@ export const Bar: StoryObj<typeof ProgressBar> = {
           <ProgressBar value={30} status="error" showLabel />
         </div>
       </div>
-      
+
       <div>
         <h3 style={{ margin: '0 0 12px', fontSize: 14, fontWeight: 500, color: '#71717a' }}>
           Indeterminate
@@ -77,7 +77,7 @@ export const Bar: StoryObj<typeof ProgressBar> = {
       </div>
     </div>
   ),
-};
+}
 
 export const Circle: StoryObj<typeof ProgressCircle> = {
   render: () => (
@@ -93,7 +93,7 @@ export const Circle: StoryObj<typeof ProgressCircle> = {
           <ProgressCircle value={75} size="xl" showLabel />
         </div>
       </div>
-      
+
       <div>
         <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 500, color: '#71717a' }}>
           Statuses
@@ -104,35 +104,43 @@ export const Circle: StoryObj<typeof ProgressCircle> = {
           <ProgressCircle value={25} size="lg" status="error" showLabel />
         </div>
       </div>
-      
+
       <div>
         <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 500, color: '#71717a' }}>
           Custom Labels
         </h3>
         <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
           <ProgressCircle value={42} size="xl" label="42°C" />
-          <ProgressCircle value={85} size="xl" label={<span style={{ fontSize: 14 }}>85<small>%</small></span>} />
+          <ProgressCircle
+            value={85}
+            size="xl"
+            label={
+              <span style={{ fontSize: 14 }}>
+                85<small>%</small>
+              </span>
+            }
+          />
           <ProgressCircle value={100} size="xl" status="success" label="Done" />
         </div>
       </div>
     </div>
   ),
-};
+}
 
 export const Animated: StoryObj<typeof ProgressBar> = {
   render: () => {
-    const [progress, setProgress] = React.useState(0);
-    
+    const [progress, setProgress] = React.useState(0)
+
     React.useEffect(() => {
       const timer = setInterval(() => {
         setProgress(prev => {
-          if (prev >= 100) return 0;
-          return prev + 5;
-        });
-      }, 200);
-      return () => clearInterval(timer);
-    }, []);
-    
+          if (prev >= 100) return 0
+          return prev + 5
+        })
+      }, 200)
+      return () => clearInterval(timer)
+    }, [])
+
     return (
       <div style={{ width: 400, display: 'flex', flexDirection: 'column', gap: 24 }}>
         <div>
@@ -141,20 +149,20 @@ export const Animated: StoryObj<typeof ProgressBar> = {
           </h3>
           <ProgressBar value={progress} showLabel />
         </div>
-        
+
         <div style={{ display: 'flex', gap: 24, justifyContent: 'center' }}>
           <ProgressCircle value={progress} size="lg" showLabel />
-          <ProgressCircle 
-            value={progress} 
-            size="lg" 
+          <ProgressCircle
+            value={progress}
+            size="lg"
             status={progress === 100 ? 'success' : 'default'}
-            showLabel 
+            showLabel
           />
         </div>
       </div>
-    );
+    )
   },
-};
+}
 
 export const FileUpload: StoryObj<typeof ProgressBar> = {
   name: 'File Upload Example',
@@ -163,65 +171,74 @@ export const FileUpload: StoryObj<typeof ProgressBar> = {
       { name: 'document.pdf', progress: 100, status: 'success' as const },
       { name: 'image.png', progress: 65, status: 'default' as const },
       { name: 'video.mp4', progress: 23, status: 'error' as const },
-    ]);
-    
+    ])
+
     return (
-      <div style={{ 
-        width: 400, 
-        padding: 20, 
-        backgroundColor: '#fff', 
-        borderRadius: 12,
-        border: '1px solid #e4e4e7',
-      }}>
-        <h3 style={{ margin: '0 0 16px', fontSize: 16, fontWeight: 600 }}>
-          Uploading Files
-        </h3>
-        
+      <div
+        style={{
+          width: 400,
+          padding: 20,
+          backgroundColor: '#fff',
+          borderRadius: 12,
+          border: '1px solid #e4e4e7',
+        }}
+      >
+        <h3 style={{ margin: '0 0 16px', fontSize: 16, fontWeight: 600 }}>Uploading Files</h3>
+
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {files.map((file, i) => (
             <div key={i}>
-              <div style={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                marginBottom: 6,
-                fontSize: 13,
-              }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  marginBottom: 6,
+                  fontSize: 13,
+                }}
+              >
                 <span style={{ fontWeight: 500 }}>{file.name}</span>
-                <span style={{ 
-                  color: file.status === 'success' ? '#15803d' : 
-                         file.status === 'error' ? '#b91c1c' : '#71717a' 
-                }}>
-                  {file.status === 'success' ? 'Complete' : 
-                   file.status === 'error' ? 'Failed' : `${file.progress}%`}
+                <span
+                  style={{
+                    color:
+                      file.status === 'success'
+                        ? '#15803d'
+                        : file.status === 'error'
+                          ? '#b91c1c'
+                          : '#71717a',
+                  }}
+                >
+                  {file.status === 'success'
+                    ? 'Complete'
+                    : file.status === 'error'
+                      ? 'Failed'
+                      : `${file.progress}%`}
                 </span>
               </div>
-              <ProgressBar 
-                value={file.progress} 
-                status={file.status}
-                size="sm"
-              />
+              <ProgressBar value={file.progress} status={file.status} size="sm" />
             </div>
           ))}
         </div>
       </div>
-    );
+    )
   },
-};
+}
 
 export const StorageUsage: StoryObj<typeof ProgressCircle> = {
   name: 'Storage Usage Example',
   render: () => (
-    <div style={{ 
-      width: 280, 
-      padding: 24, 
-      backgroundColor: '#fff', 
-      borderRadius: 12,
-      border: '1px solid #e4e4e7',
-      textAlign: 'center',
-    }}>
-      <ProgressCircle 
-        value={72} 
-        size="xl" 
+    <div
+      style={{
+        width: 280,
+        padding: 24,
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        border: '1px solid #e4e4e7',
+        textAlign: 'center',
+      }}
+    >
+      <ProgressCircle
+        value={72}
+        size="xl"
         label={
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: 20, fontWeight: 700 }}>72%</div>
@@ -229,24 +246,22 @@ export const StorageUsage: StoryObj<typeof ProgressCircle> = {
           </div>
         }
       />
-      
-      <h3 style={{ margin: '16px 0 8px', fontSize: 16, fontWeight: 600 }}>
-        Storage
-      </h3>
-      <p style={{ margin: 0, fontSize: 14, color: '#71717a' }}>
-        7.2 GB of 10 GB used
-      </p>
-      
-      <div style={{ 
-        marginTop: 16, 
-        padding: 12, 
-        backgroundColor: '#fef3c7', 
-        borderRadius: 8,
-        fontSize: 13,
-        color: '#b45309',
-      }}>
+
+      <h3 style={{ margin: '16px 0 8px', fontSize: 16, fontWeight: 600 }}>Storage</h3>
+      <p style={{ margin: 0, fontSize: 14, color: '#71717a' }}>7.2 GB of 10 GB used</p>
+
+      <div
+        style={{
+          marginTop: 16,
+          padding: 12,
+          backgroundColor: '#fef3c7',
+          borderRadius: 8,
+          fontSize: 13,
+          color: '#b45309',
+        }}
+      >
         Running low on storage
       </div>
     </div>
   ),
-};
+}

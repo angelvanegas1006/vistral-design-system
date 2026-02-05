@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef, useState, useRef, useEffect } from "react"
-import { Pipette } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, useState, useRef, useEffect } from 'react'
+import { Pipette } from 'lucide-react'
 
 /**
  * Color Picker Design Tokens from Figma
@@ -35,10 +35,30 @@ const COLOR_PICKER_TOKENS = {
 
 // Preset colors
 const PRESET_COLORS = [
-  '#000000', '#ffffff', '#ef4444', '#f97316', '#f59e0b', '#eab308',
-  '#84cc16', '#22c55e', '#10b981', '#14b8a6', '#06b6d4', '#0ea5e9',
-  '#3b82f6', '#6366f1', '#8b5cf6', '#a855f7', '#d946ef', '#ec4899',
-  '#f43f5e', '#78716c', '#71717a', '#6b7280', '#64748b', '#475569',
+  '#000000',
+  '#ffffff',
+  '#ef4444',
+  '#f97316',
+  '#f59e0b',
+  '#eab308',
+  '#84cc16',
+  '#22c55e',
+  '#10b981',
+  '#14b8a6',
+  '#06b6d4',
+  '#0ea5e9',
+  '#3b82f6',
+  '#6366f1',
+  '#8b5cf6',
+  '#a855f7',
+  '#d946ef',
+  '#ec4899',
+  '#f43f5e',
+  '#78716c',
+  '#71717a',
+  '#6b7280',
+  '#64748b',
+  '#475569',
 ]
 
 export interface ColorPickerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
@@ -61,18 +81,21 @@ export interface ColorPickerProps extends Omit<React.HTMLAttributes<HTMLDivEleme
 }
 
 const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
-  ({
-    value: controlledValue,
-    defaultValue = '#2050f6',
-    onChange,
-    label,
-    disabled = false,
-    showPresets = true,
-    presets = PRESET_COLORS,
-    showInput = true,
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      value: controlledValue,
+      defaultValue = '#2050f6',
+      onChange,
+      label,
+      disabled = false,
+      showPresets = true,
+      presets = PRESET_COLORS,
+      showInput = true,
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const [internalValue, setInternalValue] = useState(defaultValue)
     const [isOpen, setIsOpen] = useState(false)
     const [inputValue, setInputValue] = useState('')
@@ -106,7 +129,7 @@ const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const val = e.target.value
       setInputValue(val)
-      
+
       // Validate hex
       if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
         setColor(val)
@@ -201,16 +224,20 @@ const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
     return (
       <div ref={containerRef} style={wrapperStyle} {...props}>
         {label && (
-          <label style={{ display: 'block', marginBottom: 6, fontSize: 14, fontWeight: 500, color: '#18181b' }}>
+          <label
+            style={{
+              display: 'block',
+              marginBottom: 6,
+              fontSize: 14,
+              fontWeight: 500,
+              color: '#18181b',
+            }}
+          >
             {label}
           </label>
         )}
 
-        <div
-          ref={ref}
-          style={triggerStyle}
-          onClick={() => !disabled && setIsOpen(!isOpen)}
-        >
+        <div ref={ref} style={triggerStyle} onClick={() => !disabled && setIsOpen(!isOpen)}>
           <div style={swatchStyle} />
           <span style={{ fontSize: 13, fontFamily: 'monospace', color: '#3f3f46' }}>
             {color.toUpperCase()}
@@ -231,7 +258,7 @@ const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
             {/* Preset colors */}
             {showPresets && (
               <div style={presetsGridStyle}>
-                {presets.map((presetColor) => (
+                {presets.map(presetColor => (
                   <button
                     key={presetColor}
                     type="button"
@@ -261,6 +288,6 @@ const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
   }
 )
 
-ColorPicker.displayName = "ColorPicker"
+ColorPicker.displayName = 'ColorPicker'
 
 export { ColorPicker, COLOR_PICKER_TOKENS, PRESET_COLORS }

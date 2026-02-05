@@ -1,5 +1,5 @@
-import * as React from "react"
-import { forwardRef } from "react"
+import * as React from 'react'
+import { forwardRef } from 'react'
 
 /**
  * Badge Design Tokens from Figma
@@ -7,21 +7,21 @@ import { forwardRef } from "react"
  */
 const BADGE_TOKENS = {
   variants: {
-    default: { bg: '#f4f4f5', fg: '#3f3f46' },     // zinc-100, zinc-700
-    primary: { bg: '#dbeafe', fg: '#1d4ed8' },     // blue-100, blue-700
-    brand: { bg: '#eef4ff', fg: '#2050f6' },       // spaceblue-50, spaceblue-600
-    error: { bg: '#fee2e2', fg: '#dc2626' },       // red-100, red-600
-    warning: { bg: '#fef3c7', fg: '#d97706' },     // amber-100, amber-600
-    success: { bg: '#dcfce7', fg: '#16a34a' },     // green-100, green-600
+    default: { bg: '#f4f4f5', fg: '#3f3f46' }, // zinc-100, zinc-700
+    primary: { bg: '#dbeafe', fg: '#1d4ed8' }, // blue-100, blue-700
+    brand: { bg: '#eef4ff', fg: '#2050f6' }, // spaceblue-50, spaceblue-600
+    error: { bg: '#fee2e2', fg: '#dc2626' }, // red-100, red-600
+    warning: { bg: '#fef3c7', fg: '#d97706' }, // amber-100, amber-600
+    success: { bg: '#dcfce7', fg: '#16a34a' }, // green-100, green-600
   },
   // Dot variants (filled circles)
   dotVariants: {
-    default: { bg: '#71717a' },  // zinc-500
-    primary: { bg: '#3b82f6' },  // blue-500
-    brand: { bg: '#2050f6' },    // spaceblue-600
-    error: { bg: '#ef4444' },    // red-500
-    warning: { bg: '#f59e0b' },  // amber-500
-    success: { bg: '#22c55e' },  // green-500
+    default: { bg: '#71717a' }, // zinc-500
+    primary: { bg: '#3b82f6' }, // blue-500
+    brand: { bg: '#2050f6' }, // spaceblue-600
+    error: { bg: '#ef4444' }, // red-500
+    warning: { bg: '#f59e0b' }, // amber-500
+    success: { bg: '#22c55e' }, // green-500
   },
   sizes: {
     sm: { height: 18, fontSize: 10, paddingX: 6, dotSize: 6 },
@@ -72,7 +72,7 @@ const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
   }
 )
 
-Badge.displayName = "Badge"
+Badge.displayName = 'Badge'
 
 // ============================================================================
 // Dot Badge (Notification indicator)
@@ -91,23 +91,24 @@ export interface DotBadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const DotBadge = forwardRef<HTMLSpanElement, DotBadgeProps>(
-  ({ 
-    variant = 'error', 
-    size = 'md', 
-    count,
-    maxCount = 99,
-    position = 'top-right',
-    standalone = false,
-    style, 
-    ...props 
-  }, ref) => {
+  (
+    {
+      variant = 'error',
+      size = 'md',
+      count,
+      maxCount = 99,
+      position = 'top-right',
+      standalone = false,
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const dotTokens = BADGE_TOKENS.dotVariants[variant]
     const sizeTokens = BADGE_TOKENS.sizes[size]
-    
+
     const hasCount = count !== undefined && count > 0
-    const displayCount = hasCount 
-      ? (count > maxCount ? `${maxCount}+` : count.toString())
-      : null
+    const displayCount = hasCount ? (count > maxCount ? `${maxCount}+` : count.toString()) : null
 
     // Position offsets
     const positionStyles: Record<string, React.CSSProperties> = {
@@ -132,10 +133,12 @@ const DotBadge = forwardRef<HTMLSpanElement, DotBadgeProps>(
       color: '#ffffff',
       borderRadius: BADGE_TOKENS.radius,
       // Positioning
-      ...(standalone ? {} : {
-        position: 'absolute',
-        ...positionStyles[position],
-      }),
+      ...(standalone
+        ? {}
+        : {
+            position: 'absolute',
+            ...positionStyles[position],
+          }),
       ...style,
     }
 
@@ -147,7 +150,7 @@ const DotBadge = forwardRef<HTMLSpanElement, DotBadgeProps>(
   }
 )
 
-DotBadge.displayName = "DotBadge"
+DotBadge.displayName = 'DotBadge'
 
 // ============================================================================
 // Badge Container (wraps element with positioned badge)
@@ -172,6 +175,6 @@ const BadgeContainer = forwardRef<HTMLDivElement, BadgeContainerProps>(
   }
 )
 
-BadgeContainer.displayName = "BadgeContainer"
+BadgeContainer.displayName = 'BadgeContainer'
 
 export { Badge, DotBadge, BadgeContainer, BADGE_TOKENS }

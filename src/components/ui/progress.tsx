@@ -1,5 +1,5 @@
-import * as React from "react"
-import { forwardRef } from "react"
+import * as React from 'react'
+import { forwardRef } from 'react'
 
 /**
  * Progress Design Tokens from Figma
@@ -14,10 +14,10 @@ const PROGRESS_TOKENS = {
       md: 8,
       lg: 12,
     },
-    bg: '#e4e4e7',       // zinc-200
-    fill: '#2050f6',     // spaceblue-600
-    fillSuccess: '#22c55e',  // green-500
-    fillError: '#ef4444',    // red-500
+    bg: '#e4e4e7', // zinc-200
+    fill: '#2050f6', // spaceblue-600
+    fillSuccess: '#22c55e', // green-500
+    fillError: '#ef4444', // red-500
     radius: 9999,
   },
   // Circle tokens
@@ -61,18 +61,21 @@ export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
-  ({ 
-    value = 0,
-    size = 'md',
-    status = 'default',
-    showLabel = false,
-    indeterminate = false,
-    style, 
-    ...props 
-  }, ref) => {
+  (
+    {
+      value = 0,
+      size = 'md',
+      status = 'default',
+      showLabel = false,
+      indeterminate = false,
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const clampedValue = Math.min(100, Math.max(0, value))
     const height = PROGRESS_TOKENS.bar.height[size]
-    
+
     const getFillColor = () => {
       if (status === 'success') return PROGRESS_TOKENS.bar.fillSuccess
       if (status === 'error') return PROGRESS_TOKENS.bar.fillError
@@ -116,27 +119,25 @@ const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
     }
 
     return (
-      <div 
-        ref={ref} 
+      <div
+        ref={ref}
         role="progressbar"
         aria-valuenow={indeterminate ? undefined : clampedValue}
         aria-valuemin={0}
         aria-valuemax={100}
-        style={containerStyle} 
+        style={containerStyle}
         {...props}
       >
         <div style={trackStyle}>
           <div style={fillStyle} />
         </div>
-        {showLabel && !indeterminate && (
-          <span style={labelStyle}>{clampedValue}%</span>
-        )}
+        {showLabel && !indeterminate && <span style={labelStyle}>{clampedValue}%</span>}
       </div>
     )
   }
 )
 
-ProgressBar.displayName = "ProgressBar"
+ProgressBar.displayName = 'ProgressBar'
 
 // ============================================================================
 // Progress Circle
@@ -157,19 +158,14 @@ export interface ProgressCircleProps extends React.HTMLAttributes<HTMLDivElement
 }
 
 const ProgressCircle = forwardRef<HTMLDivElement, ProgressCircleProps>(
-  ({ 
-    value = 0,
-    size = 'md',
-    status = 'default',
-    showLabel = false,
-    label,
-    style, 
-    ...props 
-  }, ref) => {
+  (
+    { value = 0, size = 'md', status = 'default', showLabel = false, label, style, ...props },
+    ref
+  ) => {
     const clampedValue = Math.min(100, Math.max(0, value))
     const circleSize = PROGRESS_TOKENS.circle.sizes[size]
     const strokeWidth = PROGRESS_TOKENS.circle.strokeWidth[size]
-    
+
     const radius = (circleSize - strokeWidth) / 2
     const circumference = 2 * Math.PI * radius
     const strokeDashoffset = circumference - (clampedValue / 100) * circumference
@@ -203,7 +199,7 @@ const ProgressCircle = forwardRef<HTMLDivElement, ProgressCircleProps>(
     }
 
     return (
-      <div 
+      <div
         ref={ref}
         role="progressbar"
         aria-valuenow={clampedValue}
@@ -212,11 +208,7 @@ const ProgressCircle = forwardRef<HTMLDivElement, ProgressCircleProps>(
         style={containerStyle}
         {...props}
       >
-        <svg 
-          width={circleSize} 
-          height={circleSize} 
-          style={svgStyle}
-        >
+        <svg width={circleSize} height={circleSize} style={svgStyle}>
           {/* Background circle */}
           <circle
             cx={circleSize / 2}
@@ -240,17 +232,13 @@ const ProgressCircle = forwardRef<HTMLDivElement, ProgressCircleProps>(
             style={{ transition: 'stroke-dashoffset 300ms ease-in-out' }}
           />
         </svg>
-        {(showLabel || label) && (
-          <span style={labelStyle}>
-            {label || `${clampedValue}%`}
-          </span>
-        )}
+        {(showLabel || label) && <span style={labelStyle}>{label || `${clampedValue}%`}</span>}
       </div>
     )
   }
 )
 
-ProgressCircle.displayName = "ProgressCircle"
+ProgressCircle.displayName = 'ProgressCircle'
 
 // Add keyframes for indeterminate animation
 if (typeof document !== 'undefined') {

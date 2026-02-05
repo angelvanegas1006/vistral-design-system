@@ -1,8 +1,12 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { 
-  Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator, BreadcrumbHome 
-} from '../src/components/ui/breadcrumb';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+  BreadcrumbHome,
+} from '../src/components/ui/breadcrumb'
 
 const meta: Meta<typeof Breadcrumb> = {
   title: 'Components/Breadcrumb',
@@ -25,10 +29,10 @@ Navigation breadcrumb trail.
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof Breadcrumb>;
+export default meta
+type Story = StoryObj<typeof Breadcrumb>
 
 export const Default: Story = {
   render: () => (
@@ -44,7 +48,7 @@ export const Default: Story = {
       </BreadcrumbItem>
     </Breadcrumb>
   ),
-};
+}
 
 export const WithHomeIcon: Story = {
   render: () => (
@@ -63,7 +67,7 @@ export const WithHomeIcon: Story = {
       </BreadcrumbItem>
     </Breadcrumb>
   ),
-};
+}
 
 export const CustomSeparator: Story = {
   render: () => (
@@ -79,7 +83,7 @@ export const CustomSeparator: Story = {
       </BreadcrumbItem>
     </Breadcrumb>
   ),
-};
+}
 
 export const LongPath: Story = {
   render: () => (
@@ -104,18 +108,20 @@ export const LongPath: Story = {
       </BreadcrumbItem>
     </Breadcrumb>
   ),
-};
+}
 
 export const InPageHeader: Story = {
   name: 'In Page Header',
   render: () => (
-    <div style={{ 
-      padding: 24, 
-      backgroundColor: '#fff', 
-      borderRadius: 12,
-      border: '1px solid #e4e4e7',
-      width: 500,
-    }}>
+    <div
+      style={{
+        padding: 24,
+        backgroundColor: '#fff',
+        borderRadius: 12,
+        border: '1px solid #e4e4e7',
+        width: 500,
+      }}
+    >
       <Breadcrumb>
         <BreadcrumbItem>
           <BreadcrumbHome href="/" iconOnly />
@@ -127,13 +133,11 @@ export const InPageHeader: Story = {
           <BreadcrumbLink current>Vistral Design System</BreadcrumbLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      
-      <h1 style={{ margin: '16px 0 8px', fontSize: 24, fontWeight: 600 }}>
-        Vistral Design System
-      </h1>
+
+      <h1 style={{ margin: '16px 0 8px', fontSize: 24, fontWeight: 600 }}>Vistral Design System</h1>
       <p style={{ margin: 0, color: '#71717a', fontSize: 14 }}>
         A comprehensive design system for building consistent user interfaces.
       </p>
     </div>
   ),
-};
+}

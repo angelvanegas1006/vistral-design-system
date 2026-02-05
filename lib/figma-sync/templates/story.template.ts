@@ -1,6 +1,6 @@
 /**
  * Story Template
- * 
+ *
  * Template for generating Storybook stories from Figma components
  * Placeholders:
  * - {{COMPONENT_NAME}} - Component name (PascalCase)

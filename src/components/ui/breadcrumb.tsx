@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef } from "react"
-import { ChevronRight, Home } from "lucide-react"
+import * as React from 'react'
+import { forwardRef } from 'react'
+import { ChevronRight, Home } from 'lucide-react'
 
 /**
  * Breadcrumb Design Tokens
@@ -57,25 +57,18 @@ const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
     const childArray = React.Children.toArray(children)
     const itemsWithSeparators = childArray.flatMap((child, index) => {
       if (index === childArray.length - 1) return [child]
-      return [
-        child,
-        <BreadcrumbSeparator key={`sep-${index}`}>
-          {separator}
-        </BreadcrumbSeparator>
-      ]
+      return [child, <BreadcrumbSeparator key={`sep-${index}`}>{separator}</BreadcrumbSeparator>]
     })
 
     return (
       <nav ref={ref} aria-label="Breadcrumb" style={navStyle} {...props}>
-        <ol style={listStyle}>
-          {itemsWithSeparators}
-        </ol>
+        <ol style={listStyle}>{itemsWithSeparators}</ol>
       </nav>
     )
   }
 )
 
-Breadcrumb.displayName = "Breadcrumb"
+Breadcrumb.displayName = 'Breadcrumb'
 
 // ============================================================================
 // Breadcrumb Item
@@ -98,7 +91,7 @@ const BreadcrumbItem = forwardRef<HTMLLIElement, BreadcrumbItemProps>(
   }
 )
 
-BreadcrumbItem.displayName = "BreadcrumbItem"
+BreadcrumbItem.displayName = 'BreadcrumbItem'
 
 // ============================================================================
 // Breadcrumb Link
@@ -150,7 +143,7 @@ const BreadcrumbLink = forwardRef<HTMLAnchorElement, BreadcrumbLinkProps>(
   }
 )
 
-BreadcrumbLink.displayName = "BreadcrumbLink"
+BreadcrumbLink.displayName = 'BreadcrumbLink'
 
 // ============================================================================
 // Breadcrumb Separator
@@ -174,7 +167,7 @@ const BreadcrumbSeparator = forwardRef<HTMLSpanElement, BreadcrumbSeparatorProps
   }
 )
 
-BreadcrumbSeparator.displayName = "BreadcrumbSeparator"
+BreadcrumbSeparator.displayName = 'BreadcrumbSeparator'
 
 // ============================================================================
 // Breadcrumb Home (shortcut)
@@ -199,7 +192,7 @@ const BreadcrumbHome = forwardRef<HTMLAnchorElement, BreadcrumbHomeProps>(
   }
 )
 
-BreadcrumbHome.displayName = "BreadcrumbHome"
+BreadcrumbHome.displayName = 'BreadcrumbHome'
 
 export {
   Breadcrumb,

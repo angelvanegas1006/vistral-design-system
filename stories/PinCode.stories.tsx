@@ -1,6 +1,6 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { PinCode } from '../src/components/ui/pin-code';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { PinCode } from '../src/components/ui/pin-code'
 
 const meta: Meta<typeof PinCode> = {
   title: 'Components/PinCode',
@@ -23,56 +23,41 @@ OTP/PIN code input component.
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof PinCode>;
+export default meta
+type Story = StoryObj<typeof PinCode>
 
 export const Default: Story = {
   render: () => {
-    const [value, setValue] = React.useState('');
+    const [value, setValue] = React.useState('')
     return (
       <PinCode
         value={value}
         onChange={setValue}
-        onComplete={(code) => console.log('Complete:', code)}
+        onComplete={code => console.log('Complete:', code)}
       />
-    );
+    )
   },
-};
+}
 
 export const FourDigits: Story = {
   render: () => {
-    const [value, setValue] = React.useState('');
-    return (
-      <PinCode
-        length={4}
-        value={value}
-        onChange={setValue}
-        label="Enter PIN"
-      />
-    );
+    const [value, setValue] = React.useState('')
+    return <PinCode length={4} value={value} onChange={setValue} label="Enter PIN" />
   },
-};
+}
 
 export const Masked: Story = {
   render: () => {
-    const [value, setValue] = React.useState('');
-    return (
-      <PinCode
-        length={4}
-        value={value}
-        onChange={setValue}
-        mask
-        label="Enter Password"
-      />
-    );
+    const [value, setValue] = React.useState('')
+    return <PinCode length={4} value={value} onChange={setValue} mask label="Enter Password" />
   },
-};
+}
 
 export const WithHelperText: Story = {
   render: () => {
-    const [value, setValue] = React.useState('');
+    const [value, setValue] = React.useState('')
     return (
       <PinCode
         value={value}
@@ -80,13 +65,13 @@ export const WithHelperText: Story = {
         label="Verification Code"
         helperText="Enter the 6-digit code sent to your phone"
       />
-    );
+    )
   },
-};
+}
 
 export const Error: Story = {
   render: () => {
-    const [value, setValue] = React.useState('123456');
+    const [value, setValue] = React.useState('123456')
     return (
       <PinCode
         value={value}
@@ -95,13 +80,13 @@ export const Error: Story = {
         label="Verification Code"
         helperText="Invalid code. Please try again."
       />
-    );
+    )
   },
-};
+}
 
 export const Success: Story = {
   render: () => {
-    const [value, setValue] = React.useState('123456');
+    const [value, setValue] = React.useState('123456')
     return (
       <PinCode
         value={value}
@@ -110,9 +95,9 @@ export const Success: Story = {
         label="Verification Code"
         helperText="Code verified successfully!"
       />
-    );
+    )
   },
-};
+}
 
 export const Sizes: Story = {
   render: () => (
@@ -122,53 +107,46 @@ export const Sizes: Story = {
       <PinCode length={4} size="lg" label="Large" />
     </div>
   ),
-};
+}
 
 export const Disabled: Story = {
-  render: () => (
-    <PinCode
-      value="1234"
-      length={4}
-      disabled
-      label="Disabled"
-    />
-  ),
-};
+  render: () => <PinCode value="1234" length={4} disabled label="Disabled" />,
+}
 
 export const VerificationFlow: Story = {
   name: 'Verification Flow',
   render: () => {
-    const [value, setValue] = React.useState('');
-    const [status, setStatus] = React.useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-    
+    const [value, setValue] = React.useState('')
+    const [status, setStatus] = React.useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+
     const handleComplete = (code: string) => {
-      setStatus('loading');
+      setStatus('loading')
       // Simulate API call
       setTimeout(() => {
         if (code === '123456') {
-          setStatus('success');
+          setStatus('success')
         } else {
-          setStatus('error');
+          setStatus('error')
         }
-      }, 1000);
-    };
-    
+      }, 1000)
+    }
+
     return (
-      <div style={{
-        width: 350,
-        padding: 32,
-        backgroundColor: '#fff',
-        borderRadius: 16,
-        border: '1px solid #e4e4e7',
-        textAlign: 'center',
-      }}>
-        <h2 style={{ margin: '0 0 8px', fontSize: 20, fontWeight: 600 }}>
-          Verify your phone
-        </h2>
+      <div
+        style={{
+          width: 350,
+          padding: 32,
+          backgroundColor: '#fff',
+          borderRadius: 16,
+          border: '1px solid #e4e4e7',
+          textAlign: 'center',
+        }}
+      >
+        <h2 style={{ margin: '0 0 8px', fontSize: 20, fontWeight: 600 }}>Verify your phone</h2>
         <p style={{ margin: '0 0 24px', color: '#71717a', fontSize: 14 }}>
           We sent a code to +1 (555) ***-**89
         </p>
-        
+
         <PinCode
           value={value}
           onChange={setValue}
@@ -176,26 +154,31 @@ export const VerificationFlow: Story = {
           error={status === 'error'}
           success={status === 'success'}
           helperText={
-            status === 'error' ? 'Invalid code. Try 123456' :
-            status === 'success' ? 'Verified!' :
-            status === 'loading' ? 'Verifying...' :
-            undefined
+            status === 'error'
+              ? 'Invalid code. Try 123456'
+              : status === 'success'
+                ? 'Verified!'
+                : status === 'loading'
+                  ? 'Verifying...'
+                  : undefined
           }
         />
-        
+
         <p style={{ margin: '24px 0 0', fontSize: 13, color: '#71717a' }}>
           Didn't receive the code?{' '}
-          <button style={{ 
-            background: 'none', 
-            border: 'none', 
-            color: '#2050f6', 
-            cursor: 'pointer',
-            fontSize: 13,
-          }}>
+          <button
+            style={{
+              background: 'none',
+              border: 'none',
+              color: '#2050f6',
+              cursor: 'pointer',
+              fontSize: 13,
+            }}
+          >
             Resend
           </button>
         </p>
       </div>
-    );
+    )
   },
-};
+}

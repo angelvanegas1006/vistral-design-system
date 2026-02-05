@@ -1,6 +1,6 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { Combobox } from '../src/components/ui/combobox';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { Combobox } from '../src/components/ui/combobox'
 
 const meta: Meta<typeof Combobox> = {
   title: 'Components/Combobox',
@@ -27,15 +27,15 @@ Based on Figma: [Combobox](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/D
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof Combobox>;
+export default meta
+type Story = StoryObj<typeof Combobox>
 
 const items = Array.from({ length: 15 }, (_, i) => ({
   value: `item-${i + 1}`,
   label: `Item ${i + 1}`,
-}));
+}))
 
 const frameworks = [
   { value: 'react', label: 'React' },
@@ -44,99 +44,93 @@ const frameworks = [
   { value: 'svelte', label: 'Svelte' },
   { value: 'solid', label: 'Solid' },
   { value: 'qwik', label: 'Qwik' },
-];
+]
 
 export const Default: Story = {
   render: () => {
-    const [value, setValue] = React.useState<string>('');
+    const [value, setValue] = React.useState<string>('')
     return (
       <div style={{ width: 300 }}>
         <Combobox
           options={items}
           value={value}
-          onChange={(v) => setValue(v as string)}
+          onChange={v => setValue(v as string)}
           placeholder="Select an element"
           label="Label"
         />
       </div>
-    );
+    )
   },
-};
+}
 
 export const WithSelection: Story = {
   name: 'With Selection',
   render: () => {
-    const [value, setValue] = React.useState<string>('item-3');
+    const [value, setValue] = React.useState<string>('item-3')
     return (
       <div style={{ width: 300 }}>
         <Combobox
           options={items}
           value={value}
-          onChange={(v) => setValue(v as string)}
+          onChange={v => setValue(v as string)}
           placeholder="Select an element"
           label="Label"
           showCount
         />
       </div>
-    );
+    )
   },
-};
+}
 
 export const MultiSelect: Story = {
   name: 'Multi-select',
   render: () => {
-    const [value, setValue] = React.useState<string[]>([]);
+    const [value, setValue] = React.useState<string[]>([])
     return (
       <div style={{ width: 300 }}>
         <Combobox
           options={items}
           value={value}
-          onChange={(v) => setValue(v as string[])}
+          onChange={v => setValue(v as string[])}
           placeholder="Select an element"
           label="Label"
           multiple
           showCount
         />
       </div>
-    );
+    )
   },
-};
+}
 
 export const MultiSelectWithManySelected: Story = {
   name: 'Multi-select with Many Selected',
   render: () => {
     const [value, setValue] = React.useState<string[]>(
       Array.from({ length: 15 }, (_, i) => `item-${i + 1}`)
-    );
+    )
     return (
       <div style={{ width: 400 }}>
         <Combobox
           options={items}
           value={value}
-          onChange={(v) => setValue(v as string[])}
+          onChange={v => setValue(v as string[])}
           placeholder="Select an element"
           label="Label"
           multiple
           showCount
         />
       </div>
-    );
+    )
   },
-};
+}
 
 export const Disabled: Story = {
   render: () => (
     <div style={{ width: 300 }}>
-      <Combobox
-        options={items}
-        placeholder="Select an element"
-        label="Label"
-        disabled
-        showCount
-      />
+      <Combobox options={items} placeholder="Select an element" label="Label" disabled showCount />
     </div>
   ),
-};
+}
 
 export const DisabledWithValue: Story = {
   name: 'Disabled with Value',
@@ -152,85 +146,92 @@ export const DisabledWithValue: Story = {
       />
     </div>
   ),
-};
+}
 
 export const ErrorState: Story = {
   name: 'Error State',
   render: () => {
-    const [value, setValue] = React.useState<string>('');
+    const [value, setValue] = React.useState<string>('')
     return (
       <div style={{ width: 300 }}>
         <Combobox
           options={items}
           value={value}
-          onChange={(v) => setValue(v as string)}
+          onChange={v => setValue(v as string)}
           placeholder="Select an element"
           label="Label"
           error="This is an input description."
         />
       </div>
-    );
+    )
   },
-};
+}
 
 export const WithDescription: Story = {
   name: 'With Description',
   render: () => {
-    const [value, setValue] = React.useState<string>('');
+    const [value, setValue] = React.useState<string>('')
     return (
       <div style={{ width: 300 }}>
         <Combobox
           options={items}
           value={value}
-          onChange={(v) => setValue(v as string)}
+          onChange={v => setValue(v as string)}
           placeholder="Select an element"
           label="Label"
           description="Please select an option from the list"
         />
       </div>
-    );
+    )
   },
-};
+}
 
 export const NoSearchable: Story = {
   name: 'Not Searchable',
   render: () => {
-    const [value, setValue] = React.useState<string>('');
+    const [value, setValue] = React.useState<string>('')
     return (
       <div style={{ width: 300 }}>
         <Combobox
           options={items}
           value={value}
-          onChange={(v) => setValue(v as string)}
+          onChange={v => setValue(v as string)}
           placeholder="Select an element"
           label="Label"
           searchable={false}
         />
       </div>
-    );
+    )
   },
-};
+}
 
 export const AllStates: Story = {
   name: 'All States (Figma Reference)',
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 32, padding: 24, backgroundColor: '#f8fafc' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 32,
+        padding: 24,
+        backgroundColor: '#f8fafc',
+      }}
+    >
       {/* Default */}
       <div>
-        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>Default</h3>
+        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>
+          Default
+        </h3>
         <div style={{ width: 300 }}>
-          <Combobox
-            options={items}
-            placeholder="Select an element"
-            label="Label"
-            showCount
-          />
+          <Combobox options={items} placeholder="Select an element" label="Label" showCount />
         </div>
       </div>
 
       {/* Disabled */}
       <div>
-        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>Disabled</h3>
+        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>
+          Disabled
+        </h3>
         <div style={{ width: 300 }}>
           <Combobox
             options={items}
@@ -244,7 +245,9 @@ export const AllStates: Story = {
 
       {/* With Selection */}
       <div>
-        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>With Selection</h3>
+        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>
+          With Selection
+        </h3>
         <div style={{ width: 300 }}>
           <Combobox
             options={items}
@@ -258,7 +261,9 @@ export const AllStates: Story = {
 
       {/* Multi-select */}
       <div>
-        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>Multi-select</h3>
+        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>
+          Multi-select
+        </h3>
         <div style={{ width: 400 }}>
           <Combobox
             options={items}
@@ -273,7 +278,9 @@ export const AllStates: Story = {
 
       {/* Error */}
       <div>
-        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>Error State</h3>
+        <h3 style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 600, color: '#71717a' }}>
+          Error State
+        </h3>
         <div style={{ width: 300 }}>
           <Combobox
             options={items}
@@ -286,17 +293,17 @@ export const AllStates: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const Interactive: Story = {
   render: () => {
-    const [value, setValue] = React.useState<string>('');
+    const [value, setValue] = React.useState<string>('')
     return (
       <div style={{ width: 300 }}>
         <Combobox
           options={frameworks}
           value={value}
-          onChange={(v) => setValue(v as string)}
+          onChange={v => setValue(v as string)}
           placeholder="Select framework..."
           label="Framework"
         />
@@ -306,9 +313,9 @@ export const Interactive: Story = {
           </p>
         )}
       </div>
-    );
+    )
   },
-};
+}
 
 export const ManyOptions: Story = {
   name: 'Many Options',
@@ -316,25 +323,25 @@ export const ManyOptions: Story = {
     const options = Array.from({ length: 50 }, (_, i) => ({
       value: `option-${i}`,
       label: `Option ${i + 1}`,
-    }));
-    
-    const [value, setValue] = React.useState<string[]>([]);
-    
+    }))
+
+    const [value, setValue] = React.useState<string[]>([])
+
     return (
       <div style={{ width: 300 }}>
         <Combobox
           options={options}
           value={value}
-          onChange={(v) => setValue(v as string[])}
+          onChange={v => setValue(v as string[])}
           placeholder="Select options..."
           label="Many Options"
           multiple
           showCount
         />
       </div>
-    );
+    )
   },
-};
+}
 
 export const WithDisabledOptions: Story = {
   name: 'With Disabled Options',
@@ -345,20 +352,20 @@ export const WithDisabledOptions: Story = {
       { value: 'opt3', label: 'Option 3' },
       { value: 'opt4', label: 'Option 4', disabled: true },
       { value: 'opt5', label: 'Option 5' },
-    ];
-    
-    const [value, setValue] = React.useState<string>('');
-    
+    ]
+
+    const [value, setValue] = React.useState<string>('')
+
     return (
       <div style={{ width: 300 }}>
         <Combobox
           options={options}
           value={value}
-          onChange={(v) => setValue(v as string)}
+          onChange={v => setValue(v as string)}
           placeholder="Select an option"
           label="Options"
         />
       </div>
-    );
+    )
   },
-};
+}

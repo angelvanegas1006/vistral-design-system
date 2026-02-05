@@ -1,5 +1,5 @@
-import * as React from "react"
-import { forwardRef, useState, useRef, useEffect } from "react"
+import * as React from 'react'
+import { forwardRef, useState, useRef, useEffect } from 'react'
 
 /**
  * Pin Code Design Tokens from Figma
@@ -50,22 +50,25 @@ export interface PinCodeProps extends Omit<React.HTMLAttributes<HTMLDivElement>,
 }
 
 const PinCode = forwardRef<HTMLDivElement, PinCodeProps>(
-  ({
-    length = 6,
-    value = '',
-    onChange,
-    onComplete,
-    mask = false,
-    error = false,
-    success = false,
-    disabled = false,
-    autoFocus = true,
-    label,
-    helperText,
-    size = 'md',
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      length = 6,
+      value = '',
+      onChange,
+      onComplete,
+      mask = false,
+      error = false,
+      success = false,
+      disabled = false,
+      autoFocus = true,
+      label,
+      helperText,
+      size = 'md',
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const [values, setValues] = useState<string[]>(Array(length).fill(''))
     const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
@@ -104,7 +107,7 @@ const PinCode = forwardRef<HTMLDivElement, PinCodeProps>(
 
       // Only allow single digit
       const digit = char.replace(/\D/g, '').slice(-1)
-      
+
       const newValues = [...values]
       newValues[index] = digit
       setValues(newValues)
@@ -193,11 +196,13 @@ const PinCode = forwardRef<HTMLDivElement, PinCodeProps>(
     return (
       <div ref={ref} style={containerStyle} {...props}>
         {label && (
-          <label style={{
-            fontSize: 14,
-            fontWeight: 500,
-            color: '#18181b',
-          }}>
+          <label
+            style={{
+              fontSize: 14,
+              fontWeight: 500,
+              color: '#18181b',
+            }}
+          >
             {label}
           </label>
         )}
@@ -206,25 +211,29 @@ const PinCode = forwardRef<HTMLDivElement, PinCodeProps>(
           {Array.from({ length }).map((_, index) => (
             <PinCell
               key={index}
-              ref={(el) => { inputRefs.current[index] = el }}
+              ref={el => {
+                inputRefs.current[index] = el
+              }}
               value={values[index]}
               mask={mask}
               disabled={disabled}
               style={getCellStyle}
               index={index}
-              onChange={(char) => handleChange(index, char)}
-              onKeyDown={(e) => handleKeyDown(index, e)}
+              onChange={char => handleChange(index, char)}
+              onKeyDown={e => handleKeyDown(index, e)}
               onPaste={index === 0 ? handlePaste : undefined}
             />
           ))}
         </div>
 
         {helperText && (
-          <p style={{
-            margin: 0,
-            fontSize: 12,
-            color: error ? '#dc2626' : success ? '#16a34a' : '#71717a',
-          }}>
+          <p
+            style={{
+              margin: 0,
+              fontSize: 12,
+              color: error ? '#dc2626' : success ? '#16a34a' : '#71717a',
+            }}
+          >
             {helperText}
           </p>
         )}
@@ -233,7 +242,7 @@ const PinCode = forwardRef<HTMLDivElement, PinCodeProps>(
   }
 )
 
-PinCode.displayName = "PinCode"
+PinCode.displayName = 'PinCode'
 
 // ============================================================================
 // Pin Cell (individual input)
@@ -263,7 +272,7 @@ const PinCell = forwardRef<HTMLInputElement, PinCellProps>(
         value={value}
         disabled={disabled}
         style={style(index, isFocused)}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={e => onChange(e.target.value)}
         onKeyDown={onKeyDown}
         onPaste={onPaste}
         onFocus={() => setIsFocused(true)}
@@ -274,6 +283,6 @@ const PinCell = forwardRef<HTMLInputElement, PinCellProps>(
   }
 )
 
-PinCell.displayName = "PinCell"
+PinCell.displayName = 'PinCell'
 
 export { PinCode, PIN_CODE_TOKENS }

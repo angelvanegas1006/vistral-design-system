@@ -1,16 +1,16 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { 
-  SideNav, 
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import {
+  SideNav,
   SideNavHeader,
   SideNavContent,
-  SideNavGroup, 
-  SideNavItem, 
+  SideNavGroup,
+  SideNavItem,
   SideNavFooter,
   SideNavUser,
-  SideNavDivider 
-} from '../src/components/ui/side-nav';
-import { Home, Users, Settings, FileText, BarChart3, Mail, HelpCircle } from 'lucide-react';
+  SideNavDivider,
+} from '../src/components/ui/side-nav'
+import { Home, Users, Settings, FileText, BarChart3, Mail, HelpCircle } from 'lucide-react'
 
 const meta: Meta<typeof SideNav> = {
   title: 'Components/SideNav',
@@ -36,39 +36,37 @@ Based on Figma: [SideNav](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/De
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof SideNav>;
+export default meta
+type Story = StoryObj<typeof SideNav>
 
 // Logo component
 const Logo = () => (
-  <div style={{
-    width: 36,
-    height: 36,
-    backgroundColor: '#2050f6',
-    borderRadius: 8,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'white',
-    fontWeight: 700,
-    fontSize: 14,
-  }}>
+  <div
+    style={{
+      width: 36,
+      height: 36,
+      backgroundColor: '#2050f6',
+      borderRadius: 8,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: 'white',
+      fontWeight: 700,
+      fontSize: 14,
+    }}
+  >
     OP
   </div>
-);
+)
 
 export const Default: Story = {
   render: () => (
     <div style={{ height: 600, display: 'flex' }}>
       <SideNav defaultActiveItem="dashboard">
-        <SideNavHeader 
-          logo={<Logo />}
-          title="Menu Item"
-          subtitle="Enterprise"
-        />
-        
+        <SideNavHeader logo={<Logo />} title="Menu Item" subtitle="Enterprise" />
+
         <SideNavContent>
           <SideNavGroup label="Group title">
             <SideNavItem value="item1" label="Menu Item" hasSubmenu />
@@ -97,33 +95,25 @@ export const Default: Story = {
         </SideNavContent>
 
         <SideNavFooter>
-          <SideNavUser 
-            name="Menu Item"
-            email="Enterprise"
-            showExpand
-          />
+          <SideNavUser name="Menu Item" email="Enterprise" showExpand />
         </SideNavFooter>
       </SideNav>
-      
+
       <div style={{ flex: 1, padding: 24, backgroundColor: '#f8fafc' }}>
         <h2>Main Content</h2>
         <p>This is the main content area.</p>
       </div>
     </div>
   ),
-};
+}
 
 export const WithIcons: Story = {
   name: 'With Icons',
   render: () => (
     <div style={{ height: 600, display: 'flex' }}>
       <SideNav defaultActiveItem="dashboard">
-        <SideNavHeader 
-          logo={<Logo />}
-          title="PropHero"
-          subtitle="Dashboard"
-        />
-        
+        <SideNavHeader logo={<Logo />} title="PropHero" subtitle="Dashboard" />
+
         <SideNavContent>
           <SideNavGroup label="Main">
             <SideNavItem value="dashboard" icon={Home} label="Dashboard" />
@@ -140,36 +130,32 @@ export const WithIcons: Story = {
         </SideNavContent>
 
         <SideNavFooter>
-          <SideNavUser 
-            name="John Doe"
-            email="john@prophero.com"
-            showExpand
-          />
+          <SideNavUser name="John Doe" email="john@prophero.com" showExpand />
         </SideNavFooter>
       </SideNav>
-      
+
       <div style={{ flex: 1, padding: 24, backgroundColor: '#f8fafc' }}>
         <h2>Dashboard</h2>
         <p>Welcome to PropHero dashboard.</p>
       </div>
     </div>
   ),
-};
+}
 
 export const Collapsed: Story = {
   render: () => {
-    const [collapsed, setCollapsed] = React.useState(false);
-    
+    const [collapsed, setCollapsed] = React.useState(false)
+
     return (
       <div style={{ height: 600, display: 'flex' }}>
         <SideNav collapsed={collapsed} defaultActiveItem="dashboard">
-          <SideNavHeader 
+          <SideNavHeader
             logo={<Logo />}
             title="PropHero"
             subtitle="Dashboard"
             onCollapse={() => setCollapsed(!collapsed)}
           />
-          
+
           <SideNavContent>
             <SideNavGroup label="Main">
               <SideNavItem value="dashboard" label="Dashboard" />
@@ -185,15 +171,12 @@ export const Collapsed: Story = {
           </SideNavContent>
 
           <SideNavFooter>
-            <SideNavUser 
-              name="OP"
-              email="Enterprise"
-            />
+            <SideNavUser name="OP" email="Enterprise" />
           </SideNavFooter>
         </SideNav>
-        
+
         <div style={{ flex: 1, padding: 24, backgroundColor: '#f8fafc' }}>
-          <button 
+          <button
             onClick={() => setCollapsed(!collapsed)}
             style={{
               padding: '8px 16px',
@@ -210,21 +193,17 @@ export const Collapsed: Story = {
           <p>Click the button to toggle sidebar.</p>
         </div>
       </div>
-    );
+    )
   },
-};
+}
 
 export const ActiveStates: Story = {
   name: 'Active States',
   render: () => (
     <div style={{ height: 500, display: 'flex' }}>
       <SideNav defaultActiveItem="item2">
-        <SideNavHeader 
-          logo={<Logo />}
-          title="Menu Item"
-          subtitle="Enterprise"
-        />
-        
+        <SideNavHeader logo={<Logo />} title="Menu Item" subtitle="Enterprise" />
+
         <SideNavContent>
           <SideNavGroup label="Group title">
             <SideNavItem value="item1" label="Menu Item" hasSubmenu />
@@ -235,16 +214,12 @@ export const ActiveStates: Story = {
         </SideNavContent>
 
         <SideNavFooter>
-          <SideNavUser 
-            name="Menu Item"
-            email="Enterprise"
-            showExpand
-          />
+          <SideNavUser name="Menu Item" email="Enterprise" showExpand />
         </SideNavFooter>
       </SideNav>
     </div>
   ),
-};
+}
 
 export const ExpandedVsCollapsed: Story = {
   name: 'Expanded vs Collapsed',
@@ -254,12 +229,8 @@ export const ExpandedVsCollapsed: Story = {
       <div style={{ height: 500 }}>
         <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Expanded</p>
         <SideNav defaultActiveItem="item2">
-          <SideNavHeader 
-            logo={<Logo />}
-            title="Menu Item"
-            subtitle="Enterprise"
-          />
-          
+          <SideNavHeader logo={<Logo />} title="Menu Item" subtitle="Enterprise" />
+
           <SideNavContent>
             <SideNavGroup label="Group title">
               <SideNavItem value="item1" label="Menu Item" hasSubmenu />
@@ -270,11 +241,7 @@ export const ExpandedVsCollapsed: Story = {
           </SideNavContent>
 
           <SideNavFooter>
-            <SideNavUser 
-              name="Menu Item"
-              email="Enterprise"
-              showExpand
-            />
+            <SideNavUser name="Menu Item" email="Enterprise" showExpand />
           </SideNavFooter>
         </SideNav>
       </div>
@@ -284,7 +251,7 @@ export const ExpandedVsCollapsed: Story = {
         <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Collapsed</p>
         <SideNav collapsed defaultActiveItem="item2">
           <SideNavHeader logo={<Logo />} />
-          
+
           <SideNavContent>
             <SideNavGroup>
               <SideNavItem value="item1" label="Menu Item" />
@@ -301,32 +268,30 @@ export const ExpandedVsCollapsed: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const RealWorldExample: Story = {
   name: 'Real World Example',
   render: () => {
-    const [collapsed, setCollapsed] = React.useState(false);
-    const [activeItem, setActiveItem] = React.useState('properties');
-    
+    const [collapsed, setCollapsed] = React.useState(false)
+    const [activeItem, setActiveItem] = React.useState('properties')
+
     return (
       <div style={{ height: 700, display: 'flex' }}>
-        <SideNav 
-          collapsed={collapsed} 
-          activeItem={activeItem}
-          onActiveItemChange={setActiveItem}
-        >
-          <SideNavHeader 
+        <SideNav collapsed={collapsed} activeItem={activeItem} onActiveItemChange={setActiveItem}>
+          <SideNavHeader
             logo={
-              <div style={{
-                width: 36,
-                height: 36,
-                backgroundColor: '#2050f6',
-                borderRadius: 8,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
+              <div
+                style={{
+                  width: 36,
+                  height: 36,
+                  backgroundColor: '#2050f6',
+                  borderRadius: 8,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
                 <span style={{ color: 'white', fontWeight: 700, fontSize: 16 }}>P</span>
               </div>
             }
@@ -334,7 +299,7 @@ export const RealWorldExample: Story = {
             subtitle="Enterprise"
             onCollapse={() => setCollapsed(!collapsed)}
           />
-          
+
           <SideNavContent>
             <SideNavGroup label="Overview">
               <SideNavItem value="dashboard" icon={Home} label="Dashboard" />
@@ -354,7 +319,7 @@ export const RealWorldExample: Story = {
           </SideNavContent>
 
           <SideNavFooter>
-            <SideNavUser 
+            <SideNavUser
               name="John Smith"
               email="john.smith@prophero.com"
               showExpand
@@ -362,16 +327,14 @@ export const RealWorldExample: Story = {
             />
           </SideNavFooter>
         </SideNav>
-        
+
         <div style={{ flex: 1, padding: 32, backgroundColor: '#f8fafc' }}>
           <h1 style={{ margin: '0 0 8px', fontSize: 24, fontWeight: 600 }}>
             {activeItem.charAt(0).toUpperCase() + activeItem.slice(1)}
           </h1>
-          <p style={{ margin: 0, color: '#71717a' }}>
-            You selected: {activeItem}
-          </p>
+          <p style={{ margin: 0, color: '#71717a' }}>You selected: {activeItem}</p>
         </div>
       </div>
-    );
+    )
   },
-};
+}

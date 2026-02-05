@@ -1,5 +1,5 @@
-import * as React from "react"
-import { forwardRef, useId, createContext, useContext } from "react"
+import * as React from 'react'
+import { forwardRef, useId, createContext, useContext } from 'react'
 
 /**
  * Radio Design Tokens from Figma
@@ -8,16 +8,16 @@ const RADIO_TOKENS = {
   // Outer circle
   outer: {
     size: 20,
-    border: '#d4d4d8',       // zinc-300
-    borderHover: '#a1a1aa',  // zinc-400
+    border: '#d4d4d8', // zinc-300
+    borderHover: '#a1a1aa', // zinc-400
     borderChecked: '#2050f6', // spaceblue-600
     borderDisabled: '#e4e4e7', // zinc-200
   },
   // Inner circle (when checked)
   inner: {
     size: 10,
-    bg: '#2050f6',          // spaceblue-600
-    bgDisabled: '#a1a1aa',  // zinc-400
+    bg: '#2050f6', // spaceblue-600
+    bgDisabled: '#a1a1aa', // zinc-400
   },
   // Label
   labelGap: 8,
@@ -58,17 +58,20 @@ export interface RadioGroupProps extends Omit<React.HTMLAttributes<HTMLDivElemen
 }
 
 const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
-  ({
-    name: providedName,
-    value: controlledValue,
-    defaultValue = '',
-    onValueChange,
-    disabled = false,
-    orientation = 'vertical',
-    style,
-    children,
-    ...props
-  }, ref) => {
+  (
+    {
+      name: providedName,
+      value: controlledValue,
+      defaultValue = '',
+      onValueChange,
+      disabled = false,
+      orientation = 'vertical',
+      style,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const [internalValue, setInternalValue] = React.useState(defaultValue)
     const generatedName = useId()
     const name = providedName || generatedName
@@ -91,7 +94,9 @@ const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
     }
 
     return (
-      <RadioGroupContext.Provider value={{ name, value, onValueChange: handleValueChange, disabled }}>
+      <RadioGroupContext.Provider
+        value={{ name, value, onValueChange: handleValueChange, disabled }}
+      >
         <div ref={ref} role="radiogroup" style={groupStyle} {...props}>
           {children}
         </div>
@@ -100,7 +105,7 @@ const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
   }
 )
 
-RadioGroup.displayName = "RadioGroup"
+RadioGroup.displayName = 'RadioGroup'
 
 // ============================================================================
 // Radio (individual item)
@@ -115,14 +120,10 @@ export interface RadioProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
 }
 
 const Radio = forwardRef<HTMLInputElement, RadioProps>(
-  ({
-    value: radioValue,
-    label,
-    description,
-    disabled: localDisabled,
-    id: providedId,
-    ...props
-  }, ref) => {
+  (
+    { value: radioValue, label, description, disabled: localDisabled, id: providedId, ...props },
+    ref
+  ) => {
     const [isHovered, setIsHovered] = React.useState(false)
     const groupContext = useRadioGroup()
     const generatedId = useId()
@@ -249,6 +250,6 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
   }
 )
 
-Radio.displayName = "Radio"
+Radio.displayName = 'Radio'
 
 export { RadioGroup, Radio, RADIO_TOKENS }

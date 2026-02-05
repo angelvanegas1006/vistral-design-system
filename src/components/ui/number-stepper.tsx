@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef, useState, useId } from "react"
-import { Minus, Plus } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, useState, useId } from 'react'
+import { Minus, Plus } from 'lucide-react'
 
 /**
  * Number Stepper Design Tokens from Figma
@@ -85,22 +85,25 @@ export interface NumberStepperProps extends Omit<React.HTMLAttributes<HTMLDivEle
 }
 
 const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
-  ({
-    value: controlledValue,
-    defaultValue = 0,
-    min = 0,
-    max = 99,
-    step = 1,
-    disabled = false,
-    onChange,
-    label,
-    helperText,
-    error = false,
-    errorMessage,
-    showDivider = true,
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      value: controlledValue,
+      defaultValue = 0,
+      min = 0,
+      max = 99,
+      step = 1,
+      disabled = false,
+      onChange,
+      label,
+      helperText,
+      error = false,
+      errorMessage,
+      showDivider = true,
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const [internalValue, setInternalValue] = useState(defaultValue)
     const [hoveredButton, setHoveredButton] = useState<'dec' | 'inc' | null>(null)
     const [inputValue, setInputValue] = useState(String(defaultValue))
@@ -152,7 +155,7 @@ const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value
       setInputValue(newValue)
-      
+
       // Allow empty input while typing
       if (newValue === '') {
         return
@@ -213,11 +216,11 @@ const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
     const labelStyle: React.CSSProperties = {
       fontSize: NUMBER_STEPPER_TOKENS.label.fontSize,
       fontWeight: NUMBER_STEPPER_TOKENS.label.fontWeight,
-      color: disabled 
+      color: disabled
         ? NUMBER_STEPPER_TOKENS.label.colorDisabled
-        : error 
-        ? NUMBER_STEPPER_TOKENS.label.colorError
-        : NUMBER_STEPPER_TOKENS.label.color,
+        : error
+          ? NUMBER_STEPPER_TOKENS.label.colorError
+          : NUMBER_STEPPER_TOKENS.label.color,
       margin: 0,
     }
 
@@ -238,7 +241,7 @@ const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
     const getButtonStyle = (isEnabled: boolean, buttonType: 'dec' | 'inc'): React.CSSProperties => {
       const isHovered = hoveredButton === buttonType
       const isActive = isEnabled && !disabled
-      
+
       return {
         display: 'flex',
         alignItems: 'center',
@@ -246,7 +249,9 @@ const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
         width: NUMBER_STEPPER_TOKENS.button.size,
         height: NUMBER_STEPPER_TOKENS.button.size,
         backgroundColor: isActive
-          ? (isHovered ? NUMBER_STEPPER_TOKENS.button.bgHover : NUMBER_STEPPER_TOKENS.button.bgEnabled)
+          ? isHovered
+            ? NUMBER_STEPPER_TOKENS.button.bgHover
+            : NUMBER_STEPPER_TOKENS.button.bgEnabled
           : NUMBER_STEPPER_TOKENS.button.bgDisabled,
         color: isActive
           ? NUMBER_STEPPER_TOKENS.button.fgEnabled
@@ -346,7 +351,7 @@ const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
         </div>
 
         {(helperText || errorMessage) && (
-          <p 
+          <p
             id={error && errorMessage ? `${generatedId}-error` : undefined}
             style={helperStyle}
             role={error ? 'alert' : undefined}
@@ -359,6 +364,6 @@ const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
   }
 )
 
-NumberStepper.displayName = "NumberStepper"
+NumberStepper.displayName = 'NumberStepper'
 
 export { NumberStepper, NUMBER_STEPPER_TOKENS }

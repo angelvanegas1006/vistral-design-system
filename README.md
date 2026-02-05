@@ -338,7 +338,6 @@ function ContactForm() {
 
 ```tsx
 import { PropertyCard } from 'vistral-design-system'
-
 ;<PropertyCard
   image="https://example.com/property.jpg"
   type="Apartment"

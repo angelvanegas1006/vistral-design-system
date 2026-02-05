@@ -17,18 +17,20 @@ Las reglas están organizadas por número y tema:
 Cada archivo `.mdc` incluye:
 
 **YAML Frontmatter:**
+
 ```yaml
 ---
 version: 1.0
 owner: Vistral Lab
 lastUpdated: 2026-02-02
-glob: ["**/components/**"]
+glob: ['**/components/**']
 alwaysApply: false
-description: "Descripción de la regla"
+description: 'Descripción de la regla'
 ---
 ```
 
 **Campos:**
+
 - `version` - Versión de la regla
 - `owner` - Propietario/equipo
 - `lastUpdated` - Fecha de última actualización
@@ -65,6 +67,7 @@ Actualiza `lastUpdated` en cada cambio.
 ## Uso en Cursor
 
 Cursor automáticamente lee estos archivos cuando:
+
 - Están en `.cursor/rules/`
 - Tienen extensión `.mdc`
 - Tienen frontmatter válido
@@ -74,6 +77,7 @@ No necesitas configuración adicional. Las reglas se aplican según los glob pat
 ## Documento Maestro
 
 Para documentación completa para humanos, ver:
+
 - `VISTRAL_DESIGN_SYSTEM_RULES.md` en la raíz del proyecto
 
 Este README es solo para las reglas modulares de Cursor.

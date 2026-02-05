@@ -1,5 +1,5 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
 import {
   Select,
   SelectTrigger,
@@ -8,7 +8,7 @@ import {
   SelectGroup,
   SelectSeparator,
   SelectLabel,
-} from '../src/components/ui/select';
+} from '../src/components/ui/select'
 
 const meta: Meta = {
   title: 'Components/Select',
@@ -40,9 +40,9 @@ Based on Figma:
       },
     },
   },
-};
+}
 
-export default meta;
+export default meta
 
 export const Default: StoryObj = {
   render: () => (
@@ -57,13 +57,13 @@ export const Default: StoryObj = {
       </Select>
     </div>
   ),
-};
+}
 
 export const Open: StoryObj = {
   name: 'Open State',
   render: () => {
-    const [open, setOpen] = React.useState(true);
-    
+    const [open, setOpen] = React.useState(true)
+
     return (
       <div style={{ width: 250 }}>
         <Select open={open} onOpenChange={setOpen}>
@@ -76,9 +76,9 @@ export const Open: StoryObj = {
           </SelectContent>
         </Select>
       </div>
-    );
+    )
   },
-};
+}
 
 export const WithValue: StoryObj = {
   name: 'With Selected Value',
@@ -94,7 +94,7 @@ export const WithValue: StoryObj = {
       </Select>
     </div>
   ),
-};
+}
 
 export const Disabled: StoryObj = {
   name: 'Disabled State',
@@ -109,16 +109,16 @@ export const Disabled: StoryObj = {
       </Select>
     </div>
   ),
-};
+}
 
 export const Error: StoryObj = {
   name: 'Error State',
   render: () => (
     <div style={{ width: 250 }}>
       <Select>
-        <SelectTrigger 
-          placeholder="Placeholder" 
-          label="Label" 
+        <SelectTrigger
+          placeholder="Placeholder"
+          label="Label"
           error
           helperText="This is an input description."
         />
@@ -129,7 +129,7 @@ export const Error: StoryObj = {
       </Select>
     </div>
   ),
-};
+}
 
 export const Sizes: StoryObj = {
   render: () => (
@@ -141,7 +141,7 @@ export const Sizes: StoryObj = {
           <SelectItem value="option2">Other option</SelectItem>
         </SelectContent>
       </Select>
-      
+
       <Select>
         <SelectTrigger label="Medium (default)" size="md" placeholder="Select..." />
         <SelectContent>
@@ -149,7 +149,7 @@ export const Sizes: StoryObj = {
           <SelectItem value="option2">Other option</SelectItem>
         </SelectContent>
       </Select>
-      
+
       <Select>
         <SelectTrigger label="Large" size="lg" placeholder="Select..." />
         <SelectContent>
@@ -159,7 +159,7 @@ export const Sizes: StoryObj = {
       </Select>
     </div>
   ),
-};
+}
 
 export const WithPlaceholder: StoryObj = {
   name: 'With Placeholder',
@@ -177,7 +177,7 @@ export const WithPlaceholder: StoryObj = {
       </Select>
     </div>
   ),
-};
+}
 
 export const WithGroups: StoryObj = {
   name: 'With Groups',
@@ -210,7 +210,7 @@ export const WithGroups: StoryObj = {
       </Select>
     </div>
   ),
-};
+}
 
 export const AllStates: StoryObj = {
   name: 'All States (Figma Reference)',
@@ -226,7 +226,7 @@ export const AllStates: StoryObj = {
           </SelectContent>
         </Select>
       </div>
-      
+
       <div>
         <p style={{ marginBottom: 8, fontSize: 12, color: '#71717a' }}>Open</p>
         <Select open>
@@ -239,7 +239,7 @@ export const AllStates: StoryObj = {
           </SelectContent>
         </Select>
       </div>
-      
+
       <div>
         <p style={{ marginBottom: 8, fontSize: 12, color: '#71717a' }}>Disabled</p>
         <Select disabled>
@@ -249,13 +249,13 @@ export const AllStates: StoryObj = {
           </SelectContent>
         </Select>
       </div>
-      
+
       <div>
         <p style={{ marginBottom: 8, fontSize: 12, color: '#71717a' }}>Error</p>
         <Select>
-          <SelectTrigger 
-            placeholder="Placeholder" 
-            label="Label" 
+          <SelectTrigger
+            placeholder="Placeholder"
+            label="Label"
             error
             helperText="This is an input description."
           />
@@ -267,18 +267,16 @@ export const AllStates: StoryObj = {
       </div>
     </div>
   ),
-};
+}
 
 export const Controlled: StoryObj = {
   render: () => {
-    const [value, setValue] = React.useState('');
-    
+    const [value, setValue] = React.useState('')
+
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: 250 }}>
-        <p style={{ margin: 0, fontSize: 14, color: '#71717a' }}>
-          Selected: {value || 'none'}
-        </p>
-        
+        <p style={{ margin: 0, fontSize: 14, color: '#71717a' }}>Selected: {value || 'none'}</p>
+
         <Select value={value} onValueChange={setValue}>
           <SelectTrigger placeholder="Select..." label="Controlled" />
           <SelectContent>
@@ -288,7 +286,7 @@ export const Controlled: StoryObj = {
             <SelectItem value="svelte">Svelte</SelectItem>
           </SelectContent>
         </Select>
-        
+
         <div style={{ display: 'flex', gap: 8 }}>
           <button
             onClick={() => setValue('react')}
@@ -318,27 +316,25 @@ export const Controlled: StoryObj = {
           </button>
         </div>
       </div>
-    );
+    )
   },
-};
+}
 
 export const FormExample: StoryObj = {
   name: 'Form Example',
   render: () => (
-    <form 
-      style={{ 
-        width: 350, 
-        padding: 24, 
-        backgroundColor: '#fff', 
+    <form
+      style={{
+        width: 350,
+        padding: 24,
+        backgroundColor: '#fff',
         borderRadius: 12,
         border: '1px solid #e4e4e7',
       }}
-      onSubmit={(e) => e.preventDefault()}
+      onSubmit={e => e.preventDefault()}
     >
-      <h3 style={{ margin: '0 0 20px', fontSize: 18, fontWeight: 600 }}>
-        Shipping Information
-      </h3>
-      
+      <h3 style={{ margin: '0 0 20px', fontSize: 18, fontWeight: 600 }}>Shipping Information</h3>
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <Select defaultValue="ph">
           <SelectTrigger label="Country" fullWidth placeholder="Select country..." />
@@ -350,7 +346,7 @@ export const FormExample: StoryObj = {
             <SelectItem value="jp">Japan</SelectItem>
           </SelectContent>
         </Select>
-        
+
         <Select>
           <SelectTrigger label="State/Province" placeholder="Select state..." fullWidth />
           <SelectContent>
@@ -359,7 +355,7 @@ export const FormExample: StoryObj = {
             <SelectItem value="davao">Davao</SelectItem>
           </SelectContent>
         </Select>
-        
+
         <Select>
           <SelectTrigger label="Shipping Method" placeholder="Select method..." fullWidth />
           <SelectContent>
@@ -368,7 +364,7 @@ export const FormExample: StoryObj = {
             <SelectItem value="overnight">Overnight</SelectItem>
           </SelectContent>
         </Select>
-        
+
         <button
           type="submit"
           style={{
@@ -388,4 +384,4 @@ export const FormExample: StoryObj = {
       </div>
     </form>
   ),
-};
+}

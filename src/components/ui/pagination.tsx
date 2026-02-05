@@ -1,6 +1,12 @@
-import * as React from "react"
-import { forwardRef } from "react"
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, MoreHorizontal } from "lucide-react"
+import * as React from 'react'
+import { forwardRef } from 'react'
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+  MoreHorizontal,
+} from 'lucide-react'
 
 /**
  * Pagination Design Tokens
@@ -46,7 +52,7 @@ const Pagination = forwardRef<HTMLElement, PaginationProps>(
   }
 )
 
-Pagination.displayName = "Pagination"
+Pagination.displayName = 'Pagination'
 
 // ============================================================================
 // Pagination Button
@@ -111,7 +117,7 @@ const PaginationButton = forwardRef<HTMLButtonElement, PaginationButtonProps>(
   }
 )
 
-PaginationButton.displayName = "PaginationButton"
+PaginationButton.displayName = 'PaginationButton'
 
 // ============================================================================
 // Pagination Ellipsis
@@ -136,7 +142,7 @@ const PaginationEllipsis = forwardRef<HTMLSpanElement, React.HTMLAttributes<HTML
   }
 )
 
-PaginationEllipsis.displayName = "PaginationEllipsis"
+PaginationEllipsis.displayName = 'PaginationEllipsis'
 
 // ============================================================================
 // Full Pagination Component
@@ -155,48 +161,43 @@ export interface FullPaginationProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 const FullPagination = forwardRef<HTMLElement, FullPaginationProps>(
-  ({
-    page,
-    totalPages,
-    onPageChange,
-    showFirstLast = false,
-    siblingCount = 1,
-    style,
-    ...props
-  }, ref) => {
+  (
+    { page, totalPages, onPageChange, showFirstLast = false, siblingCount = 1, style, ...props },
+    ref
+  ) => {
     // Generate page numbers to show
     const getPageNumbers = () => {
       const pages: (number | 'ellipsis')[] = []
-      
+
       // Always show first page
       pages.push(1)
-      
+
       // Calculate range around current page
       const leftSibling = Math.max(2, page - siblingCount)
       const rightSibling = Math.min(totalPages - 1, page + siblingCount)
-      
+
       // Add left ellipsis if needed
       if (leftSibling > 2) {
         pages.push('ellipsis')
       }
-      
+
       // Add sibling pages
       for (let i = leftSibling; i <= rightSibling; i++) {
         if (i !== 1 && i !== totalPages) {
           pages.push(i)
         }
       }
-      
+
       // Add right ellipsis if needed
       if (rightSibling < totalPages - 1) {
         pages.push('ellipsis')
       }
-      
+
       // Always show last page
       if (totalPages > 1) {
         pages.push(totalPages)
       }
-      
+
       return pages
     }
 
@@ -214,7 +215,7 @@ const FullPagination = forwardRef<HTMLElement, FullPaginationProps>(
             <ChevronsLeft size={16} />
           </PaginationButton>
         )}
-        
+
         <PaginationButton
           iconOnly
           disabled={page === 1}
@@ -223,21 +224,17 @@ const FullPagination = forwardRef<HTMLElement, FullPaginationProps>(
         >
           <ChevronLeft size={16} />
         </PaginationButton>
-        
-        {pageNumbers.map((p, i) => 
+
+        {pageNumbers.map((p, i) =>
           p === 'ellipsis' ? (
             <PaginationEllipsis key={`ellipsis-${i}`} />
           ) : (
-            <PaginationButton
-              key={p}
-              active={p === page}
-              onClick={() => onPageChange(p)}
-            >
+            <PaginationButton key={p} active={p === page} onClick={() => onPageChange(p)}>
               {p}
             </PaginationButton>
           )
         )}
-        
+
         <PaginationButton
           iconOnly
           disabled={page === totalPages}
@@ -246,7 +243,7 @@ const FullPagination = forwardRef<HTMLElement, FullPaginationProps>(
         >
           <ChevronRight size={16} />
         </PaginationButton>
-        
+
         {showFirstLast && (
           <PaginationButton
             iconOnly
@@ -262,12 +259,6 @@ const FullPagination = forwardRef<HTMLElement, FullPaginationProps>(
   }
 )
 
-FullPagination.displayName = "FullPagination"
+FullPagination.displayName = 'FullPagination'
 
-export {
-  Pagination,
-  PaginationButton,
-  PaginationEllipsis,
-  FullPagination,
-  PAGINATION_TOKENS,
-}
+export { Pagination, PaginationButton, PaginationEllipsis, FullPagination, PAGINATION_TOKENS }

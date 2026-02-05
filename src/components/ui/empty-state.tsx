@@ -1,7 +1,15 @@
-import * as React from "react"
-import { forwardRef } from "react"
-import { FileQuestion, Search, Inbox, FolderOpen, AlertCircle, WifiOff, type LucideIcon } from "lucide-react"
-import { Button } from "./button"
+import * as React from 'react'
+import { forwardRef } from 'react'
+import {
+  FileQuestion,
+  Search,
+  Inbox,
+  FolderOpen,
+  AlertCircle,
+  WifiOff,
+  type LucideIcon,
+} from 'lucide-react'
+import { Button } from './button'
 
 /**
  * Empty State Design Tokens from Figma
@@ -13,7 +21,7 @@ const EMPTY_STATE_TOKENS = {
     size: 48,
     color: '#a1a1aa', // zinc-400
     bgSize: 80,
-    bg: '#f4f4f5',    // zinc-100
+    bg: '#f4f4f5', // zinc-100
   },
   // Title
   title: {
@@ -65,21 +73,22 @@ export interface EmptyStateProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
-  ({
-    icon = 'file',
-    title,
-    description,
-    primaryAction,
-    secondaryAction,
-    children,
-    size = 'md',
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      icon = 'file',
+      title,
+      description,
+      primaryAction,
+      secondaryAction,
+      children,
+      size = 'md',
+      style,
+      ...props
+    },
+    ref
+  ) => {
     // Get icon component
-    const IconComponent = typeof icon === 'string' 
-      ? PRESET_ICONS[icon] || FileQuestion
-      : icon
+    const IconComponent = typeof icon === 'string' ? PRESET_ICONS[icon] || FileQuestion : icon
 
     // Size multipliers
     const sizeMultiplier = size === 'sm' ? 0.85 : size === 'lg' ? 1.15 : 1
@@ -134,26 +143,24 @@ const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
     return (
       <div ref={ref} style={containerStyle} {...props}>
         <div style={iconContainerStyle}>
-          <IconComponent 
-            size={EMPTY_STATE_TOKENS.icon.size * sizeMultiplier} 
+          <IconComponent
+            size={EMPTY_STATE_TOKENS.icon.size * sizeMultiplier}
             color={EMPTY_STATE_TOKENS.icon.color}
             strokeWidth={1.5}
           />
         </div>
 
         <h3 style={titleStyle}>{title}</h3>
-        
-        {description && (
-          <p style={descriptionStyle}>{description}</p>
-        )}
+
+        {description && <p style={descriptionStyle}>{description}</p>}
 
         {children}
 
         {(primaryAction || secondaryAction) && (
           <div style={actionsStyle}>
             {secondaryAction && (
-              <Button 
-                variant="ghost" 
+              <Button
+                variant="ghost"
                 size={size === 'sm' ? 'sm' : 'md'}
                 onClick={secondaryAction.onClick}
               >
@@ -161,8 +168,8 @@ const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
               </Button>
             )}
             {primaryAction && (
-              <Button 
-                variant="primary" 
+              <Button
+                variant="primary"
                 size={size === 'sm' ? 'sm' : 'md'}
                 onClick={primaryAction.onClick}
               >
@@ -176,6 +183,6 @@ const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
   }
 )
 
-EmptyState.displayName = "EmptyState"
+EmptyState.displayName = 'EmptyState'
 
 export { EmptyState, EMPTY_STATE_TOKENS }

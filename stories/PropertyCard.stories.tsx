@@ -1,9 +1,11 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { PropertyCard, PropertyCardGrid } from '../src/components/ui/property-card';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { PropertyCard, PropertyCardGrid } from '../src/components/ui/property-card'
 
-const DEMO_IMAGE = 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop';
-const PROJECT_IMAGE = 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop';
+const DEMO_IMAGE =
+  'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop'
+const PROJECT_IMAGE =
+  'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop'
 
 const meta: Meta<typeof PropertyCard> = {
   title: 'Components/PropertyCard',
@@ -43,10 +45,10 @@ Based on Figma:
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof PropertyCard>;
+export default meta
+type Story = StoryObj<typeof PropertyCard>
 
 export const Default: Story = {
   render: () => (
@@ -71,7 +73,7 @@ export const Default: Story = {
       />
     </div>
   ),
-};
+}
 
 export const TypeOfProduct: Story = {
   name: 'Type of Product (Figma Reference)',
@@ -119,7 +121,7 @@ export const TypeOfProduct: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const StatusManagement: Story = {
   name: 'Status Management (Figma Reference)',
@@ -198,7 +200,7 @@ export const StatusManagement: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const ValueAddedLabels: Story = {
   name: 'Value Added Labels (Figma Reference)',
@@ -305,7 +307,7 @@ export const ValueAddedLabels: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const EdgeCases: Story = {
   name: 'Edge Cases (Figma Reference)',
@@ -374,7 +376,7 @@ export const EdgeCases: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const FeedbackStatus: Story = {
   name: 'Feedback Status (Figma Reference)',
@@ -402,16 +404,11 @@ export const FeedbackStatus: Story = {
       </div>
       <div style={{ width: 320 }}>
         <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>Skeleton</p>
-        <PropertyCard
-          loading
-          title=""
-          location=""
-          price={0}
-        />
+        <PropertyCard loading title="" location="" price={0} />
       </div>
     </div>
   ),
-};
+}
 
 export const ProjectCard: Story = {
   name: 'Project Card',
@@ -435,7 +432,7 @@ export const ProjectCard: Story = {
       />
     </div>
   ),
-};
+}
 
 export const WithFavoriteButton: Story = {
   name: 'With Favorite Button',
@@ -455,7 +452,7 @@ export const WithFavoriteButton: Story = {
         yieldPercent={6}
         showFavorite={true}
         isFavorite={false}
-        onFavoriteChange={(fav) => console.log('Favorite:', fav)}
+        onFavoriteChange={fav => console.log('Favorite:', fav)}
         infoRows={[
           { label: 'Estimated rent', value: '650€/month' },
           { label: 'Total investment', value: '113,100€' },
@@ -463,7 +460,7 @@ export const WithFavoriteButton: Story = {
       />
     </div>
   ),
-};
+}
 
 export const AllVariations: Story = {
   name: 'All Variations (Figma Reference)',
@@ -512,7 +509,7 @@ export const AllVariations: Story = {
       <div>
         <h3 style={{ margin: '0 0 16px', fontSize: 16, fontWeight: 600 }}>Status Management</h3>
         <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
-          {(['available', 'reserved', 'sold', 'comingSoon'] as const).map((status) => (
+          {(['available', 'reserved', 'sold', 'comingSoon'] as const).map(status => (
             <PropertyCard
               key={status}
               image={DEMO_IMAGE}
@@ -594,7 +591,7 @@ export const AllVariations: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const Grid: Story = {
   name: 'Property Card Grid',
@@ -678,13 +675,8 @@ export const Grid: Story = {
             { label: 'Capital gain', value: '72.000€', hasInfo: true },
           ]}
         />
-        <PropertyCard
-          loading
-          title=""
-          location=""
-          price={0}
-        />
+        <PropertyCard loading title="" location="" price={0} />
       </PropertyCardGrid>
     </div>
   ),
-};
+}

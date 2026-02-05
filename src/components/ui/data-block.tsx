@@ -1,7 +1,7 @@
-import * as React from "react"
-import { forwardRef } from "react"
-import { TrendingUp, TrendingDown, Minus } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
+import * as React from 'react'
+import { forwardRef } from 'react'
+import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 /**
  * Data Block Design Tokens from Figma
@@ -63,19 +63,22 @@ export interface DataBlockProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const DataBlock = forwardRef<HTMLDivElement, DataBlockProps>(
-  ({
-    label,
-    value,
-    trend,
-    trendLabel,
-    icon: Icon,
-    iconBg = DATA_BLOCK_TOKENS.icon.bg,
-    iconColor = '#3f3f46',
-    size = 'md',
-    loading = false,
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      label,
+      value,
+      trend,
+      trendLabel,
+      icon: Icon,
+      iconBg = DATA_BLOCK_TOKENS.icon.bg,
+      iconColor = '#3f3f46',
+      size = 'md',
+      loading = false,
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const sizeStyles = {
       sm: { padding: 12, valueSize: 22, iconSize: 32 },
       md: { padding: 16, valueSize: 28, iconSize: 40 },
@@ -155,7 +158,16 @@ const DataBlock = forwardRef<HTMLDivElement, DataBlockProps>(
         <div ref={ref} style={containerStyle} {...props}>
           <div style={headerStyle}>
             <div style={{ ...skeletonStyle, width: 80, height: 16 }} />
-            {Icon && <div style={{ ...skeletonStyle, width: currentSize.iconSize, height: currentSize.iconSize, borderRadius: 8 }} />}
+            {Icon && (
+              <div
+                style={{
+                  ...skeletonStyle,
+                  width: currentSize.iconSize,
+                  height: currentSize.iconSize,
+                  borderRadius: 8,
+                }}
+              />
+            )}
           </div>
           <div style={{ ...skeletonStyle, width: 120, height: currentSize.valueSize }} />
           <div style={{ ...skeletonStyle, width: 60, height: 16, marginTop: 8 }} />
@@ -190,7 +202,7 @@ const DataBlock = forwardRef<HTMLDivElement, DataBlockProps>(
   }
 )
 
-DataBlock.displayName = "DataBlock"
+DataBlock.displayName = 'DataBlock'
 
 // ============================================================================
 // Data Block Grid (for layouts)
@@ -219,6 +231,6 @@ const DataBlockGrid = forwardRef<HTMLDivElement, DataBlockGridProps>(
   }
 )
 
-DataBlockGrid.displayName = "DataBlockGrid"
+DataBlockGrid.displayName = 'DataBlockGrid'
 
 export { DataBlock, DataBlockGrid, DATA_BLOCK_TOKENS }

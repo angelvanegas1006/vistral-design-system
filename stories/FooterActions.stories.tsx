@@ -1,7 +1,7 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { FooterActions } from '../src/components/ui/footer-actions';
-import { Button } from '../src/components/ui/button';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { FooterActions } from '../src/components/ui/footer-actions'
+import { Button } from '../src/components/ui/button'
 
 const meta: Meta = {
   title: 'Components/FooterActions',
@@ -31,9 +31,9 @@ Footer Actions standardizes primary, secondary, and tertiary actions at the bott
       },
     },
   },
-};
+}
 
-export default meta;
+export default meta
 
 export const Default: StoryObj = {
   render: () => (
@@ -47,7 +47,7 @@ export const Default: StoryObj = {
       </FooterActions>
     </div>
   ),
-};
+}
 
 export const HorizontalDesktop: StoryObj = {
   name: 'Horizontal (Desktop)',
@@ -62,7 +62,7 @@ export const HorizontalDesktop: StoryObj = {
       </FooterActions>
     </div>
   ),
-};
+}
 
 export const VerticalMobile: StoryObj = {
   name: 'Vertical/Stacked (Mobile)',
@@ -77,7 +77,7 @@ export const VerticalMobile: StoryObj = {
       </FooterActions>
     </div>
   ),
-};
+}
 
 export const SingleAction: StoryObj = {
   name: 'Single Action',
@@ -91,7 +91,7 @@ export const SingleAction: StoryObj = {
       </FooterActions>
     </div>
   ),
-};
+}
 
 export const ThreeActions: StoryObj = {
   name: 'Three Actions (Maximum)',
@@ -107,7 +107,7 @@ export const ThreeActions: StoryObj = {
       </FooterActions>
     </div>
   ),
-};
+}
 
 export const WithDestructive: StoryObj = {
   name: 'With Destructive Action',
@@ -122,7 +122,7 @@ export const WithDestructive: StoryObj = {
       </FooterActions>
     </div>
   ),
-};
+}
 
 export const MobileFullWidth: StoryObj = {
   name: 'Mobile Full-Width Stacked',
@@ -138,12 +138,20 @@ export const MobileFullWidth: StoryObj = {
       </FooterActions>
     </div>
   ),
-};
+}
 
 export const FixedBottom: StoryObj = {
   name: 'Fixed at Bottom',
   render: () => (
-    <div style={{ position: 'relative', height: 600, border: '1px solid #e4e4e7', borderRadius: 8, overflow: 'hidden' }}>
+    <div
+      style={{
+        position: 'relative',
+        height: 600,
+        border: '1px solid #e4e4e7',
+        borderRadius: 8,
+        overflow: 'hidden',
+      }}
+    >
       <div style={{ padding: 24, height: '100%', overflow: 'auto' }}>
         <p style={{ margin: 0, color: '#71717a', marginBottom: 16 }}>Scrollable content</p>
         {Array.from({ length: 20 }).map((_, i) => (
@@ -158,7 +166,7 @@ export const FixedBottom: StoryObj = {
       </FooterActions>
     </div>
   ),
-};
+}
 
 export const AlignmentVariations: StoryObj = {
   name: 'Alignment Variations',
@@ -166,7 +174,9 @@ export const AlignmentVariations: StoryObj = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       <div>
         <p style={{ marginBottom: 8, fontSize: 14, fontWeight: 600 }}>Left Aligned</p>
-        <div style={{ width: 500, border: '1px solid #e4e4e7', borderRadius: 8, overflow: 'hidden' }}>
+        <div
+          style={{ width: 500, border: '1px solid #e4e4e7', borderRadius: 8, overflow: 'hidden' }}
+        >
           <div style={{ padding: 24, minHeight: 100 }} />
           <FooterActions align="left">
             <Button variant="outline">Cancel</Button>
@@ -177,7 +187,9 @@ export const AlignmentVariations: StoryObj = {
 
       <div>
         <p style={{ marginBottom: 8, fontSize: 14, fontWeight: 600 }}>Center Aligned</p>
-        <div style={{ width: 500, border: '1px solid #e4e4e7', borderRadius: 8, overflow: 'hidden' }}>
+        <div
+          style={{ width: 500, border: '1px solid #e4e4e7', borderRadius: 8, overflow: 'hidden' }}
+        >
           <div style={{ padding: 24, minHeight: 100 }} />
           <FooterActions align="center">
             <Button variant="outline">Cancel</Button>
@@ -188,7 +200,9 @@ export const AlignmentVariations: StoryObj = {
 
       <div>
         <p style={{ marginBottom: 8, fontSize: 14, fontWeight: 600 }}>Right Aligned (Default)</p>
-        <div style={{ width: 500, border: '1px solid #e4e4e7', borderRadius: 8, overflow: 'hidden' }}>
+        <div
+          style={{ width: 500, border: '1px solid #e4e4e7', borderRadius: 8, overflow: 'hidden' }}
+        >
           <div style={{ padding: 24, minHeight: 100 }} />
           <FooterActions align="right">
             <Button variant="outline">Cancel</Button>
@@ -199,7 +213,9 @@ export const AlignmentVariations: StoryObj = {
 
       <div>
         <p style={{ marginBottom: 8, fontSize: 14, fontWeight: 600 }}>Space Between</p>
-        <div style={{ width: 500, border: '1px solid #e4e4e7', borderRadius: 8, overflow: 'hidden' }}>
+        <div
+          style={{ width: 500, border: '1px solid #e4e4e7', borderRadius: 8, overflow: 'hidden' }}
+        >
           <div style={{ padding: 24, minHeight: 100 }} />
           <FooterActions align="space-between">
             <Button variant="ghost">Back</Button>
@@ -209,15 +225,27 @@ export const AlignmentVariations: StoryObj = {
       </div>
     </div>
   ),
-};
+}
 
 export const AllVariations: StoryObj = {
   name: 'All Variations (Figma Reference)',
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 32, padding: 24, backgroundColor: '#f8fafc' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 32,
+        padding: 24,
+        backgroundColor: '#f8fafc',
+      }}
+    >
       <div>
-        <h3 style={{ marginBottom: 16, fontSize: 16, fontWeight: 600 }}>Desktop - Horizontal (Primary Right)</h3>
-        <div style={{ width: 500, border: '1px solid #e4e4e7', borderRadius: 8, overflow: 'hidden' }}>
+        <h3 style={{ marginBottom: 16, fontSize: 16, fontWeight: 600 }}>
+          Desktop - Horizontal (Primary Right)
+        </h3>
+        <div
+          style={{ width: 500, border: '1px solid #e4e4e7', borderRadius: 8, overflow: 'hidden' }}
+        >
           <div style={{ padding: 24, minHeight: 150 }}>
             <p style={{ margin: 0, color: '#71717a' }}>Dialog or Card content</p>
           </div>
@@ -229,8 +257,12 @@ export const AllVariations: StoryObj = {
       </div>
 
       <div>
-        <h3 style={{ marginBottom: 16, fontSize: 16, fontWeight: 600 }}>Mobile - Vertical/Stacked (Primary Top)</h3>
-        <div style={{ width: 375, border: '1px solid #e4e4e7', borderRadius: 8, overflow: 'hidden' }}>
+        <h3 style={{ marginBottom: 16, fontSize: 16, fontWeight: 600 }}>
+          Mobile - Vertical/Stacked (Primary Top)
+        </h3>
+        <div
+          style={{ width: 375, border: '1px solid #e4e4e7', borderRadius: 8, overflow: 'hidden' }}
+        >
           <div style={{ padding: 24, minHeight: 300 }}>
             <p style={{ margin: 0, color: '#71717a' }}>Mobile content</p>
           </div>
@@ -243,7 +275,9 @@ export const AllVariations: StoryObj = {
 
       <div>
         <h3 style={{ marginBottom: 16, fontSize: 16, fontWeight: 600 }}>Single Action</h3>
-        <div style={{ width: 500, border: '1px solid #e4e4e7', borderRadius: 8, overflow: 'hidden' }}>
+        <div
+          style={{ width: 500, border: '1px solid #e4e4e7', borderRadius: 8, overflow: 'hidden' }}
+        >
           <div style={{ padding: 24, minHeight: 150 }}>
             <p style={{ margin: 0, color: '#71717a' }}>Content</p>
           </div>
@@ -254,4 +288,4 @@ export const AllVariations: StoryObj = {
       </div>
     </div>
   ),
-};
+}

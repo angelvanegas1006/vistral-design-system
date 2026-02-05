@@ -7,9 +7,10 @@
 
 :root {
   /* Font Family */
-  --vistral-font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --vistral-font-family-sans:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --vistral-font-family-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
-  
+
   /* Font Size - 9 step scale */
   --vistral-font-size-1: 12px;
   --vistral-font-size-2: 14px;
@@ -20,7 +21,7 @@
   --vistral-font-size-7: 30px;
   --vistral-font-size-8: 36px;
   --vistral-font-size-9: 48px;
-  
+
   /* Font Size - Semantic */
   --vistral-font-size-xs: 12px;
   --vistral-font-size-sm: 12px;
@@ -32,12 +33,12 @@
   --vistral-font-size-header-xl: 30px;
   --vistral-font-size-header-2xl: 36px;
   --vistral-font-size-header-3xl: 48px;
-  
+
   /* Font Weight */
   --vistral-font-weight-regular: 400;
   --vistral-font-weight-medium: 500;
   --vistral-font-weight-semibold: 600;
-  
+
   /* Line Height - 9 step scale */
   --vistral-line-height-1: 16px;
   --vistral-line-height-2: 20px;
@@ -48,7 +49,7 @@
   --vistral-line-height-7: 38px;
   --vistral-line-height-8: 44px;
   --vistral-line-height-9: 58px;
-  
+
   /* Letter Spacing - 9 step scale */
   --vistral-letter-spacing-1: -0.2px;
   --vistral-letter-spacing-2: -0.5px;
@@ -59,7 +60,7 @@
   --vistral-letter-spacing-7: -2px;
   --vistral-letter-spacing-8: -2px;
   --vistral-letter-spacing-9: -3px;
-  
+
   /* Spacing */
   --vistral-spacing-0: 0px;
   --vistral-spacing-0-5: 2px;
@@ -86,7 +87,7 @@
   --vistral-spacing-28: 112px;
   --vistral-spacing-32: 128px;
   --vistral-spacing-40: 160px;
-  
+
   /* Container Padding */
   --vistral-container-padding-xs: 12px;
   --vistral-container-padding-sm: 16px;
@@ -94,7 +95,7 @@
   --vistral-container-padding-lg: 48px;
   --vistral-container-padding-xl: 64px;
   --vistral-container-padding-xxl: 80px;
-  
+
   /* Radius */
   --vistral-radius-0: 0px;
   --vistral-radius-0-5: 2px;
@@ -110,7 +111,7 @@
   --vistral-radius-10: 40px;
   --vistral-radius-12: 48px;
   --vistral-radius-full: 9999px;
-  
+
   /* Breakpoints - 6 responsive breakpoints */
   --vistral-breakpoint-xs: 0px;
   --vistral-breakpoint-sm: 577px;
@@ -118,7 +119,7 @@
   --vistral-breakpoint-lg: 993px;
   --vistral-breakpoint-xl: 1201px;
   --vistral-breakpoint-xxl: 1401px;
-  
+
   /* Grid System - Margins per breakpoint */
   --vistral-grid-margin-xs: 16px;
   --vistral-grid-margin-sm: 16px;
@@ -126,7 +127,7 @@
   --vistral-grid-margin-lg: 32px;
   --vistral-grid-margin-xl: 32px;
   --vistral-grid-margin-xxl: 112px;
-  
+
   /* Grid System - Gutters per breakpoint */
   --vistral-grid-gutter-xs: 24px;
   --vistral-grid-gutter-sm: 24px;
@@ -134,26 +135,26 @@
   --vistral-grid-gutter-lg: 24px;
   --vistral-grid-gutter-xl: 24px;
   --vistral-grid-gutter-xxl: 32px;
-  
+
   /* Layout Spacing */
   --vistral-layout-navbar-to-content: 16px;
   --vistral-layout-content-heading-to-main: 24px;
   --vistral-layout-section-gap: 32px;
-  
+
   /* Layout - Sidebar */
   --vistral-layout-sidebar-width: 240px;
-  
+
   /* Layout - Container */
   --vistral-layout-container-max-width: 1400px;
-  
+
   /* Shadows & Elevation */
   --vistral-shadow-level-1: 0px 0px 16px 0px rgba(0, 0, 0, 0.06);
-  --vistral-shadow-level-2: 0px 0px 18px 0px rgba(0, 0, 0, 0.10);
+  --vistral-shadow-level-2: 0px 0px 18px 0px rgba(0, 0, 0, 0.1);
   --vistral-shadow-level-3: 0px 0px 24px 0px rgba(0, 0, 0, 0.16);
-  --vistral-shadow-level-4: 0px 0px 24px 0px rgba(0, 0, 0, 0.20);
-  --vistral-shadow-focus: 0px 0px 24px 0px rgba(0, 0, 0, 0.20);
-  --vistral-shadow-focus-button: 0px 0px 24px 0px rgba(0, 0, 0, 0.20);
-  
+  --vistral-shadow-level-4: 0px 0px 24px 0px rgba(0, 0, 0, 0.2);
+  --vistral-shadow-focus: 0px 0px 24px 0px rgba(0, 0, 0, 0.2);
+  --vistral-shadow-focus-button: 0px 0px 24px 0px rgba(0, 0, 0, 0.2);
+
   /* Blur Background (for elevation) */
   --vistral-blur-1: 8px;
   --vistral-blur-2: 12px;
@@ -163,53 +164,53 @@
   --vistral-blur-6: 40px;
   --vistral-blur-7: 56px;
   --vistral-blur-8: 64px;
-  
+
   /* ========================================
      COLOR TOKENS (from Figma Design System)
      ======================================== */
-  
+
   /* Primary Color Palette */
-  --vistral-primary-default-bg: #2050F6;
-  --vistral-primary-default-text: #FFFFFF;
-  --vistral-primary-hover-bg: #3062F8;
-  --vistral-primary-hover-text: #FFFFFF;
-  --vistral-primary-active-bg: #1C328E;
-  --vistral-primary-active-text: #FFFFFF;
-  --vistral-primary-focused-bg: #2050F6;
-  --vistral-primary-focused-text: #FFFFFF;
-  --vistral-primary-disabled-bg: #6F88E1;
-  --vistral-primary-disabled-text: #E5E7EB;
-  
-  --vistral-secondary-default-bg: #EDF0FD;
-  --vistral-secondary-default-text: #2050F6;
-  --vistral-secondary-hover-bg: #E0E4F9;
-  --vistral-secondary-hover-text: #2050F6;
-  --vistral-secondary-active-bg: #C8CDEE;
-  --vistral-secondary-active-text: #1C328E;
-  --vistral-secondary-focused-bg: #EDF0FD;
-  --vistral-secondary-focused-text: #2050F6;
-  --vistral-secondary-disabled-bg: #F4F6FB;
-  --vistral-secondary-disabled-text: #6F88E1;
-  
-  --vistral-ghost-default-bg: #FFFFFF;
-  --vistral-ghost-default-text: #18181B;
-  --vistral-ghost-hover-bg: #F8F8FA;
-  --vistral-ghost-hover-text: #18181B;
-  --vistral-ghost-active-bg: #F0F0F2;
-  --vistral-ghost-active-text: #0A0A0B;
-  --vistral-ghost-focused-bg: #FFFFFF;
-  --vistral-ghost-focused-text: #18181B;
-  --vistral-ghost-disabled-bg: #FFFFFF;
-  --vistral-ghost-disabled-text: #A1A1AA;
-  
+  --vistral-primary-default-bg: #2050f6;
+  --vistral-primary-default-text: #ffffff;
+  --vistral-primary-hover-bg: #3062f8;
+  --vistral-primary-hover-text: #ffffff;
+  --vistral-primary-active-bg: #1c328e;
+  --vistral-primary-active-text: #ffffff;
+  --vistral-primary-focused-bg: #2050f6;
+  --vistral-primary-focused-text: #ffffff;
+  --vistral-primary-disabled-bg: #6f88e1;
+  --vistral-primary-disabled-text: #e5e7eb;
+
+  --vistral-secondary-default-bg: #edf0fd;
+  --vistral-secondary-default-text: #2050f6;
+  --vistral-secondary-hover-bg: #e0e4f9;
+  --vistral-secondary-hover-text: #2050f6;
+  --vistral-secondary-active-bg: #c8cdee;
+  --vistral-secondary-active-text: #1c328e;
+  --vistral-secondary-focused-bg: #edf0fd;
+  --vistral-secondary-focused-text: #2050f6;
+  --vistral-secondary-disabled-bg: #f4f6fb;
+  --vistral-secondary-disabled-text: #6f88e1;
+
+  --vistral-ghost-default-bg: #ffffff;
+  --vistral-ghost-default-text: #18181b;
+  --vistral-ghost-hover-bg: #f8f8fa;
+  --vistral-ghost-hover-text: #18181b;
+  --vistral-ghost-active-bg: #f0f0f2;
+  --vistral-ghost-active-text: #0a0a0b;
+  --vistral-ghost-focused-bg: #ffffff;
+  --vistral-ghost-focused-text: #18181b;
+  --vistral-ghost-disabled-bg: #ffffff;
+  --vistral-ghost-disabled-text: #a1a1aa;
+
   /* Semantic Colors - Status */
-  --vistral-semantic-status-success: #23A06B;
-  --vistral-semantic-status-warning: #E9B134;
-  --vistral-semantic-status-error: #E0312F;
-  --vistral-semantic-status-info: #4F73F5;
+  --vistral-semantic-status-success: #23a06b;
+  --vistral-semantic-status-warning: #e9b134;
+  --vistral-semantic-status-error: #e0312f;
+  --vistral-semantic-status-info: #4f73f5;
   --vistral-semantic-status-default: #666675;
-  --vistral-semantic-status-disabled: #C0C0C9;
-  
+  --vistral-semantic-status-disabled: #c0c0c9;
+
   /* Semantic Colors - Backgrounds */
   --vistral-semantic-bg-default: #ffffff;
   --vistral-semantic-bg-subtle: #fafafa;
@@ -226,29 +227,29 @@
   --vistral-semantic-bg-warning-subtle: #fffbeb;
   --vistral-semantic-bg-info: #eef4ff;
   --vistral-semantic-bg-info-subtle: #eff6ff;
-  
+
   /* Semantic Colors - Text */
   --vistral-semantic-text-primary: #18181b;
   --vistral-semantic-text-secondary: #71717a;
   --vistral-semantic-text-muted: #a1a1aa;
   --vistral-semantic-text-disabled: #a1a1aa;
   --vistral-semantic-text-brand: #2050f6;
-  --vistral-semantic-text-success: #23A06B;
-  --vistral-semantic-text-error: #E0312F;
-  --vistral-semantic-text-warning: #E9B134;
-  --vistral-semantic-text-info: #4F73F5;
-  
+  --vistral-semantic-text-success: #23a06b;
+  --vistral-semantic-text-error: #e0312f;
+  --vistral-semantic-text-warning: #e9b134;
+  --vistral-semantic-text-info: #4f73f5;
+
   /* Semantic Colors - Icons */
   --vistral-semantic-icon-primary: #18181b;
   --vistral-semantic-icon-secondary: #71717a;
   --vistral-semantic-icon-muted: #a1a1aa;
   --vistral-semantic-icon-disabled: #a1a1aa;
   --vistral-semantic-icon-brand: #2050f6;
-  --vistral-semantic-icon-success: #23A06B;
-  --vistral-semantic-icon-error: #E0312F;
-  --vistral-semantic-icon-warning: #E9B134;
-  --vistral-semantic-icon-info: #4F73F5;
-  
+  --vistral-semantic-icon-success: #23a06b;
+  --vistral-semantic-icon-error: #e0312f;
+  --vistral-semantic-icon-warning: #e9b134;
+  --vistral-semantic-icon-info: #4f73f5;
+
   /* Semantic Colors - Borders */
   --vistral-semantic-border-default: #e5e7eb;
   --vistral-semantic-border-subtle: #f3f4f6;
@@ -256,52 +257,52 @@
   --vistral-semantic-border-active: #2050f6;
   --vistral-semantic-border-disabled: #f4f6fb;
   --vistral-semantic-border-brand: #2050f6;
-  --vistral-semantic-border-success: #23A06B;
-  --vistral-semantic-border-error: #E0312F;
-  --vistral-semantic-border-warning: #E9B134;
-  --vistral-semantic-border-info: #4F73F5;
-  
+  --vistral-semantic-border-success: #23a06b;
+  --vistral-semantic-border-error: #e0312f;
+  --vistral-semantic-border-warning: #e9b134;
+  --vistral-semantic-border-info: #4f73f5;
+
   /* Semantic Colors - Interactive */
   --vistral-semantic-interactive-brand-default: #2050f6;
-  --vistral-semantic-interactive-brand-hover: #3062F8;
-  --vistral-semantic-interactive-brand-pressed: #1C328E;
-  --vistral-semantic-interactive-danger-default: #E0312F;
+  --vistral-semantic-interactive-brand-hover: #3062f8;
+  --vistral-semantic-interactive-brand-pressed: #1c328e;
+  --vistral-semantic-interactive-danger-default: #e0312f;
   --vistral-semantic-interactive-danger-hover: #dc2626;
   --vistral-semantic-interactive-danger-pressed: #b91c1c;
-  --vistral-semantic-interactive-success-default: #23A06B;
+  --vistral-semantic-interactive-success-default: #23a06b;
   --vistral-semantic-interactive-success-hover: #16a34a;
   --vistral-semantic-interactive-success-pressed: #15803d;
-  --vistral-semantic-interactive-warning-default: #E9B134;
+  --vistral-semantic-interactive-warning-default: #e9b134;
   --vistral-semantic-interactive-warning-hover: #f59e0b;
   --vistral-semantic-interactive-warning-pressed: #d97706;
   --vistral-semantic-interactive-neutral-default: #666675;
   --vistral-semantic-interactive-neutral-hover: #52525b;
   --vistral-semantic-interactive-neutral-pressed: #3f3f46;
-  --vistral-semantic-interactive-disabled: #C0C0C9;
-  
+  --vistral-semantic-interactive-disabled: #c0c0c9;
+
   /* Component Colors - Links */
-  --vistral-component-link-default: #2050F6;
-  --vistral-component-link-hover: #3062F8;
-  --vistral-component-link-active: #1C328E;
-  --vistral-component-link-focused: #2050F6;
-  
+  --vistral-component-link-default: #2050f6;
+  --vistral-component-link-hover: #3062f8;
+  --vistral-component-link-active: #1c328e;
+  --vistral-component-link-focused: #2050f6;
+
   /* Component Colors - Borders */
-  --vistral-component-border-default: #E5E7EB;
-  --vistral-component-border-brand: #2050F6;
-  --vistral-component-border-error: #E0312F;
-  --vistral-component-border-warning: #E9B134;
-  --vistral-component-border-success: #23A06B;
-  --vistral-component-border-focused: #2050F6;
-  --vistral-component-border-disabled: #F4F6FB;
-  
+  --vistral-component-border-default: #e5e7eb;
+  --vistral-component-border-brand: #2050f6;
+  --vistral-component-border-error: #e0312f;
+  --vistral-component-border-warning: #e9b134;
+  --vistral-component-border-success: #23a06b;
+  --vistral-component-border-focused: #2050f6;
+  --vistral-component-border-disabled: #f4f6fb;
+
   /* Component Colors - Icons */
   --vistral-component-icon-default: #666675;
-  --vistral-component-icon-brand: #2050F6;
-  --vistral-component-icon-error: #E0312F;
-  --vistral-component-icon-warning: #E9B134;
-  --vistral-component-icon-success: #23A06B;
-  --vistral-component-icon-disabled: #C0C0C9;
-  
+  --vistral-component-icon-brand: #2050f6;
+  --vistral-component-icon-error: #e0312f;
+  --vistral-component-icon-warning: #e9b134;
+  --vistral-component-icon-success: #23a06b;
+  --vistral-component-icon-disabled: #c0c0c9;
+
   /* Legacy/Compatibility Colors (for backward compatibility) */
   --vistral-bg-default: var(--vistral-semantic-bg-default);
   --vistral-bg-elevated: var(--vistral-semantic-bg-muted);
@@ -321,12 +322,12 @@
   --vistral-bg-default: #000000;
   --vistral-bg-elevated: #1a1a1a;
   --vistral-bg-card: #1f1f1f;
-  
+
   --vistral-text-primary: #ffffff;
   --vistral-text-secondary: #a3a3a3;
   --vistral-text-tertiary: #71717a;
   --vistral-text-disabled: #52525b;
-  
+
   --vistral-border-default: #333333;
   --vistral-border-hover: #52525b;
   --vistral-border-focus: #2050f6;

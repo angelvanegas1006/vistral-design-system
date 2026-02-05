@@ -1,42 +1,42 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { MediaHero } from '../src/components/ui/media-hero';
-import { Tag } from '../src/components/ui/tag';
-import { Button } from '../src/components/ui/button';
-import { Heart } from 'lucide-react';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { MediaHero } from '../src/components/ui/media-hero'
+import { Tag } from '../src/components/ui/tag'
+import { Button } from '../src/components/ui/button'
+import { Heart } from 'lucide-react'
 
 const DEMO_IMAGES = [
-  { 
-    src: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=600&fit=crop', 
+  {
+    src: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=600&fit=crop',
     alt: 'Modern house exterior',
     thumbnail: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=200&h=200&fit=crop',
   },
-  { 
-    src: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=600&fit=crop', 
+  {
+    src: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=600&fit=crop',
     alt: 'Living room',
     thumbnail: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=200&h=200&fit=crop',
   },
-  { 
-    src: 'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=800&h=600&fit=crop', 
+  {
+    src: 'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=800&h=600&fit=crop',
     alt: 'Kitchen',
     thumbnail: 'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=200&h=200&fit=crop',
   },
-  { 
-    src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop', 
+  {
+    src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop',
     alt: 'Bedroom',
     thumbnail: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=200&h=200&fit=crop',
   },
-  { 
-    src: 'https://images.unsplash.com/photo-1600573472591-ee6981cf35c4?w=800&h=600&fit=crop', 
+  {
+    src: 'https://images.unsplash.com/photo-1600573472591-ee6981cf35c4?w=800&h=600&fit=crop',
     alt: 'Bathroom',
     thumbnail: 'https://images.unsplash.com/photo-1600573472591-ee6981cf35c4?w=200&h=200&fit=crop',
   },
-  { 
-    src: 'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&h=600&fit=crop', 
+  {
+    src: 'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&h=600&fit=crop',
     alt: 'Garden',
     thumbnail: 'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=200&h=200&fit=crop',
   },
-];
+]
 
 const meta: Meta<typeof MediaHero> = {
   title: 'Components/MediaHero',
@@ -75,10 +75,10 @@ Based on Figma:
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof MediaHero>;
+export default meta
+type Story = StoryObj<typeof MediaHero>
 
 export const Default: Story = {
   name: 'Grid 5 Images (Figma Reference)',
@@ -87,7 +87,7 @@ export const Default: Story = {
       <MediaHero images={DEMO_IMAGES} height={420} />
     </div>
   ),
-};
+}
 
 export const AllGridVariations: Story = {
   name: 'All Grid Variations (Figma Reference)',
@@ -119,23 +119,27 @@ export const AllGridVariations: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const WithInstanceSlot: Story = {
   name: 'With Instance Slot (Tags & Buttons)',
   render: () => (
     <div style={{ padding: 24, maxWidth: 900 }}>
-      <MediaHero 
-        images={DEMO_IMAGES} 
+      <MediaHero
+        images={DEMO_IMAGES}
         height={420}
         instanceSlot={
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-            <Tag variant="success" size="sm">Verified</Tag>
-            <Tag variant="info" size="sm">Featured</Tag>
-            <Button 
-              variant="ghost" 
+            <Tag variant="success" size="sm">
+              Verified
+            </Tag>
+            <Tag variant="info" size="sm">
+              Featured
+            </Tag>
+            <Button
+              variant="ghost"
               size="sm"
-              style={{ 
+              style={{
                 backgroundColor: 'rgba(255, 255, 255, 0.9)',
                 color: '#18181b',
               }}
@@ -147,39 +151,43 @@ export const WithInstanceSlot: Story = {
       />
     </div>
   ),
-};
+}
 
 export const SingleImage: Story = {
   name: 'Single Image',
   render: () => (
     <div style={{ padding: 24, maxWidth: 900 }}>
-      <MediaHero 
-        images={[DEMO_IMAGES[0]]} 
-        variant="single" 
+      <MediaHero
+        images={[DEMO_IMAGES[0]]}
+        variant="single"
         height={400}
         instanceSlot={
-          <Tag variant="success" size="sm">New Listing</Tag>
+          <Tag variant="success" size="sm">
+            New Listing
+          </Tag>
         }
       />
     </div>
   ),
-};
+}
 
 export const Carousel: Story = {
   name: 'Carousel (Mobile)',
   render: () => (
     <div style={{ padding: 24, maxWidth: 400 }}>
-      <MediaHero 
-        images={DEMO_IMAGES} 
+      <MediaHero
+        images={DEMO_IMAGES}
         variant="carousel"
         height={280}
         instanceSlot={
-          <Tag variant="success" size="sm">Verified</Tag>
+          <Tag variant="success" size="sm">
+            Verified
+          </Tag>
         }
       />
     </div>
   ),
-};
+}
 
 export const AutoVariant: Story = {
   name: 'Auto Variant (Responsive)',
@@ -188,43 +196,39 @@ export const AutoVariant: Story = {
       <p style={{ fontSize: 13, color: '#71717a', marginBottom: 16 }}>
         Resize window to see it switch between grid (desktop) and carousel (mobile)
       </p>
-      <MediaHero 
-        images={DEMO_IMAGES} 
-        variant="auto"
-        height={420}
-      />
+      <MediaHero images={DEMO_IMAGES} variant="auto" height={420} />
     </div>
   ),
-};
+}
 
 export const CustomButtonText: Story = {
   name: 'Custom Button Text',
   render: () => (
     <div style={{ padding: 24, maxWidth: 900 }}>
-      <MediaHero 
-        images={DEMO_IMAGES}
-        buttonText="Ver 6 fotos"
-        height={420}
-      />
+      <MediaHero images={DEMO_IMAGES} buttonText="Ver 6 fotos" height={420} />
     </div>
   ),
-};
+}
 
 export const PropertyPage: Story = {
   name: 'Property Detail Page Example',
   render: () => (
     <div style={{ maxWidth: 1000, margin: '0 auto', padding: 24 }}>
-      <MediaHero 
+      <MediaHero
         images={DEMO_IMAGES}
         height={480}
         instanceSlot={
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-            <Tag variant="success" size="sm">Verified</Tag>
-            <Tag variant="info" size="sm">Featured</Tag>
-            <Button 
-              variant="ghost" 
+            <Tag variant="success" size="sm">
+              Verified
+            </Tag>
+            <Tag variant="info" size="sm">
+              Featured
+            </Tag>
+            <Button
+              variant="ghost"
               size="sm"
-              style={{ 
+              style={{
                 backgroundColor: 'rgba(255, 255, 255, 0.9)',
                 color: '#18181b',
               }}
@@ -236,10 +240,10 @@ export const PropertyPage: Story = {
       />
       <div style={{ marginTop: 24 }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
-          <h1 style={{ margin: 0, fontSize: 28, fontWeight: 700 }}>
-            Modern Villa in Barcelona
-          </h1>
-          <Tag variant="success" size="sm">Available</Tag>
+          <h1 style={{ margin: 0, fontSize: 28, fontWeight: 700 }}>Modern Villa in Barcelona</h1>
+          <Tag variant="success" size="sm">
+            Available
+          </Tag>
         </div>
         <p style={{ margin: '8px 0 0', color: '#71717a', fontSize: 16 }}>
           Paseo de Gracia, Eixample, Barcelona
@@ -253,7 +257,7 @@ export const PropertyPage: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const ManyImages: Story = {
   name: 'Many Images (51 photos)',
@@ -262,29 +266,21 @@ export const ManyImages: Story = {
       src: `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=600&fit=crop&sig=${i}`,
       alt: `Property photo ${i + 1}`,
       thumbnail: `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=200&h=200&fit=crop&sig=${i}`,
-    }));
-    
+    }))
+
     return (
       <div style={{ padding: 24, maxWidth: 900 }}>
-        <MediaHero 
-          images={manyImages}
-          height={420}
-          buttonText="Show all 51 photos"
-        />
+        <MediaHero images={manyImages} height={420} buttonText="Show all 51 photos" />
       </div>
-    );
+    )
   },
-};
+}
 
 export const WithoutHover: Story = {
   name: 'Without Hover Effects',
   render: () => (
     <div style={{ padding: 24, maxWidth: 900 }}>
-      <MediaHero 
-        images={DEMO_IMAGES}
-        height={420}
-        enableHover={false}
-      />
+      <MediaHero images={DEMO_IMAGES} height={420} enableHover={false} />
     </div>
   ),
-};
+}

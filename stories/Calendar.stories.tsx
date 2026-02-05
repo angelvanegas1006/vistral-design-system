@@ -1,6 +1,6 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
-import { Calendar } from '../src/components/ui/calendar';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { Calendar } from '../src/components/ui/calendar'
 
 const meta: Meta<typeof Calendar> = {
   title: 'Components/Calendar',
@@ -23,14 +23,14 @@ Date picker calendar component.
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof Calendar>;
+export default meta
+type Story = StoryObj<typeof Calendar>
 
 export const Default: Story = {
   render: () => {
-    const [date, setDate] = React.useState<Date | undefined>();
+    const [date, setDate] = React.useState<Date | undefined>()
     return (
       <div>
         <Calendar value={date} onChange={setDate} />
@@ -38,59 +38,50 @@ export const Default: Story = {
           Selected: {date?.toLocaleDateString() || 'none'}
         </p>
       </div>
-    );
+    )
   },
-};
+}
 
 export const WithDefaultValue: Story = {
   render: () => {
-    const [date, setDate] = React.useState<Date>(new Date());
-    return <Calendar value={date} onChange={setDate} />;
+    const [date, setDate] = React.useState<Date>(new Date())
+    return <Calendar value={date} onChange={setDate} />
   },
-};
+}
 
 export const WithMinMaxDates: Story = {
   render: () => {
-    const today = new Date();
-    const minDate = new Date(today.getFullYear(), today.getMonth(), 1);
-    const maxDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-    
-    const [date, setDate] = React.useState<Date | undefined>();
-    
+    const today = new Date()
+    const minDate = new Date(today.getFullYear(), today.getMonth(), 1)
+    const maxDate = new Date(today.getFullYear(), today.getMonth() + 1, 0)
+
+    const [date, setDate] = React.useState<Date | undefined>()
+
     return (
       <div>
         <p style={{ marginBottom: 8, fontSize: 13, color: '#71717a' }}>
           Only dates in current month selectable
         </p>
-        <Calendar 
-          value={date} 
-          onChange={setDate}
-          minDate={minDate}
-          maxDate={maxDate}
-        />
+        <Calendar value={date} onChange={setDate} minDate={minDate} maxDate={maxDate} />
       </div>
-    );
+    )
   },
-};
+}
 
 export const FutureDatesOnly: Story = {
   render: () => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    
-    const [date, setDate] = React.useState<Date | undefined>();
-    
+    const tomorrow = new Date()
+    tomorrow.setDate(tomorrow.getDate() + 1)
+
+    const [date, setDate] = React.useState<Date | undefined>()
+
     return (
       <div>
         <p style={{ marginBottom: 8, fontSize: 13, color: '#71717a' }}>
           Only future dates selectable
         </p>
-        <Calendar 
-          value={date} 
-          onChange={setDate}
-          minDate={tomorrow}
-        />
+        <Calendar value={date} onChange={setDate} minDate={tomorrow} />
       </div>
-    );
+    )
   },
-};
+}

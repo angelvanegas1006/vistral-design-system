@@ -1,34 +1,34 @@
 /**
  * Export Icons and Flags from Figma as SVG
- * 
+ *
  * This script fetches icon and flag components from Figma and exports them as SVG files.
- * 
+ *
  * Usage: npx tsx scripts/export-icons.ts
  */
 
-import { writeFileSync, mkdirSync, existsSync } from "fs"
-import { resolve, dirname } from "path"
-import { fileURLToPath } from "url"
-import { config } from "dotenv"
+import { writeFileSync, mkdirSync, existsSync } from 'fs'
+import { resolve, dirname } from 'path'
+import { fileURLToPath } from 'url'
+import { config } from 'dotenv'
 
 // ES Module __dirname fix
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 // Load environment variables
-config({ path: resolve(__dirname, "../.env.local") })
+config({ path: resolve(__dirname, '../.env.local') })
 
 const FIGMA_TOKEN = process.env.FIGMA_TOKEN
-const FIGMA_FILE_ID = process.env.FIGMA_FILE_ID || "i0plqavJ8VqpKeqr6TkLtD"
-const FIGMA_API_BASE = "https://api.figma.com/v1"
+const FIGMA_FILE_ID = process.env.FIGMA_FILE_ID || 'i0plqavJ8VqpKeqr6TkLtD'
+const FIGMA_API_BASE = 'https://api.figma.com/v1'
 
 if (!FIGMA_TOKEN) {
-  console.error("❌ FIGMA_TOKEN is required in .env.local")
+  console.error('❌ FIGMA_TOKEN is required in .env.local')
   process.exit(1)
 }
 
-const ICONS_OUTPUT_DIR = resolve(__dirname, "../public/assets/icons")
-const FLAGS_OUTPUT_DIR = resolve(__dirname, "../public/assets/flags")
+const ICONS_OUTPUT_DIR = resolve(__dirname, '../public/assets/icons')
+const FLAGS_OUTPUT_DIR = resolve(__dirname, '../public/assets/flags')
 
 interface FigmaNode {
   id: string
@@ -43,7 +43,7 @@ interface FigmaNode {
 async function figmaFetch<T>(endpoint: string): Promise<T> {
   const response = await fetch(`${FIGMA_API_BASE}${endpoint}`, {
     headers: {
-      "X-Figma-Token": FIGMA_TOKEN!,
+      'X-Figma-Token': FIGMA_TOKEN!,
     },
   })
 
@@ -75,7 +75,7 @@ function findNodesByName(node: FigmaNode, pattern: RegExp, results: FigmaNode[] 
  * Find all nodes of specific types (COMPONENT, COMPONENT_SET)
  */
 function findComponentNodes(node: FigmaNode, results: FigmaNode[] = []): FigmaNode[] {
-  if (node.type === "COMPONENT" || node.type === "COMPONENT_SET") {
+  if (node.type === 'COMPONENT' || node.type === 'COMPONENT_SET') {
     results.push(node)
   }
 
@@ -94,7 +94,7 @@ function findComponentNodes(node: FigmaNode, results: FigmaNode[] = []): FigmaNo
 async function exportNodesAsSvg(nodeIds: string[]): Promise<Record<string, string>> {
   if (nodeIds.length === 0) return {}
 
-  const idsParam = nodeIds.join(",")
+  const idsParam = nodeIds.join(',')
   const data = await figmaFetch<{ images: Record<string, string> }>(
     `/images/${FIGMA_FILE_ID}?ids=${idsParam}&format=svg`
   )
@@ -119,8 +119,8 @@ async function downloadSvg(url: string): Promise<string> {
 function sanitizeFilename(name: string): string {
   return name
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "")
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
 }
 
 /**
@@ -137,7 +137,7 @@ function isIconNode(name: string): boolean {
     /heroicon/i,
     /feather/i,
   ]
-  return iconPatterns.some((p) => p.test(name))
+  return iconPatterns.some(p => p.test(name))
 }
 
 /**
@@ -152,12 +152,12 @@ function isFlagNode(name: string): boolean {
     /country/i,
     /^[a-z]{2}$/i, // Two-letter country codes
   ]
-  return flagPatterns.some((p) => p.test(name))
+  return flagPatterns.some(p => p.test(name))
 }
 
 async function main() {
-  console.log("🎨 Exploring Figma for Icons and Flags...")
-  
+  console.log('🎨 Exploring Figma for Icons and Flags...')
+
   // Create output directories
   for (const dir of [ICONS_OUTPUT_DIR, FLAGS_OUTPUT_DIR]) {
     if (!existsSync(dir)) {
@@ -167,18 +167,18 @@ async function main() {
 
   try {
     // 1. Fetch Figma file structure
-    console.log("\n📥 Fetching Figma file structure...")
+    console.log('\n📥 Fetching Figma file structure...')
     const fileData = await figmaFetch<{ document: FigmaNode }>(`/files/${FIGMA_FILE_ID}`)
 
     // 2. Find all components
-    console.log("🔍 Searching for icon and flag components...")
+    console.log('🔍 Searching for icon and flag components...')
     const allComponents = findComponentNodes(fileData.document)
-    
+
     console.log(`   Found ${allComponents.length} total components`)
 
     // 3. Filter icons and flags
-    const iconNodes = allComponents.filter((n) => isIconNode(n.name))
-    const flagNodes = allComponents.filter((n) => isFlagNode(n.name))
+    const iconNodes = allComponents.filter(n => isIconNode(n.name))
+    const flagNodes = allComponents.filter(n => isFlagNode(n.name))
 
     console.log(`\n📊 Results:`)
     console.log(`   Icons: ${iconNodes.length}`)
@@ -187,7 +187,7 @@ async function main() {
     // 4. Show sample of found icons
     if (iconNodes.length > 0) {
       console.log(`\n🎯 Sample icons found:`)
-      iconNodes.slice(0, 20).forEach((node) => {
+      iconNodes.slice(0, 20).forEach(node => {
         console.log(`   - ${node.name} (${node.type}, id: ${node.id})`)
       })
       if (iconNodes.length > 20) {
@@ -198,7 +198,7 @@ async function main() {
     // 5. Show sample of found flags
     if (flagNodes.length > 0) {
       console.log(`\n🏳️ Sample flags found:`)
-      flagNodes.slice(0, 10).forEach((node) => {
+      flagNodes.slice(0, 10).forEach(node => {
         console.log(`   - ${node.name} (${node.type}, id: ${node.id})`)
       })
       if (flagNodes.length > 10) {
@@ -209,24 +209,24 @@ async function main() {
     // 6. Also search for explicit "Icons" or "Flags" pages/frames
     const iconPagePattern = /icon|icono/i
     const flagPagePattern = /flag|bandera|country|país/i
-    
+
     const iconPages = findNodesByName(fileData.document, iconPagePattern)
     const flagPages = findNodesByName(fileData.document, flagPagePattern)
 
     console.log(`\n📄 Pages/Frames with 'icon' in name: ${iconPages.length}`)
-    iconPages.slice(0, 10).forEach((node) => {
+    iconPages.slice(0, 10).forEach(node => {
       console.log(`   - ${node.name} (${node.type})`)
     })
 
     console.log(`\n📄 Pages/Frames with 'flag' in name: ${flagPages.length}`)
-    flagPages.slice(0, 10).forEach((node) => {
+    flagPages.slice(0, 10).forEach(node => {
       console.log(`   - ${node.name} (${node.type})`)
     })
 
     // 7. Export icons if found
     if (iconNodes.length > 0) {
       console.log(`\n📤 Exporting ${Math.min(iconNodes.length, 100)} icons as SVG...`)
-      
+
       const nodesToExport = iconNodes.slice(0, 100) // Limit to 100 for now
       const batchSize = 10
       let exported = 0
@@ -234,7 +234,7 @@ async function main() {
 
       for (let i = 0; i < nodesToExport.length; i += batchSize) {
         const batch = nodesToExport.slice(i, i + batchSize)
-        const nodeIds = batch.map((n) => n.id)
+        const nodeIds = batch.map(n => n.id)
 
         try {
           const imageUrls = await exportNodesAsSvg(nodeIds)
@@ -246,13 +246,13 @@ async function main() {
             try {
               const svgContent = await downloadSvg(url)
               let filename = sanitizeFilename(node.name)
-              
+
               // Ensure unique filename
               if (exportedNames.has(filename)) {
-                filename = `${filename}-${node.id.replace(/[^a-z0-9]/gi, "-")}`
+                filename = `${filename}-${node.id.replace(/[^a-z0-9]/gi, '-')}`
               }
               exportedNames.add(filename)
-              
+
               const filepath = resolve(ICONS_OUTPUT_DIR, `${filename}.svg`)
               writeFileSync(filepath, svgContent)
               console.log(`   ✅ ${filename}.svg`)
@@ -264,7 +264,7 @@ async function main() {
 
           // Rate limit
           if (i + batchSize < nodesToExport.length) {
-            await new Promise((r) => setTimeout(r, 1000))
+            await new Promise(r => setTimeout(r, 1000))
           }
         } catch (err) {
           console.log(`   ❌ Batch failed: ${err}`)
@@ -277,14 +277,14 @@ async function main() {
     // 8. Export flags if found
     if (flagNodes.length > 0) {
       console.log(`\n📤 Exporting ${flagNodes.length} flags as SVG...`)
-      
+
       const batchSize = 10
       let exported = 0
       const exportedNames = new Set<string>()
 
       for (let i = 0; i < flagNodes.length; i += batchSize) {
         const batch = flagNodes.slice(i, i + batchSize)
-        const nodeIds = batch.map((n) => n.id)
+        const nodeIds = batch.map(n => n.id)
 
         try {
           const imageUrls = await exportNodesAsSvg(nodeIds)
@@ -296,12 +296,12 @@ async function main() {
             try {
               const svgContent = await downloadSvg(url)
               let filename = sanitizeFilename(node.name)
-              
+
               if (exportedNames.has(filename)) {
-                filename = `${filename}-${node.id.replace(/[^a-z0-9]/gi, "-")}`
+                filename = `${filename}-${node.id.replace(/[^a-z0-9]/gi, '-')}`
               }
               exportedNames.add(filename)
-              
+
               const filepath = resolve(FLAGS_OUTPUT_DIR, `${filename}.svg`)
               writeFileSync(filepath, svgContent)
               console.log(`   ✅ ${filename}.svg`)
@@ -312,7 +312,7 @@ async function main() {
           }
 
           if (i + batchSize < flagNodes.length) {
-            await new Promise((r) => setTimeout(r, 1000))
+            await new Promise(r => setTimeout(r, 1000))
           }
         } catch (err) {
           console.log(`   ❌ Batch failed: ${err}`)
@@ -326,9 +326,8 @@ async function main() {
       console.log(`\n⚠️  No icons or flags found with standard naming patterns.`)
       console.log(`   Try providing the PNG images and tokens instead.`)
     }
-
   } catch (error) {
-    console.error("\n❌ Error:", error)
+    console.error('\n❌ Error:', error)
     process.exit(1)
   }
 }

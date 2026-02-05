@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef, createContext, useContext } from "react"
-import { Check } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, createContext, useContext } from 'react'
+import { Check } from 'lucide-react'
 
 /**
  * Stepper Design Tokens from Figma
@@ -97,7 +97,7 @@ const Stepper = forwardRef<HTMLDivElement, StepperProps>(
   }
 )
 
-Stepper.displayName = "Stepper"
+Stepper.displayName = 'Stepper'
 
 // ============================================================================
 // Stepper Step
@@ -122,18 +122,20 @@ const StepperStep = forwardRef<HTMLDivElement, StepperStepProps>(
     const isLast = index === totalSteps - 1
 
     // Determine status
-    const status: StepStatus = statusProp || (
-      index < currentStep ? 'completed' :
-      index === currentStep ? 'active' :
-      'pending'
-    )
+    const status: StepStatus =
+      statusProp ||
+      (index < currentStep ? 'completed' : index === currentStep ? 'active' : 'pending')
 
     const getIndicatorColors = () => {
       switch (status) {
-        case 'completed': return STEPPER_TOKENS.indicator.completed
-        case 'active': return STEPPER_TOKENS.indicator.active
-        case 'error': return STEPPER_TOKENS.indicator.error
-        default: return STEPPER_TOKENS.indicator.default
+        case 'completed':
+          return STEPPER_TOKENS.indicator.completed
+        case 'active':
+          return STEPPER_TOKENS.indicator.active
+        case 'error':
+          return STEPPER_TOKENS.indicator.error
+        default:
+          return STEPPER_TOKENS.indicator.default
       }
     }
 
@@ -169,24 +171,29 @@ const StepperStep = forwardRef<HTMLDivElement, StepperStepProps>(
       flexShrink: 0,
     }
 
-    const connectorStyle: React.CSSProperties = orientation === 'horizontal' ? {
-      flex: 1,
-      height: STEPPER_TOKENS.connector.height,
-      backgroundColor: status === 'completed' || index < currentStep 
-        ? STEPPER_TOKENS.connector.bgCompleted 
-        : STEPPER_TOKENS.connector.bg,
-      marginLeft: 8,
-      marginRight: 8,
-    } : {
-      width: STEPPER_TOKENS.connector.height,
-      minHeight: 40,
-      backgroundColor: status === 'completed' || index < currentStep 
-        ? STEPPER_TOKENS.connector.bgCompleted 
-        : STEPPER_TOKENS.connector.bg,
-      marginLeft: STEPPER_TOKENS.indicator.size / 2 - 1,
-      marginTop: 4,
-      marginBottom: 4,
-    }
+    const connectorStyle: React.CSSProperties =
+      orientation === 'horizontal'
+        ? {
+            flex: 1,
+            height: STEPPER_TOKENS.connector.height,
+            backgroundColor:
+              status === 'completed' || index < currentStep
+                ? STEPPER_TOKENS.connector.bgCompleted
+                : STEPPER_TOKENS.connector.bg,
+            marginLeft: 8,
+            marginRight: 8,
+          }
+        : {
+            width: STEPPER_TOKENS.connector.height,
+            minHeight: 40,
+            backgroundColor:
+              status === 'completed' || index < currentStep
+                ? STEPPER_TOKENS.connector.bgCompleted
+                : STEPPER_TOKENS.connector.bg,
+            marginLeft: STEPPER_TOKENS.indicator.size / 2 - 1,
+            marginTop: 4,
+            marginBottom: 4,
+          }
 
     const contentStyle: React.CSSProperties = {
       textAlign: orientation === 'horizontal' ? 'center' : 'left',
@@ -212,7 +219,7 @@ const StepperStep = forwardRef<HTMLDivElement, StepperStepProps>(
           <>
             <div style={indicatorRowStyle}>
               <div style={indicatorStyle}>
-                {status === 'completed' ? <Check size={16} /> : (icon || index + 1)}
+                {status === 'completed' ? <Check size={16} /> : icon || index + 1}
               </div>
               {!isLast && <div style={connectorStyle} />}
             </div>
@@ -225,7 +232,7 @@ const StepperStep = forwardRef<HTMLDivElement, StepperStepProps>(
           <>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <div style={indicatorStyle}>
-                {status === 'completed' ? <Check size={16} /> : (icon || index + 1)}
+                {status === 'completed' ? <Check size={16} /> : icon || index + 1}
               </div>
               {!isLast && <div style={connectorStyle} />}
             </div>
@@ -240,6 +247,6 @@ const StepperStep = forwardRef<HTMLDivElement, StepperStepProps>(
   }
 )
 
-StepperStep.displayName = "StepperStep"
+StepperStep.displayName = 'StepperStep'
 
 export { Stepper, StepperStep, STEPPER_TOKENS }

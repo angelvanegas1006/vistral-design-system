@@ -1,5 +1,5 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
 import {
   Dialog,
   DialogTrigger,
@@ -10,11 +10,11 @@ import {
   DialogBody,
   DialogFooter,
   DialogClose,
-} from '../src/components/ui/dialog';
-import { Button } from '../src/components/ui/button';
-import { Input, Textarea } from '../src/components/ui/input';
-import { Checkbox } from '../src/components/ui/checkbox';
-import { AlertTriangle, Trash2, Upload, X } from 'lucide-react';
+} from '../src/components/ui/dialog'
+import { Button } from '../src/components/ui/button'
+import { Input, Textarea } from '../src/components/ui/input'
+import { Checkbox } from '../src/components/ui/checkbox'
+import { AlertTriangle, Trash2, Upload, X } from 'lucide-react'
 
 const meta: Meta = {
   title: 'Components/Dialog',
@@ -42,9 +42,9 @@ Based on Figma:
       },
     },
   },
-};
+}
 
-export default meta;
+export default meta
 
 export const Default: StoryObj = {
   render: () => (
@@ -55,19 +55,19 @@ export const Default: StoryObj = {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Title Text</DialogTitle>
-          <DialogDescription>
-            This is a card description.
-          </DialogDescription>
+          <DialogDescription>This is a card description.</DialogDescription>
         </DialogHeader>
         <DialogBody>
-          <div style={{
-            padding: '16px',
-            border: '1px dashed #d4d4d8',
-            borderRadius: 8,
-            textAlign: 'center',
-            color: '#71717a',
-            fontSize: 14,
-          }}>
+          <div
+            style={{
+              padding: '16px',
+              border: '1px dashed #d4d4d8',
+              borderRadius: 8,
+              textAlign: 'center',
+              color: '#71717a',
+              fontSize: 14,
+            }}
+          >
             Instance Slot
           </div>
         </DialogBody>
@@ -80,7 +80,7 @@ export const Default: StoryObj = {
       </DialogContent>
     </Dialog>
   ),
-};
+}
 
 export const SingleButton: StoryObj = {
   name: 'Single Button (Full Width)',
@@ -92,20 +92,20 @@ export const SingleButton: StoryObj = {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Title Text</DialogTitle>
-          <DialogDescription>
-            This is a card description.
-          </DialogDescription>
+          <DialogDescription>This is a card description.</DialogDescription>
         </DialogHeader>
         <DialogBody>
-          <div style={{
-            padding: '16px',
-            border: '1px dashed #d4d4d8',
-            borderRadius: 8,
-            textAlign: 'center',
-            color: '#71717a',
-            fontSize: 14,
-            minHeight: 100,
-          }}>
+          <div
+            style={{
+              padding: '16px',
+              border: '1px dashed #d4d4d8',
+              borderRadius: 8,
+              textAlign: 'center',
+              color: '#71717a',
+              fontSize: 14,
+              minHeight: 100,
+            }}
+          >
             Instance Slot
           </div>
         </DialogBody>
@@ -115,7 +115,7 @@ export const SingleButton: StoryObj = {
       </DialogContent>
     </Dialog>
   ),
-};
+}
 
 export const SmallDialog: StoryObj = {
   name: 'Small Dialog (Figma Example)',
@@ -128,7 +128,8 @@ export const SmallDialog: StoryObj = {
         <DialogHeader>
           <DialogTitle>Approve Property Data</DialogTitle>
           <DialogDescription>
-            Are you sure you want to approve this property data? This action will make the property visible to all users.
+            Are you sure you want to approve this property data? This action will make the property
+            visible to all users.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
@@ -140,20 +141,20 @@ export const SmallDialog: StoryObj = {
       </DialogContent>
     </Dialog>
   ),
-};
+}
 
 export const MediumDialog: StoryObj = {
   name: 'Medium Dialog (Figma Example)',
   render: () => {
-    const [category, setCategory] = React.useState('');
-    const [minPrice, setMinPrice] = React.useState('');
-    const [maxPrice, setMaxPrice] = React.useState('');
+    const [category, setCategory] = React.useState('')
+    const [minPrice, setMinPrice] = React.useState('')
+    const [maxPrice, setMaxPrice] = React.useState('')
     const [amenities, setAmenities] = React.useState({
       wifi: false,
       parking: false,
       pool: false,
       gym: false,
-    });
+    })
 
     return (
       <Dialog>
@@ -172,7 +173,7 @@ export const MediumDialog: StoryObj = {
                 </label>
                 <select
                   value={category}
-                  onChange={(e) => setCategory(e.target.value)}
+                  onChange={e => setCategory(e.target.value)}
                   style={{
                     width: '100%',
                     padding: '8px 12px',
@@ -197,7 +198,7 @@ export const MediumDialog: StoryObj = {
                     type="number"
                     placeholder="Min"
                     value={minPrice}
-                    onChange={(e) => setMinPrice(e.target.value)}
+                    onChange={e => setMinPrice(e.target.value)}
                     fullWidth
                   />
                   <span style={{ color: '#71717a' }}>to</span>
@@ -205,38 +206,40 @@ export const MediumDialog: StoryObj = {
                     type="number"
                     placeholder="Max"
                     value={maxPrice}
-                    onChange={(e) => setMaxPrice(e.target.value)}
+                    onChange={e => setMaxPrice(e.target.value)}
                     fullWidth
                   />
                 </div>
               </div>
 
               <div>
-                <label style={{ display: 'block', marginBottom: 12, fontSize: 14, fontWeight: 500 }}>
+                <label
+                  style={{ display: 'block', marginBottom: 12, fontSize: 14, fontWeight: 500 }}
+                >
                   Amenities
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                   <Checkbox
                     checked={amenities.wifi}
-                    onCheckedChange={(checked) => setAmenities({ ...amenities, wifi: !!checked })}
+                    onCheckedChange={checked => setAmenities({ ...amenities, wifi: !!checked })}
                   >
                     WiFi
                   </Checkbox>
                   <Checkbox
                     checked={amenities.parking}
-                    onCheckedChange={(checked) => setAmenities({ ...amenities, parking: !!checked })}
+                    onCheckedChange={checked => setAmenities({ ...amenities, parking: !!checked })}
                   >
                     Parking
                   </Checkbox>
                   <Checkbox
                     checked={amenities.pool}
-                    onCheckedChange={(checked) => setAmenities({ ...amenities, pool: !!checked })}
+                    onCheckedChange={checked => setAmenities({ ...amenities, pool: !!checked })}
                   >
                     Pool
                   </Checkbox>
                   <Checkbox
                     checked={amenities.gym}
-                    onCheckedChange={(checked) => setAmenities({ ...amenities, gym: !!checked })}
+                    onCheckedChange={checked => setAmenities({ ...amenities, gym: !!checked })}
                   >
                     Gym
                   </Checkbox>
@@ -249,9 +252,9 @@ export const MediumDialog: StoryObj = {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    );
+    )
   },
-};
+}
 
 export const LargeDialog: StoryObj = {
   name: 'Large Dialog (Figma Example)',
@@ -260,11 +263,11 @@ export const LargeDialog: StoryObj = {
       { name: 'DOC_Name.pdf', size: '2.4 MB' },
       { name: 'Doc_Photo.png', size: '1.2 MB' },
       { name: 'Spreadsheet.xlsx', size: '856 KB' },
-    ]);
+    ])
 
     const removeFile = (index: number) => {
-      setFiles(files.filter((_, i) => i !== index));
-    };
+      setFiles(files.filter((_, i) => i !== index))
+    }
 
     return (
       <Dialog>
@@ -287,13 +290,13 @@ export const LargeDialog: StoryObj = {
                   cursor: 'pointer',
                   transition: 'all 0.2s',
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#2050f6';
-                  e.currentTarget.style.backgroundColor = '#f0f5ff';
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = '#2050f6'
+                  e.currentTarget.style.backgroundColor = '#f0f5ff'
                 }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = '#d4d4d8';
-                  e.currentTarget.style.backgroundColor = '#fafafa';
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = '#d4d4d8'
+                  e.currentTarget.style.backgroundColor = '#fafafa'
                 }}
               >
                 <Upload size={32} style={{ color: '#71717a', marginBottom: 12 }} />
@@ -339,13 +342,13 @@ export const LargeDialog: StoryObj = {
                           cursor: 'pointer',
                           color: '#71717a',
                         }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = '#fee2e2';
-                          e.currentTarget.style.color = '#dc2626';
+                        onMouseEnter={e => {
+                          e.currentTarget.style.backgroundColor = '#fee2e2'
+                          e.currentTarget.style.color = '#dc2626'
                         }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = 'transparent';
-                          e.currentTarget.style.color = '#71717a';
+                        onMouseLeave={e => {
+                          e.currentTarget.style.backgroundColor = 'transparent'
+                          e.currentTarget.style.color = '#71717a'
                         }}
                       >
                         <X size={16} />
@@ -364,9 +367,9 @@ export const LargeDialog: StoryObj = {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    );
+    )
   },
-};
+}
 
 export const ExtraLargeDialog: StoryObj = {
   name: 'Extra Large Dialog (Figma Example)',
@@ -397,10 +400,11 @@ export const ExtraLargeDialog: StoryObj = {
               Image Placeholder
             </div>
             <p style={{ margin: 0, fontSize: 14, color: '#52525b', lineHeight: 1.6 }}>
-              Are you sure you want to delete this item? This action cannot be undone and will permanently remove all associated data.
+              Are you sure you want to delete this item? This action cannot be undone and will
+              permanently remove all associated data.
             </p>
             <div style={{ display: 'flex', gap: 8 }}>
-              {[1, 2, 3, 4].map((i) => (
+              {[1, 2, 3, 4].map(i => (
                 <div
                   key={i}
                   style={{
@@ -416,17 +420,19 @@ export const ExtraLargeDialog: StoryObj = {
           </div>
         </DialogBody>
         <DialogFooter>
-          <Button style={{ width: '100%' }} variant="destructive">Delete</Button>
+          <Button style={{ width: '100%' }} variant="destructive">
+            Delete
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
   ),
-};
+}
 
 export const Sizes: StoryObj = {
   render: () => (
     <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-      {(['sm', 'md', 'lg', 'xl'] as const).map((size) => (
+      {(['sm', 'md', 'lg', 'xl'] as const).map(size => (
         <Dialog key={size}>
           <DialogTrigger asChild>
             <Button variant="outline">{size.toUpperCase()}</Button>
@@ -435,13 +441,19 @@ export const Sizes: StoryObj = {
             <DialogHeader>
               <DialogTitle>Size: {size.toUpperCase()}</DialogTitle>
               <DialogDescription>
-                This dialog is {size === 'sm' ? '400px' : size === 'md' ? '500px' : size === 'lg' ? '640px' : '800px'} wide.
+                This dialog is{' '}
+                {size === 'sm'
+                  ? '400px'
+                  : size === 'md'
+                    ? '500px'
+                    : size === 'lg'
+                      ? '640px'
+                      : '800px'}{' '}
+                wide.
               </DialogDescription>
             </DialogHeader>
             <DialogBody>
-              <p style={{ margin: 0, color: '#3f3f46' }}>
-                Dialog content goes here.
-              </p>
+              <p style={{ margin: 0, color: '#3f3f46' }}>Dialog content goes here.</p>
             </DialogBody>
             <DialogFooter>
               <DialogClose asChild>
@@ -453,7 +465,7 @@ export const Sizes: StoryObj = {
       ))}
     </div>
   ),
-};
+}
 
 export const MobileDialog: StoryObj = {
   name: 'Mobile Dialog',
@@ -465,20 +477,20 @@ export const MobileDialog: StoryObj = {
       <DialogContent variant="mobile">
         <DialogHeader showBack>
           <DialogTitle>Title</DialogTitle>
-          <DialogDescription>
-            This is a mobile dialog example.
-          </DialogDescription>
+          <DialogDescription>This is a mobile dialog example.</DialogDescription>
         </DialogHeader>
         <DialogBody>
-          <div style={{
-            padding: '16px',
-            border: '1px dashed #d4d4d8',
-            borderRadius: 8,
-            textAlign: 'center',
-            color: '#71717a',
-            fontSize: 14,
-            minHeight: 200,
-          }}>
+          <div
+            style={{
+              padding: '16px',
+              border: '1px dashed #d4d4d8',
+              borderRadius: 8,
+              textAlign: 'center',
+              color: '#71717a',
+              fontSize: 14,
+              minHeight: 200,
+            }}
+          >
             Instance Slot
           </div>
         </DialogBody>
@@ -488,7 +500,7 @@ export const MobileDialog: StoryObj = {
       </DialogContent>
     </Dialog>
   ),
-};
+}
 
 export const BottomSheet: StoryObj = {
   name: 'Bottom Sheet',
@@ -500,20 +512,20 @@ export const BottomSheet: StoryObj = {
       <DialogContent variant="bottom-sheet">
         <DialogHeader>
           <DialogTitle>Title Text</DialogTitle>
-          <DialogDescription>
-            This is a card description.
-          </DialogDescription>
+          <DialogDescription>This is a card description.</DialogDescription>
         </DialogHeader>
         <DialogBody>
-          <div style={{
-            padding: '16px',
-            border: '1px dashed #d4d4d8',
-            borderRadius: 8,
-            textAlign: 'center',
-            color: '#71717a',
-            fontSize: 14,
-            minHeight: 200,
-          }}>
+          <div
+            style={{
+              padding: '16px',
+              border: '1px dashed #d4d4d8',
+              borderRadius: 8,
+              textAlign: 'center',
+              color: '#71717a',
+              fontSize: 14,
+              minHeight: 200,
+            }}
+          >
             Instance Slot
           </div>
         </DialogBody>
@@ -523,33 +535,37 @@ export const BottomSheet: StoryObj = {
       </DialogContent>
     </Dialog>
   ),
-};
+}
 
 export const DeleteConfirmation: StoryObj = {
   name: 'Delete Confirmation',
   render: () => (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="destructive" leftIcon={Trash2}>Delete Item</Button>
+        <Button variant="destructive" leftIcon={Trash2}>
+          Delete Item
+        </Button>
       </DialogTrigger>
       <DialogContent size="sm">
         <DialogHeader>
-          <div style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center',
-            width: 48,
-            height: 48,
-            backgroundColor: '#fee2e2',
-            borderRadius: '50%',
-            marginBottom: 16,
-          }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 48,
+              height: 48,
+              backgroundColor: '#fee2e2',
+              borderRadius: '50%',
+              marginBottom: 16,
+            }}
+          >
             <AlertTriangle size={24} color="#dc2626" />
           </div>
           <DialogTitle>Delete Item?</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete the item
-            and remove all associated data.
+            This action cannot be undone. This will permanently delete the item and remove all
+            associated data.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
@@ -561,12 +577,20 @@ export const DeleteConfirmation: StoryObj = {
       </DialogContent>
     </Dialog>
   ),
-};
+}
 
 export const AllVariations: StoryObj = {
   name: 'All Variations (Figma Reference)',
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, padding: 24, backgroundColor: '#f8fafc' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 24,
+        padding: 24,
+        backgroundColor: '#f8fafc',
+      }}
+    >
       <div>
         <h3 style={{ marginBottom: 16, fontSize: 16, fontWeight: 600 }}>Desktop - Two Buttons</h3>
         <Dialog>
@@ -579,14 +603,16 @@ export const AllVariations: StoryObj = {
               <DialogDescription>This is a card description.</DialogDescription>
             </DialogHeader>
             <DialogBody>
-              <div style={{
-                padding: '16px',
-                border: '1px dashed #d4d4d8',
-                borderRadius: 8,
-                textAlign: 'center',
-                color: '#71717a',
-                fontSize: 14,
-              }}>
+              <div
+                style={{
+                  padding: '16px',
+                  border: '1px dashed #d4d4d8',
+                  borderRadius: 8,
+                  textAlign: 'center',
+                  color: '#71717a',
+                  fontSize: 14,
+                }}
+              >
                 Instance Slot
               </div>
             </DialogBody>
@@ -612,15 +638,17 @@ export const AllVariations: StoryObj = {
               <DialogDescription>This is a card description.</DialogDescription>
             </DialogHeader>
             <DialogBody>
-              <div style={{
-                padding: '16px',
-                border: '1px dashed #d4d4d8',
-                borderRadius: 8,
-                textAlign: 'center',
-                color: '#71717a',
-                fontSize: 14,
-                minHeight: 100,
-              }}>
+              <div
+                style={{
+                  padding: '16px',
+                  border: '1px dashed #d4d4d8',
+                  borderRadius: 8,
+                  textAlign: 'center',
+                  color: '#71717a',
+                  fontSize: 14,
+                  minHeight: 100,
+                }}
+              >
                 Instance Slot
               </div>
             </DialogBody>
@@ -632,4 +660,4 @@ export const AllVariations: StoryObj = {
       </div>
     </div>
   ),
-};
+}

@@ -1,13 +1,20 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react'
+import type { Meta, StoryObj } from '@storybook/react'
 import {
-  Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableCaption, TablePagination,
-} from '../src/components/ui/table';
-import { Badge } from '../src/components/ui/badge';
-import { Avatar } from '../src/components/ui/avatar';
-import { Checkbox } from '../src/components/ui/checkbox';
-import { Button } from '../src/components/ui/button';
-import { MoreHorizontal } from 'lucide-react';
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+  TableCaption,
+  TablePagination,
+} from '../src/components/ui/table'
+import { Badge } from '../src/components/ui/badge'
+import { Avatar } from '../src/components/ui/avatar'
+import { Checkbox } from '../src/components/ui/checkbox'
+import { Button } from '../src/components/ui/button'
+import { MoreHorizontal } from 'lucide-react'
 
 const meta: Meta<typeof Table> = {
   title: 'Components/Table',
@@ -33,10 +40,10 @@ Based on Figma: [Table](https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Desi
       },
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof Table>;
+export default meta
+type Story = StoryObj<typeof Table>
 
 const users = [
   { id: 1, name: 'Alice Chen', email: 'alice@example.com', role: 'Admin', status: 'Active' },
@@ -44,7 +51,7 @@ const users = [
   { id: 3, name: 'Carol White', email: 'carol@example.com', role: 'Viewer', status: 'Inactive' },
   { id: 4, name: 'David Lee', email: 'david@example.com', role: 'Editor', status: 'Active' },
   { id: 5, name: 'Emma Wilson', email: 'emma@example.com', role: 'Viewer', status: 'Pending' },
-];
+]
 
 const allUsers = Array.from({ length: 13 }, (_, i) => ({
   id: i + 1,
@@ -52,7 +59,7 @@ const allUsers = Array.from({ length: 13 }, (_, i) => ({
   email: `user${i + 1}@example.com`,
   role: ['Admin', 'Editor', 'Viewer'][i % 3],
   status: ['Active', 'Inactive', 'Pending'][i % 3],
-}));
+}))
 
 export const Default: Story = {
   render: () => (
@@ -67,7 +74,7 @@ export const Default: Story = {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users.map((user) => (
+          {users.map(user => (
             <TableRow key={user.id}>
               <TableCell>{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
@@ -79,18 +86,22 @@ export const Default: Story = {
       </Table>
     </div>
   ),
-};
+}
 
 export const WithBadges: Story = {
   render: () => {
     const getStatusVariant = (status: string) => {
       switch (status) {
-        case 'Active': return 'success';
-        case 'Inactive': return 'default';
-        case 'Pending': return 'warning';
-        default: return 'default';
+        case 'Active':
+          return 'success'
+        case 'Inactive':
+          return 'default'
+        case 'Pending':
+          return 'warning'
+        default:
+          return 'default'
       }
-    };
+    }
 
     return (
       <div style={{ width: 650 }}>
@@ -104,7 +115,7 @@ export const WithBadges: Story = {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users.map((user) => (
+            {users.map(user => (
               <TableRow key={user.id}>
                 <TableCell style={{ fontWeight: 500 }}>{user.name}</TableCell>
                 <TableCell style={{ color: '#71717a' }}>{user.email}</TableCell>
@@ -119,9 +130,9 @@ export const WithBadges: Story = {
           </TableBody>
         </Table>
       </div>
-    );
+    )
   },
-};
+}
 
 export const WithAvatars: Story = {
   render: () => (
@@ -137,7 +148,7 @@ export const WithAvatars: Story = {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users.map((user) => (
+          {users.map(user => (
             <TableRow key={user.id} clickable>
               <TableCell>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -163,27 +174,27 @@ export const WithAvatars: Story = {
       </Table>
     </div>
   ),
-};
+}
 
 export const WithSelection: Story = {
   render: () => {
-    const [selected, setSelected] = React.useState<number[]>([]);
-    
+    const [selected, setSelected] = React.useState<number[]>([])
+
     const toggleAll = () => {
       if (selected.length === users.length) {
-        setSelected([]);
+        setSelected([])
       } else {
-        setSelected(users.map(u => u.id));
+        setSelected(users.map(u => u.id))
       }
-    };
-    
+    }
+
     const toggleOne = (id: number) => {
       if (selected.includes(id)) {
-        setSelected(selected.filter(s => s !== id));
+        setSelected(selected.filter(s => s !== id))
       } else {
-        setSelected([...selected, id]);
+        setSelected([...selected, id])
       }
-    };
+    }
 
     return (
       <div style={{ width: 700 }}>
@@ -191,7 +202,7 @@ export const WithSelection: Story = {
           <TableHeader>
             <TableRow>
               <TableHead style={{ width: 40 }}>
-                <Checkbox 
+                <Checkbox
                   checked={selected.length === users.length}
                   indeterminate={selected.length > 0 && selected.length < users.length}
                   onChange={toggleAll}
@@ -204,10 +215,10 @@ export const WithSelection: Story = {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users.map((user) => (
+            {users.map(user => (
               <TableRow key={user.id} selected={selected.includes(user.id)}>
                 <TableCell>
-                  <Checkbox 
+                  <Checkbox
                     checked={selected.includes(user.id)}
                     onChange={() => toggleOne(user.id)}
                   />
@@ -230,53 +241,53 @@ export const WithSelection: Story = {
           </div>
         )}
       </div>
-    );
+    )
   },
-};
+}
 
 export const Sortable: Story = {
   render: () => {
-    const [sortCol, setSortCol] = React.useState<string | null>('name');
-    const [sortDir, setSortDir] = React.useState<'asc' | 'desc'>('asc');
-    
+    const [sortCol, setSortCol] = React.useState<string | null>('name')
+    const [sortDir, setSortDir] = React.useState<'asc' | 'desc'>('asc')
+
     const handleSort = (col: string) => {
       if (sortCol === col) {
-        setSortDir(sortDir === 'asc' ? 'desc' : 'asc');
+        setSortDir(sortDir === 'asc' ? 'desc' : 'asc')
       } else {
-        setSortCol(col);
-        setSortDir('asc');
+        setSortCol(col)
+        setSortDir('asc')
       }
-    };
-    
+    }
+
     const sortedUsers = [...users].sort((a, b) => {
-      if (!sortCol) return 0;
-      const aVal = a[sortCol as keyof typeof a];
-      const bVal = b[sortCol as keyof typeof b];
-      const cmp = String(aVal).localeCompare(String(bVal));
-      return sortDir === 'asc' ? cmp : -cmp;
-    });
+      if (!sortCol) return 0
+      const aVal = a[sortCol as keyof typeof a]
+      const bVal = b[sortCol as keyof typeof b]
+      const cmp = String(aVal).localeCompare(String(bVal))
+      return sortDir === 'asc' ? cmp : -cmp
+    })
 
     return (
       <div style={{ width: 650 }}>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead 
-                sortable 
+              <TableHead
+                sortable
                 sortDirection={sortCol === 'name' ? sortDir : null}
                 onClick={() => handleSort('name')}
               >
                 Name
               </TableHead>
-              <TableHead 
-                sortable 
+              <TableHead
+                sortable
                 sortDirection={sortCol === 'email' ? sortDir : null}
                 onClick={() => handleSort('email')}
               >
                 Email
               </TableHead>
-              <TableHead 
-                sortable 
+              <TableHead
+                sortable
                 sortDirection={sortCol === 'role' ? sortDir : null}
                 onClick={() => handleSort('role')}
               >
@@ -286,7 +297,7 @@ export const Sortable: Story = {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {sortedUsers.map((user) => (
+            {sortedUsers.map(user => (
               <TableRow key={user.id}>
                 <TableCell style={{ fontWeight: 500 }}>{user.name}</TableCell>
                 <TableCell style={{ color: '#71717a' }}>{user.email}</TableCell>
@@ -302,19 +313,19 @@ export const Sortable: Story = {
           <TableCaption>A list of {users.length} team members</TableCaption>
         </Table>
       </div>
-    );
+    )
   },
-};
+}
 
 export const WithPagination: Story = {
   name: 'With Pagination',
   render: () => {
-    const [page, setPage] = React.useState(1);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    
-    const startIndex = (page - 1) * rowsPerPage;
-    const endIndex = startIndex + rowsPerPage;
-    const paginatedUsers = allUsers.slice(startIndex, endIndex);
+    const [page, setPage] = React.useState(1)
+    const [rowsPerPage, setRowsPerPage] = React.useState(5)
+
+    const startIndex = (page - 1) * rowsPerPage
+    const endIndex = startIndex + rowsPerPage
+    const paginatedUsers = allUsers.slice(startIndex, endIndex)
 
     return (
       <div style={{ width: 700 }}>
@@ -329,7 +340,7 @@ export const WithPagination: Story = {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {paginatedUsers.map((user) => (
+            {paginatedUsers.map(user => (
               <TableRow key={user.id}>
                 <TableCell>{user.id}</TableCell>
                 <TableCell style={{ fontWeight: 500 }}>{user.name}</TableCell>
@@ -352,14 +363,22 @@ export const WithPagination: Story = {
           onRowsPerPageChange={setRowsPerPage}
         />
       </div>
-    );
+    )
   },
-};
+}
 
 export const ColumnVariations: Story = {
   name: 'Column Variations (Figma Reference)',
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, padding: 24, backgroundColor: '#f8fafc' }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 24,
+        padding: 24,
+        backgroundColor: '#f8fafc',
+      }}
+    >
       {/* 2 Columns */}
       <div>
         <p style={{ fontSize: 12, color: '#71717a', marginBottom: 8 }}>2 Columns</p>
@@ -371,7 +390,7 @@ export const ColumnVariations: Story = {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {[1, 2, 3].map((i) => (
+            {[1, 2, 3].map(i => (
               <TableRow key={i}>
                 <TableCell>Data {i}</TableCell>
                 <TableCell>Data {i}</TableCell>
@@ -393,7 +412,7 @@ export const ColumnVariations: Story = {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {[1, 2, 3].map((i) => (
+            {[1, 2, 3].map(i => (
               <TableRow key={i}>
                 <TableCell>Data {i}</TableCell>
                 <TableCell>Data {i}</TableCell>
@@ -417,7 +436,7 @@ export const ColumnVariations: Story = {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {[1, 2, 3].map((i) => (
+            {[1, 2, 3].map(i => (
               <TableRow key={i}>
                 <TableCell>Data {i}</TableCell>
                 <TableCell>Data {i}</TableCell>
@@ -443,7 +462,7 @@ export const ColumnVariations: Story = {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {[1, 2, 3].map((i) => (
+            {[1, 2, 3].map(i => (
               <TableRow key={i}>
                 <TableCell>Data {i}</TableCell>
                 <TableCell>Data {i}</TableCell>
@@ -471,7 +490,7 @@ export const ColumnVariations: Story = {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {[1, 2, 3].map((i) => (
+            {[1, 2, 3].map(i => (
               <TableRow key={i}>
                 <TableCell>Data {i}</TableCell>
                 <TableCell>Data {i}</TableCell>
@@ -501,7 +520,7 @@ export const ColumnVariations: Story = {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {[1, 2, 3].map((i) => (
+            {[1, 2, 3].map(i => (
               <TableRow key={i}>
                 <TableCell>Data {i}</TableCell>
                 <TableCell>Data {i}</TableCell>
@@ -533,7 +552,7 @@ export const ColumnVariations: Story = {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {[1, 2, 3].map((i) => (
+            {[1, 2, 3].map(i => (
               <TableRow key={i}>
                 <TableCell>Data {i}</TableCell>
                 <TableCell>Data {i}</TableCell>
@@ -550,34 +569,34 @@ export const ColumnVariations: Story = {
       </div>
     </div>
   ),
-};
+}
 
 export const FullExample: Story = {
   name: 'Full Example with Pagination',
   render: () => {
-    const [page, setPage] = React.useState(1);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const [selected, setSelected] = React.useState<number[]>([]);
-    
-    const startIndex = (page - 1) * rowsPerPage;
-    const endIndex = startIndex + rowsPerPage;
-    const paginatedUsers = allUsers.slice(startIndex, endIndex);
+    const [page, setPage] = React.useState(1)
+    const [rowsPerPage, setRowsPerPage] = React.useState(5)
+    const [selected, setSelected] = React.useState<number[]>([])
+
+    const startIndex = (page - 1) * rowsPerPage
+    const endIndex = startIndex + rowsPerPage
+    const paginatedUsers = allUsers.slice(startIndex, endIndex)
 
     const toggleAll = () => {
       if (selected.length === paginatedUsers.length) {
-        setSelected([]);
+        setSelected([])
       } else {
-        setSelected(paginatedUsers.map(u => u.id));
+        setSelected(paginatedUsers.map(u => u.id))
       }
-    };
-    
+    }
+
     const toggleOne = (id: number) => {
       if (selected.includes(id)) {
-        setSelected(selected.filter(s => s !== id));
+        setSelected(selected.filter(s => s !== id))
       } else {
-        setSelected([...selected, id]);
+        setSelected([...selected, id])
       }
-    };
+    }
 
     return (
       <div style={{ width: 800 }}>
@@ -585,7 +604,7 @@ export const FullExample: Story = {
           <TableHeader>
             <TableRow>
               <TableHead style={{ width: 40 }}>
-                <Checkbox 
+                <Checkbox
                   checked={selected.length === paginatedUsers.length && paginatedUsers.length > 0}
                   indeterminate={selected.length > 0 && selected.length < paginatedUsers.length}
                   onChange={toggleAll}
@@ -600,10 +619,10 @@ export const FullExample: Story = {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {paginatedUsers.map((user) => (
+            {paginatedUsers.map(user => (
               <TableRow key={user.id} selected={selected.includes(user.id)}>
                 <TableCell>
-                  <Checkbox 
+                  <Checkbox
                     checked={selected.includes(user.id)}
                     onChange={() => toggleOne(user.id)}
                   />
@@ -634,6 +653,6 @@ export const FullExample: Story = {
           onRowsPerPageChange={setRowsPerPage}
         />
       </div>
-    );
+    )
   },
-};
+}
