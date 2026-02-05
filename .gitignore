@@ -50,3 +50,7 @@ coverage/
 .figma-cache/
 
 *storybook.log
+
+# Planning documents (internal use only)
+PLAN.md
+.cursor/plans/
