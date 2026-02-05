@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef, useState, useRef, useEffect } from "react"
-import { ChevronDown, ChevronUp, Check, X, Search } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, useState, useRef, useEffect } from 'react'
+import { ChevronDown, ChevronUp, Check, X, Search } from 'lucide-react'
 
 /**
  * Combobox Design Tokens from Figma
@@ -101,32 +101,40 @@ export interface ComboboxProps extends Omit<React.HTMLAttributes<HTMLDivElement>
 }
 
 const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
-  ({
-    options,
-    value,
-    onChange,
-    multiple = false,
-    placeholder = 'Select an element',
-    searchable = true,
-    clearable = true,
-    disabled = false,
-    label,
-    error,
-    description,
-    showCount = false,
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      options,
+      value,
+      onChange,
+      multiple = false,
+      placeholder = 'Select an element',
+      searchable = true,
+      clearable = true,
+      disabled = false,
+      label,
+      error,
+      description,
+      showCount = false,
+      style,
+      ...props
+    },
+    _ref
+  ) => {
     const [isOpen, setIsOpen] = useState(false)
     const [search, setSearch] = useState('')
     const [highlightedIndex, setHighlightedIndex] = useState(-1)
     const containerRef = useRef<HTMLDivElement>(null)
     const triggerRef = useRef<HTMLDivElement>(null)
     const searchInputRef = useRef<HTMLInputElement>(null)
+    const listId = React.useId()
 
-    const selectedValues = multiple 
-      ? (Array.isArray(value) ? value : []) 
-      : (value ? [value as string] : [])
+    const selectedValues = multiple
+      ? Array.isArray(value)
+        ? value
+        : []
+      : value
+        ? [value as string]
+        : []
 
     const filteredOptions = options.filter(option =>
       option.label.toLowerCase().includes(search.toLowerCase())
@@ -193,11 +201,11 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       switch (e.key) {
         case 'ArrowDown':
           e.preventDefault()
-          setHighlightedIndex(i => i < filteredOptions.length - 1 ? i + 1 : 0)
+          setHighlightedIndex(i => (i < filteredOptions.length - 1 ? i + 1 : 0))
           break
         case 'ArrowUp':
           e.preventDefault()
-          setHighlightedIndex(i => i > 0 ? i - 1 : filteredOptions.length - 1)
+          setHighlightedIndex(i => (i > 0 ? i - 1 : filteredOptions.length - 1))
           break
         case 'Enter':
           e.preventDefault()
@@ -227,10 +235,17 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     const highlightText = (text: string, query: string) => {
       if (!query) return text
       const parts = text.split(new RegExp(`(${query})`, 'gi'))
-      return parts.map((part, i) => 
-        part.toLowerCase() === query.toLowerCase() 
-          ? <mark key={i} style={{ backgroundColor: 'transparent', color: '#2050f6', fontWeight: 600 }}>{part}</mark>
-          : part
+      return parts.map((part, i) =>
+        part.toLowerCase() === query.toLowerCase() ? (
+          <mark
+            key={i}
+            style={{ backgroundColor: 'transparent', color: '#2050f6', fontWeight: 600 }}
+          >
+            {part}
+          </mark>
+        ) : (
+          part
+        )
       )
     }
 
@@ -249,10 +264,10 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       padding: `4px ${COMBOBOX_TOKENS.trigger.paddingX}px`,
       backgroundColor: COMBOBOX_TOKENS.trigger.bg,
       border: `1px solid ${
-        error 
-          ? COMBOBOX_TOKENS.trigger.borderError 
-          : isOpen 
-            ? COMBOBOX_TOKENS.trigger.borderFocus 
+        error
+          ? COMBOBOX_TOKENS.trigger.borderError
+          : isOpen
+            ? COMBOBOX_TOKENS.trigger.borderFocus
             : COMBOBOX_TOKENS.trigger.border
       }`,
       borderRadius: COMBOBOX_TOKENS.trigger.radius,
@@ -270,7 +285,10 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       fontSize: COMBOBOX_TOKENS.trigger.fontSize,
       backgroundColor: 'transparent',
       fontFamily: 'inherit',
-      color: selectedValues.length === 0 ? COMBOBOX_TOKENS.trigger.placeholder : COMBOBOX_TOKENS.option.fg,
+      color:
+        selectedValues.length === 0
+          ? COMBOBOX_TOKENS.trigger.placeholder
+          : COMBOBOX_TOKENS.option.fg,
     }
 
     const tagStyle: React.CSSProperties = {
@@ -342,13 +360,11 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       height: COMBOBOX_TOKENS.option.height,
       padding: `0 ${COMBOBOX_TOKENS.option.paddingX}px`,
       fontSize: COMBOBOX_TOKENS.option.fontSize,
-      color: option.disabled 
-        ? COMBOBOX_TOKENS.option.fgDisabled 
-        : COMBOBOX_TOKENS.option.fg,
+      color: option.disabled ? COMBOBOX_TOKENS.option.fgDisabled : COMBOBOX_TOKENS.option.fg,
       backgroundColor: selectedValues.includes(option.value)
         ? COMBOBOX_TOKENS.option.bgSelected
-        : index === highlightedIndex 
-          ? COMBOBOX_TOKENS.option.bgHover 
+        : index === highlightedIndex
+          ? COMBOBOX_TOKENS.option.bgHover
           : 'transparent',
       borderRadius: COMBOBOX_TOKENS.option.radius,
       cursor: option.disabled ? 'not-allowed' : 'pointer',
@@ -358,14 +374,17 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     return (
       <div ref={containerRef} style={containerStyle} {...props}>
         {label && (
-          <label style={{ 
-            display: 'block', 
-            marginBottom: 6, 
-            fontSize: 14, 
-            fontWeight: 500,
-            color: '#18181b',
-            fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-          }}>
+          <label
+            style={{
+              display: 'block',
+              marginBottom: 6,
+              fontSize: 14,
+              fontWeight: 500,
+              color: '#18181b',
+              fontFamily:
+                "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+            }}
+          >
             {label}
           </label>
         )}
@@ -378,61 +397,70 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
           tabIndex={disabled ? -1 : 0}
           role="combobox"
           aria-expanded={isOpen}
+          aria-controls={isOpen ? listId : undefined}
           aria-haspopup="listbox"
         >
           {/* Tags for multi-select */}
-          {multiple && selectedValues.map(val => {
-            const opt = options.find(o => o.value === val)
-            return opt ? (
-              <span key={val} style={tagStyle}>
-                {opt.label}
-                <button
-                  type="button"
-                  onClick={(e) => handleRemove(val, e)}
-                  style={{ 
-                    background: 'none', 
-                    border: 'none', 
-                    padding: 0, 
-                    cursor: 'pointer', 
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                  aria-label={`Remove ${opt.label}`}
-                >
-                  <X size={12} />
-                </button>
-              </span>
-            ) : null
-          })}
+          {multiple &&
+            selectedValues.map(val => {
+              const opt = options.find(o => o.value === val)
+              return opt ? (
+                <span key={val} style={tagStyle}>
+                  {opt.label}
+                  <button
+                    type="button"
+                    onClick={e => handleRemove(val, e)}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      padding: 0,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                    aria-label={`Remove ${opt.label}`}
+                  >
+                    <X size={12} />
+                  </button>
+                </span>
+              ) : null
+            })}
 
           {/* Display value or placeholder */}
           {!isOpen && (
             <span style={inputStyle}>
-              {multiple 
-                ? (selectedValues.length === 0 ? placeholder : '')
-                : (getDisplayValue() || placeholder)
-              }
+              {multiple
+                ? selectedValues.length === 0
+                  ? placeholder
+                  : ''
+                : getDisplayValue() || placeholder}
             </span>
           )}
 
           {/* Count badge */}
           {showCount && selectedValues.length > 0 && (
-            <span style={countBadgeStyle}>
-              {selectedValues.length}
-            </span>
+            <span style={countBadgeStyle}>{selectedValues.length}</span>
           )}
 
           {/* Actions */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginLeft: 'auto', flexShrink: 0 }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 4,
+              marginLeft: 'auto',
+              flexShrink: 0,
+            }}
+          >
             {clearable && selectedValues.length > 0 && !isOpen && (
               <button
                 type="button"
                 onClick={handleClear}
-                style={{ 
-                  background: 'none', 
-                  border: 'none', 
-                  padding: 2, 
-                  cursor: 'pointer', 
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  padding: 2,
+                  cursor: 'pointer',
                   display: 'flex',
                   color: '#71717a',
                 }}
@@ -442,20 +470,20 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
               </button>
             )}
             {isOpen ? (
-              <ChevronUp 
-                size={16} 
-                style={{ 
+              <ChevronUp
+                size={16}
+                style={{
                   color: '#71717a',
                   transition: 'transform 150ms ease',
-                }} 
+                }}
               />
             ) : (
-              <ChevronDown 
-                size={16} 
-                style={{ 
+              <ChevronDown
+                size={16}
+                style={{
                   color: '#71717a',
                   transition: 'transform 150ms ease',
-                }} 
+                }}
               />
             )}
           </div>
@@ -463,12 +491,15 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
 
         {/* Error or Description */}
         {(error || description) && (
-          <div style={{
-            fontSize: COMBOBOX_TOKENS.error.fontSize,
-            color: error ? COMBOBOX_TOKENS.error.color : '#71717a',
-            marginTop: COMBOBOX_TOKENS.error.marginTop,
-            fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-          }}>
+          <div
+            style={{
+              fontSize: COMBOBOX_TOKENS.error.fontSize,
+              color: error ? COMBOBOX_TOKENS.error.color : '#71717a',
+              marginTop: COMBOBOX_TOKENS.error.marginTop,
+              fontFamily:
+                "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+            }}
+          >
             {error || description}
           </div>
         )}
@@ -480,21 +511,21 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
             {searchable && (
               <div style={searchContainerStyle}>
                 <div style={{ position: 'relative' }}>
-                  <Search 
-                    size={16} 
-                    style={{ 
-                      position: 'absolute', 
-                      left: 12, 
-                      top: '50%', 
+                  <Search
+                    size={16}
+                    style={{
+                      position: 'absolute',
+                      left: 12,
+                      top: '50%',
                       transform: 'translateY(-50%)',
                       color: COMBOBOX_TOKENS.search.placeholder,
-                    }} 
+                    }}
                   />
                   <input
                     ref={searchInputRef}
                     type="text"
                     value={search}
-                    onChange={(e) => {
+                    onChange={e => {
                       setSearch(e.target.value)
                       setHighlightedIndex(-1)
                     }}
@@ -529,13 +560,16 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
             {/* Options list */}
             <div style={optionsContainerStyle}>
               {filteredOptions.length === 0 ? (
-                <div style={{ 
-                  padding: 12, 
-                  textAlign: 'center', 
-                  fontSize: 13, 
-                  color: COMBOBOX_TOKENS.option.fgMuted,
-                  fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-                }}>
+                <div
+                  style={{
+                    padding: 12,
+                    textAlign: 'center',
+                    fontSize: 13,
+                    color: COMBOBOX_TOKENS.option.fgMuted,
+                    fontFamily:
+                      "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+                  }}
+                >
                   No element found
                 </div>
               ) : (
@@ -563,6 +597,6 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
   }
 )
 
-Combobox.displayName = "Combobox"
+Combobox.displayName = 'Combobox'
 
 export { Combobox, COMBOBOX_TOKENS }

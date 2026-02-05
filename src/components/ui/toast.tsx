@@ -1,7 +1,6 @@
-import * as React from "react"
-import { forwardRef, createContext, useContext, useCallback, useState } from "react"
-import { X, CheckCircle2, AlertCircle, AlertTriangle, Info, Circle } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
+import * as React from 'react'
+import { createContext, useContext, useCallback, useState } from 'react'
+import { X, CheckCircle2, AlertCircle, AlertTriangle, Info, Circle } from 'lucide-react'
 
 /**
  * Toast Design Tokens from Figma
@@ -17,37 +16,37 @@ const TOAST_TOKENS = {
   gap: 12, // Gap between icon, content, and close button
   // Variants - white background with colored left border
   variants: {
-    default: { 
-      bg: '#ffffff', 
-      border: '#e4e4e7', 
+    default: {
+      bg: '#ffffff',
+      border: '#e4e4e7',
       titleColor: '#18181b',
       descriptionColor: '#52525b',
       icon: Circle, // Outline circle for default
     },
-    success: { 
-      bg: '#ffffff', 
-      border: '#16a34a', 
+    success: {
+      bg: '#ffffff',
+      border: '#16a34a',
       titleColor: '#16a34a',
       descriptionColor: '#52525b',
       icon: CheckCircle2,
     },
-    error: { 
-      bg: '#ffffff', 
-      border: '#dc2626', 
+    error: {
+      bg: '#ffffff',
+      border: '#dc2626',
       titleColor: '#dc2626',
       descriptionColor: '#52525b',
       icon: AlertCircle,
     },
-    warning: { 
-      bg: '#ffffff', 
-      border: '#f59e0b', 
+    warning: {
+      bg: '#ffffff',
+      border: '#f59e0b',
       titleColor: '#f59e0b',
       descriptionColor: '#52525b',
       icon: AlertTriangle,
     },
-    info: { 
-      bg: '#ffffff', 
-      border: '#2050f6', 
+    info: {
+      bg: '#ffffff',
+      border: '#2050f6',
       titleColor: '#2050f6',
       descriptionColor: '#52525b',
       icon: Info,
@@ -108,10 +107,13 @@ export function useToast() {
   if (!context) {
     throw new Error('useToast must be used within a ToastProvider')
   }
-  
-  const toast = useCallback((options: Omit<Toast, 'id'>) => {
-    return context.addToast(options)
-  }, [context])
+
+  const toast = useCallback(
+    (options: Omit<Toast, 'id'>) => {
+      return context.addToast(options)
+    },
+    [context]
+  )
 
   return {
     toast,
@@ -126,7 +128,13 @@ export function useToast() {
 export interface ToastProviderProps {
   children: React.ReactNode
   /** Position of toasts */
-  position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'top-center' | 'bottom-center'
+  position?:
+    | 'top-right'
+    | 'top-left'
+    | 'bottom-right'
+    | 'bottom-left'
+    | 'top-center'
+    | 'bottom-center'
   /** Max toasts visible */
   max?: number
 }
@@ -138,14 +146,17 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
 }) => {
   const [toasts, setToasts] = useState<Toast[]>([])
 
-  const addToast = useCallback((toast: Omit<Toast, 'id'>) => {
-    const id = Math.random().toString(36).substring(2, 9)
-    setToasts(prev => {
-      const newToasts = [...prev, { ...toast, id }]
-      return newToasts.slice(-max)
-    })
-    return id
-  }, [max])
+  const addToast = useCallback(
+    (toast: Omit<Toast, 'id'>) => {
+      const id = Math.random().toString(36).substring(2, 9)
+      setToasts(prev => {
+        const newToasts = [...prev, { ...toast, id }]
+        return newToasts.slice(-max)
+      })
+      return id
+    },
+    [max]
+  )
 
   const removeToast = useCallback((id: string) => {
     setToasts(prev => prev.filter(t => t.id !== id))
@@ -181,7 +192,7 @@ const ToastProvider: React.FC<ToastProviderProps> = ({
   )
 }
 
-ToastProvider.displayName = "ToastProvider"
+ToastProvider.displayName = 'ToastProvider'
 
 // ============================================================================
 // Toast Item
@@ -300,12 +311,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
   }
 
   return (
-    <div 
-      style={toastStyle}
-      role={ariaRole}
-      aria-live={ariaLive}
-      aria-atomic="true"
-    >
+    <div style={toastStyle} role={ariaRole} aria-live={ariaLive} aria-atomic="true">
       <div style={iconStyle}>
         {variant === 'default' ? (
           <Circle size={20} strokeWidth={2} fill="none" />
@@ -317,13 +323,13 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
         <p style={titleStyle}>{toast.title}</p>
         {toast.description && <p style={descriptionStyle}>{toast.description}</p>}
         {toast.action && (
-          <button 
-            style={actionStyle} 
+          <button
+            style={actionStyle}
             onClick={handleActionClick}
-            onMouseEnter={(e) => {
+            onMouseEnter={e => {
               e.currentTarget.style.backgroundColor = `${tokens.border}15`
             }}
-            onMouseLeave={(e) => {
+            onMouseLeave={e => {
               e.currentTarget.style.backgroundColor = 'transparent'
             }}
           >
@@ -331,14 +337,14 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
           </button>
         )}
       </div>
-      <button 
-        style={closeStyle} 
-        onClick={handleCloseClick} 
+      <button
+        style={closeStyle}
+        onClick={handleCloseClick}
         aria-label="Dismiss notification"
-        onMouseEnter={(e) => {
+        onMouseEnter={e => {
           e.currentTarget.style.opacity = '0.7'
         }}
-        onMouseLeave={(e) => {
+        onMouseLeave={e => {
           e.currentTarget.style.opacity = '1'
         }}
       >

@@ -1,7 +1,17 @@
-import * as React from "react"
-import { forwardRef, useState, useRef } from "react"
-import { Upload, X, File, Image, FileText, Film, Music, AlertCircle, CheckCircle } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, useState, useRef } from 'react'
+import {
+  Upload,
+  X,
+  File,
+  Image,
+  FileText,
+  Film,
+  Music,
+  AlertCircle,
+  CheckCircle,
+} from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 /**
  * File Upload Design Tokens from Figma
@@ -68,20 +78,23 @@ export interface FileUploadProps extends Omit<React.HTMLAttributes<HTMLDivElemen
 }
 
 const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
-  ({
-    accept,
-    multiple = false,
-    maxSize,
-    maxFiles,
-    onChange,
-    onUpload,
-    disabled = false,
-    label,
-    helperText,
-    error,
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      accept,
+      multiple = false,
+      maxSize,
+      maxFiles,
+      onChange,
+      onUpload,
+      disabled = false,
+      label,
+      helperText,
+      error,
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const [files, setFiles] = useState<UploadFile[]>([])
     const [isDragActive, setIsDragActive] = useState(false)
     const inputRef = useRef<HTMLInputElement>(null)
@@ -90,7 +103,7 @@ const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
       if (!newFiles || disabled) return
 
       const fileArray = Array.from(newFiles)
-      
+
       // Validate
       const validFiles = fileArray.filter(file => {
         if (maxSize && file.size > maxSize) return false
@@ -108,34 +121,36 @@ const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
         progress: 0,
       }))
 
-      setFiles(prev => multiple ? [...prev, ...uploadFiles] : uploadFiles)
+      setFiles(prev => (multiple ? [...prev, ...uploadFiles] : uploadFiles))
       onChange?.(validFiles)
 
       // Simulate upload
       if (onUpload) {
         for (const uploadFile of uploadFiles) {
           try {
-            setFiles(prev => prev.map(f => 
-              f.id === uploadFile.id ? { ...f, status: 'uploading' } : f
-            ))
+            setFiles(prev =>
+              prev.map(f => (f.id === uploadFile.id ? { ...f, status: 'uploading' } : f))
+            )
 
             // Simulate progress
             for (let i = 0; i <= 100; i += 10) {
               await new Promise(r => setTimeout(r, 100))
-              setFiles(prev => prev.map(f => 
-                f.id === uploadFile.id ? { ...f, progress: i } : f
-              ))
+              setFiles(prev => prev.map(f => (f.id === uploadFile.id ? { ...f, progress: i } : f)))
             }
 
             await onUpload(uploadFile.file)
 
-            setFiles(prev => prev.map(f => 
-              f.id === uploadFile.id ? { ...f, status: 'success', progress: 100 } : f
-            ))
-          } catch (err) {
-            setFiles(prev => prev.map(f => 
-              f.id === uploadFile.id ? { ...f, status: 'error', error: 'Upload failed' } : f
-            ))
+            setFiles(prev =>
+              prev.map(f =>
+                f.id === uploadFile.id ? { ...f, status: 'success', progress: 100 } : f
+              )
+            )
+          } catch {
+            setFiles(prev =>
+              prev.map(f =>
+                f.id === uploadFile.id ? { ...f, status: 'error', error: 'Upload failed' } : f
+              )
+            )
           }
         }
       }
@@ -172,10 +187,14 @@ const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
     const getFileIcon = (file: File): LucideIcon => {
       const type = file.type.split('/')[0]
       switch (type) {
-        case 'image': return Image
-        case 'video': return Film
-        case 'audio': return Music
-        default: return file.type.includes('pdf') ? FileText : File
+        case 'image':
+          return Image
+        case 'video':
+          return Film
+        case 'audio':
+          return Music
+        default:
+          return file.type.includes('pdf') ? FileText : File
       }
     }
 
@@ -205,7 +224,9 @@ const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
       padding: FILE_UPLOAD_TOKENS.dropzone.padding,
       border: `2px dashed ${getBorderColor()}`,
       borderRadius: FILE_UPLOAD_TOKENS.dropzone.radius,
-      backgroundColor: isDragActive ? FILE_UPLOAD_TOKENS.dropzone.bgActive : FILE_UPLOAD_TOKENS.dropzone.bg,
+      backgroundColor: isDragActive
+        ? FILE_UPLOAD_TOKENS.dropzone.bgActive
+        : FILE_UPLOAD_TOKENS.dropzone.bg,
       cursor: disabled ? 'not-allowed' : 'pointer',
       opacity: disabled ? 0.5 : 1,
       transition: 'all 150ms ease',
@@ -231,7 +252,15 @@ const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
     return (
       <div ref={ref} style={containerStyle} {...props}>
         {label && (
-          <label style={{ display: 'block', marginBottom: 8, fontSize: 14, fontWeight: 500, color: '#18181b' }}>
+          <label
+            style={{
+              display: 'block',
+              marginBottom: 8,
+              fontSize: 14,
+              fontWeight: 500,
+              color: '#18181b',
+            }}
+          >
             {label}
           </label>
         )}
@@ -249,11 +278,11 @@ const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
             type="file"
             accept={accept}
             multiple={multiple}
-            onChange={(e) => handleFiles(e.target.files)}
+            onChange={e => handleFiles(e.target.files)}
             style={{ display: 'none' }}
             disabled={disabled}
           />
-          
+
           <Upload size={32} style={{ color: '#71717a', marginBottom: 12 }} />
           <p style={{ margin: '0 0 4px', fontSize: 14, fontWeight: 500, color: '#18181b' }}>
             {isDragActive ? 'Drop files here' : 'Click to upload or drag and drop'}
@@ -267,47 +296,73 @@ const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
         {helperText && !error && (
           <p style={{ margin: '8px 0 0', fontSize: 12, color: '#71717a' }}>{helperText}</p>
         )}
-        {error && (
-          <p style={{ margin: '8px 0 0', fontSize: 12, color: '#dc2626' }}>{error}</p>
-        )}
+        {error && <p style={{ margin: '8px 0 0', fontSize: 12, color: '#dc2626' }}>{error}</p>}
 
         {files.length > 0 && (
           <div style={fileListStyle}>
-            {files.map((uploadFile) => {
+            {files.map(uploadFile => {
               const FileIcon = getFileIcon(uploadFile.file)
-              
+
               return (
                 <div key={uploadFile.id} style={fileItemStyle}>
                   <FileIcon size={20} style={{ color: '#71717a', flexShrink: 0 }} />
-                  
+
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ margin: 0, fontSize: 13, fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <p
+                      style={{
+                        margin: 0,
+                        fontSize: 13,
+                        fontWeight: 500,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
                       {uploadFile.file.name}
                     </p>
                     <p style={{ margin: '2px 0 0', fontSize: 11, color: '#71717a' }}>
                       {formatFileSize(uploadFile.file.size)}
                     </p>
-                    
+
                     {uploadFile.status === 'uploading' && (
-                      <div style={{ marginTop: 6, height: FILE_UPLOAD_TOKENS.progress.height, backgroundColor: FILE_UPLOAD_TOKENS.progress.bg, borderRadius: FILE_UPLOAD_TOKENS.progress.radius }}>
-                        <div style={{ 
-                          height: '100%', 
-                          width: `${uploadFile.progress}%`, 
-                          backgroundColor: FILE_UPLOAD_TOKENS.progress.fill,
+                      <div
+                        style={{
+                          marginTop: 6,
+                          height: FILE_UPLOAD_TOKENS.progress.height,
+                          backgroundColor: FILE_UPLOAD_TOKENS.progress.bg,
                           borderRadius: FILE_UPLOAD_TOKENS.progress.radius,
-                          transition: 'width 100ms ease',
-                        }} />
+                        }}
+                      >
+                        <div
+                          style={{
+                            height: '100%',
+                            width: `${uploadFile.progress}%`,
+                            backgroundColor: FILE_UPLOAD_TOKENS.progress.fill,
+                            borderRadius: FILE_UPLOAD_TOKENS.progress.radius,
+                            transition: 'width 100ms ease',
+                          }}
+                        />
                       </div>
                     )}
                   </div>
-                  
-                  {uploadFile.status === 'success' && <CheckCircle size={16} style={{ color: '#16a34a' }} />}
-                  {uploadFile.status === 'error' && <AlertCircle size={16} style={{ color: '#dc2626' }} />}
-                  
+
+                  {uploadFile.status === 'success' && (
+                    <CheckCircle size={16} style={{ color: '#16a34a' }} />
+                  )}
+                  {uploadFile.status === 'error' && (
+                    <AlertCircle size={16} style={{ color: '#dc2626' }} />
+                  )}
+
                   <button
                     type="button"
                     onClick={() => removeFile(uploadFile.id)}
-                    style={{ padding: 4, background: 'none', border: 'none', cursor: 'pointer', color: '#71717a' }}
+                    style={{
+                      padding: 4,
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      color: '#71717a',
+                    }}
                   >
                     <X size={16} />
                   </button>
@@ -321,6 +376,6 @@ const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
   }
 )
 
-FileUpload.displayName = "FileUpload"
+FileUpload.displayName = 'FileUpload'
 
 export { FileUpload, FILE_UPLOAD_TOKENS }

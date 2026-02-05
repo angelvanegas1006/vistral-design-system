@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef, useState, useRef, useEffect } from "react"
-import { ChevronDown, ChevronUp, Search, Check } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, useState, useRef, useEffect } from 'react'
+import { ChevronDown, ChevronUp, Search, Check } from 'lucide-react'
 
 /**
  * Phone Input Design Tokens from Figma
@@ -74,9 +74,12 @@ const COUNTRY_CODES = [
   { code: 'SG', dialCode: '+65', flag: '🇸🇬', name: 'Singapore' },
 ]
 
-export type CountryCode = typeof COUNTRY_CODES[number]
+export type CountryCode = (typeof COUNTRY_CODES)[number]
 
-export interface PhoneInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
+export interface PhoneInputProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  'onChange' | 'value'
+> {
   /** Phone number value */
   value?: string
   /** Selected country code */
@@ -103,36 +106,36 @@ export interface PhoneInputProps extends Omit<React.InputHTMLAttributes<HTMLInpu
 const formatPhoneNumber = (value: string, countryCode: string): string => {
   // Remove all non-digits
   const digits = value.replace(/\D/g, '')
-  
+
   // Country-specific formatting patterns
   const patterns: Record<string, (d: string) => string> = {
-    'US': (d) => {
+    US: d => {
       if (d.length <= 3) return d
       if (d.length <= 6) return `${d.slice(0, 3)} ${d.slice(3)}`
       return `${d.slice(0, 3)} ${d.slice(3, 6)} ${d.slice(6, 10)}`
     },
-    'ES': (d) => {
+    ES: d => {
       if (d.length <= 3) return d
       if (d.length <= 6) return `${d.slice(0, 3)} ${d.slice(3)}`
       return `${d.slice(0, 3)} ${d.slice(3, 6)} ${d.slice(6, 9)}`
     },
-    'AU': (d) => {
+    AU: d => {
       if (d.length <= 4) return d
       if (d.length <= 8) return `${d.slice(0, 4)} ${d.slice(4)}`
       return `${d.slice(0, 4)} ${d.slice(4, 8)} ${d.slice(8, 10)}`
     },
-    'IE': (d) => {
+    IE: d => {
       if (d.length <= 3) return d
       if (d.length <= 6) return `${d.slice(0, 3)} ${d.slice(3)}`
       return `${d.slice(0, 3)} ${d.slice(3, 6)} ${d.slice(6, 9)}`
     },
-    'ID': (d) => {
+    ID: d => {
       if (d.length <= 4) return d
       if (d.length <= 8) return `${d.slice(0, 4)} ${d.slice(4)}`
       return `${d.slice(0, 4)}-${d.slice(4, 8)}-${d.slice(8, 12)}`
     },
   }
-  
+
   const formatter = patterns[countryCode]
   return formatter ? formatter(digits) : digits
 }
@@ -140,33 +143,36 @@ const formatPhoneNumber = (value: string, countryCode: string): string => {
 // Auto-detect country from browser locale
 const detectCountry = (): string => {
   if (typeof navigator === 'undefined') return 'US'
-  
+
   const locale = navigator.language || navigator.languages?.[0] || 'en-US'
   const country = locale.split('-')[1]?.toUpperCase()
-  
+
   if (country && COUNTRY_CODES.find(c => c.code === country)) {
     return country
   }
-  
+
   return 'US' // Default fallback
 }
 
 const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
-  ({
-    value = '',
-    countryCode: controlledCountry,
-    onChange,
-    defaultCountry,
-    label,
-    helperText,
-    error = false,
-    disabled = false,
-    countries = COUNTRY_CODES,
-    autoDetectCountry = true,
-    formatOnType = true,
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      value = '',
+      countryCode: controlledCountry,
+      onChange,
+      defaultCountry,
+      label,
+      helperText,
+      error = false,
+      disabled = false,
+      countries = COUNTRY_CODES,
+      autoDetectCountry = true,
+      formatOnType = true,
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const [isOpen, setIsOpen] = useState(false)
     const [searchQuery, setSearchQuery] = useState('')
     const [internalCountry, setInternalCountry] = useState(() => {
@@ -185,10 +191,11 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
     const filteredCountries = React.useMemo(() => {
       if (!searchQuery) return countries
       const query = searchQuery.toLowerCase()
-      return countries.filter(c => 
-        c.name.toLowerCase().includes(query) ||
-        c.dialCode.includes(query) ||
-        c.code.toLowerCase().includes(query)
+      return countries.filter(
+        c =>
+          c.name.toLowerCase().includes(query) ||
+          c.dialCode.includes(query) ||
+          c.code.toLowerCase().includes(query)
       )
     }, [countries, searchQuery])
 
@@ -219,15 +226,15 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
     }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      let inputValue = e.target.value
-      
+      const inputValue = e.target.value
+
       // Allow pasting numbers in any format
       // Remove all non-digits
       const digits = inputValue.replace(/\D/g, '')
-      
+
       // Format if enabled
       const formatted = formatOnType ? formatPhoneNumber(digits, country) : digits
-      
+
       onChange?.(formatted, country)
     }
 
@@ -356,7 +363,7 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
     return (
       <div style={wrapperStyle}>
         {label && (
-          <label 
+          <label
             htmlFor={`phone-input-${country}`}
             style={{
               display: 'block',
@@ -364,7 +371,8 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
               fontSize: 14,
               fontWeight: 500,
               color: disabled ? '#a1a1aa' : '#18181b',
-              fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+              fontFamily:
+                "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
             }}
           >
             {label}
@@ -382,12 +390,12 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
               style={countrySelectorStyle}
               onClick={() => !disabled && setIsOpen(!isOpen)}
               disabled={disabled}
-              onMouseEnter={(e) => {
+              onMouseEnter={e => {
                 if (!disabled && !isOpen) {
                   e.currentTarget.style.backgroundColor = PHONE_INPUT_TOKENS.country.bgHover
                 }
               }}
-              onMouseLeave={(e) => {
+              onMouseLeave={e => {
                 e.currentTarget.style.backgroundColor = PHONE_INPUT_TOKENS.bg
               }}
             >
@@ -402,10 +410,7 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
 
             {/* Country Dropdown */}
             {isOpen && (
-              <div 
-                role="listbox"
-                style={dropdownStyle}
-              >
+              <div role="listbox" style={dropdownStyle}>
                 {/* Search Bar */}
                 <div style={searchStyle}>
                   <Search size={16} style={{ color: '#71717a' }} />
@@ -414,7 +419,7 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
                     type="text"
                     placeholder="Search country"
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={e => setSearchQuery(e.target.value)}
                     style={searchInputStyle}
                     aria-label="Search country"
                   />
@@ -422,7 +427,7 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
 
                 {/* Options List */}
                 <div style={optionsContainerStyle}>
-                  {filteredCountries.map((c) => {
+                  {filteredCountries.map(c => {
                     const isSelected = c.code === country
                     const isHovered = hoveredOption === c.code
                     return (
@@ -443,7 +448,13 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
                     )
                   })}
                   {filteredCountries.length === 0 && (
-                    <div style={{ padding: PHONE_INPUT_TOKENS.dropdown.optionPadding, color: '#71717a', fontSize: 14 }}>
+                    <div
+                      style={{
+                        padding: PHONE_INPUT_TOKENS.dropdown.optionPadding,
+                        color: '#71717a',
+                        fontSize: 14,
+                      }}
+                    >
                       No countries found
                     </div>
                   )}
@@ -474,13 +485,14 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
         </div>
 
         {helperText && (
-          <p 
+          <p
             id={`phone-helper-${country}`}
             style={{
               margin: '6px 0 0',
               fontSize: 12,
               color: error ? '#dc2626' : '#71717a',
-              fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+              fontFamily:
+                "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
             }}
           >
             {helperText}
@@ -491,6 +503,6 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
   }
 )
 
-PhoneInput.displayName = "PhoneInput"
+PhoneInput.displayName = 'PhoneInput'
 
 export { PhoneInput, PHONE_INPUT_TOKENS, COUNTRY_CODES }

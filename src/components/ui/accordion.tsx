@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef, createContext, useContext, useState, useId } from "react"
-import { ChevronDown } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, createContext, useContext, useState, useId } from 'react'
+import { ChevronDown } from 'lucide-react'
 
 /**
  * Accordion Design Tokens from Figma
@@ -8,7 +8,7 @@ import { ChevronDown } from "lucide-react"
  */
 const ACCORDION_TOKENS = {
   // Container
-  border: '#e4e4e7',        // zinc-200
+  border: '#e4e4e7', // zinc-200
   radius: 8,
   // Item
   padding: {
@@ -18,12 +18,12 @@ const ACCORDION_TOKENS = {
   // Header
   header: {
     bg: 'transparent',
-    bgHover: '#fafafa',     // zinc-50
-    fg: '#18181b',          // zinc-900
+    bgHover: '#fafafa', // zinc-50
+    fg: '#18181b', // zinc-900
   },
   // Content
   content: {
-    fg: '#52525b',          // zinc-600
+    fg: '#52525b', // zinc-600
   },
 } as const
 
@@ -80,22 +80,25 @@ export interface AccordionProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
-  ({ 
-    type = 'single',
-    defaultValue = [],
-    value,
-    onValueChange,
-    collapsible = true,
-    style, 
-    children, 
-    ...props 
-  }, ref) => {
+  (
+    {
+      type = 'single',
+      defaultValue = [],
+      value,
+      onValueChange,
+      collapsible = true,
+      style,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const [internalValue, setInternalValue] = useState<string[]>(defaultValue)
     const expandedItems = value ?? internalValue
 
     const toggleItem = (itemValue: string) => {
       let newValue: string[]
-      
+
       if (type === 'single') {
         if (expandedItems.includes(itemValue)) {
           newValue = collapsible ? [] : expandedItems
@@ -131,7 +134,7 @@ const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
   }
 )
 
-Accordion.displayName = "Accordion"
+Accordion.displayName = 'Accordion'
 
 // ============================================================================
 // Accordion Item
@@ -155,21 +158,16 @@ const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(
       ...style,
     }
 
-    // Remove border from last item
-    const lastChildStyle = `
-      [data-accordion-item]:last-child {
-        border-bottom: none;
-      }
-    `
+    // Remove border from last item (handled via CSS)
 
     return (
       <AccordionItemContext.Provider value={{ value, isExpanded, triggerId, contentId }}>
-        <div 
-          ref={ref} 
+        <div
+          ref={ref}
           data-accordion-item
           data-state={isExpanded ? 'open' : 'closed'}
           data-disabled={disabled || undefined}
-          style={itemStyle} 
+          style={itemStyle}
           {...props}
         >
           {children}
@@ -179,7 +177,7 @@ const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(
   }
 )
 
-AccordionItem.displayName = "AccordionItem"
+AccordionItem.displayName = 'AccordionItem'
 
 // ============================================================================
 // Accordion Trigger (Header)
@@ -240,7 +238,7 @@ const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(
   }
 )
 
-AccordionTrigger.displayName = "AccordionTrigger"
+AccordionTrigger.displayName = 'AccordionTrigger'
 
 // ============================================================================
 // Accordion Content
@@ -284,12 +282,6 @@ const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps>(
   }
 )
 
-AccordionContent.displayName = "AccordionContent"
+AccordionContent.displayName = 'AccordionContent'
 
-export { 
-  Accordion, 
-  AccordionItem, 
-  AccordionTrigger, 
-  AccordionContent,
-  ACCORDION_TOKENS,
-}
+export { Accordion, AccordionItem, AccordionTrigger, AccordionContent, ACCORDION_TOKENS }

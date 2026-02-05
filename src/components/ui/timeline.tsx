@@ -1,7 +1,7 @@
-import * as React from "react"
-import { forwardRef } from "react"
-import { Check, Circle, AlertCircle, Clock } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
+import * as React from 'react'
+import { forwardRef } from 'react'
+import { Check, Circle, AlertCircle, Clock } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 /**
  * Timeline Design Tokens from Figma
@@ -97,10 +97,8 @@ const Timeline = forwardRef<HTMLDivElement, TimelineProps>(
         {React.Children.map(children, (child, index) => {
           if (React.isValidElement(child)) {
             const isAlternate = position === 'alternate'
-            const itemPosition = isAlternate 
-              ? (index % 2 === 0 ? 'left' : 'right')
-              : position
-            return React.cloneElement(child, { 
+            const itemPosition = isAlternate ? (index % 2 === 0 ? 'left' : 'right') : position
+            return React.cloneElement(child, {
               position: itemPosition,
               isLast: index === React.Children.count(children) - 1,
             } as any)
@@ -112,7 +110,7 @@ const Timeline = forwardRef<HTMLDivElement, TimelineProps>(
   }
 )
 
-Timeline.displayName = "Timeline"
+Timeline.displayName = 'Timeline'
 
 // ============================================================================
 // Timeline Item
@@ -135,29 +133,37 @@ export interface TimelineItemProps extends React.HTMLAttributes<HTMLDivElement> 
 }
 
 const TimelineItem = forwardRef<HTMLDivElement, TimelineItemProps>(
-  ({
-    title,
-    description,
-    time,
-    status = 'default',
-    icon: CustomIcon,
-    position = 'left',
-    isLast = false,
-    style,
-    children,
-    ...props
-  }, ref) => {
-    const itemId = React.useId()
+  (
+    {
+      title,
+      description,
+      time,
+      status = 'default',
+      icon: CustomIcon,
+      position = 'left',
+      isLast = false,
+      style,
+      children,
+      ...props
+    },
+    ref
+  ) => {
+    const _itemId = React.useId()
     const nodeTokens = TIMELINE_TOKENS.node[status]
 
     const getIcon = (): LucideIcon | null => {
       if (CustomIcon) return CustomIcon
       switch (status) {
-        case 'success': return Check
-        case 'error': return AlertCircle
-        case 'pending': return Clock
-        case 'active': return Circle
-        default: return null
+        case 'success':
+          return Check
+        case 'error':
+          return AlertCircle
+        case 'pending':
+          return Clock
+        case 'active':
+          return Circle
+        default:
+          return null
       }
     }
 
@@ -200,21 +206,25 @@ const TimelineItem = forwardRef<HTMLDivElement, TimelineItemProps>(
     }
 
     // Small inner dot when no icon (for pending/default states)
-    const innerDotStyle: React.CSSProperties = !hasIcon ? {
-      width: TIMELINE_TOKENS.node.sizeSm,
-      height: TIMELINE_TOKENS.node.sizeSm,
-      borderRadius: '50%',
-      backgroundColor: nodeTokens.bg === 'transparent' ? nodeTokens.border : nodeTokens.bg,
-    } : {}
+    const innerDotStyle: React.CSSProperties = !hasIcon
+      ? {
+          width: TIMELINE_TOKENS.node.sizeSm,
+          height: TIMELINE_TOKENS.node.sizeSm,
+          borderRadius: '50%',
+          backgroundColor: nodeTokens.bg === 'transparent' ? nodeTokens.border : nodeTokens.bg,
+        }
+      : {}
 
     // Connector (Line) - vertical stroke connecting sequential nodes
-    const connectorStyle: React.CSSProperties = !isLast ? {
-      flex: 1,
-      width: TIMELINE_TOKENS.connector.width,
-      backgroundColor: TIMELINE_TOKENS.connector.bg,
-      marginTop: 4,
-      minHeight: 20,
-    } : {}
+    const connectorStyle: React.CSSProperties = !isLast
+      ? {
+          flex: 1,
+          width: TIMELINE_TOKENS.connector.width,
+          backgroundColor: TIMELINE_TOKENS.connector.bg,
+          marginTop: 4,
+          minHeight: 20,
+        }
+      : {}
 
     const contentStyle: React.CSSProperties = {
       flex: 1,
@@ -246,22 +256,24 @@ const TimelineItem = forwardRef<HTMLDivElement, TimelineItemProps>(
     }
 
     // Build aria-label for accessibility
-    const ariaLabel = title 
+    const ariaLabel = title
       ? `${title}${time ? `, ${time}` : ''}${status === 'success' ? ', completed' : status === 'error' ? ', error' : status === 'active' ? ', in progress' : ''}`
       : undefined
 
     return (
-      <div 
-        ref={ref} 
-        role="listitem"
-        aria-label={ariaLabel}
-        style={itemStyle} 
-        {...props}
-      >
+      <div ref={ref} role="listitem" aria-label={ariaLabel} style={itemStyle} {...props}>
         <div style={nodeContainerStyle}>
-          <div 
+          <div
             style={nodeStyle}
-            aria-label={status === 'success' ? 'Completed' : status === 'error' ? 'Error' : status === 'active' ? 'In progress' : 'Pending'}
+            aria-label={
+              status === 'success'
+                ? 'Completed'
+                : status === 'error'
+                  ? 'Error'
+                  : status === 'active'
+                    ? 'In progress'
+                    : 'Pending'
+            }
           >
             {Icon ? (
               <Icon size={14} strokeWidth={status === 'active' ? 2 : 2.5} />
@@ -271,7 +283,7 @@ const TimelineItem = forwardRef<HTMLDivElement, TimelineItemProps>(
           </div>
           {!isLast && <div style={connectorStyle} />}
         </div>
-        
+
         <div style={contentStyle}>
           {title && <h4 style={titleStyle}>{title}</h4>}
           {description && <p style={descriptionStyle}>{description}</p>}
@@ -283,6 +295,6 @@ const TimelineItem = forwardRef<HTMLDivElement, TimelineItemProps>(
   }
 )
 
-TimelineItem.displayName = "TimelineItem"
+TimelineItem.displayName = 'TimelineItem'
 
 export { Timeline, TimelineItem, TIMELINE_TOKENS }

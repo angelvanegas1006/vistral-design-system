@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef, useState } from "react"
-import { Star } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, useState } from 'react'
+import { Star } from 'lucide-react'
 
 /**
  * Rating Design Tokens from Figma
@@ -49,21 +49,24 @@ export interface RatingProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 
 }
 
 const Rating = forwardRef<HTMLDivElement, RatingProps>(
-  ({
-    value: controlledValue,
-    defaultValue = 0,
-    max = 5,
-    onChange,
-    readOnly = false,
-    disabled = false,
-    allowHalf = false,
-    size = 'md',
-    showValue = false,
-    emptyIcon,
-    filledIcon,
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      value: controlledValue,
+      defaultValue = 0,
+      max = 5,
+      onChange,
+      readOnly = false,
+      disabled = false,
+      allowHalf = false,
+      size = 'md',
+      showValue = false,
+      emptyIcon,
+      filledIcon,
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const [internalValue, setInternalValue] = useState(defaultValue)
     const [hoverValue, setHoverValue] = useState<number | null>(null)
 
@@ -73,9 +76,9 @@ const Rating = forwardRef<HTMLDivElement, RatingProps>(
 
     const handleClick = (starValue: number) => {
       if (readOnly || disabled) return
-      
+
       const newValue = starValue === value ? 0 : starValue
-      
+
       if (!isControlled) {
         setInternalValue(newValue)
       }
@@ -84,11 +87,11 @@ const Rating = forwardRef<HTMLDivElement, RatingProps>(
 
     const handleMouseMove = (e: React.MouseEvent, starIndex: number) => {
       if (readOnly || disabled) return
-      
+
       const rect = e.currentTarget.getBoundingClientRect()
       const x = e.clientX - rect.left
       const isHalf = allowHalf && x < rect.width / 2
-      
+
       setHoverValue(starIndex + (isHalf ? 0.5 : 1))
     }
 
@@ -113,7 +116,7 @@ const Rating = forwardRef<HTMLDivElement, RatingProps>(
       gap: 2,
     }
 
-    const getStarStyle = (starIndex: number): React.CSSProperties => ({
+    const getStarStyle = (_starIndex: number): React.CSSProperties => ({
       cursor: readOnly || disabled ? 'default' : 'pointer',
       opacity: disabled ? 0.5 : 1,
       transition: 'transform 150ms ease',
@@ -125,37 +128,48 @@ const Rating = forwardRef<HTMLDivElement, RatingProps>(
       const isFilled = displayValue >= starValue
       const isHalfFilled = allowHalf && displayValue >= starIndex + 0.5 && displayValue < starValue
 
-      const color = isFilled || isHalfFilled 
-        ? (hoverValue !== null ? RATING_TOKENS.star.colorHover : RATING_TOKENS.star.color)
-        : RATING_TOKENS.star.colorEmpty
+      const color =
+        isFilled || isHalfFilled
+          ? hoverValue !== null
+            ? RATING_TOKENS.star.colorHover
+            : RATING_TOKENS.star.color
+          : RATING_TOKENS.star.colorEmpty
 
       return (
         <span
           key={starIndex}
           style={getStarStyle(starIndex)}
           onClick={() => handleClick(starValue)}
-          onMouseMove={(e) => handleMouseMove(e, starIndex)}
+          onMouseMove={e => handleMouseMove(e, starIndex)}
         >
           {isHalfFilled ? (
             // Half star using clip
             <span style={{ position: 'relative', display: 'flex' }}>
-              <Star size={starSize} fill={RATING_TOKENS.star.colorEmpty} stroke={RATING_TOKENS.star.colorEmpty} />
-              <span style={{ 
-                position: 'absolute', 
-                top: 0, 
-                left: 0, 
-                width: '50%', 
-                overflow: 'hidden',
-              }}>
+              <Star
+                size={starSize}
+                fill={RATING_TOKENS.star.colorEmpty}
+                stroke={RATING_TOKENS.star.colorEmpty}
+              />
+              <span
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '50%',
+                  overflow: 'hidden',
+                }}
+              >
                 <Star size={starSize} fill={color} stroke={color} />
               </span>
             </span>
+          ) : filledIcon && isFilled ? (
+            filledIcon
+          ) : emptyIcon && !isFilled ? (
+            emptyIcon
           ) : (
-            filledIcon && isFilled ? filledIcon : 
-            emptyIcon && !isFilled ? emptyIcon :
-            <Star 
-              size={starSize} 
-              fill={isFilled ? color : 'none'} 
+            <Star
+              size={starSize}
+              fill={isFilled ? color : 'none'}
               stroke={color}
               strokeWidth={isFilled ? 0 : 1.5}
             />
@@ -184,20 +198,14 @@ const Rating = forwardRef<HTMLDivElement, RatingProps>(
         onMouseLeave={handleMouseLeave}
         {...props}
       >
-        <div style={starsStyle}>
-          {Array.from({ length: max }).map((_, i) => renderStar(i))}
-        </div>
-        {showValue && (
-          <span style={valueStyle}>
-            {displayValue.toFixed(allowHalf ? 1 : 0)}
-          </span>
-        )}
+        <div style={starsStyle}>{Array.from({ length: max }).map((_, i) => renderStar(i))}</div>
+        {showValue && <span style={valueStyle}>{displayValue.toFixed(allowHalf ? 1 : 0)}</span>}
       </div>
     )
   }
 )
 
-Rating.displayName = "Rating"
+Rating.displayName = 'Rating'
 
 // ============================================================================
 // Rating Display (read-only with count)
@@ -234,16 +242,18 @@ const RatingDisplay = forwardRef<HTMLDivElement, RatingDisplayProps>(
 
     return (
       <div ref={ref} style={containerStyle} {...props}>
-        <Star size={RATING_TOKENS.sizes[size]} fill={RATING_TOKENS.star.color} stroke={RATING_TOKENS.star.color} />
+        <Star
+          size={RATING_TOKENS.sizes[size]}
+          fill={RATING_TOKENS.star.color}
+          stroke={RATING_TOKENS.star.color}
+        />
         <span style={valueStyle}>{value.toFixed(1)}</span>
-        {count !== undefined && (
-          <span style={countStyle}>({count.toLocaleString()})</span>
-        )}
+        {count !== undefined && <span style={countStyle}>({count.toLocaleString()})</span>}
       </div>
     )
   }
 )
 
-RatingDisplay.displayName = "RatingDisplay"
+RatingDisplay.displayName = 'RatingDisplay'
 
 export { Rating, RatingDisplay, RATING_TOKENS }

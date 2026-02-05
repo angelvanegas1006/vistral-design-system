@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef } from "react"
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react"
+import * as React from 'react'
+import { forwardRef } from 'react'
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
 
 /**
  * Table Design Tokens from Figma
@@ -58,7 +58,7 @@ export interface TableProps extends React.TableHTMLAttributes<HTMLTableElement> 
 }
 
 const Table = forwardRef<HTMLTableElement, TableProps>(
-  ({ striped = false, bordered = true, style, children, ...props }, ref) => {
+  ({ striped: _striped = false, bordered = true, style, children, ...props }, ref) => {
     const wrapperStyle: React.CSSProperties = {
       width: '100%',
       overflow: 'auto',
@@ -84,7 +84,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(
   }
 )
 
-Table.displayName = "Table"
+Table.displayName = 'Table'
 
 // ============================================================================
 // Table Header
@@ -106,7 +106,7 @@ const TableHeader = forwardRef<HTMLTableSectionElement, TableHeaderProps>(
   }
 )
 
-TableHeader.displayName = "TableHeader"
+TableHeader.displayName = 'TableHeader'
 
 // ============================================================================
 // Table Body
@@ -123,7 +123,7 @@ const TableBody = forwardRef<HTMLTableSectionElement, TableBodyProps>(
   }
 )
 
-TableBody.displayName = "TableBody"
+TableBody.displayName = 'TableBody'
 
 // ============================================================================
 // Table Row
@@ -141,10 +141,10 @@ const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
 
     const rowStyle: React.CSSProperties = {
       borderBottom: `1px solid ${TABLE_TOKENS.row.borderColor}`,
-      backgroundColor: selected 
-        ? TABLE_TOKENS.row.bgSelected 
-        : isHovered && clickable 
-          ? TABLE_TOKENS.row.bgHover 
+      backgroundColor: selected
+        ? TABLE_TOKENS.row.bgSelected
+        : isHovered && clickable
+          ? TABLE_TOKENS.row.bgHover
           : 'transparent',
       cursor: clickable ? 'pointer' : 'default',
       transition: 'background-color 150ms ease',
@@ -165,7 +165,7 @@ const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
   }
 )
 
-TableRow.displayName = "TableRow"
+TableRow.displayName = 'TableRow'
 
 // ============================================================================
 // Table Head Cell
@@ -214,7 +214,7 @@ const TableHead = forwardRef<HTMLTableCellElement, TableHeadProps>(
   }
 )
 
-TableHead.displayName = "TableHead"
+TableHead.displayName = 'TableHead'
 
 // ============================================================================
 // Table Cell
@@ -238,7 +238,7 @@ const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
   }
 )
 
-TableCell.displayName = "TableCell"
+TableCell.displayName = 'TableCell'
 
 // ============================================================================
 // Table Footer
@@ -261,7 +261,7 @@ const TableFooter = forwardRef<HTMLTableSectionElement, TableFooterProps>(
   }
 )
 
-TableFooter.displayName = "TableFooter"
+TableFooter.displayName = 'TableFooter'
 
 // ============================================================================
 // Table Caption
@@ -287,7 +287,7 @@ const TableCaption = forwardRef<HTMLTableCaptionElement, TableCaptionProps>(
   }
 )
 
-TableCaption.displayName = "TableCaption"
+TableCaption.displayName = 'TableCaption'
 
 // ============================================================================
 // Table Pagination
@@ -383,10 +383,10 @@ const TablePagination = ({
     backgroundColor: TABLE_TOKENS.pagination.buttonBg,
     border: 'none',
     cursor: disabled ? 'not-allowed' : 'pointer',
-    color: disabled 
-      ? TABLE_TOKENS.pagination.buttonFgDisabled 
-      : active 
-        ? TABLE_TOKENS.pagination.buttonFgActive 
+    color: disabled
+      ? TABLE_TOKENS.pagination.buttonFgDisabled
+      : active
+        ? TABLE_TOKENS.pagination.buttonFgActive
         : TABLE_TOKENS.pagination.buttonFg,
     transition: 'all 150ms ease',
   })
@@ -398,10 +398,10 @@ const TablePagination = ({
         {onRowsPerPageChange && (
           <select
             value={rowsPerPage}
-            onChange={(e) => onRowsPerPageChange(Number(e.target.value))}
+            onChange={e => onRowsPerPageChange(Number(e.target.value))}
             style={selectStyle}
           >
-            {rowsPerPageOptions.map((option) => (
+            {rowsPerPageOptions.map(option => (
               <option key={option} value={option}>
                 {option}
               </option>
@@ -455,7 +455,7 @@ const TablePagination = ({
   )
 }
 
-TablePagination.displayName = "TablePagination"
+TablePagination.displayName = 'TablePagination'
 
 export {
   Table,

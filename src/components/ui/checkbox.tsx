@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef, useId, useState } from "react"
-import { Check, Minus } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, useId, useState } from 'react'
+import { Check, Minus } from 'lucide-react'
 
 /**
  * Checkbox Design Tokens from Figma
@@ -10,13 +10,13 @@ const CHECKBOX_TOKENS = {
   // States
   unchecked: {
     bg: '#ffffff',
-    border: '#d4d4d8',    // zinc-300
+    border: '#d4d4d8', // zinc-300
     borderHover: '#a1a1aa', // zinc-400
   },
   checked: {
-    bg: '#2050f6',        // spaceblue-600
+    bg: '#2050f6', // spaceblue-600
     border: '#2050f6',
-    bgHover: '#1337e2',   // spaceblue-700
+    bgHover: '#1337e2', // spaceblue-700
     fg: '#ffffff',
   },
   indeterminate: {
@@ -26,13 +26,13 @@ const CHECKBOX_TOKENS = {
     fg: '#ffffff',
   },
   disabled: {
-    bg: '#f4f4f5',        // zinc-100
-    border: '#e4e4e7',    // zinc-200
-    fg: '#a1a1aa',        // zinc-400
+    bg: '#f4f4f5', // zinc-100
+    border: '#e4e4e7', // zinc-200
+    fg: '#a1a1aa', // zinc-400
   },
   error: {
     bg: '#ffffff',
-    border: '#ef4444',    // red-500
+    border: '#ef4444', // red-500
   },
   // Container hover state
   containerHover: {
@@ -68,24 +68,27 @@ export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputE
 }
 
 const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ 
-    checked = false,
-    indeterminate = false,
-    error = false,
-    disabled = false,
-    label,
-    description,
-    position = 'left',
-    showHoverBg = false,
-    onCheckedChange,
-    onChange,
-    onFocus,
-    onBlur,
-    style,
-    className,
-    id: providedId,
-    ...props 
-  }, ref) => {
+  (
+    {
+      checked = false,
+      indeterminate = false,
+      error = false,
+      disabled = false,
+      label,
+      description,
+      position = 'left',
+      showHoverBg = false,
+      onCheckedChange,
+      onChange,
+      onFocus,
+      onBlur,
+      style,
+      className: _className,
+      id: providedId,
+      ...props
+    },
+    ref
+  ) => {
     const [isHovered, setIsHovered] = useState(false)
     const [isFocused, setIsFocused] = useState(false)
     const generatedId = useId()
@@ -131,9 +134,8 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       opacity: disabled ? 0.6 : 1,
       padding: showHoverBg ? '8px' : '0',
       borderRadius: showHoverBg ? 8 : 0,
-      backgroundColor: showHoverBg && isHovered && !disabled 
-        ? CHECKBOX_TOKENS.containerHover.bg 
-        : 'transparent',
+      backgroundColor:
+        showHoverBg && isHovered && !disabled ? CHECKBOX_TOKENS.containerHover.bg : 'transparent',
       transition: 'background-color 150ms ease',
       ...style,
     }
@@ -153,9 +155,11 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: stateTokens.bg,
-      border: `2px solid ${isHovered && !disabled && !checked && !indeterminate 
-        ? CHECKBOX_TOKENS.unchecked.borderHover 
-        : stateTokens.border}`,
+      border: `2px solid ${
+        isHovered && !disabled && !checked && !indeterminate
+          ? CHECKBOX_TOKENS.unchecked.borderHover
+          : stateTokens.border
+      }`,
       borderRadius: CHECKBOX_TOKENS.radius,
       transition: 'all 150ms ease-in-out',
       pointerEvents: 'none',
@@ -181,11 +185,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       fontSize: 14,
       fontWeight: 500,
       lineHeight: 1.4,
-      color: disabled 
-        ? '#a1a1aa' 
-        : error 
-          ? '#ef4444' 
-          : '#18181b',
+      color: disabled ? '#a1a1aa' : error ? '#ef4444' : '#18181b',
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     }
 
@@ -201,7 +201,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     const showIcon = checked || indeterminate
 
     return (
-      <label 
+      <label
         style={containerStyle}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -224,15 +224,15 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           />
           <span style={visualBoxStyle}>
             {showIcon && (
-              <IconComponent 
-                size={CHECKBOX_TOKENS.iconSize} 
+              <IconComponent
+                size={CHECKBOX_TOKENS.iconSize}
                 color={'fg' in stateTokens ? stateTokens.fg : '#ffffff'}
                 strokeWidth={3}
               />
             )}
           </span>
         </span>
-        
+
         {(label || description) && (
           <span style={labelContainerStyle}>
             {label && <span style={labelStyle}>{label}</span>}
@@ -244,7 +244,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
   }
 )
 
-Checkbox.displayName = "Checkbox"
+Checkbox.displayName = 'Checkbox'
 
 // ============================================================================
 // Checkbox Group (for managing multiple checkboxes)
@@ -281,19 +281,13 @@ const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(
             {label}
           </div>
         )}
-        <div style={groupStyle}>
-          {children}
-        </div>
-        {error && (
-          <div style={errorStyle}>
-            {error}
-          </div>
-        )}
+        <div style={groupStyle}>{children}</div>
+        {error && <div style={errorStyle}>{error}</div>}
       </div>
     )
   }
 )
 
-CheckboxGroup.displayName = "CheckboxGroup"
+CheckboxGroup.displayName = 'CheckboxGroup'
 
 export { Checkbox, CheckboxGroup, CHECKBOX_TOKENS }

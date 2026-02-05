@@ -1,7 +1,7 @@
-import * as React from "react"
-import { forwardRef, useState } from "react"
-import { X, ChevronDown, ChevronUp } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, useState } from 'react'
+import { X, ChevronDown, ChevronUp } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 /**
  * Chip Design Tokens from Figma
@@ -11,21 +11,21 @@ const CHIP_TOKENS = {
   // Variants
   variants: {
     filled: {
-      bg: '#ffffff',          // white
-      bgHover: '#f4f4f5',     // zinc-100
-      bgActive: '#e4e4e7',    // zinc-200
-      bgSelected: '#dbeafe',  // blue-100 (light blue)
+      bg: '#ffffff', // white
+      bgHover: '#f4f4f5', // zinc-100
+      bgActive: '#e4e4e7', // zinc-200
+      bgSelected: '#dbeafe', // blue-100 (light blue)
       bgSelectedHover: '#bfdbfe', // blue-200
-      fg: '#18181b',          // zinc-900
-      fgSelected: '#2050f6',  // spaceblue-600
+      fg: '#18181b', // zinc-900
+      fgSelected: '#2050f6', // spaceblue-600
     },
     outlined: {
       bg: 'transparent',
-      bgHover: '#f4f4f5',     // zinc-100
-      bgActive: '#e4e4e7',    // zinc-200
-      bgSelected: '#eef4ff',  // spaceblue-50
+      bgHover: '#f4f4f5', // zinc-100
+      bgActive: '#e4e4e7', // zinc-200
+      bgSelected: '#eef4ff', // spaceblue-50
       bgSelectedHover: '#dbeafe', // blue-100
-      border: '#d4d4d8',      // zinc-300
+      border: '#d4d4d8', // zinc-300
       borderHover: '#a1a1aa', // zinc-400
       borderSelected: '#2050f6',
       fg: '#18181b',
@@ -74,24 +74,27 @@ export interface ChipProps extends Omit<React.HTMLAttributes<HTMLButtonElement>,
 }
 
 const Chip = forwardRef<HTMLButtonElement, ChipProps>(
-  ({ 
-    variant = 'filled',
-    size = 'md',
-    selected = false,
-    active = false,
-    disabled = false,
-    leftIcon: LeftIcon,
-    rightElement,
-    count,
-    showDivider = false,
-    onClick,
-    onRemove,
-    onFocus,
-    onBlur,
-    style, 
-    children, 
-    ...props 
-  }, ref) => {
+  (
+    {
+      variant = 'filled',
+      size = 'md',
+      selected = false,
+      active = false,
+      disabled = false,
+      leftIcon: LeftIcon,
+      rightElement,
+      count,
+      showDivider = false,
+      onClick,
+      onRemove,
+      onFocus,
+      onBlur,
+      style,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const [isHovered, setIsHovered] = useState(false)
     const [isFocused, setIsFocused] = useState(false)
     const tokens = CHIP_TOKENS.variants[variant]
@@ -151,9 +154,7 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
     const dividerStyle: React.CSSProperties = {
       width: 1,
       height: sizeTokens.height - 8,
-      backgroundColor: variant === 'outlined' && selected 
-        ? '#2050f6' 
-        : '#d4d4d8',
+      backgroundColor: variant === 'outlined' && selected ? '#2050f6' : '#d4d4d8',
       margin: '0 4px',
     }
 
@@ -208,13 +209,13 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
         return (
           <>
             {showDivider && <span style={dividerStyle} />}
-            <span 
+            <span
               role="button"
               tabIndex={-1}
               style={removeButtonStyle}
               onClick={handleRemove}
-              onMouseOver={(e) => (e.currentTarget.style.opacity = '1')}
-              onMouseOut={(e) => (e.currentTarget.style.opacity = '0.6')}
+              onMouseOver={e => (e.currentTarget.style.opacity = '1')}
+              onMouseOut={e => (e.currentTarget.style.opacity = '0.6')}
               aria-label="Remove"
             >
               <X size={sizeTokens.iconSize - 2} />
@@ -242,9 +243,7 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
         return (
           <>
             {showDivider && <span style={dividerStyle} />}
-            <span style={rightElementStyle}>
-              ({count})
-            </span>
+            <span style={rightElementStyle}>({count})</span>
           </>
         )
       }
@@ -253,9 +252,7 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
       return (
         <>
           {showDivider && <span style={dividerStyle} />}
-          <span style={rightElementStyle}>
-            {rightElement}
-          </span>
+          <span style={rightElementStyle}>{rightElement}</span>
         </>
       )
     }
@@ -283,7 +280,7 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
   }
 )
 
-Chip.displayName = "Chip"
+Chip.displayName = 'Chip'
 
 // ============================================================================
 // Chip Group (for managing selection)
@@ -298,7 +295,17 @@ export interface ChipGroupProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const ChipGroup = forwardRef<HTMLDivElement, ChipGroupProps>(
-  ({ value, onValueChange, multiple = false, style, children, ...props }, ref) => {
+  (
+    {
+      value: _value,
+      onValueChange: _onValueChange,
+      multiple: _multiple = false,
+      style,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const groupStyle: React.CSSProperties = {
       display: 'flex',
       flexWrap: 'wrap',
@@ -314,6 +321,6 @@ const ChipGroup = forwardRef<HTMLDivElement, ChipGroupProps>(
   }
 )
 
-ChipGroup.displayName = "ChipGroup"
+ChipGroup.displayName = 'ChipGroup'
 
 export { Chip, ChipGroup, CHIP_TOKENS }

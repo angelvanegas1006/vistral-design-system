@@ -1,5 +1,5 @@
-import * as React from "react"
-import { forwardRef, useState, useRef, useEffect, createContext, useContext } from "react"
+import * as React from 'react'
+import { forwardRef, useState, useRef, useEffect, createContext, useContext } from 'react'
 
 /**
  * Tooltip Design Tokens from Figma
@@ -7,7 +7,7 @@ import { forwardRef, useState, useRef, useEffect, createContext, useContext } fr
  */
 const TOOLTIP_TOKENS = {
   // Container
-  bg: '#18181b',         // zinc-900
+  bg: '#18181b', // zinc-900
   fg: '#ffffff',
   radius: 6,
   // Sizes
@@ -57,14 +57,14 @@ type TooltipProviderProps = {
   children: React.ReactNode
 }
 
-const TooltipProvider: React.FC<TooltipProviderProps> = ({ 
-  delayDuration = TOOLTIP_TOKENS.delay,
-  children 
+const TooltipProvider: React.FC<TooltipProviderProps> = ({
+  delayDuration: _delayDuration = TOOLTIP_TOKENS.delay,
+  children,
 }) => {
   return <>{children}</>
 }
 
-TooltipProvider.displayName = "TooltipProvider"
+TooltipProvider.displayName = 'TooltipProvider'
 
 // ============================================================================
 // Tooltip Root
@@ -130,7 +130,7 @@ const Tooltip: React.FC<TooltipProps> = ({
   )
 }
 
-Tooltip.displayName = "Tooltip"
+Tooltip.displayName = 'Tooltip'
 
 // ============================================================================
 // Tooltip Trigger
@@ -172,7 +172,7 @@ const TooltipTrigger: React.FC<TooltipTriggerProps> = ({ children, asChild }) =>
   )
 }
 
-TooltipTrigger.displayName = "TooltipTrigger"
+TooltipTrigger.displayName = 'TooltipTrigger'
 
 // ============================================================================
 // Tooltip Content
@@ -189,15 +189,18 @@ export interface TooltipContentProps extends React.HTMLAttributes<HTMLDivElement
 }
 
 const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
-  ({ 
-    side = 'top', 
-    align = 'center',
-    size = 'md',
-    arrow = true,
-    style, 
-    children, 
-    ...props 
-  }, ref) => {
+  (
+    {
+      side = 'top',
+      align = 'center',
+      size = 'md',
+      arrow: _arrow = true,
+      style,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const { open, triggerRef } = useTooltip()
     const [position, setPosition] = useState({ top: 0, left: 0 })
     const contentRef = useRef<HTMLDivElement>(null)
@@ -278,7 +281,7 @@ const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
   }
 )
 
-TooltipContent.displayName = "TooltipContent"
+TooltipContent.displayName = 'TooltipContent'
 
 // Add keyframes
 if (typeof document !== 'undefined') {
@@ -296,10 +299,4 @@ if (typeof document !== 'undefined') {
   }
 }
 
-export {
-  TooltipProvider,
-  Tooltip,
-  TooltipTrigger,
-  TooltipContent,
-  TOOLTIP_TOKENS,
-}
+export { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent, TOOLTIP_TOKENS }

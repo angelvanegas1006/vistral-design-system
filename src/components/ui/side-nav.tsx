@@ -1,7 +1,7 @@
-import * as React from "react"
-import { forwardRef, createContext, useContext, useState } from "react"
-import { ChevronRight, ChevronDown, PanelLeftClose, PanelLeft } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, createContext, useContext, useState } from 'react'
+import { ChevronRight, ChevronDown, PanelLeftClose } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 /**
  * Side Navigation Design Tokens from Figma
@@ -93,17 +93,20 @@ export interface SideNavProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 const SideNav = forwardRef<HTMLElement, SideNavProps>(
-  ({
-    collapsed: controlledCollapsed,
-    onCollapsedChange,
-    activeItem: controlledActive,
-    defaultActiveItem = '',
-    onActiveItemChange,
-    style,
-    children,
-    ...props
-  }, ref) => {
-    const [internalCollapsed, setInternalCollapsed] = useState(false)
+  (
+    {
+      collapsed: controlledCollapsed,
+      onCollapsedChange: _onCollapsedChange,
+      activeItem: controlledActive,
+      defaultActiveItem = '',
+      onActiveItemChange,
+      style,
+      children,
+      ...props
+    },
+    ref
+  ) => {
+    const [internalCollapsed, _setInternalCollapsed] = useState(false)
     const [internalActive, setInternalActive] = useState(defaultActiveItem)
 
     const isCollapsedControlled = controlledCollapsed !== undefined
@@ -143,7 +146,7 @@ const SideNav = forwardRef<HTMLElement, SideNavProps>(
   }
 )
 
-SideNav.displayName = "SideNav"
+SideNav.displayName = 'SideNav'
 
 // ============================================================================
 // SideNav Header
@@ -162,7 +165,10 @@ export interface SideNavHeaderProps extends React.HTMLAttributes<HTMLDivElement>
 }
 
 const SideNavHeader = forwardRef<HTMLDivElement, SideNavHeaderProps>(
-  ({ logo, title, subtitle, showCollapseButton = true, onCollapse, style, children, ...props }, ref) => {
+  (
+    { logo, title, subtitle, showCollapseButton = true, onCollapse, style, children, ...props },
+    ref
+  ) => {
     const { collapsed } = useSideNav()
 
     const headerStyle: React.CSSProperties = {
@@ -241,7 +247,7 @@ const SideNavHeader = forwardRef<HTMLDivElement, SideNavHeaderProps>(
   }
 )
 
-SideNavHeader.displayName = "SideNavHeader"
+SideNavHeader.displayName = 'SideNavHeader'
 
 // ============================================================================
 // SideNav Content
@@ -265,7 +271,7 @@ const SideNavContent = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
   }
 )
 
-SideNavContent.displayName = "SideNavContent"
+SideNavContent.displayName = 'SideNavContent'
 
 // ============================================================================
 // SideNav Group
@@ -301,7 +307,7 @@ const SideNavGroup = forwardRef<HTMLDivElement, SideNavGroupProps>(
   }
 )
 
-SideNavGroup.displayName = "SideNavGroup"
+SideNavGroup.displayName = 'SideNavGroup'
 
 // ============================================================================
 // SideNav Item
@@ -324,10 +330,24 @@ export interface SideNavItemProps extends React.HTMLAttributes<HTMLButtonElement
 }
 
 const SideNavItem = forwardRef<HTMLButtonElement, SideNavItemProps>(
-  ({ value, icon: Icon, label, hasSubmenu, badge, disabled = false, href, style, onClick, ...props }, ref) => {
+  (
+    {
+      value,
+      icon: Icon,
+      label,
+      hasSubmenu,
+      badge,
+      disabled = false,
+      href,
+      style,
+      onClick,
+      ...props
+    },
+    ref
+  ) => {
     const { collapsed, activeItem, setActiveItem } = useSideNav()
     const [isHovered, setIsHovered] = useState(false)
-    
+
     const isActive = activeItem === value
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -347,11 +367,15 @@ const SideNavItem = forwardRef<HTMLButtonElement, SideNavItemProps>(
       fontSize: SIDE_NAV_TOKENS.item.fontSize,
       fontWeight: SIDE_NAV_TOKENS.item.fontWeight,
       fontFamily: 'inherit',
-      color: isActive ? SIDE_NAV_TOKENS.item.fgActive : isHovered ? SIDE_NAV_TOKENS.item.fgHover : SIDE_NAV_TOKENS.item.fg,
-      backgroundColor: isActive 
-        ? SIDE_NAV_TOKENS.item.bgActive 
-        : isHovered && !disabled 
-          ? SIDE_NAV_TOKENS.item.bgHover 
+      color: isActive
+        ? SIDE_NAV_TOKENS.item.fgActive
+        : isHovered
+          ? SIDE_NAV_TOKENS.item.fgHover
+          : SIDE_NAV_TOKENS.item.fg,
+      backgroundColor: isActive
+        ? SIDE_NAV_TOKENS.item.bgActive
+        : isHovered && !disabled
+          ? SIDE_NAV_TOKENS.item.bgHover
           : SIDE_NAV_TOKENS.item.bg,
       border: 'none',
       borderRadius: SIDE_NAV_TOKENS.item.radius,
@@ -371,7 +395,9 @@ const SideNavItem = forwardRef<HTMLButtonElement, SideNavItemProps>(
       width: SIDE_NAV_TOKENS.item.iconSize,
       height: SIDE_NAV_TOKENS.item.iconSize,
       borderRadius: '50%',
-      border: isActive ? 'none' : `1.5px solid ${isActive ? SIDE_NAV_TOKENS.item.fgActive : SIDE_NAV_TOKENS.item.fg}`,
+      border: isActive
+        ? 'none'
+        : `1.5px solid ${isActive ? SIDE_NAV_TOKENS.item.fgActive : SIDE_NAV_TOKENS.item.fg}`,
       backgroundColor: isActive ? SIDE_NAV_TOKENS.item.fgActive : 'transparent',
       color: isActive ? '#ffffff' : 'inherit',
       flexShrink: 0,
@@ -393,12 +419,23 @@ const SideNavItem = forwardRef<HTMLButtonElement, SideNavItemProps>(
           <Icon size={16} style={{ flexShrink: 0 }} />
         ) : (
           <span style={iconWrapperStyle}>
-            {isActive && <span style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#ffffff' }} />}
+            {isActive && (
+              <span
+                style={{ width: 6, height: 6, borderRadius: '50%', backgroundColor: '#ffffff' }}
+              />
+            )}
           </span>
         )}
         {!collapsed && (
           <>
-            <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            <span
+              style={{
+                flex: 1,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
               {label}
             </span>
             {badge !== undefined && badge > 0 && (
@@ -440,7 +477,7 @@ const SideNavItem = forwardRef<HTMLButtonElement, SideNavItemProps>(
   }
 )
 
-SideNavItem.displayName = "SideNavItem"
+SideNavItem.displayName = 'SideNavItem'
 
 // ============================================================================
 // SideNav Footer
@@ -464,7 +501,7 @@ const SideNavFooter = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEle
   }
 )
 
-SideNavFooter.displayName = "SideNavFooter"
+SideNavFooter.displayName = 'SideNavFooter'
 
 // ============================================================================
 // SideNav User Profile
@@ -486,7 +523,12 @@ const SideNavUser = forwardRef<HTMLDivElement, SideNavUserProps>(
     const [isHovered, setIsHovered] = useState(false)
 
     // Get initials from name
-    const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+    const initials = name
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2)
 
     const containerStyle: React.CSSProperties = {
       display: 'flex',
@@ -534,30 +576,38 @@ const SideNavUser = forwardRef<HTMLDivElement, SideNavUserProps>(
       >
         <div style={avatarStyle}>
           {avatar ? (
-            <img src={avatar} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <img
+              src={avatar}
+              alt={name}
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
           ) : (
             initials
           )}
         </div>
         <div style={infoStyle}>
-          <span style={{
-            fontSize: SIDE_NAV_TOKENS.user.nameSize,
-            fontWeight: SIDE_NAV_TOKENS.user.nameWeight,
-            color: SIDE_NAV_TOKENS.user.nameColor,
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-          }}>
-            {name}
-          </span>
-          {email && (
-            <span style={{
-              fontSize: SIDE_NAV_TOKENS.user.emailSize,
-              color: SIDE_NAV_TOKENS.user.emailColor,
+          <span
+            style={{
+              fontSize: SIDE_NAV_TOKENS.user.nameSize,
+              fontWeight: SIDE_NAV_TOKENS.user.nameWeight,
+              color: SIDE_NAV_TOKENS.user.nameColor,
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
-            }}>
+            }}
+          >
+            {name}
+          </span>
+          {email && (
+            <span
+              style={{
+                fontSize: SIDE_NAV_TOKENS.user.emailSize,
+                color: SIDE_NAV_TOKENS.user.emailColor,
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+            >
               {email}
             </span>
           )}
@@ -570,7 +620,7 @@ const SideNavUser = forwardRef<HTMLDivElement, SideNavUserProps>(
   }
 )
 
-SideNavUser.displayName = "SideNavUser"
+SideNavUser.displayName = 'SideNavUser'
 
 // ============================================================================
 // SideNav Divider
@@ -592,16 +642,16 @@ const SideNavDivider = forwardRef<HTMLHRElement, React.HTMLAttributes<HTMLHRElem
   }
 )
 
-SideNavDivider.displayName = "SideNavDivider"
+SideNavDivider.displayName = 'SideNavDivider'
 
-export { 
-  SideNav, 
+export {
+  SideNav,
   SideNavHeader,
   SideNavContent,
   SideNavGroup,
-  SideNavItem, 
+  SideNavItem,
   SideNavFooter,
   SideNavUser,
-  SideNavDivider, 
-  SIDE_NAV_TOKENS 
+  SideNavDivider,
+  SIDE_NAV_TOKENS,
 }

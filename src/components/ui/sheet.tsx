@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef, createContext, useContext, useState, useEffect } from "react"
-import { X } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, createContext, useContext, useState, useEffect } from 'react'
+import { X } from 'lucide-react'
 
 /**
  * Sheet/Drawer Design Tokens from Figma
@@ -83,7 +83,7 @@ const Sheet: React.FC<SheetProps> = ({
   children,
 }) => {
   const [internalOpen, setInternalOpen] = useState(defaultOpen)
-  
+
   const isControlled = controlledOpen !== undefined
   const open = isControlled ? controlledOpen : internalOpen
 
@@ -94,14 +94,10 @@ const Sheet: React.FC<SheetProps> = ({
     onOpenChange?.(newOpen)
   }
 
-  return (
-    <SheetContext.Provider value={{ open, setOpen }}>
-      {children}
-    </SheetContext.Provider>
-  )
+  return <SheetContext.Provider value={{ open, setOpen }}>{children}</SheetContext.Provider>
 }
 
-Sheet.displayName = "Sheet"
+Sheet.displayName = 'Sheet'
 
 // ============================================================================
 // Sheet Trigger
@@ -127,7 +123,7 @@ const SheetTrigger: React.FC<SheetTriggerProps> = ({ children, asChild }) => {
   )
 }
 
-SheetTrigger.displayName = "SheetTrigger"
+SheetTrigger.displayName = 'SheetTrigger'
 
 // ============================================================================
 // Sheet Content
@@ -144,15 +140,18 @@ export interface SheetContentProps extends React.HTMLAttributes<HTMLDivElement> 
 }
 
 const SheetContent = forwardRef<HTMLDivElement, SheetContentProps>(
-  ({
-    side = 'right',
-    size = 'md',
-    showClose = true,
-    closeOnOverlayClick = true,
-    style,
-    children,
-    ...props
-  }, ref) => {
+  (
+    {
+      side = 'right',
+      size = 'md',
+      showClose = true,
+      closeOnOverlayClick = true,
+      style,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const { open, setOpen } = useSheet()
 
     // Lock body scroll when open
@@ -180,13 +179,17 @@ const SheetContent = forwardRef<HTMLDivElement, SheetContentProps>(
     const isHorizontal = side === 'left' || side === 'right'
     const sheetSize = SHEET_TOKENS.sizes[size]
 
-    const getTransform = (entering: boolean) => {
+    const _getTransform = (entering: boolean) => {
       if (entering) return 'none'
       switch (side) {
-        case 'left': return 'translateX(-100%)'
-        case 'right': return 'translateX(100%)'
-        case 'top': return 'translateY(-100%)'
-        case 'bottom': return 'translateY(100%)'
+        case 'left':
+          return 'translateX(-100%)'
+        case 'right':
+          return 'translateX(100%)'
+        case 'top':
+          return 'translateY(-100%)'
+        case 'bottom':
+          return 'translateY(100%)'
       }
     }
 
@@ -206,7 +209,7 @@ const SheetContent = forwardRef<HTMLDivElement, SheetContentProps>(
       left: !isHorizontal ? 0 : undefined,
       right: !isHorizontal ? 0 : undefined,
       width: isHorizontal ? (typeof sheetSize === 'number' ? sheetSize : sheetSize) : '100%',
-      height: isHorizontal ? '100%' : (typeof sheetSize === 'number' ? sheetSize : sheetSize),
+      height: isHorizontal ? '100%' : typeof sheetSize === 'number' ? sheetSize : sheetSize,
       maxWidth: isHorizontal ? '100vw' : undefined,
       maxHeight: !isHorizontal ? '100vh' : undefined,
       backgroundColor: SHEET_TOKENS.content.bg,
@@ -234,18 +237,12 @@ const SheetContent = forwardRef<HTMLDivElement, SheetContentProps>(
 
     return (
       <>
-        <div 
-          style={overlayStyle} 
+        <div
+          style={overlayStyle}
           onClick={closeOnOverlayClick ? () => setOpen(false) : undefined}
           aria-hidden="true"
         />
-        <div
-          ref={ref}
-          role="dialog"
-          aria-modal="true"
-          style={contentStyle}
-          {...props}
-        >
+        <div ref={ref} role="dialog" aria-modal="true" style={contentStyle} {...props}>
           {showClose && (
             <button type="button" style={closeStyle} onClick={() => setOpen(false)}>
               <X size={20} />
@@ -258,7 +255,7 @@ const SheetContent = forwardRef<HTMLDivElement, SheetContentProps>(
   }
 )
 
-SheetContent.displayName = "SheetContent"
+SheetContent.displayName = 'SheetContent'
 
 // ============================================================================
 // Sheet Header
@@ -282,7 +279,7 @@ const SheetHeader = forwardRef<HTMLDivElement, SheetHeaderProps>(
   }
 )
 
-SheetHeader.displayName = "SheetHeader"
+SheetHeader.displayName = 'SheetHeader'
 
 // ============================================================================
 // Sheet Title
@@ -307,7 +304,7 @@ const SheetTitle = forwardRef<HTMLHeadingElement, SheetTitleProps>(
   }
 )
 
-SheetTitle.displayName = "SheetTitle"
+SheetTitle.displayName = 'SheetTitle'
 
 // ============================================================================
 // Sheet Description
@@ -331,7 +328,7 @@ const SheetDescription = forwardRef<HTMLParagraphElement, SheetDescriptionProps>
   }
 )
 
-SheetDescription.displayName = "SheetDescription"
+SheetDescription.displayName = 'SheetDescription'
 
 // ============================================================================
 // Sheet Body
@@ -355,7 +352,7 @@ const SheetBody = forwardRef<HTMLDivElement, SheetBodyProps>(
   }
 )
 
-SheetBody.displayName = "SheetBody"
+SheetBody.displayName = 'SheetBody'
 
 // ============================================================================
 // Sheet Footer
@@ -383,7 +380,7 @@ const SheetFooter = forwardRef<HTMLDivElement, SheetFooterProps>(
   }
 )
 
-SheetFooter.displayName = "SheetFooter"
+SheetFooter.displayName = 'SheetFooter'
 
 // ============================================================================
 // Sheet Close
@@ -411,7 +408,7 @@ const SheetClose: React.FC<SheetCloseProps> = ({ asChild, children, onClick, ...
   )
 }
 
-SheetClose.displayName = "SheetClose"
+SheetClose.displayName = 'SheetClose'
 
 // Add keyframes
 if (typeof document !== 'undefined') {

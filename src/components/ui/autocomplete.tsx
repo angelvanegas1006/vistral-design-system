@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef, useState, useRef, useEffect } from "react"
-import { Search, X, Check } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, useState, useRef, useEffect } from 'react'
+import { Search, X, Check } from 'lucide-react'
 
 /**
  * Autocomplete Design Tokens from Figma
@@ -45,7 +45,10 @@ export type AutocompleteOption = {
   disabled?: boolean
 }
 
-export interface AutocompleteProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
+export interface AutocompleteProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  'onChange' | 'value'
+> {
   /** Options list */
   options: AutocompleteOption[]
   /** Selected value */
@@ -67,26 +70,30 @@ export interface AutocompleteProps extends Omit<React.InputHTMLAttributes<HTMLIn
 }
 
 const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
-  ({
-    options,
-    value,
-    onChange,
-    onInputChange,
-    placeholder = 'Search...',
-    clearable = true,
-    loading = false,
-    emptyMessage = 'No results found',
-    freeSolo = false,
-    disabled,
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      options,
+      value,
+      onChange,
+      onInputChange,
+      placeholder = 'Search...',
+      clearable = true,
+      loading = false,
+      emptyMessage = 'No results found',
+      freeSolo = false,
+      disabled,
+      style,
+      ...props
+    },
+    _ref
+  ) => {
     const [isOpen, setIsOpen] = useState(false)
     const [inputValue, setInputValue] = useState('')
     const [highlightedIndex, setHighlightedIndex] = useState(-1)
     const [isFocused, setIsFocused] = useState(false)
     const containerRef = useRef<HTMLDivElement>(null)
     const inputRef = useRef<HTMLInputElement>(null)
+    const listId = React.useId()
 
     // Sync input value with selected value
     useEffect(() => {
@@ -122,7 +129,7 @@ const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       setIsOpen(true)
       setHighlightedIndex(-1)
       onInputChange?.(newValue)
-      
+
       if (freeSolo) {
         onChange?.(newValue)
       }
@@ -154,15 +161,11 @@ const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       switch (e.key) {
         case 'ArrowDown':
           e.preventDefault()
-          setHighlightedIndex(i => 
-            i < filteredOptions.length - 1 ? i + 1 : 0
-          )
+          setHighlightedIndex(i => (i < filteredOptions.length - 1 ? i + 1 : 0))
           break
         case 'ArrowUp':
           e.preventDefault()
-          setHighlightedIndex(i => 
-            i > 0 ? i - 1 : filteredOptions.length - 1
-          )
+          setHighlightedIndex(i => (i > 0 ? i - 1 : filteredOptions.length - 1))
           break
         case 'Enter':
           e.preventDefault()
@@ -245,11 +248,11 @@ const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       padding: `0 ${AUTOCOMPLETE_TOKENS.option.paddingX}px`,
       fontSize: AUTOCOMPLETE_TOKENS.option.fontSize,
       color: option.disabled ? AUTOCOMPLETE_TOKENS.option.fgMuted : AUTOCOMPLETE_TOKENS.option.fg,
-      backgroundColor: 
-        option.value === value 
-          ? AUTOCOMPLETE_TOKENS.option.bgSelected 
-          : index === highlightedIndex 
-            ? AUTOCOMPLETE_TOKENS.option.bgHover 
+      backgroundColor:
+        option.value === value
+          ? AUTOCOMPLETE_TOKENS.option.bgSelected
+          : index === highlightedIndex
+            ? AUTOCOMPLETE_TOKENS.option.bgHover
             : 'transparent',
       cursor: option.disabled ? 'not-allowed' : 'pointer',
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
@@ -272,7 +275,10 @@ const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
             type="text"
             value={inputValue}
             onChange={handleInputChange}
-            onFocus={() => { setIsFocused(true); setIsOpen(true) }}
+            onFocus={() => {
+              setIsFocused(true)
+              setIsOpen(true)
+            }}
             onBlur={() => setIsFocused(false)}
             onKeyDown={handleKeyDown}
             placeholder={placeholder}
@@ -281,6 +287,7 @@ const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
             role="combobox"
             aria-expanded={isOpen}
             aria-autocomplete="list"
+            aria-controls={isOpen ? listId : undefined}
             {...props}
           />
           {clearable && inputValue && !disabled && (
@@ -319,6 +326,6 @@ const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
   }
 )
 
-Autocomplete.displayName = "Autocomplete"
+Autocomplete.displayName = 'Autocomplete'
 
 export { Autocomplete, AUTOCOMPLETE_TOKENS }

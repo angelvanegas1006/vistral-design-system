@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef, useState, useRef } from "react"
-import { X } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, useState, useRef } from 'react'
+import { X } from 'lucide-react'
 
 /**
  * Tag Input Design Tokens from Figma
@@ -62,21 +62,24 @@ export interface TagInputProps extends Omit<React.HTMLAttributes<HTMLDivElement>
 }
 
 const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
-  ({
-    value: controlledValue,
-    defaultValue = [],
-    onChange,
-    placeholder = 'Add tag...',
-    maxTags,
-    allowDuplicates = false,
-    disabled = false,
-    error = false,
-    label,
-    helperText,
-    separators = ['Enter', ','],
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      value: controlledValue,
+      defaultValue = [],
+      onChange,
+      placeholder = 'Add tag...',
+      maxTags,
+      allowDuplicates = false,
+      disabled = false,
+      error = false,
+      label,
+      helperText,
+      separators = ['Enter', ','],
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const [internalValue, setInternalValue] = useState<string[]>(defaultValue)
     const [inputValue, setInputValue] = useState('')
     const [isFocused, setIsFocused] = useState(false)
@@ -92,7 +95,7 @@ const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
       if (maxTags && tags.length >= maxTags) return
 
       const newTags = [...tags, trimmed]
-      
+
       if (!isControlled) {
         setInternalValue(newTags)
       }
@@ -102,9 +105,9 @@ const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
 
     const removeTag = (index: number) => {
       if (disabled) return
-      
+
       const newTags = tags.filter((_, i) => i !== index)
-      
+
       if (!isControlled) {
         setInternalValue(newTags)
       }
@@ -123,15 +126,18 @@ const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
     const handlePaste = (e: React.ClipboardEvent) => {
       e.preventDefault()
       const pastedText = e.clipboardData.getData('text')
-      const pastedTags = pastedText.split(/[,\n]/).map(t => t.trim()).filter(Boolean)
-      
-      let newTags = [...tags]
+      const pastedTags = pastedText
+        .split(/[,\n]/)
+        .map(t => t.trim())
+        .filter(Boolean)
+
+      const newTags = [...tags]
       for (const tag of pastedTags) {
         if (maxTags && newTags.length >= maxTags) break
         if (!allowDuplicates && newTags.includes(tag)) continue
         newTags.push(tag)
       }
-      
+
       if (!isControlled) {
         setInternalValue(newTags)
       }
@@ -202,15 +208,20 @@ const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
     return (
       <div ref={ref} style={wrapperStyle} {...props}>
         {label && (
-          <label style={{ display: 'block', marginBottom: 6, fontSize: 14, fontWeight: 500, color: '#18181b' }}>
+          <label
+            style={{
+              display: 'block',
+              marginBottom: 6,
+              fontSize: 14,
+              fontWeight: 500,
+              color: '#18181b',
+            }}
+          >
             {label}
           </label>
         )}
 
-        <div
-          style={containerStyle}
-          onClick={() => !disabled && inputRef.current?.focus()}
-        >
+        <div style={containerStyle} onClick={() => !disabled && inputRef.current?.focus()}>
           {tags.map((tag, index) => (
             <span key={`${tag}-${index}`} style={tagStyle}>
               {tag}
@@ -218,23 +229,29 @@ const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
                 <button
                   type="button"
                   style={removeButtonStyle}
-                  onClick={(e) => { e.stopPropagation(); removeTag(index); }}
+                  onClick={e => {
+                    e.stopPropagation()
+                    removeTag(index)
+                  }}
                 >
                   <X size={14} />
                 </button>
               )}
             </span>
           ))}
-          
+
           <input
             ref={inputRef}
             type="text"
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={e => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
             onPaste={handlePaste}
             onFocus={() => setIsFocused(true)}
-            onBlur={() => { setIsFocused(false); if (inputValue) addTag(inputValue); }}
+            onBlur={() => {
+              setIsFocused(false)
+              if (inputValue) addTag(inputValue)
+            }}
             placeholder={tags.length === 0 ? placeholder : ''}
             disabled={disabled || (maxTags !== undefined && tags.length >= maxTags)}
             style={inputStyle}
@@ -251,6 +268,6 @@ const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
   }
 )
 
-TagInput.displayName = "TagInput"
+TagInput.displayName = 'TagInput'
 
 export { TagInput, TAG_INPUT_TOKENS }

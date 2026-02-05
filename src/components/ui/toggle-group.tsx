@@ -1,5 +1,5 @@
-import * as React from "react"
-import { forwardRef, createContext, useContext } from "react"
+import * as React from 'react'
+import { forwardRef, createContext, useContext } from 'react'
 
 /**
  * Toggle Group Design Tokens from Figma
@@ -65,17 +65,20 @@ export interface ToggleGroupProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const ToggleGroup = forwardRef<HTMLDivElement, ToggleGroupProps>(
-  ({
-    value: controlledValue,
-    defaultValue,
-    onValueChange,
-    multiple = false,
-    disabled = false,
-    size = 'md',
-    style,
-    children,
-    ...props
-  }, ref) => {
+  (
+    {
+      value: controlledValue,
+      defaultValue,
+      onValueChange,
+      multiple = false,
+      disabled = false,
+      size = 'md',
+      style,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const [internalValue, setInternalValue] = React.useState<string | string[]>(
       defaultValue ?? (multiple ? [] : '')
     )
@@ -87,7 +90,7 @@ const ToggleGroup = forwardRef<HTMLDivElement, ToggleGroupProps>(
       if (disabled) return
 
       let newValue: string | string[]
-      
+
       if (multiple) {
         const currentArray = Array.isArray(value) ? value : []
         if (currentArray.includes(itemValue)) {
@@ -105,12 +108,6 @@ const ToggleGroup = forwardRef<HTMLDivElement, ToggleGroupProps>(
       onValueChange?.(newValue)
     }
 
-    const sizeStyles = {
-      sm: { height: 28, paddingX: 10, fontSize: 12 },
-      md: { height: 32, paddingX: 12, fontSize: 13 },
-      lg: { height: 36, paddingX: 14, fontSize: 14 },
-    }
-
     const containerStyle: React.CSSProperties = {
       display: 'inline-flex',
       alignItems: 'center',
@@ -124,13 +121,7 @@ const ToggleGroup = forwardRef<HTMLDivElement, ToggleGroupProps>(
 
     return (
       <ToggleGroupContext.Provider value={{ value, onValueChange: handleValueChange, multiple }}>
-        <div 
-          ref={ref} 
-          role="group" 
-          style={containerStyle} 
-          data-size={size}
-          {...props}
-        >
+        <div ref={ref} role="group" style={containerStyle} data-size={size} {...props}>
           {React.Children.map(children, child => {
             if (React.isValidElement(child)) {
               return React.cloneElement(child, { size } as any)
@@ -143,7 +134,7 @@ const ToggleGroup = forwardRef<HTMLDivElement, ToggleGroupProps>(
   }
 )
 
-ToggleGroup.displayName = "ToggleGroup"
+ToggleGroup.displayName = 'ToggleGroup'
 
 // ============================================================================
 // Toggle Group Item
@@ -158,9 +149,9 @@ export interface ToggleGroupItemProps extends React.ButtonHTMLAttributes<HTMLBut
 const ToggleGroupItem = forwardRef<HTMLButtonElement, ToggleGroupItemProps>(
   ({ value: itemValue, size = 'md', disabled, style, children, ...props }, ref) => {
     const { value, onValueChange, multiple } = useToggleGroup()
-    
-    const isSelected = multiple 
-      ? (Array.isArray(value) && value.includes(itemValue))
+
+    const isSelected = multiple
+      ? Array.isArray(value) && value.includes(itemValue)
       : value === itemValue
 
     const sizeStyles = {
@@ -208,6 +199,6 @@ const ToggleGroupItem = forwardRef<HTMLButtonElement, ToggleGroupItemProps>(
   }
 )
 
-ToggleGroupItem.displayName = "ToggleGroupItem"
+ToggleGroupItem.displayName = 'ToggleGroupItem'
 
 export { ToggleGroup, ToggleGroupItem, TOGGLE_GROUP_TOKENS }

@@ -1,5 +1,5 @@
-import * as React from "react"
-import { forwardRef } from "react"
+import * as React from 'react'
+import { forwardRef } from 'react'
 
 /**
  * Divider Design Tokens from Figma
@@ -28,48 +28,35 @@ export interface DividerProps extends React.HTMLAttributes<HTMLHRElement> {
 }
 
 const Divider = forwardRef<HTMLHRElement, DividerProps>(
-  ({ 
-    orientation = 'horizontal', 
-    spacing = 'md',
-    color,
-    style, 
-    ...props 
-  }, ref) => {
+  ({ orientation = 'horizontal', spacing = 'md', color, style, ...props }, ref) => {
     const spacingValue = spacing === 'none' ? 0 : DIVIDER_TOKENS.spacing[spacing]
-    
-    const dividerStyle: React.CSSProperties = orientation === 'horizontal' 
-      ? {
-          width: '100%',
-          height: DIVIDER_TOKENS.thickness,
-          margin: `${spacingValue}px 0`,
-          backgroundColor: color || DIVIDER_TOKENS.color,
-          border: 'none',
-          ...style,
-        }
-      : {
-          width: DIVIDER_TOKENS.thickness,
-          height: '100%',
-          minHeight: 16,
-          margin: `0 ${spacingValue}px`,
-          backgroundColor: color || DIVIDER_TOKENS.color,
-          border: 'none',
-          alignSelf: 'stretch',
-          ...style,
-        }
 
-    return (
-      <hr 
-        ref={ref} 
-        role="separator" 
-        aria-orientation={orientation}
-        style={dividerStyle} 
-        {...props} 
-      />
-    )
+    const dividerStyle: React.CSSProperties =
+      orientation === 'horizontal'
+        ? {
+            width: '100%',
+            height: DIVIDER_TOKENS.thickness,
+            margin: `${spacingValue}px 0`,
+            backgroundColor: color || DIVIDER_TOKENS.color,
+            border: 'none',
+            ...style,
+          }
+        : {
+            width: DIVIDER_TOKENS.thickness,
+            height: '100%',
+            minHeight: 16,
+            margin: `0 ${spacingValue}px`,
+            backgroundColor: color || DIVIDER_TOKENS.color,
+            border: 'none',
+            alignSelf: 'stretch',
+            ...style,
+          }
+
+    return <hr ref={ref} aria-orientation={orientation} style={dividerStyle} {...props} />
   }
 )
 
-Divider.displayName = "Divider"
+Divider.displayName = 'Divider'
 
 // ============================================================================
 // Divider with Label/Text
@@ -86,16 +73,9 @@ export interface DividerWithLabelProps extends React.HTMLAttributes<HTMLDivEleme
 }
 
 const DividerWithLabel = forwardRef<HTMLDivElement, DividerWithLabelProps>(
-  ({ 
-    label,
-    labelPosition = 'center',
-    spacing = 'md',
-    color,
-    style, 
-    ...props 
-  }, ref) => {
+  ({ label, labelPosition = 'center', spacing = 'md', color, style, ...props }, ref) => {
     const spacingValue = spacing === 'none' ? 0 : DIVIDER_TOKENS.spacing[spacing]
-    
+
     const containerStyle: React.CSSProperties = {
       display: 'flex',
       alignItems: 'center',
@@ -129,6 +109,6 @@ const DividerWithLabel = forwardRef<HTMLDivElement, DividerWithLabelProps>(
   }
 )
 
-DividerWithLabel.displayName = "DividerWithLabel"
+DividerWithLabel.displayName = 'DividerWithLabel'
 
 export { Divider, DividerWithLabel, DIVIDER_TOKENS }

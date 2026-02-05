@@ -1,8 +1,7 @@
-import * as React from "react"
-import { forwardRef, useState, useEffect } from "react"
-import { Images, ChevronLeft, ChevronRight } from "lucide-react"
-import { Lightbox, LightboxImage } from "./lightbox"
-import { Button } from "./button"
+import * as React from 'react'
+import { forwardRef, useState, useEffect } from 'react'
+import { Images, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Lightbox, LightboxImage } from './lightbox'
 
 /**
  * Media Hero Design Tokens from Figma
@@ -78,20 +77,23 @@ export interface MediaHeroProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
-  ({
-    images,
-    variant = 'auto',
-    height = 420,
-    showAllButton = true,
-    buttonText = 'Show all photos',
-    onShowAll,
-    showCounter = true,
-    visibleImages = 5,
-    instanceSlot,
-    enableHover = true,
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      images,
+      variant = 'auto',
+      height = 420,
+      showAllButton = true,
+      buttonText = 'Show all photos',
+      onShowAll,
+      showCounter = true,
+      visibleImages = 5,
+      instanceSlot,
+      enableHover = true,
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const [lightboxOpen, setLightboxOpen] = useState(false)
     const [lightboxIndex, setLightboxIndex] = useState(0)
     const [carouselIndex, setCarouselIndex] = useState(0)
@@ -109,9 +111,7 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
     }, [])
 
     // Determine actual variant
-    const actualVariant = variant === 'auto' 
-      ? (isMobile ? 'carousel' : 'grid')
-      : variant
+    const actualVariant = variant === 'auto' ? (isMobile ? 'carousel' : 'grid') : variant
 
     const openLightbox = (index: number = 0) => {
       setLightboxIndex(index)
@@ -137,7 +137,7 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
         announcementEl.className = 'sr-only'
         announcementEl.textContent = announcement
         document.body.appendChild(announcementEl)
-        
+
         setTimeout(() => {
           announcementEl.remove()
         }, 1000)
@@ -174,9 +174,9 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
     // ========== SINGLE IMAGE ==========
     if (actualVariant === 'single' || images.length === 1) {
       return (
-        <div 
-          ref={ref} 
-          style={containerStyle} 
+        <div
+          ref={ref}
+          style={containerStyle}
           {...props}
           onMouseEnter={() => setIsHovered(0)}
           onMouseLeave={() => setIsHovered(null)}
@@ -187,11 +187,7 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
             style={imageBaseStyle(0)}
             onClick={() => openLightbox(0)}
           />
-          {instanceSlot && (
-            <div style={MEDIA_HERO_TOKENS.instanceSlot}>
-              {instanceSlot}
-            </div>
-          )}
+          {instanceSlot && <div style={MEDIA_HERO_TOKENS.instanceSlot}>{instanceSlot}</div>}
           {showAllButton && images.length > 1 && (
             <div style={showAllButtonWrapperStyle}>
               <button
@@ -216,17 +212,17 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                   transition: 'background-color 150ms ease',
                   whiteSpace: 'nowrap',
                 }}
-                onMouseEnter={(e) => {
+                onMouseEnter={e => {
                   e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bgHover
                 }}
-                onMouseLeave={(e) => {
+                onMouseLeave={e => {
                   e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bg
                 }}
                 onClick={handleShowAll}
                 aria-label={`${buttonText} (${images.length} photos)`}
               >
-                      <Images size={16} style={{ flexShrink: 0, color: MEDIA_HERO_TOKENS.button.fg }} />
-                      <span style={{ whiteSpace: 'nowrap' }}>{buttonText}</span>
+                <Images size={16} style={{ flexShrink: 0, color: MEDIA_HERO_TOKENS.button.fg }} />
+                <span style={{ whiteSpace: 'nowrap' }}>{buttonText}</span>
               </button>
             </div>
           )}
@@ -242,8 +238,8 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
 
     // ========== CAROUSEL (Mobile) ==========
     if (actualVariant === 'carousel') {
-      const goToPrev = () => setCarouselIndex(i => i > 0 ? i - 1 : images.length - 1)
-      const goToNext = () => setCarouselIndex(i => i < images.length - 1 ? i + 1 : 0)
+      const goToPrev = () => setCarouselIndex(i => (i > 0 ? i - 1 : images.length - 1))
+      const goToNext = () => setCarouselIndex(i => (i < images.length - 1 ? i + 1 : 0))
 
       const navBtnStyle = (side: 'left' | 'right'): React.CSSProperties => ({
         position: 'absolute',
@@ -266,16 +262,16 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
       })
 
       return (
-        <div 
-          ref={ref} 
-          style={containerStyle} 
+        <div
+          ref={ref}
+          style={containerStyle}
           {...props}
           role="region"
           aria-label="Property photo gallery"
         >
-          <div 
-            style={{ 
-              display: 'flex', 
+          <div
+            style={{
+              display: 'flex',
               height: '100%',
               transition: 'transform 300ms ease',
               transform: `translateX(-${carouselIndex * 100}%)`,
@@ -283,11 +279,11 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
             }}
           >
             {images.map((image, index) => (
-              <div 
-                key={index} 
-                style={{ 
-                  flexShrink: 0, 
-                  width: '100%', 
+              <div
+                key={index}
+                style={{
+                  flexShrink: 0,
+                  width: '100%',
                   height: '100%',
                   position: 'relative',
                 }}
@@ -300,12 +296,14 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                   loading={index === 0 ? 'eager' : 'lazy'}
                 />
                 {instanceSlot && index === carouselIndex && (
-                  <div style={{
-                    ...MEDIA_HERO_TOKENS.instanceSlot,
-                    background: MEDIA_HERO_TOKENS.overlayGradient,
-                    padding: '8px',
-                    borderRadius: '8px',
-                  }}>
+                  <div
+                    style={{
+                      ...MEDIA_HERO_TOKENS.instanceSlot,
+                      background: MEDIA_HERO_TOKENS.overlayGradient,
+                      padding: '8px',
+                      borderRadius: '8px',
+                    }}
+                  >
                     {instanceSlot}
                   </div>
                 )}
@@ -315,17 +313,17 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
 
           {images.length > 1 && (
             <>
-              <button 
-                type="button" 
-                style={navBtnStyle('left')} 
+              <button
+                type="button"
+                style={navBtnStyle('left')}
                 onClick={goToPrev}
                 aria-label="Previous photo"
               >
                 <ChevronLeft size={20} />
               </button>
-              <button 
-                type="button" 
-                style={navBtnStyle('right')} 
+              <button
+                type="button"
+                style={navBtnStyle('right')}
                 onClick={goToNext}
                 aria-label="Next photo"
               >
@@ -336,18 +334,20 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
 
           {/* Counter */}
           {showCounter && (
-            <div style={{
-              position: 'absolute',
-              bottom: 16,
-              right: 16,
-              padding: MEDIA_HERO_TOKENS.counter.padding,
-              fontSize: MEDIA_HERO_TOKENS.counter.fontSize,
-              fontWeight: MEDIA_HERO_TOKENS.counter.fontWeight,
-              backgroundColor: MEDIA_HERO_TOKENS.counter.bg,
-              color: MEDIA_HERO_TOKENS.counter.fg,
-              borderRadius: MEDIA_HERO_TOKENS.counter.radius,
-              zIndex: 10,
-            }}>
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 16,
+                right: 16,
+                padding: MEDIA_HERO_TOKENS.counter.padding,
+                fontSize: MEDIA_HERO_TOKENS.counter.fontSize,
+                fontWeight: MEDIA_HERO_TOKENS.counter.fontWeight,
+                backgroundColor: MEDIA_HERO_TOKENS.counter.bg,
+                color: MEDIA_HERO_TOKENS.counter.fg,
+                borderRadius: MEDIA_HERO_TOKENS.counter.radius,
+                zIndex: 10,
+              }}
+            >
               {carouselIndex + 1}/{images.length}
             </div>
           )}
@@ -371,11 +371,11 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
       if (gridImages.length === 1) {
         return (
           <div style={{ height: '100%', position: 'relative' }}>
-            <img 
-              src={gridImages[0].src} 
-              alt={gridImages[0].alt || 'Property photo'} 
-              style={imageBaseStyle(0)} 
-              onClick={() => openLightbox(0)} 
+            <img
+              src={gridImages[0].src}
+              alt={gridImages[0].alt || 'Property photo'}
+              style={imageBaseStyle(0)}
+              onClick={() => openLightbox(0)}
             />
           </div>
         )
@@ -386,31 +386,32 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
         return (
           <div style={{ display: 'flex', gap, height: '100%' }}>
             {gridImages.map((img, i) => (
-              <div 
-                key={i} 
+              <div
+                key={i}
                 style={{ flex: 1, overflow: 'hidden', position: 'relative' }}
                 onMouseEnter={() => setIsHovered(i)}
                 onMouseLeave={() => setIsHovered(null)}
               >
-                <img 
-                  src={img.src} 
-                  alt={img.alt || `Property photo ${i + 1}`} 
-                  style={imageBaseStyle(i)} 
-                  onClick={() => openLightbox(i)} 
+                <img
+                  src={img.src}
+                  alt={img.alt || `Property photo ${i + 1}`}
+                  style={imageBaseStyle(i)}
+                  onClick={() => openLightbox(i)}
                 />
                 {/* Show all button on last thumbnail */}
                 {i === 1 && images.length > 2 && showAllButton && (
-                  <div style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    right: 0,
-                    padding: '12px',
-                    zIndex: 10,
-                  }}
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    handleShowAll()
-                  }}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      right: 0,
+                      padding: '12px',
+                      zIndex: 10,
+                    }}
+                    onClick={e => {
+                      e.stopPropagation()
+                      handleShowAll()
+                    }}
                   >
                     <button
                       type="button"
@@ -433,15 +434,18 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                         fontFamily: 'inherit',
                         transition: 'background-color 150ms ease',
                       }}
-                      onMouseEnter={(e) => {
+                      onMouseEnter={e => {
                         e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bgHover
                       }}
-                      onMouseLeave={(e) => {
+                      onMouseLeave={e => {
                         e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bg
                       }}
                       aria-label={`${buttonText} (${images.length} photos)`}
                     >
-                      <Images size={16} style={{ flexShrink: 0, color: MEDIA_HERO_TOKENS.button.fg }} />
+                      <Images
+                        size={16}
+                        style={{ flexShrink: 0, color: MEDIA_HERO_TOKENS.button.fg }}
+                      />
                       <span style={{ whiteSpace: 'nowrap' }}>{buttonText}</span>
                     </button>
                   </div>
@@ -456,47 +460,48 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
         // 3 images: main (60%) + 2 stacked (40%)
         return (
           <div style={{ display: 'flex', gap, height: '100%' }}>
-            <div 
+            <div
               style={{ width: '60%', overflow: 'hidden', position: 'relative' }}
               onMouseEnter={() => setIsHovered(0)}
               onMouseLeave={() => setIsHovered(null)}
             >
-              <img 
-                src={gridImages[0].src} 
-                alt={gridImages[0].alt || 'Main property photo'} 
-                style={imageBaseStyle(0)} 
-                onClick={() => openLightbox(0)} 
+              <img
+                src={gridImages[0].src}
+                alt={gridImages[0].alt || 'Main property photo'}
+                style={imageBaseStyle(0)}
+                onClick={() => openLightbox(0)}
               />
             </div>
             <div style={{ width: '40%', display: 'flex', flexDirection: 'column', gap }}>
               {gridImages.slice(1).map((img, i) => {
                 const isLastThumbnail = i === gridImages.slice(1).length - 1
                 return (
-                  <div 
-                    key={i} 
+                  <div
+                    key={i}
                     style={{ flex: 1, overflow: 'hidden', position: 'relative' }}
                     onMouseEnter={() => setIsHovered(i + 1)}
                     onMouseLeave={() => setIsHovered(null)}
                   >
-                    <img 
-                      src={img.src} 
-                      alt={img.alt || `Property photo ${i + 2}`} 
-                      style={imageBaseStyle(i + 1)} 
-                      onClick={() => openLightbox(i + 1)} 
+                    <img
+                      src={img.src}
+                      alt={img.alt || `Property photo ${i + 2}`}
+                      style={imageBaseStyle(i + 1)}
+                      onClick={() => openLightbox(i + 1)}
                     />
                     {/* Show all button on last thumbnail */}
                     {isLastThumbnail && images.length > gridImages.length && showAllButton && (
-                      <div style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        right: 0,
-                        padding: '12px',
-                        zIndex: 10,
-                      }}
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        handleShowAll()
-                      }}
+                      <div
+                        style={{
+                          position: 'absolute',
+                          bottom: 0,
+                          right: 0,
+                          padding: '12px',
+                          zIndex: 10,
+                        }}
+                        onClick={e => {
+                          e.stopPropagation()
+                          handleShowAll()
+                        }}
                       >
                         <button
                           type="button"
@@ -516,10 +521,10 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                             fontFamily: 'inherit',
                             transition: 'background-color 150ms ease',
                           }}
-                          onMouseEnter={(e) => {
+                          onMouseEnter={e => {
                             e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bgHover
                           }}
-                          onMouseLeave={(e) => {
+                          onMouseLeave={e => {
                             e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bg
                           }}
                           aria-label={`${buttonText} (${images.length} photos)`}
@@ -541,31 +546,31 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
         // 4 images: main (60%) + 3 stacked (40%)
         return (
           <div style={{ display: 'flex', gap, height: '100%' }}>
-            <div 
+            <div
               style={{ width: '60%', overflow: 'hidden', position: 'relative' }}
               onMouseEnter={() => setIsHovered(0)}
               onMouseLeave={() => setIsHovered(null)}
             >
-              <img 
-                src={gridImages[0].src} 
-                alt={gridImages[0].alt || 'Main property photo'} 
-                style={imageBaseStyle(0)} 
-                onClick={() => openLightbox(0)} 
+              <img
+                src={gridImages[0].src}
+                alt={gridImages[0].alt || 'Main property photo'}
+                style={imageBaseStyle(0)}
+                onClick={() => openLightbox(0)}
               />
             </div>
             <div style={{ width: '40%', display: 'flex', flexDirection: 'column', gap }}>
               {gridImages.slice(1).map((img, i) => (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   style={{ flex: 1, overflow: 'hidden', position: 'relative' }}
                   onMouseEnter={() => setIsHovered(i + 1)}
                   onMouseLeave={() => setIsHovered(null)}
                 >
-                  <img 
-                    src={img.src} 
-                    alt={img.alt || `Property photo ${i + 2}`} 
-                    style={imageBaseStyle(i + 1)} 
-                    onClick={() => openLightbox(i + 1)} 
+                  <img
+                    src={img.src}
+                    alt={img.alt || `Property photo ${i + 2}`}
+                    style={imageBaseStyle(i + 1)}
+                    onClick={() => openLightbox(i + 1)}
                   />
                 </div>
               ))}
@@ -578,53 +583,56 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
       return (
         <div style={{ display: 'flex', gap, height: '100%' }}>
           {/* Main image - 60% */}
-          <div 
+          <div
             style={{ width: '60%', overflow: 'hidden', position: 'relative' }}
             onMouseEnter={() => setIsHovered(0)}
             onMouseLeave={() => setIsHovered(null)}
           >
-            <img 
-              src={gridImages[0].src} 
-              alt={gridImages[0].alt || 'Main property photo'} 
-              style={imageBaseStyle(0)} 
-              onClick={() => openLightbox(0)} 
+            <img
+              src={gridImages[0].src}
+              alt={gridImages[0].alt || 'Main property photo'}
+              style={imageBaseStyle(0)}
+              onClick={() => openLightbox(0)}
             />
           </div>
-          
+
           {/* Side grid - 40% with 2x2 */}
-          <div style={{ 
-            width: '40%', 
-            display: 'grid', 
-            gridTemplateColumns: '1fr 1fr',
-            gridTemplateRows: '1fr 1fr',
-            gap,
-          }}>
+          <div
+            style={{
+              width: '40%',
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gridTemplateRows: '1fr 1fr',
+              gap,
+            }}
+          >
             {gridImages.slice(1, 5).map((img, i) => (
-              <div 
-                key={i} 
+              <div
+                key={i}
                 style={{ overflow: 'hidden', position: 'relative' }}
                 onMouseEnter={() => setIsHovered(i + 1)}
                 onMouseLeave={() => setIsHovered(null)}
               >
-                <img 
-                  src={img.src} 
-                  alt={img.alt || `Property photo ${i + 2}`} 
-                  style={imageBaseStyle(i + 1)} 
-                  onClick={() => openLightbox(i + 1)} 
+                <img
+                  src={img.src}
+                  alt={img.alt || `Property photo ${i + 2}`}
+                  style={imageBaseStyle(i + 1)}
+                  onClick={() => openLightbox(i + 1)}
                 />
                 {/* Show all button on last thumbnail - bottom-right corner */}
                 {i === 3 && images.length > 5 && showAllButton && (
-                  <div style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    right: 0,
-                    padding: '12px',
-                    zIndex: 10,
-                  }}
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    handleShowAll()
-                  }}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: 0,
+                      right: 0,
+                      padding: '12px',
+                      zIndex: 10,
+                    }}
+                    onClick={e => {
+                      e.stopPropagation()
+                      handleShowAll()
+                    }}
                   >
                     <button
                       type="button"
@@ -647,15 +655,18 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                         fontFamily: 'inherit',
                         transition: 'background-color 150ms ease',
                       }}
-                      onMouseEnter={(e) => {
+                      onMouseEnter={e => {
                         e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bgHover
                       }}
-                      onMouseLeave={(e) => {
+                      onMouseLeave={e => {
                         e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bg
                       }}
                       aria-label={`${buttonText} (${images.length} photos)`}
                     >
-                      <Images size={16} style={{ flexShrink: 0, color: MEDIA_HERO_TOKENS.button.fg }} />
+                      <Images
+                        size={16}
+                        style={{ flexShrink: 0, color: MEDIA_HERO_TOKENS.button.fg }}
+                      />
                       <span style={{ whiteSpace: 'nowrap' }}>{buttonText}</span>
                     </button>
                   </div>
@@ -668,22 +679,17 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
     }
 
     return (
-      <div 
-        ref={ref} 
-        style={containerStyle} 
+      <div
+        ref={ref}
+        style={containerStyle}
         {...props}
         role="region"
         aria-label="Property photo gallery"
       >
         {renderGrid()}
-        
+
         {/* Instance Slot (Stack) */}
-        {instanceSlot && (
-          <div style={MEDIA_HERO_TOKENS.instanceSlot}>
-            {instanceSlot}
-          </div>
-        )}
-        
+        {instanceSlot && <div style={MEDIA_HERO_TOKENS.instanceSlot}>{instanceSlot}</div>}
 
         <Lightbox
           images={images}
@@ -696,7 +702,7 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
   }
 )
 
-MediaHero.displayName = "MediaHero"
+MediaHero.displayName = 'MediaHero'
 
 // Add screen reader only styles
 if (typeof document !== 'undefined') {
