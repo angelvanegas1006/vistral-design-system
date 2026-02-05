@@ -1,7 +1,7 @@
-import * as React from "react"
-import { forwardRef, useId } from "react"
-import type { LucideIcon } from "lucide-react"
-import { Loader2 } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, useId } from 'react'
+import type { LucideIcon } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 
 /**
  * Text Input Design Tokens from Figma
@@ -11,23 +11,23 @@ const INPUT_TOKENS = {
   // States
   default: {
     bg: '#ffffff',
-    border: '#d4d4d8',       // zinc-300
-    borderHover: '#a1a1aa',  // zinc-400
-    borderFocus: '#2050f6',  // spaceblue-600
-    fg: '#18181b',           // zinc-900
-    placeholder: '#a1a1aa',  // zinc-400
+    border: '#d4d4d8', // zinc-300
+    borderHover: '#a1a1aa', // zinc-400
+    borderFocus: '#2050f6', // spaceblue-600
+    fg: '#18181b', // zinc-900
+    placeholder: '#a1a1aa', // zinc-400
   },
   error: {
     bg: '#ffffff',
-    border: '#ef4444',       // red-500
+    border: '#ef4444', // red-500
     borderFocus: '#ef4444',
     fg: '#18181b',
     helperText: '#ef4444',
   },
   disabled: {
-    bg: '#f4f4f5',           // zinc-100
-    border: '#e4e4e7',       // zinc-200
-    fg: '#a1a1aa',           // zinc-400
+    bg: '#f4f4f5', // zinc-100
+    border: '#e4e4e7', // zinc-200
+    fg: '#a1a1aa', // zinc-400
     placeholder: '#a1a1aa',
   },
   // Label
@@ -94,26 +94,29 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({
-    size = 'md',
-    error = false,
-    errorMessage,
-    label,
-    helperText,
-    leftIcon: LeftIcon,
-    rightIcon: RightIcon,
-    fullWidth = false,
-    disabled,
-    maxLength,
-    showCounter = false,
-    suffix,
-    optional = false,
-    id: providedId,
-    style,
-    value,
-    onChange,
-    ...props
-  }, ref) => {
+  (
+    {
+      size = 'md',
+      error = false,
+      errorMessage,
+      label,
+      helperText,
+      leftIcon: LeftIcon,
+      rightIcon: RightIcon,
+      fullWidth = false,
+      disabled,
+      maxLength,
+      showCounter = false,
+      suffix,
+      optional = false,
+      id: providedId,
+      style,
+      value,
+      onChange,
+      ...props
+    },
+    ref
+  ) => {
     const [isFocused, setIsFocused] = React.useState(false)
     const [isHovered, setIsHovered] = React.useState(false)
     const [currentValue, setCurrentValue] = React.useState(value || '')
@@ -125,16 +128,17 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     }, [value])
 
     const sizeTokens = INPUT_TOKENS.sizes[size]
-    const stateTokens = disabled 
-      ? INPUT_TOKENS.disabled 
-      : error 
-        ? INPUT_TOKENS.error 
+    const stateTokens = disabled
+      ? INPUT_TOKENS.disabled
+      : error
+        ? INPUT_TOKENS.error
         : INPUT_TOKENS.default
 
     // Get border color based on state
     const getBorderColor = () => {
       if (disabled) return stateTokens.border
-      if (isFocused) return error ? INPUT_TOKENS.error.borderFocus : INPUT_TOKENS.default.borderFocus
+      if (isFocused)
+        return error ? INPUT_TOKENS.error.borderFocus : INPUT_TOKENS.default.borderFocus
       if (isHovered) return INPUT_TOKENS.default.borderHover
       return stateTokens.border
     }
@@ -164,10 +168,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const labelStyle: React.CSSProperties = {
       fontSize: INPUT_TOKENS.label.fontSize,
       fontWeight: INPUT_TOKENS.label.fontWeight,
-      color: disabled 
-        ? INPUT_TOKENS.label.colorDisabled 
-        : error 
-          ? INPUT_TOKENS.label.colorError 
+      color: disabled
+        ? INPUT_TOKENS.label.colorDisabled
+        : error
+          ? INPUT_TOKENS.label.colorError
           : INPUT_TOKENS.label.color,
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     }
@@ -187,7 +191,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     // Calculate padding to accommodate icons and counter
     const iconPadding = sizeTokens.paddingX + sizeTokens.iconSize + 12
-    
+
     const inputStyle: React.CSSProperties = {
       width: '100%',
       height: sizeTokens.height,
@@ -201,9 +205,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       borderRadius: INPUT_TOKENS.radius,
       outline: 'none',
       transition: 'border-color 150ms ease-in-out, box-shadow 150ms ease-in-out',
-      boxShadow: isFocused && !disabled 
-        ? `0 0 0 3px ${error ? 'rgba(239, 68, 68, 0.15)' : 'rgba(32, 80, 246, 0.15)'}` 
-        : 'none',
+      boxShadow:
+        isFocused && !disabled
+          ? `0 0 0 3px ${error ? 'rgba(239, 68, 68, 0.15)' : 'rgba(32, 80, 246, 0.15)'}`
+          : 'none',
       cursor: disabled ? 'not-allowed' : 'text',
       boxSizing: 'border-box',
       ...style,
@@ -266,8 +271,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             {optional && <span style={optionalStyle}>Optional</span>}
           </div>
         )}
-        
-        <div 
+
+        <div
           style={inputWrapperStyle}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
@@ -277,7 +282,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               <LeftIcon size={sizeTokens.iconSize} />
             </div>
           )}
-          
+
           <input
             ref={ref}
             id={id}
@@ -286,23 +291,29 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             value={currentValue}
             onChange={handleChange}
             style={inputStyle}
-            onFocus={(e) => { setIsFocused(true); props.onFocus?.(e) }}
-            onBlur={(e) => { setIsFocused(false); props.onBlur?.(e) }}
+            onFocus={e => {
+              setIsFocused(true)
+              props.onFocus?.(e)
+            }}
+            onBlur={e => {
+              setIsFocused(false)
+              props.onBlur?.(e)
+            }}
             aria-invalid={error}
             aria-describedby={helperText || errorMessage || suffix ? `${id}-helper` : undefined}
             aria-required={!optional}
             {...props}
           />
-          
+
           {showCharacterCounter && (
             <div style={counterStyle}>
               {characterCount}/{maxLength}
             </div>
           )}
-          
+
           {RightIcon && !showCharacterCounter && (
             <div style={iconStyle('right')}>
-              <RightIcon 
+              <RightIcon
                 size={sizeTokens.iconSize}
                 style={{
                   animation: RightIcon === Loader2 ? 'spin 1s linear infinite' : undefined,
@@ -311,7 +322,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             </div>
           )}
         </div>
-        
+
         {(helperText || errorMessage || suffix) && (
           <div style={helperWrapperStyle}>
             <p id={`${id}-helper`} style={helperStyle}>
@@ -325,7 +336,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   }
 )
 
-Input.displayName = "Input"
+Input.displayName = 'Input'
 
 // ============================================================================
 // Textarea
@@ -350,23 +361,26 @@ export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextArea
 }
 
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({
-    error = false,
-    errorMessage,
-    label,
-    helperText,
-    fullWidth = false,
-    autoResize = false,
-    disabled,
-    maxLength,
-    showCounter = false,
-    id: providedId,
-    style,
-    rows = 3,
-    value,
-    onChange,
-    ...props
-  }, ref) => {
+  (
+    {
+      error = false,
+      errorMessage,
+      label,
+      helperText,
+      fullWidth = false,
+      autoResize = false,
+      disabled,
+      maxLength,
+      showCounter = false,
+      id: providedId,
+      style,
+      rows = 3,
+      value,
+      onChange,
+      ...props
+    },
+    ref
+  ) => {
     const [isFocused, setIsFocused] = React.useState(false)
     const [isHovered, setIsHovered] = React.useState(false)
     const [currentValue, setCurrentValue] = React.useState(value || '')
@@ -388,15 +402,16 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       }
     }, [currentValue, autoResize])
 
-    const stateTokens = disabled 
-      ? INPUT_TOKENS.disabled 
-      : error 
-        ? INPUT_TOKENS.error 
+    const stateTokens = disabled
+      ? INPUT_TOKENS.disabled
+      : error
+        ? INPUT_TOKENS.error
         : INPUT_TOKENS.default
 
     const getBorderColor = () => {
       if (disabled) return stateTokens.border
-      if (isFocused) return error ? INPUT_TOKENS.error.borderFocus : INPUT_TOKENS.default.borderFocus
+      if (isFocused)
+        return error ? INPUT_TOKENS.error.borderFocus : INPUT_TOKENS.default.borderFocus
       if (isHovered) return INPUT_TOKENS.default.borderHover
       return stateTokens.border
     }
@@ -420,10 +435,10 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const labelStyle: React.CSSProperties = {
       fontSize: INPUT_TOKENS.label.fontSize,
       fontWeight: INPUT_TOKENS.label.fontWeight,
-      color: disabled 
-        ? INPUT_TOKENS.label.colorDisabled 
-        : error 
-          ? INPUT_TOKENS.label.colorError 
+      color: disabled
+        ? INPUT_TOKENS.label.colorDisabled
+        : error
+          ? INPUT_TOKENS.label.colorError
           : INPUT_TOKENS.label.color,
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     }
@@ -439,9 +454,10 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       borderRadius: INPUT_TOKENS.radius,
       outline: 'none',
       transition: 'border-color 150ms ease-in-out, box-shadow 150ms ease-in-out',
-      boxShadow: isFocused && !disabled 
-        ? `0 0 0 3px ${error ? 'rgba(239, 68, 68, 0.15)' : 'rgba(32, 80, 246, 0.15)'}` 
-        : 'none',
+      boxShadow:
+        isFocused && !disabled
+          ? `0 0 0 3px ${error ? 'rgba(239, 68, 68, 0.15)' : 'rgba(32, 80, 246, 0.15)'}`
+          : 'none',
       cursor: disabled ? 'not-allowed' : 'text',
       resize: autoResize ? 'none' : 'vertical',
       minHeight: autoResize ? 'auto' : undefined,
@@ -479,7 +495,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
             {label}
           </label>
         )}
-        
+
         <textarea
           ref={textareaRef}
           id={id}
@@ -489,16 +505,23 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           value={currentValue}
           onChange={handleChange}
           style={textareaStyle}
-          onFocus={(e) => { setIsFocused(true); props.onFocus?.(e) }}
-          onBlur={(e) => { setIsFocused(false); props.onBlur?.(e) }}
+          onFocus={e => {
+            setIsFocused(true)
+            props.onFocus?.(e)
+          }}
+          onBlur={e => {
+            setIsFocused(false)
+            props.onBlur?.(e)
+          }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           aria-invalid={error}
-          aria-describedby={helperText || errorMessage || showCharacterCounter ? `${id}-helper` : undefined}
-          aria-required={!props.optional}
+          aria-describedby={
+            helperText || errorMessage || showCharacterCounter ? `${id}-helper` : undefined
+          }
           {...props}
         />
-        
+
         {(helperText || errorMessage || showCharacterCounter) && (
           <div style={helperWrapperStyle}>
             <p id={`${id}-helper`} style={helperStyle}>
@@ -516,6 +539,6 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   }
 )
 
-Textarea.displayName = "Textarea"
+Textarea.displayName = 'Textarea'
 
 export { Input, Textarea, INPUT_TOKENS }

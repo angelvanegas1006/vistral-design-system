@@ -1,5 +1,5 @@
-import * as React from "react"
-import { forwardRef, createContext, useContext, useState, useRef, useEffect } from "react"
+import * as React from 'react'
+import { forwardRef, createContext, useContext, useState, useRef, useEffect } from 'react'
 
 /**
  * Popover Design Tokens
@@ -19,7 +19,7 @@ const POPOVER_TOKENS = {
 type PopoverContextValue = {
   open: boolean
   setOpen: (open: boolean) => void
-  triggerRef: React.RefObject<HTMLElement>
+  triggerRef: React.RefObject<HTMLElement | null>
 }
 
 const PopoverContext = createContext<PopoverContextValue | null>(null)
@@ -71,7 +71,7 @@ const Popover: React.FC<PopoverProps> = ({
   )
 }
 
-Popover.displayName = "Popover"
+Popover.displayName = 'Popover'
 
 // ============================================================================
 // Popover Trigger
@@ -96,9 +96,9 @@ const PopoverTrigger: React.FC<PopoverTriggerProps> = ({ children, asChild }) =>
   }
 
   return (
-    <button 
+    <button
       ref={triggerRef as React.RefObject<HTMLButtonElement>}
-      type="button" 
+      type="button"
       onClick={handleClick}
       aria-expanded={open}
       aria-haspopup="dialog"
@@ -108,7 +108,7 @@ const PopoverTrigger: React.FC<PopoverTriggerProps> = ({ children, asChild }) =>
   )
 }
 
-PopoverTrigger.displayName = "PopoverTrigger"
+PopoverTrigger.displayName = 'PopoverTrigger'
 
 // ============================================================================
 // Popover Content
@@ -134,7 +134,7 @@ const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
       const handleClick = (e: MouseEvent) => {
         const target = e.target as Node
         if (
-          contentRef.current && 
+          contentRef.current &&
           !contentRef.current.contains(target) &&
           triggerRef.current &&
           !triggerRef.current.contains(target)
@@ -199,19 +199,14 @@ const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
     }
 
     return (
-      <div
-        ref={ref || contentRef}
-        role="dialog"
-        style={contentStyle}
-        {...props}
-      >
+      <div ref={ref || contentRef} role="dialog" style={contentStyle} {...props}>
         {children}
       </div>
     )
   }
 )
 
-PopoverContent.displayName = "PopoverContent"
+PopoverContent.displayName = 'PopoverContent'
 
 // ============================================================================
 // Popover Close
@@ -239,7 +234,7 @@ const PopoverClose: React.FC<PopoverCloseProps> = ({ asChild, children, onClick,
   )
 }
 
-PopoverClose.displayName = "PopoverClose"
+PopoverClose.displayName = 'PopoverClose'
 
 // Add keyframes
 if (typeof document !== 'undefined') {

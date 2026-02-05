@@ -1,7 +1,7 @@
-import * as React from "react"
-import { forwardRef, createContext, useContext, useState, useRef, useEffect } from "react"
-import { Check, ChevronRight } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, createContext, useContext, useState, useRef, useEffect } from 'react'
+import { Check } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 /**
  * Dropdown Menu Design Tokens from Figma
@@ -51,7 +51,7 @@ const DROPDOWN_TOKENS = {
 type DropdownContextValue = {
   open: boolean
   setOpen: (open: boolean) => void
-  triggerRef: React.RefObject<HTMLElement>
+  triggerRef: React.RefObject<HTMLElement | null>
 }
 
 const DropdownContext = createContext<DropdownContextValue | null>(null)
@@ -100,7 +100,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
   )
 }
 
-DropdownMenu.displayName = "DropdownMenu"
+DropdownMenu.displayName = 'DropdownMenu'
 
 // ============================================================================
 // DropdownMenu Trigger
@@ -125,9 +125,9 @@ const DropdownMenuTrigger: React.FC<DropdownMenuTriggerProps> = ({ children, asC
   }
 
   return (
-    <button 
+    <button
       ref={triggerRef as React.RefObject<HTMLButtonElement>}
-      type="button" 
+      type="button"
       onClick={handleClick}
       aria-expanded={open}
       aria-haspopup="menu"
@@ -137,7 +137,7 @@ const DropdownMenuTrigger: React.FC<DropdownMenuTriggerProps> = ({ children, asC
   )
 }
 
-DropdownMenuTrigger.displayName = "DropdownMenuTrigger"
+DropdownMenuTrigger.displayName = 'DropdownMenuTrigger'
 
 // ============================================================================
 // DropdownMenu Content
@@ -161,7 +161,7 @@ const DropdownMenuContent = forwardRef<HTMLDivElement, DropdownMenuContentProps>
       const handleClick = (e: MouseEvent) => {
         const target = e.target as Node
         if (
-          contentRef.current && 
+          contentRef.current &&
           !contentRef.current.contains(target) &&
           triggerRef.current &&
           !triggerRef.current.contains(target)
@@ -208,19 +208,14 @@ const DropdownMenuContent = forwardRef<HTMLDivElement, DropdownMenuContentProps>
     }
 
     return (
-      <div
-        ref={ref || contentRef}
-        role="menu"
-        style={contentStyle}
-        {...props}
-      >
+      <div ref={ref || contentRef} role="menu" style={contentStyle} {...props}>
         {children}
       </div>
     )
   }
 )
 
-DropdownMenuContent.displayName = "DropdownMenuContent"
+DropdownMenuContent.displayName = 'DropdownMenuContent'
 
 // ============================================================================
 // DropdownMenu Item
@@ -239,17 +234,20 @@ export interface DropdownMenuItemProps extends React.HTMLAttributes<HTMLDivEleme
 }
 
 const DropdownMenuItem = forwardRef<HTMLDivElement, DropdownMenuItemProps>(
-  ({ 
-    icon: Icon, 
-    shortcut, 
-    disabled = false, 
-    destructive = false,
-    closeOnClick = true,
-    style, 
-    onClick,
-    children, 
-    ...props 
-  }, ref) => {
+  (
+    {
+      icon: Icon,
+      shortcut,
+      disabled = false,
+      destructive = false,
+      closeOnClick = true,
+      style,
+      onClick,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const { setOpen } = useDropdown()
     const [isHovered, setIsHovered] = useState(false)
 
@@ -261,12 +259,13 @@ const DropdownMenuItem = forwardRef<HTMLDivElement, DropdownMenuItemProps>(
       padding: `0 ${DROPDOWN_TOKENS.item.paddingX}px`,
       fontSize: DROPDOWN_TOKENS.item.fontSize,
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      color: disabled 
-        ? DROPDOWN_TOKENS.item.fgDisabled 
-        : destructive 
-          ? DROPDOWN_TOKENS.item.fgDestructive 
+      color: disabled
+        ? DROPDOWN_TOKENS.item.fgDisabled
+        : destructive
+          ? DROPDOWN_TOKENS.item.fgDestructive
           : DROPDOWN_TOKENS.item.fg,
-      backgroundColor: isHovered && !disabled ? DROPDOWN_TOKENS.item.bgHover : DROPDOWN_TOKENS.item.bg,
+      backgroundColor:
+        isHovered && !disabled ? DROPDOWN_TOKENS.item.bgHover : DROPDOWN_TOKENS.item.bg,
       borderRadius: DROPDOWN_TOKENS.item.radius,
       cursor: disabled ? 'not-allowed' : 'pointer',
       transition: 'background-color 100ms ease',
@@ -304,7 +303,7 @@ const DropdownMenuItem = forwardRef<HTMLDivElement, DropdownMenuItemProps>(
   }
 )
 
-DropdownMenuItem.displayName = "DropdownMenuItem"
+DropdownMenuItem.displayName = 'DropdownMenuItem'
 
 // ============================================================================
 // DropdownMenu Separator
@@ -323,7 +322,7 @@ const DropdownMenuSeparator = forwardRef<HTMLHRElement, React.HTMLAttributes<HTM
   }
 )
 
-DropdownMenuSeparator.displayName = "DropdownMenuSeparator"
+DropdownMenuSeparator.displayName = 'DropdownMenuSeparator'
 
 // ============================================================================
 // DropdownMenu Label
@@ -347,7 +346,7 @@ const DropdownMenuLabel = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDi
   }
 )
 
-DropdownMenuLabel.displayName = "DropdownMenuLabel"
+DropdownMenuLabel.displayName = 'DropdownMenuLabel'
 
 // ============================================================================
 // DropdownMenu Checkbox Item
@@ -361,7 +360,6 @@ export interface DropdownMenuCheckboxItemProps extends Omit<DropdownMenuItemProp
 
 const DropdownMenuCheckboxItem = forwardRef<HTMLDivElement, DropdownMenuCheckboxItemProps>(
   ({ checked = false, onCheckedChange, onClick, children, ...props }, ref) => {
-    const { setOpen } = useDropdown()
     const [isHovered, setIsHovered] = useState(false)
 
     const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -417,7 +415,7 @@ const DropdownMenuCheckboxItem = forwardRef<HTMLDivElement, DropdownMenuCheckbox
   }
 )
 
-DropdownMenuCheckboxItem.displayName = "DropdownMenuCheckboxItem"
+DropdownMenuCheckboxItem.displayName = 'DropdownMenuCheckboxItem'
 
 // Add keyframes
 if (typeof document !== 'undefined') {

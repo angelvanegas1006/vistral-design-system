@@ -1,5 +1,5 @@
-import * as React from "react"
-import { forwardRef, useState, useRef, useCallback } from "react"
+import * as React from 'react'
+import { forwardRef, useState, useRef, useCallback } from 'react'
 
 /**
  * Slider Design Tokens
@@ -28,7 +28,10 @@ const SLIDER_TOKENS = {
   },
 } as const
 
-export interface SliderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface SliderProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'onChange' | 'defaultValue'
+> {
   /** Current value */
   value?: number
   /** Default value */
@@ -48,18 +51,21 @@ export interface SliderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 
 }
 
 const Slider = forwardRef<HTMLDivElement, SliderProps>(
-  ({
-    value: controlledValue,
-    defaultValue = 0,
-    min = 0,
-    max = 100,
-    step = 1,
-    disabled = false,
-    onChange,
-    showValue = false,
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      value: controlledValue,
+      defaultValue = 0,
+      min = 0,
+      max = 100,
+      step = 1,
+      disabled = false,
+      onChange,
+      showValue = false,
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const [internalValue, setInternalValue] = useState(defaultValue)
     const [isDragging, setIsDragging] = useState(false)
     const trackRef = useRef<HTMLDivElement>(null)
@@ -69,20 +75,23 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(
 
     const percentage = ((value - min) / (max - min)) * 100
 
-    const updateValue = useCallback((clientX: number) => {
-      if (!trackRef.current || disabled) return
+    const updateValue = useCallback(
+      (clientX: number) => {
+        if (!trackRef.current || disabled) return
 
-      const rect = trackRef.current.getBoundingClientRect()
-      const percent = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width))
-      const rawValue = min + percent * (max - min)
-      const steppedValue = Math.round(rawValue / step) * step
-      const clampedValue = Math.max(min, Math.min(max, steppedValue))
+        const rect = trackRef.current.getBoundingClientRect()
+        const percent = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width))
+        const rawValue = min + percent * (max - min)
+        const steppedValue = Math.round(rawValue / step) * step
+        const clampedValue = Math.max(min, Math.min(max, steppedValue))
 
-      if (!isControlled) {
-        setInternalValue(clampedValue)
-      }
-      onChange?.(clampedValue)
-    }, [disabled, min, max, step, isControlled, onChange])
+        if (!isControlled) {
+          setInternalValue(clampedValue)
+        }
+        onChange?.(clampedValue)
+      },
+      [disabled, min, max, step, isControlled, onChange]
+    )
 
     const handleMouseDown = (e: React.MouseEvent) => {
       if (disabled) return
@@ -189,12 +198,15 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(
   }
 )
 
-Slider.displayName = "Slider"
+Slider.displayName = 'Slider'
 
 // ============================================================================
 // Range Slider (two thumbs)
 // ============================================================================
-export interface RangeSliderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface RangeSliderProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'onChange' | 'defaultValue'
+> {
   /** Current range [min, max] */
   value?: [number, number]
   /** Default range */
@@ -214,18 +226,21 @@ export interface RangeSliderProps extends Omit<React.HTMLAttributes<HTMLDivEleme
 }
 
 const RangeSlider = forwardRef<HTMLDivElement, RangeSliderProps>(
-  ({
-    value: controlledValue,
-    defaultValue = [25, 75],
-    min = 0,
-    max = 100,
-    step = 1,
-    disabled = false,
-    onChange,
-    minGap = 0,
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      value: controlledValue,
+      defaultValue = [25, 75],
+      min = 0,
+      max = 100,
+      step = 1,
+      disabled = false,
+      onChange,
+      minGap = 0,
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const [internalValue, setInternalValue] = useState(defaultValue)
     const [activeThumb, setActiveThumb] = useState<0 | 1 | null>(null)
     const trackRef = useRef<HTMLDivElement>(null)
@@ -236,27 +251,30 @@ const RangeSlider = forwardRef<HTMLDivElement, RangeSliderProps>(
     const percentage1 = ((value[0] - min) / (max - min)) * 100
     const percentage2 = ((value[1] - min) / (max - min)) * 100
 
-    const updateValue = useCallback((clientX: number, thumb: 0 | 1) => {
-      if (!trackRef.current || disabled) return
+    const updateValue = useCallback(
+      (clientX: number, thumb: 0 | 1) => {
+        if (!trackRef.current || disabled) return
 
-      const rect = trackRef.current.getBoundingClientRect()
-      const percent = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width))
-      const rawValue = min + percent * (max - min)
-      const steppedValue = Math.round(rawValue / step) * step
+        const rect = trackRef.current.getBoundingClientRect()
+        const percent = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width))
+        const rawValue = min + percent * (max - min)
+        const steppedValue = Math.round(rawValue / step) * step
 
-      let newValue: [number, number] = [...value] as [number, number]
-      
-      if (thumb === 0) {
-        newValue[0] = Math.max(min, Math.min(steppedValue, value[1] - minGap))
-      } else {
-        newValue[1] = Math.min(max, Math.max(steppedValue, value[0] + minGap))
-      }
+        const newValue: [number, number] = [...value] as [number, number]
 
-      if (!isControlled) {
-        setInternalValue(newValue)
-      }
-      onChange?.(newValue)
-    }, [disabled, min, max, step, value, minGap, isControlled, onChange])
+        if (thumb === 0) {
+          newValue[0] = Math.max(min, Math.min(steppedValue, value[1] - minGap))
+        } else {
+          newValue[1] = Math.min(max, Math.max(steppedValue, value[0] + minGap))
+        }
+
+        if (!isControlled) {
+          setInternalValue(newValue)
+        }
+        onChange?.(newValue)
+      },
+      [disabled, min, max, step, value, minGap, isControlled, onChange]
+    )
 
     const handleMouseDown = (thumb: 0 | 1) => (e: React.MouseEvent) => {
       if (disabled) return
@@ -330,7 +348,10 @@ const RangeSlider = forwardRef<HTMLDivElement, RangeSliderProps>(
       boxShadow: SLIDER_TOKENS.thumb.shadow,
       cursor: disabled ? 'not-allowed' : 'grab',
       zIndex: activeThumb === thumb ? 2 : 1,
-      ...(activeThumb === thumb && { cursor: 'grabbing', transform: 'translate(-50%, -50%) scale(1.1)' }),
+      ...(activeThumb === thumb && {
+        cursor: 'grabbing',
+        transform: 'translate(-50%, -50%) scale(1.1)',
+      }),
     })
 
     return (
@@ -348,6 +369,6 @@ const RangeSlider = forwardRef<HTMLDivElement, RangeSliderProps>(
   }
 )
 
-RangeSlider.displayName = "RangeSlider"
+RangeSlider.displayName = 'RangeSlider'
 
 export { Slider, RangeSlider, SLIDER_TOKENS }

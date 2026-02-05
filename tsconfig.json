@@ -15,22 +15,10 @@
     "declaration": true,
     "declarationMap": true,
     "outDir": "./dist",
-    "rootDir": "./src",
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "src/**/*",
-    "lib/**/*",
-    "scripts/**/*",
-    "stories/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    ".storybook",
-    "**/*.stories.tsx",
-    "**/*.stories.ts"
-  ]
+  "include": ["src/**/*", "lib/**/*", "scripts/**/*", "stories/**/*"],
+  "exclude": ["node_modules", "dist", ".storybook", "**/*.stories.tsx", "**/*.stories.ts"]
 }

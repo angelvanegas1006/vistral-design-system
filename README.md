@@ -1,6 +1,23 @@
 # Vistral Design System
 
-React design system with components synced from Figma.
+[![CI](https://github.com/angelvanegas1006/vistral-design-system/actions/workflows/ci.yml/badge.svg)](https://github.com/angelvanegas1006/vistral-design-system/actions/workflows/ci.yml)
+[![Storybook](https://img.shields.io/badge/Storybook-View-FF4785?logo=storybook)](https://angelvanegas1006.github.io/vistral-design-system/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev/)
+[![License](https://img.shields.io/badge/License-Private-red)](LICENSE)
+
+> A professional React design system with 60+ components, synchronized from Figma, built with TypeScript and modern tooling.
+
+## Features
+
+- 🎨 **60+ Components** - Comprehensive component library
+- 🎯 **Figma Sync** - Automated synchronization with Figma designs
+- 📦 **TypeScript** - Full type safety with declaration files
+- 🧪 **Well Tested** - Unit tests with Vitest and Testing Library
+- 📚 **Storybook** - Interactive component documentation
+- ♿ **Accessible** - WCAG 2.1 AA compliant
+- 🚀 **Production Ready** - Optimized builds with tree-shaking
+- 🔧 **Developer Experience** - ESLint, Prettier, pre-commit hooks
 
 ## Installation
 
@@ -46,7 +63,7 @@ npm install git+https://github.com/angelvanegas1006/vistral-design-system.git
 ## Basic Usage
 
 ```tsx
-import { Button, Card, Input, PropertyCard } from 'vistral-design-system';
+import { Button, Card, Input, PropertyCard } from 'vistral-design-system'
 
 function App() {
   return (
@@ -54,13 +71,14 @@ function App() {
       <Input label="Email" placeholder="you@email.com" />
       <Button>Submit</Button>
     </Card>
-  );
+  )
 }
 ```
 
 ## Available Components
 
 ### Basic
+
 - `Button` - Buttons with variants (primary, secondary, ghost, destructive)
 - `Card` - Container with header, body, footer
 - `Badge` - Status labels
@@ -70,6 +88,7 @@ function App() {
 - `Link` - Styled links
 
 ### Forms
+
 - `Input` - Text field
 - `Textarea` - Text area
 - `Checkbox` - Checkboxes
@@ -89,6 +108,7 @@ function App() {
 - `FileUpload` - File upload
 
 ### Feedback
+
 - `Progress` - Progress bars
 - `Skeleton` - Loading placeholders
 - `Toast` - Temporary notifications
@@ -97,6 +117,7 @@ function App() {
 - `Banner` - Notification banners
 
 ### Navigation
+
 - `Navbar` - Top navigation bar
 - `BottomNav` - Bottom navigation (mobile)
 - `Tabs` - Tabs
@@ -106,6 +127,7 @@ function App() {
 - `Stepper` - Step wizard
 
 ### Overlays
+
 - `Dialog` - Modal dialogs
 - `Popover` - Floating popovers
 - `DropdownMenu` - Dropdown menus
@@ -113,6 +135,7 @@ function App() {
 - `Sheet` - Sliding side panel
 
 ### Layout
+
 - `Accordion` - Accordions
 - `Table` - Data tables
 - `List` / `ListItem` - Lists
@@ -124,6 +147,7 @@ function App() {
 - `ToggleGroup` - Toggle groups
 
 ### Special
+
 - `Chip` - Chips/Tags
 - `Rating` - Star ratings
 - `Calendar` - Calendar
@@ -136,16 +160,16 @@ function App() {
 ### Use CSS tokens
 
 ```tsx
-import 'vistral-design-system/tokens.css';
+import 'vistral-design-system/tokens.css'
 ```
 
 ### Use JS tokens
 
 ```tsx
-import { BUTTON_TOKENS, CARD_TOKENS } from 'vistral-design-system';
+import { BUTTON_TOKENS, CARD_TOKENS } from 'vistral-design-system'
 
 // Access specific values
-console.log(BUTTON_TOKENS.primary.bg); // '#2050f6'
+console.log(BUTTON_TOKENS.primary.bg) // '#2050f6'
 ```
 
 ## Storybook
@@ -171,27 +195,61 @@ Or view the live version at: https://vistral-design-system.vercel.app
 ## Development
 
 ### Requirements
-- Node.js 18+
+
+- Node.js 18+ (check `.nvmrc` for exact version)
+- npm or pnpm
 - React 19+
 
-### Commands
+### Quick Start
 
 ```bash
-# Development with watch
+# Clone the repository
+git clone https://github.com/angelvanegas1006/vistral-design-system.git
+cd vistral-design-system
+
+# Install dependencies
+npm install
+
+# Start development
 npm run dev
 
-# Production build
-npm run build
+# Run Storybook
+npm run storybook
+```
+
+### Available Scripts
+
+```bash
+# Development
+npm run dev              # Build in watch mode
+npm run build            # Production build
+
+# Quality Assurance
+npm run lint             # Run ESLint
+npm run lint:fix         # Fix ESLint errors
+npm run format           # Format code with Prettier
+npm run format:check     # Check code formatting
+npm run typecheck        # TypeScript type checking
+
+# Testing
+npm test                 # Run tests in watch mode
+npm run test:run         # Run tests once
+npm run test:coverage    # Generate coverage report
+npm run test:ui          # Open Vitest UI
 
 # Storybook
-npm run storybook
+npm run storybook        # Start Storybook dev server
+npm run build-storybook  # Build static Storybook
 
-# Build static Storybook
-npm run build-storybook
+# Figma Integration
+npm run figma:test       # Test Figma connection
+npm run figma:sync:all   # Sync tokens and components from Figma
 
-# Type check
-npm run typecheck
+# Analysis
+npm run analyze          # Analyze bundle size
 ```
+
+### Project Structure
 
 ### Project Structure
 
@@ -199,14 +257,38 @@ npm run typecheck
 vistral-design-system/
 ├── src/
 │   ├── components/
-│   │   └── ui/           # React components
-│   ├── tokens/           # Design tokens
-│   └── index.ts          # Main exports
-├── stories/              # Storybook stories
+│   │   └── ui/              # React components (60+)
+│   ├── tokens/              # Design tokens (JSON, CSS, TS)
+│   ├── lib/
+│   │   └── utils.ts         # Utility functions
+│   └── index.ts             # Main exports
+├── stories/                 # Storybook stories
 ├── lib/
-│   └── figma-sync/       # Figma synchronization
-└── dist/                 # Production build
+│   ├── figma-sync/          # Figma synchronization
+│   └── generators/          # Code generators
+├── scripts/                 # CLI scripts
+├── .github/
+│   └── workflows/           # CI/CD workflows
+├── dist/                    # Production build output
+└── coverage/                # Test coverage reports
 ```
+
+### Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+- 📖 [Architecture Documentation](ARCHITECTURE.md)
+- 🤝 [Contributing Guide](CONTRIBUTING.md)
+- 📚 [Storybook Documentation](https://angelvanegas1006.github.io/vistral-design-system/)
+
+### Code Quality
+
+- ✅ **ESLint** - Strict linting rules for React/TypeScript
+- ✅ **Prettier** - Consistent code formatting
+- ✅ **Pre-commit Hooks** - Automatic linting and formatting
+- ✅ **TypeScript** - Strict type checking
+- ✅ **Tests** - Unit tests with >80% coverage goal
+- ✅ **CI/CD** - Automated testing and quality checks
 
 ## Complete Example
 
@@ -223,7 +305,7 @@ import {
   SelectContent,
   SelectItem,
   Badge,
-} from 'vistral-design-system';
+} from 'vistral-design-system'
 
 function ContactForm() {
   return (
@@ -234,15 +316,8 @@ function ContactForm() {
       </CardHeader>
       <CardContent>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <Input 
-            label="Name" 
-            placeholder="Your name" 
-          />
-          <Input 
-            label="Email" 
-            type="email" 
-            placeholder="you@email.com" 
-          />
+          <Input label="Name" placeholder="Your name" />
+          <Input label="Email" type="email" placeholder="you@email.com" />
           <Select>
             <SelectTrigger placeholder="Select a topic" />
             <SelectContent>
@@ -255,16 +330,16 @@ function ContactForm() {
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }
 ```
 
 ## PropertyCard (Real Estate)
 
 ```tsx
-import { PropertyCard } from 'vistral-design-system';
+import { PropertyCard } from 'vistral-design-system'
 
-<PropertyCard
+;<PropertyCard
   image="https://example.com/property.jpg"
   type="Apartment"
   title="Property in Navacerrada"
@@ -281,7 +356,7 @@ import { PropertyCard } from 'vistral-design-system';
     { label: 'Total investment', value: '113,100€' },
     { label: 'Capital gain', value: '90.000€', hasInfo: true },
   ]}
-  onFavoriteChange={(isFav) => console.log('Favorite:', isFav)}
+  onFavoriteChange={isFav => console.log('Favorite:', isFav)}
   onCardClick={() => console.log('Card clicked')}
 />
 ```

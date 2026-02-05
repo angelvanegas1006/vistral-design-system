@@ -1,7 +1,7 @@
-import * as React from "react"
-import { forwardRef } from "react"
-import { ChevronLeft, Menu, X } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
+import * as React from 'react'
+import { forwardRef } from 'react'
+import { ChevronLeft } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 /**
  * Navbar Design Tokens from Figma
@@ -116,12 +116,12 @@ const Navbar = forwardRef<HTMLElement, NavbarProps>(
   }
 )
 
-Navbar.displayName = "Navbar"
+Navbar.displayName = 'Navbar'
 
 // ============================================================================
 // Navbar Brand/Logo
 // ============================================================================
-export interface NavbarBrandProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface NavbarBrandProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'href'> {
   /** Logo element or text */
   logo?: React.ReactNode
   /** Brand name */
@@ -130,7 +130,7 @@ export interface NavbarBrandProps extends React.HTMLAttributes<HTMLDivElement> {
   href?: string
 }
 
-const NavbarBrand = forwardRef<HTMLDivElement, NavbarBrandProps>(
+const NavbarBrand = forwardRef<HTMLDivElement | HTMLAnchorElement, NavbarBrandProps>(
   ({ logo, name, href, style, children, ...props }, ref) => {
     const brandStyle: React.CSSProperties = {
       display: 'flex',
@@ -157,22 +157,28 @@ const NavbarBrand = forwardRef<HTMLDivElement, NavbarBrandProps>(
     )
 
     if (href) {
+      const { ...anchorProps } = props as React.AnchorHTMLAttributes<HTMLAnchorElement>
       return (
-        <a ref={ref as any} href={href} style={brandStyle} {...props}>
+        <a
+          ref={ref as React.RefObject<HTMLAnchorElement>}
+          href={href}
+          style={brandStyle}
+          {...anchorProps}
+        >
           {content}
         </a>
       )
     }
 
     return (
-      <div ref={ref} style={brandStyle} {...props}>
+      <div ref={ref as React.RefObject<HTMLDivElement>} style={brandStyle} {...props}>
         {content}
       </div>
     )
   }
 )
 
-NavbarBrand.displayName = "NavbarBrand"
+NavbarBrand.displayName = 'NavbarBrand'
 
 // ============================================================================
 // Navbar Title (centered)
@@ -202,7 +208,7 @@ const NavbarTitle = forwardRef<HTMLHeadingElement, NavbarTitleProps>(
   }
 )
 
-NavbarTitle.displayName = "NavbarTitle"
+NavbarTitle.displayName = 'NavbarTitle'
 
 // ============================================================================
 // Navbar Actions (left or right)
@@ -231,7 +237,7 @@ const NavbarActions = forwardRef<HTMLDivElement, NavbarActionsProps>(
   }
 )
 
-NavbarActions.displayName = "NavbarActions"
+NavbarActions.displayName = 'NavbarActions'
 
 // ============================================================================
 // Navbar Button (icon button in navbar)
@@ -292,7 +298,7 @@ const NavbarButton = forwardRef<HTMLButtonElement, NavbarButtonProps>(
   }
 )
 
-NavbarButton.displayName = "NavbarButton"
+NavbarButton.displayName = 'NavbarButton'
 
 // ============================================================================
 // Navbar Back Button (with label)
@@ -340,7 +346,7 @@ const NavbarBack = forwardRef<HTMLButtonElement, NavbarBackProps>(
   }
 )
 
-NavbarBack.displayName = "NavbarBack"
+NavbarBack.displayName = 'NavbarBack'
 
 // ============================================================================
 // Navbar Divider (vertical line between elements)
@@ -359,7 +365,7 @@ const NavbarDivider = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEle
   }
 )
 
-NavbarDivider.displayName = "NavbarDivider"
+NavbarDivider.displayName = 'NavbarDivider'
 
 // ============================================================================
 // Navbar Tools Button (outlined/dashed border - purple)
@@ -403,7 +409,7 @@ const NavbarToolsButton = forwardRef<HTMLButtonElement, NavbarToolsButtonProps>(
   }
 )
 
-NavbarToolsButton.displayName = "NavbarToolsButton"
+NavbarToolsButton.displayName = 'NavbarToolsButton'
 
 // ============================================================================
 // Navbar Secondary Button (text button)
@@ -447,7 +453,7 @@ const NavbarSecondaryButton = forwardRef<HTMLButtonElement, NavbarSecondaryButto
   }
 )
 
-NavbarSecondaryButton.displayName = "NavbarSecondaryButton"
+NavbarSecondaryButton.displayName = 'NavbarSecondaryButton'
 
 // ============================================================================
 // Navbar Primary Button (solid pill button)
@@ -491,7 +497,7 @@ const NavbarPrimaryButton = forwardRef<HTMLButtonElement, NavbarPrimaryButtonPro
   }
 )
 
-NavbarPrimaryButton.displayName = "NavbarPrimaryButton"
+NavbarPrimaryButton.displayName = 'NavbarPrimaryButton'
 
 // ============================================================================
 // Navbar Left Section (for Back + Title layout)
@@ -514,7 +520,7 @@ const NavbarLeft = forwardRef<HTMLDivElement, NavbarLeftProps>(
   }
 )
 
-NavbarLeft.displayName = "NavbarLeft"
+NavbarLeft.displayName = 'NavbarLeft'
 
 export {
   Navbar,

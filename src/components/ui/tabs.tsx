@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef, createContext, useContext, useState, useId, useRef, useEffect } from "react"
-import type { LucideIcon } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, createContext, useContext, useState, useId } from 'react'
+import type { LucideIcon } from 'lucide-react'
 
 /**
  * Tab Bar Design Tokens from Figma
@@ -101,17 +101,20 @@ export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const Tabs = forwardRef<HTMLDivElement, TabsProps>(
-  ({
-    value: controlledValue,
-    defaultValue = '',
-    onValueChange,
-    level = 1,
-    style,
-    children,
-    ...props
-  }, ref) => {
+  (
+    {
+      value: controlledValue,
+      defaultValue = '',
+      onValueChange,
+      level = 1,
+      style,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     const [internalValue, setInternalValue] = useState(defaultValue)
-    
+
     const isControlled = controlledValue !== undefined
     const value = isControlled ? controlledValue : internalValue
 
@@ -132,7 +135,7 @@ const Tabs = forwardRef<HTMLDivElement, TabsProps>(
   }
 )
 
-Tabs.displayName = "Tabs"
+Tabs.displayName = 'Tabs'
 
 // ============================================================================
 // Tabs List
@@ -146,26 +149,27 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
   ({ variant, style, children, ...props }, ref) => {
     const { level } = useTabs()
     const effectiveLevel = variant === 'pills' ? 2 : level
-    
+
     const tokens = effectiveLevel === 1 ? TABS_TOKENS.level1 : TABS_TOKENS.level2
 
-    const listStyle: React.CSSProperties = effectiveLevel === 1
-      ? {
-          display: 'flex',
-          gap: tokens.list.gap,
-          borderBottom: `1px solid ${tokens.list.borderBottom}`,
-          backgroundColor: tokens.list.bg,
-          ...style,
-        }
-      : {
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 0,
-          padding: tokens.list.padding,
-          backgroundColor: tokens.list.bg,
-          borderRadius: tokens.list.radius,
-          ...style,
-        }
+    const listStyle: React.CSSProperties =
+      effectiveLevel === 1
+        ? {
+            display: 'flex',
+            gap: tokens.list.gap,
+            borderBottom: `1px solid ${(tokens.list as typeof TABS_TOKENS.level1.list).borderBottom}`,
+            backgroundColor: tokens.list.bg,
+            ...style,
+          }
+        : {
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 0,
+            padding: (tokens.list as typeof TABS_TOKENS.level2.list).padding,
+            backgroundColor: tokens.list.bg,
+            borderRadius: (tokens.list as typeof TABS_TOKENS.level2.list).radius,
+            ...style,
+          }
 
     return (
       <div ref={ref} role="tablist" style={listStyle} {...props}>
@@ -175,7 +179,7 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
   }
 )
 
-TabsList.displayName = "TabsList"
+TabsList.displayName = 'TabsList'
 
 // ============================================================================
 // Tabs Trigger
@@ -194,7 +198,10 @@ export interface TabsTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonE
 }
 
 const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
-  ({ value: tabValue, icon: Icon, badge, tag, variant, disabled, style, children, ...props }, ref) => {
+  (
+    { value: tabValue, icon: Icon, badge, tag, variant, disabled, style, children, ...props },
+    ref
+  ) => {
     const { value, onValueChange, level } = useTabs()
     const [isHovered, setIsHovered] = useState(false)
     const isActive = value === tabValue
@@ -243,12 +250,21 @@ const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
       fontWeight: tokens.trigger.fontWeight,
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
       color: getColor(),
-      backgroundColor: isActive ? tokens.trigger.activeBg : 'transparent',
+      backgroundColor:
+        isActive && effectiveLevel === 2
+          ? (tokens.trigger as typeof TABS_TOKENS.level2.trigger).activeBg
+          : 'transparent',
       border: 'none',
-      borderRadius: tokens.trigger.activeRadius,
+      borderRadius:
+        effectiveLevel === 2
+          ? (tokens.trigger as typeof TABS_TOKENS.level2.trigger).activeRadius
+          : undefined,
       cursor: disabled ? 'not-allowed' : 'pointer',
       transition: 'all 150ms ease-in-out',
-      boxShadow: isActive ? tokens.trigger.activeShadow : 'none',
+      boxShadow:
+        isActive && effectiveLevel === 2
+          ? (tokens.trigger as typeof TABS_TOKENS.level2.trigger).activeShadow
+          : 'none',
       whiteSpace: 'nowrap',
       ...style,
     }
@@ -258,8 +274,14 @@ const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
       bottom: 0,
       left: 0,
       right: 0,
-      height: tokens.trigger.indicatorHeight,
-      backgroundColor: tokens.trigger.indicator,
+      height:
+        effectiveLevel === 1
+          ? (tokens.trigger as typeof TABS_TOKENS.level1.trigger).indicatorHeight
+          : 0,
+      backgroundColor:
+        effectiveLevel === 1
+          ? (tokens.trigger as typeof TABS_TOKENS.level1.trigger).indicator
+          : 'transparent',
       transform: isActive ? 'scaleX(1)' : 'scaleX(0)',
       transition: 'transform 200ms ease-in-out',
     }
@@ -308,7 +330,7 @@ const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
         onClick={() => !disabled && onValueChange(tabValue)}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onKeyDown={(e) => {
+        onKeyDown={e => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault()
             if (!disabled) {
@@ -321,18 +343,14 @@ const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
         {Icon && <Icon size={16} />}
         <span>{children}</span>
         {tag && <span style={tagStyle}>{tag}</span>}
-        {badge && (
-          <span style={badgeStyle}>
-            {typeof badge === 'number' ? badge : ''}
-          </span>
-        )}
+        {badge && <span style={badgeStyle}>{typeof badge === 'number' ? badge : ''}</span>}
         {effectiveLevel === 1 && <span style={indicatorStyle} />}
       </button>
     )
   }
 )
 
-TabsTrigger.displayName = "TabsTrigger"
+TabsTrigger.displayName = 'TabsTrigger'
 
 // ============================================================================
 // Tabs Content
@@ -356,20 +374,13 @@ const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>(
     }
 
     return (
-      <div
-        ref={ref}
-        role="tabpanel"
-        id={panelId}
-        tabIndex={0}
-        style={contentStyle}
-        {...props}
-      >
+      <div ref={ref} role="tabpanel" id={panelId} tabIndex={0} style={contentStyle} {...props}>
         {children}
       </div>
     )
   }
 )
 
-TabsContent.displayName = "TabsContent"
+TabsContent.displayName = 'TabsContent'
 
 export { Tabs, TabsList, TabsTrigger, TabsContent, TABS_TOKENS }

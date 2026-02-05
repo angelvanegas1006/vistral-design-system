@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef, useState, useRef, useCallback, useEffect } from "react"
-import { Upload, X, File, Image, FileText, Film, Music, Loader2 } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, useState, useRef, useCallback, useEffect } from 'react'
+import { Upload, X, File, Image, FileText, Film, Music, Loader2 } from 'lucide-react'
 
 /**
  * Uploader Design Tokens from Figma
@@ -77,7 +77,7 @@ type UploadedFile = {
   error?: string
 }
 
-type UploadError = 
+type UploadError =
   | 'invalid-format'
   | 'size-limit'
   | 'quantity-limit'
@@ -85,7 +85,10 @@ type UploadError =
   | 'network-failure'
   | 'required'
 
-export interface UploaderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface UploaderProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'onChange' | 'onDrop' | 'onDragOver' | 'onDragLeave' | 'onProgress'
+> {
   /** Visual variant */
   variant?: 'dropzone' | 'button'
   /** Accepted file types (e.g., "image/*", ".pdf,.doc") */
@@ -121,26 +124,29 @@ export interface UploaderProps extends Omit<React.HTMLAttributes<HTMLDivElement>
 }
 
 const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
-  ({
-    variant = 'dropzone',
-    accept,
-    multiple = true,
-    maxSize = 5 * 1024 * 1024, // 5MB default per Figma
-    maxFiles = 10,
-    onChange,
-    onRemove,
-    onProgress,
-    label,
-    helperText,
-    error,
-    showPreviews = true,
-    disabled = false,
-    buttonText = 'Upload a file',
-    displayMode = 'list',
-    simulateProgress = false,
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      variant = 'dropzone',
+      accept,
+      multiple = true,
+      maxSize = 5 * 1024 * 1024, // 5MB default per Figma
+      maxFiles = 10,
+      onChange,
+      onRemove,
+      onProgress,
+      label,
+      helperText,
+      error,
+      showPreviews = true,
+      disabled = false,
+      buttonText = 'Upload a file',
+      displayMode: _displayMode = 'list',
+      simulateProgress = false,
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const [files, setFiles] = useState<UploadedFile[]>([])
     const [isDragActive, setIsDragActive] = useState(false)
     const [isHovered, setIsHovered] = useState(false)
@@ -152,12 +158,12 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
     useEffect(() => {
       if (!simulateProgress) return
 
-      files.forEach((uploadedFile) => {
+      files.forEach(uploadedFile => {
         if (uploadedFile.progress === undefined || uploadedFile.progress >= 100) return
 
         const timer = setInterval(() => {
-          setFiles((prev) =>
-            prev.map((f) => {
+          setFiles(prev =>
+            prev.map(f => {
               if (f.id === uploadedFile.id && f.progress !== undefined && f.progress < 100) {
                 const newProgress = Math.min(f.progress + 10, 100)
                 onProgress?.(f.id, newProgress)
@@ -183,9 +189,9 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
     const validateFile = (file: File): UploadError | null => {
       // Check file type
       if (accept) {
-        const acceptedTypes = accept.split(',').map((t) => t.trim())
+        const acceptedTypes = accept.split(',').map(t => t.trim())
         const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase()
-        const matchesType = acceptedTypes.some((type) => {
+        const matchesType = acceptedTypes.some(type => {
           if (type.startsWith('.')) {
             return fileExtension === type.toLowerCase()
           }
@@ -206,14 +212,14 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
       }
 
       // Check duplicate
-      if (files.some((f) => f.file.name === file.name && f.file.size === file.size)) {
+      if (files.some(f => f.file.name === file.name && f.file.size === file.size)) {
         return 'duplicate'
       }
 
       return null
     }
 
-    const getErrorMessage = (errorType: UploadError, file?: File): string => {
+    const getErrorMessage = (errorType: UploadError, _file?: File): string => {
       switch (errorType) {
         case 'invalid-format':
           return accept
@@ -272,7 +278,7 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
         if (validFiles.length > 0) {
           const updatedFiles = multiple ? [...files, ...validFiles] : validFiles
           setFiles(updatedFiles)
-          onChange?.(updatedFiles.map((f) => f.file))
+          onChange?.(updatedFiles.map(f => f.file))
         }
       },
       [files, maxFiles, maxSize, multiple, disabled, onChange, accept, simulateProgress]
@@ -315,7 +321,7 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
     }
 
     const removeFile = (fileId: string) => {
-      const fileToRemove = files.find((f) => f.id === fileId)
+      const fileToRemove = files.find(f => f.id === fileId)
       if (fileToRemove?.preview) {
         URL.revokeObjectURL(fileToRemove.preview)
       }
@@ -326,13 +332,13 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
         progressTimersRef.current.delete(fileId)
       }
 
-      const updatedFiles = files.filter((f) => f.id !== fileId)
+      const updatedFiles = files.filter(f => f.id !== fileId)
       setFiles(updatedFiles)
 
       if (fileToRemove) {
         onRemove?.(fileToRemove.file)
       }
-      onChange?.(updatedFiles.map((f) => f.file))
+      onChange?.(updatedFiles.map(f => f.file))
     }
 
     const formatFileSize = (bytes: number) => {
@@ -365,7 +371,11 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
       marginBottom: 8,
       fontSize: 14,
       fontWeight: 500,
-      color: disabled ? UPLOADER_TOKENS.text.secondary : hasError ? UPLOADER_TOKENS.text.error : UPLOADER_TOKENS.text.primary,
+      color: disabled
+        ? UPLOADER_TOKENS.text.secondary
+        : hasError
+          ? UPLOADER_TOKENS.text.error
+          : UPLOADER_TOKENS.text.primary,
     }
 
     const dropzoneStyle: React.CSSProperties = {
@@ -431,7 +441,9 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
     const renderDropzone = () => {
       const fileSizeText = maxSize ? formatFileSize(maxSize) : '5MB'
       const fileCountText = maxFiles ? `max ${maxFiles} files` : ''
-      const constraintsText = fileCountText ? `(${fileCountText}, up to ${fileSizeText} each)` : `(up to ${fileSizeText} each)`
+      const constraintsText = fileCountText
+        ? `(${fileCountText}, up to ${fileSizeText} each)`
+        : `(up to ${fileSizeText} each)`
 
       return (
         <div
@@ -446,7 +458,7 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
           tabIndex={disabled ? -1 : 0}
           aria-label="Upload files"
           aria-describedby={helperText ? 'uploader-helper' : undefined}
-          onKeyDown={(e) => {
+          onKeyDown={e => {
             if ((e.key === 'Enter' || e.key === ' ') && !disabled) {
               e.preventDefault()
               handleClick()
@@ -460,7 +472,8 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
               fontSize: 14,
               fontWeight: 500,
               color: UPLOADER_TOKENS.text.primary,
-              fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+              fontFamily:
+                "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
             }}
           >
             Drag & drop files here
@@ -470,13 +483,17 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
               margin: '4px 0 0',
               fontSize: 13,
               color: UPLOADER_TOKENS.text.secondary,
-              fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+              fontFamily:
+                "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
             }}
           >
             Or{' '}
             <span
               style={{
-                color: isDragActive || isHovered ? UPLOADER_TOKENS.text.linkHover : UPLOADER_TOKENS.text.link,
+                color:
+                  isDragActive || isHovered
+                    ? UPLOADER_TOKENS.text.linkHover
+                    : UPLOADER_TOKENS.text.link,
                 fontWeight: 500,
                 textDecoration: 'underline',
                 cursor: 'pointer',
@@ -494,7 +511,7 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
       const fileTypesText = accept
         ? accept
             .split(',')
-            .map((t) => t.trim().replace(/^\./, '').toUpperCase())
+            .map(t => t.trim().replace(/^\./, '').toUpperCase())
             .join(', ')
         : 'PDF, JPG or PNG'
       const fileSizeText = maxSize ? formatFileSize(maxSize) : '5MB'
@@ -511,7 +528,9 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
           aria-describedby={helperText ? 'uploader-helper' : undefined}
         >
           <Upload size={18} />
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 2 }}>
+          <div
+            style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 2 }}
+          >
             <span>{buttonText}</span>
             <span
               style={{
@@ -578,7 +597,7 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
 
       return (
         <div style={fileListStyle}>
-          {files.map((uploadedFile) => {
+          {files.map(uploadedFile => {
             const FileIcon = getFileIcon(uploadedFile.file)
             const isUploading = uploadedFile.progress !== undefined && uploadedFile.progress < 100
 
@@ -610,12 +629,12 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
                         padding: 4,
                       }}
                     >
-                      <Loader2 
-                        size={16} 
-                        color="#71717a" 
-                        style={{ 
+                      <Loader2
+                        size={16}
+                        color="#71717a"
+                        style={{
                           animation: 'spin 1s linear infinite',
-                        }} 
+                        }}
                       />
                     </div>
                   )}
@@ -631,7 +650,8 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap',
-                      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+                      fontFamily:
+                        "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
                     }}
                   >
                     {uploadedFile.file.name}
@@ -641,7 +661,8 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
                       margin: '2px 0 0',
                       fontSize: 12,
                       color: UPLOADER_TOKENS.text.secondary,
-                      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+                      fontFamily:
+                        "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
                     }}
                   >
                     {isUploading && uploadedFile.progress !== undefined
@@ -652,12 +673,12 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
 
                 {isUploading && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <Loader2 
-                      size={16} 
-                      color="#71717a" 
-                      style={{ 
+                    <Loader2
+                      size={16}
+                      color="#71717a"
+                      style={{
                         animation: 'spin 1s linear infinite',
-                      }} 
+                      }}
                     />
                   </div>
                 )}
@@ -665,15 +686,15 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
                 <button
                   type="button"
                   style={removeButtonStyle}
-                  onClick={(e) => {
+                  onClick={e => {
                     e.stopPropagation()
                     removeFile(uploadedFile.id)
                   }}
                   aria-label={`Remove ${uploadedFile.file.name}`}
-                  onMouseEnter={(e) => {
+                  onMouseEnter={e => {
                     e.currentTarget.style.opacity = '0.8'
                   }}
-                  onMouseLeave={(e) => {
+                  onMouseLeave={e => {
                     e.currentTarget.style.opacity = '1'
                   }}
                 >
@@ -717,7 +738,7 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
   }
 )
 
-Uploader.displayName = "Uploader"
+Uploader.displayName = 'Uploader'
 
 // Add spinner animation
 if (typeof document !== 'undefined') {

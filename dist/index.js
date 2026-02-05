@@ -761,7 +761,6 @@ var Textarea = React2.forwardRef(
           onMouseLeave: () => setIsHovered(false),
           "aria-invalid": error,
           "aria-describedby": helperText || errorMessage || showCharacterCounter ? `${id}-helper` : void 0,
-          "aria-required": !props.optional,
           ...props
         }
       ),
@@ -2600,7 +2599,9 @@ var PhoneInput = React2.forwardRef(
       borderBottomRightRadius: 0,
       cursor: disabled ? "not-allowed" : "pointer",
       fontSize: PHONE_INPUT_TOKENS.country.fontSize,
-      transition: "border-color 150ms ease, background-color 150ms ease"
+      transition: "border-color 150ms ease, background-color 150ms ease",
+      boxSizing: "border-box",
+      alignSelf: "stretch"
     };
     const inputContainerStyle = {
       flex: 1,
@@ -2614,7 +2615,9 @@ var PhoneInput = React2.forwardRef(
       borderBottomLeftRadius: 0,
       borderTopRightRadius: PHONE_INPUT_TOKENS.radius,
       borderBottomRightRadius: PHONE_INPUT_TOKENS.radius,
-      transition: "border-color 150ms ease"
+      transition: "border-color 150ms ease",
+      boxSizing: "border-box",
+      alignSelf: "stretch"
     };
     const inputStyle = {
       flex: 1,
@@ -5076,8 +5079,6 @@ var DialogContent = React2__namespace.forwardRef(({ className, children, size = 
     contentStyle.left = 0;
     contentStyle.right = 0;
     contentStyle.transform = "none";
-    contentStyle.translateX = void 0;
-    contentStyle.translateY = void 0;
   } else {
     const desktopWidth = getDesktopWidth();
     contentStyle.width = typeof desktopWidth === "number" ? `${desktopWidth}px` : desktopWidth;
@@ -5113,10 +5114,22 @@ var DialogContent = React2__namespace.forwardRef(({ className, children, size = 
         ...props,
         children: [
           children,
-          !isMobile && /* @__PURE__ */ jsxRuntime.jsxs(DialogPrimitive__namespace.Close, { className: "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-[#2050f6] focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-[#f4f4f5] data-[state=open]:text-[#71717a] z-10 dark:data-[state=open]:bg-[#262626] dark:data-[state=open]:text-[#a3a3a3]", children: [
-            /* @__PURE__ */ jsxRuntime.jsx(lucideReact.X, { className: "h-4 w-4" }),
-            /* @__PURE__ */ jsxRuntime.jsx("span", { className: "sr-only", children: "Close" })
-          ] })
+          !isMobile && /* @__PURE__ */ jsxRuntime.jsxs(
+            DialogPrimitive__namespace.Close,
+            {
+              className: "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-[#2050f6] focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-[#f4f4f5] data-[state=open]:text-[#71717a] dark:data-[state=open]:bg-[#262626] dark:data-[state=open]:text-[#a3a3a3]",
+              style: {
+                position: "absolute",
+                right: "16px",
+                top: "16px",
+                zIndex: 50
+              },
+              children: [
+                /* @__PURE__ */ jsxRuntime.jsx(lucideReact.X, { className: "h-4 w-4" }),
+                /* @__PURE__ */ jsxRuntime.jsx("span", { className: "sr-only", children: "Close" })
+              ]
+            }
+          )
         ]
       }
     )
@@ -5855,6 +5868,7 @@ var DROPDOWN_TOKENS = {
     fontSize: 14,
     bg: "transparent",
     bgHover: "#f4f4f5",
+    bgFocus: "#f4f4f5",
     fg: "#18181b",
     fgDisabled: "#a1a1aa",
     fgDestructive: "#dc2626",
@@ -6620,12 +6634,12 @@ var TabsTrigger = React2.forwardRef(
       fontWeight: tokens.trigger.fontWeight,
       fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
       color: getColor(),
-      backgroundColor: isActive ? tokens.trigger.activeBg : "transparent",
+      backgroundColor: isActive && effectiveLevel === 2 ? tokens.trigger.activeBg : "transparent",
       border: "none",
-      borderRadius: tokens.trigger.activeRadius,
+      borderRadius: effectiveLevel === 2 ? tokens.trigger.activeRadius : void 0,
       cursor: disabled ? "not-allowed" : "pointer",
       transition: "all 150ms ease-in-out",
-      boxShadow: isActive ? tokens.trigger.activeShadow : "none",
+      boxShadow: isActive && effectiveLevel === 2 ? tokens.trigger.activeShadow : "none",
       whiteSpace: "nowrap",
       ...style
     };
@@ -6634,8 +6648,8 @@ var TabsTrigger = React2.forwardRef(
       bottom: 0,
       left: 0,
       right: 0,
-      height: tokens.trigger.indicatorHeight,
-      backgroundColor: tokens.trigger.indicator,
+      height: effectiveLevel === 1 ? tokens.trigger.indicatorHeight : 0,
+      backgroundColor: effectiveLevel === 1 ? tokens.trigger.indicator : "transparent",
       transform: isActive ? "scaleX(1)" : "scaleX(0)",
       transition: "transform 200ms ease-in-out"
     };
@@ -7152,7 +7166,8 @@ var NavbarBrand = React2.forwardRef(
       children
     ] });
     if (href) {
-      return /* @__PURE__ */ jsxRuntime.jsx("a", { ref, href, style: brandStyle, ...props, children: content });
+      const { ...anchorProps } = props;
+      return /* @__PURE__ */ jsxRuntime.jsx("a", { ref, href, style: brandStyle, ...anchorProps, children: content });
     }
     return /* @__PURE__ */ jsxRuntime.jsx("div", { ref, style: brandStyle, ...props, children: content });
   }
@@ -7536,13 +7551,13 @@ var BottomNavItem = React2.forwardRef(
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      width: BOTTOM_NAV_TOKENS.item.iconContainerSize,
-      height: BOTTOM_NAV_TOKENS.item.iconContainerSize,
-      borderRadius: "50%",
-      border: isActive ? "none" : `1.5px solid ${BOTTOM_NAV_TOKENS.item.fg}`,
-      backgroundColor: isActive ? BOTTOM_NAV_TOKENS.item.fgActive : "transparent",
-      color: isActive ? "#ffffff" : BOTTOM_NAV_TOKENS.item.fg,
-      transition: "all 150ms ease"
+      width: "auto",
+      height: "auto",
+      borderRadius: "none",
+      border: "none",
+      backgroundColor: "transparent",
+      color: isActive ? BOTTOM_NAV_TOKENS.item.fgActive : BOTTOM_NAV_TOKENS.item.fg,
+      transition: "color 150ms ease"
     };
     const labelStyle = {
       fontSize: BOTTOM_NAV_TOKENS.item.fontSize,
@@ -7580,8 +7595,8 @@ var BottomNavItem = React2.forwardRef(
         onMouseLeave: () => setIsHovered(false),
         ...props,
         children: /* @__PURE__ */ jsxRuntime.jsxs("div", { style: pillStyle, children: [
-          /* @__PURE__ */ jsxRuntime.jsxs("span", { style: iconContainerStyle, children: [
-            /* @__PURE__ */ jsxRuntime.jsx(IconComponent, { size: 16 }),
+          /* @__PURE__ */ jsxRuntime.jsxs("div", { style: iconContainerStyle, children: [
+            /* @__PURE__ */ jsxRuntime.jsx(IconComponent, { size: BOTTOM_NAV_TOKENS.item.iconSize }),
             badge !== void 0 && badge > 0 && /* @__PURE__ */ jsxRuntime.jsx("span", { style: badgeStyle, children: badge > 99 ? "99+" : badge })
           ] }),
           shouldShowLabel && /* @__PURE__ */ jsxRuntime.jsx("span", { style: labelStyle, children: label })
@@ -8471,11 +8486,12 @@ var FooterActions = React2.forwardRef(
     };
     const childrenWithProps = React2__namespace.Children.map(children, (child) => {
       if (React2__namespace.isValidElement(child) && isMobile) {
+        const childProps = child.props;
         return React2__namespace.cloneElement(child, {
           style: {
             width: "100%",
             minHeight: FOOTER_ACTIONS_TOKENS.minButtonHeight,
-            ...child.props.style || {}
+            ...childProps.style || {}
           }
         });
       }
@@ -8687,7 +8703,7 @@ var DataBlock = React2.forwardRef(
     }
     return /* @__PURE__ */ jsxRuntime.jsxs("div", { ref, style: containerStyle, ...props, children: [
       /* @__PURE__ */ jsxRuntime.jsxs("div", { style: headerStyle, children: [
-        Icon2 && /* @__PURE__ */ jsxRuntime.jsx("div", { style: iconContainerStyle, children: /* @__PURE__ */ jsxRuntime.jsx(Icon2, { size: currentSize.iconSize * 0.5 }) }),
+        Icon2 && /* @__PURE__ */ jsxRuntime.jsx("div", { style: iconContainerStyle, children: /* @__PURE__ */ jsxRuntime.jsx(Icon2, { size: Math.max(16, currentSize.iconSize * 0.4) }) }),
         /* @__PURE__ */ jsxRuntime.jsx("p", { style: labelStyle, children: label })
       ] }),
       /* @__PURE__ */ jsxRuntime.jsx("p", { style: valueStyle, children: value }),
@@ -9429,12 +9445,13 @@ var Item2 = React2.forwardRef(
       onBlur: handleBlur
     };
     if (href && !disabled) {
+      const { ...anchorProps } = props;
       return /* @__PURE__ */ jsxRuntime.jsx(
         "a",
         {
           href,
           ...commonProps,
-          ...props,
+          ...anchorProps,
           children: content
         }
       );
@@ -11374,14 +11391,15 @@ var LightboxTrigger = ({
   lightboxProps
 }) => {
   const [open, setOpen] = React2.useState(false);
+  const childProps = React2__namespace.isValidElement(children) ? children.props : {};
   return /* @__PURE__ */ jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [
     React2__namespace.cloneElement(children, {
       onClick: (e) => {
         e.preventDefault();
         setOpen(true);
-        children.props.onClick?.(e);
+        childProps.onClick?.(e);
       },
-      style: { ...children.props.style, cursor: "pointer" }
+      style: { ...childProps.style, cursor: "pointer" }
     }),
     /* @__PURE__ */ jsxRuntime.jsx(
       Lightbox,
@@ -11446,8 +11464,8 @@ var MEDIA_HERO_TOKENS = {
     // Pill shape - half of height (32px / 2 = 16px)
     shadow: "0 2px 8px rgba(0,0,0,0.15)",
     gap: 8,
-    minWidth: "160px",
-    // Width from SVG
+    minWidth: "180px",
+    // Increased width to fit "Show all photos" text in one line
     height: "32px"
     // Height from SVG
   },
@@ -11590,7 +11608,8 @@ var MediaHero = React2.forwardRef(
                   border: MEDIA_HERO_TOKENS.button.border,
                   cursor: "pointer",
                   fontFamily: "inherit",
-                  transition: "background-color 150ms ease"
+                  transition: "background-color 150ms ease",
+                  whiteSpace: "nowrap"
                 },
                 onMouseEnter: (e) => {
                   e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bgHover;
@@ -11602,7 +11621,7 @@ var MediaHero = React2.forwardRef(
                 "aria-label": `${buttonText} (${images.length} photos)`,
                 children: [
                   /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Images, { size: 16, style: { flexShrink: 0, color: MEDIA_HERO_TOKENS.button.fg } }),
-                  /* @__PURE__ */ jsxRuntime.jsx("span", { children: buttonText })
+                  /* @__PURE__ */ jsxRuntime.jsx("span", { style: { whiteSpace: "nowrap" }, children: buttonText })
                 ]
               }
             ) }),
@@ -11821,8 +11840,8 @@ var MediaHero = React2.forwardRef(
                       },
                       "aria-label": `${buttonText} (${images.length} photos)`,
                       children: [
-                        /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Images, { size: 16, style: { flexShrink: 0 } }),
-                        /* @__PURE__ */ jsxRuntime.jsx("span", { children: buttonText })
+                        /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Images, { size: 16, style: { flexShrink: 0, color: MEDIA_HERO_TOKENS.button.fg } }),
+                        /* @__PURE__ */ jsxRuntime.jsx("span", { style: { whiteSpace: "nowrap" }, children: buttonText })
                       ]
                     }
                   )
@@ -12050,8 +12069,8 @@ var MediaHero = React2.forwardRef(
                       },
                       "aria-label": `${buttonText} (${images.length} photos)`,
                       children: [
-                        /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Images, { size: 16, style: { flexShrink: 0 } }),
-                        /* @__PURE__ */ jsxRuntime.jsx("span", { children: buttonText })
+                        /* @__PURE__ */ jsxRuntime.jsx(lucideReact.Images, { size: 16, style: { flexShrink: 0, color: MEDIA_HERO_TOKENS.button.fg } }),
+                        /* @__PURE__ */ jsxRuntime.jsx("span", { style: { whiteSpace: "nowrap" }, children: buttonText })
                       ]
                     }
                   )
@@ -14637,12 +14656,15 @@ var PropertyCard = React2.forwardRef(
     const getValueLabelStyle = (label) => {
       const tokens = PROPERTY_CARD_TOKENS.valueLabel[label];
       return {
-        padding: "4px 10px",
-        fontSize: 11,
+        padding: "4px 12px",
+        fontSize: 12,
         fontWeight: 600,
         backgroundColor: tokens.bg,
         color: tokens.fg,
-        borderRadius: 4
+        borderRadius: 9999,
+        // Pill shape - fully rounded ends
+        whiteSpace: "nowrap",
+        display: "inline-block"
       };
     };
     const getStatusStyle = (s) => {
@@ -14966,6 +14988,7 @@ exports.DATA_BLOCK_TOKENS = DATA_BLOCK_TOKENS;
 exports.DATE_PICKER_TOKENS = DATE_PICKER_TOKENS;
 exports.DIALOG_TOKENS = DIALOG_TOKENS;
 exports.DIVIDER_TOKENS = DIVIDER_TOKENS;
+exports.DROPDOWN_TOKENS = DROPDOWN_TOKENS;
 exports.DataBlock = DataBlock;
 exports.DataBlockGrid = DataBlockGrid;
 exports.DatePicker = DatePicker;

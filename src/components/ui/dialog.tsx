@@ -1,8 +1,8 @@
-import * as React from "react"
-import * as DialogPrimitive from "@radix-ui/react-dialog"
-import { X, ChevronLeft } from "lucide-react"
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import * as React from 'react'
+import * as DialogPrimitive from '@radix-ui/react-dialog'
+import { X, ChevronLeft } from 'lucide-react'
+import { type ClassValue, clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -78,9 +78,9 @@ const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "fixed inset-0 z-50 bg-black/50",
-      "data-[state=open]:animate-in data-[state=closed]:animate-out",
-      "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      'fixed inset-0 z-50 bg-black/50',
+      'data-[state=open]:animate-in data-[state=closed]:animate-out',
+      'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
       className
     )}
     style={{
@@ -95,8 +95,9 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 // ============================================================================
 // Dialog Content (Radix UI compatible with Design System styling)
 // ============================================================================
-export interface DialogContentProps
-  extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
+export interface DialogContentProps extends React.ComponentPropsWithoutRef<
+  typeof DialogPrimitive.Content
+> {
   /** Size of the dialog */
   size?: DialogSize
   /** Variant: desktop, mobile, or bottom-sheet */
@@ -109,16 +110,22 @@ const DialogContent = React.forwardRef<
 >(({ className, children, size = 'md', variant = 'desktop', ...props }, ref) => {
   const isMobile = variant === 'mobile' || variant === 'bottom-sheet'
   const isBottomSheet = variant === 'bottom-sheet'
-  
+
   // Size-based width for desktop
   const getDesktopWidth = () => {
     switch (size) {
-      case 'sm': return 400
-      case 'md': return 500
-      case 'lg': return 640
-      case 'xl': return 800
-      case 'full': return '100%'
-      default: return 500
+      case 'sm':
+        return 400
+      case 'md':
+        return 500
+      case 'lg':
+        return 640
+      case 'xl':
+        return 800
+      case 'full':
+        return '100%'
+      default:
+        return 500
     }
   }
 
@@ -146,8 +153,6 @@ const DialogContent = React.forwardRef<
     contentStyle.left = 0
     contentStyle.right = 0
     contentStyle.transform = 'none'
-    contentStyle.translateX = undefined
-    contentStyle.translateY = undefined
   } else {
     // Desktop: centered, responsive width
     const desktopWidth = getDesktopWidth()
@@ -164,20 +169,24 @@ const DialogContent = React.forwardRef<
         ref={ref}
         className={cn(
           // Base styles
-          "fixed z-50 grid gap-4 overflow-y-auto",
+          'fixed z-50 grid gap-4 overflow-y-auto',
           // Desktop positioning
-          !isMobile && "left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]",
+          !isMobile && 'left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]',
           // Animations
-          "data-[state=open]:animate-in data-[state=closed]:animate-out",
-          "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-          !isMobile && "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-          !isMobile && "data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%]",
-          !isMobile && "data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
+          'data-[state=open]:animate-in data-[state=closed]:animate-out',
+          'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+          !isMobile && 'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
+          !isMobile &&
+            'data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%]',
+          !isMobile &&
+            'data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]',
           // Mobile animations
-          isBottomSheet && "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
-          variant === 'mobile' && "data-[state=open]:slide-in-from-top data-[state=closed]:slide-out-to-top",
+          isBottomSheet &&
+            'data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom',
+          variant === 'mobile' &&
+            'data-[state=open]:slide-in-from-top data-[state=closed]:slide-out-to-top',
           // Dark mode
-          "dark:bg-[#1a1a1a] dark:text-white",
+          'dark:bg-[#1a1a1a] dark:text-white',
           className
         )}
         style={contentStyle}
@@ -185,7 +194,7 @@ const DialogContent = React.forwardRef<
       >
         {children}
         {!isMobile && (
-          <DialogPrimitive.Close 
+          <DialogPrimitive.Close
             className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-[#2050f6] focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-[#f4f4f5] data-[state=open]:text-[#71717a] dark:data-[state=open]:bg-[#262626] dark:data-[state=open]:text-[#a3a3a3]"
             style={{
               position: 'absolute',
@@ -225,10 +234,7 @@ const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
     return (
       <div
         ref={ref}
-        className={cn(
-          "flex flex-col space-y-1.5",
-          className
-        )}
+        className={cn('flex flex-col space-y-1.5', className)}
         style={{
           paddingBottom: DIALOG_TOKENS.desktop.verticalSpace,
         }}
@@ -261,7 +267,7 @@ const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
     )
   }
 )
-DialogHeader.displayName = "DialogHeader"
+DialogHeader.displayName = 'DialogHeader'
 
 // ============================================================================
 // Dialog Body (Helper component)
@@ -270,7 +276,7 @@ const DialogBody = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
   ({ className, style, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn("overflow-y-auto", className)}
+      className={cn('overflow-y-auto', className)}
       style={{
         flex: 1,
         ...style,
@@ -279,7 +285,7 @@ const DialogBody = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
     />
   )
 )
-DialogBody.displayName = "DialogBody"
+DialogBody.displayName = 'DialogBody'
 
 // ============================================================================
 // Dialog Footer (Helper component)
@@ -294,9 +300,9 @@ const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
     <div
       ref={ref}
       className={cn(
-        stacked 
-          ? "flex flex-col gap-2" 
-          : "flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2",
+        stacked
+          ? 'flex flex-col gap-2'
+          : 'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
         className
       )}
       style={{
@@ -307,7 +313,7 @@ const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
     />
   )
 )
-DialogFooter.displayName = "DialogFooter"
+DialogFooter.displayName = 'DialogFooter'
 
 // ============================================================================
 // Dialog Title (Radix UI compatible)
@@ -319,8 +325,8 @@ const DialogTitle = React.forwardRef<
   <DialogPrimitive.Title
     ref={ref}
     className={cn(
-      "text-lg font-semibold leading-none tracking-tight",
-      "text-[#18181b] dark:text-white",
+      'text-lg font-semibold leading-none tracking-tight',
+      'text-[#18181b] dark:text-white',
       className
     )}
     {...props}
@@ -337,10 +343,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn(
-      "text-sm text-[#71717a] dark:text-[#a3a3a3]",
-      className
-    )}
+    className={cn('text-sm text-[#71717a] dark:text-[#a3a3a3]', className)}
     {...props}
   />
 ))

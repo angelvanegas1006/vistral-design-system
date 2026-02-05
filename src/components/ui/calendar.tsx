@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef, useState } from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, useState } from 'react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 /**
  * Calendar Design Tokens from Figma
@@ -43,11 +43,24 @@ const CALENDAR_TOKENS = {
 
 const DAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
 const MONTHS = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ]
 
-export interface CalendarProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface CalendarProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'onChange' | 'defaultValue'
+> {
   /** Selected date */
   value?: Date
   /** Default selected date */
@@ -65,17 +78,20 @@ export interface CalendarProps extends Omit<React.HTMLAttributes<HTMLDivElement>
 }
 
 const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
-  ({
-    value,
-    defaultValue,
-    onChange,
-    minDate,
-    maxDate,
-    disabledDates = [],
-    showToday = true,
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      value,
+      defaultValue,
+      onChange,
+      minDate,
+      maxDate,
+      disabledDates = [],
+      showToday = true,
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 
@@ -102,17 +118,20 @@ const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
     const isDateDisabled = (date: Date) => {
       if (minDate && date < minDate) return true
       if (maxDate && date > maxDate) return true
-      return disabledDates.some(d => 
-        d.getFullYear() === date.getFullYear() &&
-        d.getMonth() === date.getMonth() &&
-        d.getDate() === date.getDate()
+      return disabledDates.some(
+        d =>
+          d.getFullYear() === date.getFullYear() &&
+          d.getMonth() === date.getMonth() &&
+          d.getDate() === date.getDate()
       )
     }
 
     const isSameDay = (d1: Date, d2: Date) => {
-      return d1.getFullYear() === d2.getFullYear() &&
-             d1.getMonth() === d2.getMonth() &&
-             d1.getDate() === d2.getDate()
+      return (
+        d1.getFullYear() === d2.getFullYear() &&
+        d1.getMonth() === d2.getMonth() &&
+        d1.getDate() === d2.getDate()
+      )
     }
 
     const handleDateClick = (day: number) => {
@@ -202,15 +221,15 @@ const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
         height: CALENDAR_TOKENS.cell.size,
         fontSize: CALENDAR_TOKENS.cell.fontSize,
         borderRadius: CALENDAR_TOKENS.cell.radius,
-        backgroundColor: isSelected 
-          ? CALENDAR_TOKENS.cell.bgSelected 
-          : isToday 
-            ? CALENDAR_TOKENS.cell.bgToday 
+        backgroundColor: isSelected
+          ? CALENDAR_TOKENS.cell.bgSelected
+          : isToday
+            ? CALENDAR_TOKENS.cell.bgToday
             : 'transparent',
-        color: isSelected 
-          ? CALENDAR_TOKENS.cell.fgSelected 
-          : disabled 
-            ? CALENDAR_TOKENS.cell.fgMuted 
+        color: isSelected
+          ? CALENDAR_TOKENS.cell.fgSelected
+          : disabled
+            ? CALENDAR_TOKENS.cell.fgMuted
             : CALENDAR_TOKENS.cell.fg,
         cursor: disabled ? 'not-allowed' : 'pointer',
         border: 'none',
@@ -237,7 +256,9 @@ const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
         {/* Weekdays */}
         <div style={weekdayRowStyle}>
           {DAYS.map(day => (
-            <div key={day} style={weekdayStyle}>{day}</div>
+            <div key={day} style={weekdayStyle}>
+              {day}
+            </div>
           ))}
         </div>
 
@@ -245,9 +266,12 @@ const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
         <div style={gridStyle}>
           {/* Empty cells for days before first of month */}
           {Array.from({ length: firstDay }).map((_, i) => (
-            <div key={`empty-${i}`} style={{ width: CALENDAR_TOKENS.cell.size, height: CALENDAR_TOKENS.cell.size }} />
+            <div
+              key={`empty-${i}`}
+              style={{ width: CALENDAR_TOKENS.cell.size, height: CALENDAR_TOKENS.cell.size }}
+            />
           ))}
-          
+
           {/* Day cells */}
           {Array.from({ length: daysInMonth }).map((_, i) => {
             const day = i + 1
@@ -257,7 +281,9 @@ const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
                 type="button"
                 style={getDayStyle(day)}
                 onClick={() => handleDateClick(day)}
-                disabled={isDateDisabled(new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day))}
+                disabled={isDateDisabled(
+                  new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day)
+                )}
               >
                 {day}
               </button>
@@ -269,6 +295,6 @@ const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
   }
 )
 
-Calendar.displayName = "Calendar"
+Calendar.displayName = 'Calendar'
 
 export { Calendar, CALENDAR_TOKENS }

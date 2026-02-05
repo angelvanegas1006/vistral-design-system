@@ -1,0 +1,44 @@
+# Dependencies
+node_modules/
+dist/
+build/
+storybook-static/
+
+# Generated files
+*.min.js
+*.min.css
+coverage/
+.nyc_output/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env*
+.env.local
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Figma
+.figma-cache/
+downloads/
+figma-tokens-export/
+figma-plugin/
+
+# Public assets
+public/
+
+# Storybook
+.storybook/
+
+# Config files that should keep their format
+package-lock.json
+yarn.lock
+pnpm-lock.yaml

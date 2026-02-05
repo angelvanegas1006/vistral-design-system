@@ -1,7 +1,7 @@
-import * as React from "react"
-import { forwardRef, useState, useRef, useEffect } from "react"
-import { Calendar as CalendarIcon } from "lucide-react"
-import { Calendar, CALENDAR_TOKENS } from "./calendar"
+import * as React from 'react'
+import { forwardRef, useState, useRef, useEffect } from 'react'
+import { Calendar as CalendarIcon } from 'lucide-react'
+import { Calendar } from './calendar'
 
 /**
  * Date Picker Design Tokens from Figma
@@ -22,7 +22,10 @@ const DATE_PICKER_TOKENS = {
   },
 } as const
 
-export interface DatePickerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface DatePickerProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'onChange' | 'defaultValue'
+> {
   /** Selected date */
   value?: Date
   /** Default date */
@@ -71,7 +74,7 @@ const defaultParseDate = (str: string): Date | undefined => {
   if (!isNaN(date.getTime())) return date
 
   // Try MM/DD/YYYY or DD/MM/YYYY format
-  const parts = trimmed.split(/[\/\-\.]/)
+  const parts = trimmed.split(/[/\-.]/)
   if (parts.length === 3) {
     const [a, b, c] = parts.map(p => parseInt(p, 10))
     // Try MM/DD/YYYY
@@ -95,24 +98,27 @@ const defaultParseDate = (str: string): Date | undefined => {
 }
 
 const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
-  ({
-    value,
-    defaultValue,
-    onChange,
-    placeholder = 'Select date',
-    formatDate = defaultFormatDate,
-    parseDate = defaultParseDate,
-    minDate,
-    maxDate,
-    disabled = false,
-    error = false,
-    label,
-    helperText,
-    clearable = true,
-    allowManualInput = true,
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      value,
+      defaultValue,
+      onChange,
+      placeholder = 'Select date',
+      formatDate = defaultFormatDate,
+      parseDate = defaultParseDate,
+      minDate,
+      maxDate,
+      disabled = false,
+      error = false,
+      label,
+      helperText,
+      clearable = true,
+      allowManualInput = true,
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const [isOpen, setIsOpen] = useState(false)
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(value || defaultValue)
     const [isFocused, setIsFocused] = useState(false)
@@ -162,7 +168,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const val = e.target.value
       setInputValue(val)
-      
+
       // Try to parse the date
       const parsed = parseDate(val)
       if (parsed) {
@@ -234,14 +240,17 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     return (
       <div ref={containerRef} style={containerStyle} {...props}>
         {label && (
-          <label style={{
-            display: 'block',
-            marginBottom: 6,
-            fontSize: 14,
-            fontWeight: 500,
-            color: '#18181b',
-            fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-          }}>
+          <label
+            style={{
+              display: 'block',
+              marginBottom: 6,
+              fontSize: 14,
+              fontWeight: 500,
+              color: '#18181b',
+              fontFamily:
+                "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+            }}
+          >
             {label}
           </label>
         )}
@@ -255,14 +264,14 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
             }
           }}
         >
-          <CalendarIcon 
-            size={16} 
-            style={{ 
-              color: '#71717a', 
-              flexShrink: 0, 
-              cursor: 'pointer' 
+          <CalendarIcon
+            size={16}
+            style={{
+              color: '#71717a',
+              flexShrink: 0,
+              cursor: 'pointer',
             }}
-            onClick={(e) => {
+            onClick={e => {
               e.stopPropagation()
               if (!disabled) setIsOpen(!isOpen)
             }}
@@ -289,7 +298,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
               }}
             />
           ) : (
-            <span 
+            <span
               style={{
                 flex: 1,
                 color: selectedDate ? '#18181b' : DATE_PICKER_TOKENS.trigger.placeholder,
@@ -320,12 +329,15 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
         </div>
 
         {helperText && (
-          <p style={{
-            margin: '6px 0 0',
-            fontSize: 12,
-            color: error ? '#dc2626' : '#71717a',
-            fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-          }}>
+          <p
+            style={{
+              margin: '6px 0 0',
+              fontSize: 12,
+              color: error ? '#dc2626' : '#71717a',
+              fontFamily:
+                "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+            }}
+          >
             {helperText}
           </p>
         )}
@@ -345,6 +357,6 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
   }
 )
 
-DatePicker.displayName = "DatePicker"
+DatePicker.displayName = 'DatePicker'
 
 export { DatePicker, DATE_PICKER_TOKENS }

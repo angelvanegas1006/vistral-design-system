@@ -1,5 +1,5 @@
-import * as React from "react"
-import { forwardRef } from "react"
+import * as React from 'react'
+import { forwardRef } from 'react'
 
 /**
  * Footer Actions Design Tokens from Figma
@@ -38,19 +38,22 @@ export interface FooterActionsProps extends React.HTMLAttributes<HTMLDivElement>
 }
 
 const FooterActions = forwardRef<HTMLDivElement, FooterActionsProps>(
-  ({
-    fixed = false,
-    bordered = true,
-    align = 'right',
-    direction,
-    gap,
-    mobile = false,
-    role = 'region',
-    'aria-label': ariaLabel = 'Form Actions',
-    style,
-    children,
-    ...props
-  }, ref) => {
+  (
+    {
+      fixed = false,
+      bordered = true,
+      align = 'right',
+      direction,
+      gap,
+      mobile = false,
+      role = 'region',
+      'aria-label': ariaLabel = 'Form Actions',
+      style,
+      children,
+      ...props
+    },
+    ref
+  ) => {
     // Auto-detect mobile if direction is not explicitly set
     const isMobile = mobile || direction === 'vertical'
     const finalDirection = direction || (isMobile ? 'vertical' : 'horizontal')
@@ -61,11 +64,16 @@ const FooterActions = forwardRef<HTMLDivElement, FooterActionsProps>(
         return 'flex-start'
       }
       switch (align) {
-        case 'left': return 'flex-start'
-        case 'center': return 'center'
-        case 'right': return 'flex-end'
-        case 'space-between': return 'space-between'
-        default: return 'flex-end'
+        case 'left':
+          return 'flex-start'
+        case 'center':
+          return 'center'
+        case 'right':
+          return 'flex-end'
+        case 'space-between':
+          return 'space-between'
+        default:
+          return 'flex-end'
       }
     }
 
@@ -89,13 +97,14 @@ const FooterActions = forwardRef<HTMLDivElement, FooterActionsProps>(
     }
 
     // Clone children to ensure buttons have minimum height in mobile
-    const childrenWithProps = React.Children.map(children, (child) => {
+    const childrenWithProps = React.Children.map(children, child => {
       if (React.isValidElement(child) && isMobile) {
+        const childProps = child.props as { style?: React.CSSProperties }
         return React.cloneElement(child as React.ReactElement<any>, {
           style: {
             width: '100%',
             minHeight: FOOTER_ACTIONS_TOKENS.minButtonHeight,
-            ...(child.props.style || {}),
+            ...(childProps.style || {}),
           },
         })
       }
@@ -103,20 +112,14 @@ const FooterActions = forwardRef<HTMLDivElement, FooterActionsProps>(
     })
 
     return (
-      <div
-        ref={ref}
-        role={role}
-        aria-label={ariaLabel}
-        style={containerStyle}
-        {...props}
-      >
+      <div ref={ref} role={role} aria-label={ariaLabel} style={containerStyle} {...props}>
         {childrenWithProps}
       </div>
     )
   }
 )
 
-FooterActions.displayName = "FooterActions"
+FooterActions.displayName = 'FooterActions'
 
 // ============================================================================
 // Page Footer (full page footer with sections)
@@ -146,7 +149,7 @@ const PageFooter = forwardRef<HTMLElement, PageFooterProps>(
   }
 )
 
-PageFooter.displayName = "PageFooter"
+PageFooter.displayName = 'PageFooter'
 
 // ============================================================================
 // Footer Section
@@ -180,7 +183,7 @@ const FooterSection = forwardRef<HTMLDivElement, FooterSectionProps>(
   }
 )
 
-FooterSection.displayName = "FooterSection"
+FooterSection.displayName = 'FooterSection'
 
 // ============================================================================
 // Footer Link
@@ -213,7 +216,7 @@ const FooterLink = forwardRef<HTMLAnchorElement, FooterLinkProps>(
   }
 )
 
-FooterLink.displayName = "FooterLink"
+FooterLink.displayName = 'FooterLink'
 
 // ============================================================================
 // Footer Copyright
@@ -242,7 +245,7 @@ const FooterCopyright = forwardRef<HTMLParagraphElement, FooterCopyrightProps>(
   }
 )
 
-FooterCopyright.displayName = "FooterCopyright"
+FooterCopyright.displayName = 'FooterCopyright'
 
 export {
   FooterActions,

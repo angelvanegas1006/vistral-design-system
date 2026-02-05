@@ -1,7 +1,7 @@
-import * as React from "react"
-import { forwardRef } from "react"
-import { ChevronRight } from "lucide-react"
-import type { LucideIcon } from "lucide-react"
+import * as React from 'react'
+import { forwardRef } from 'react'
+import { ChevronRight } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 /**
  * Item Design Tokens from Figma
@@ -102,28 +102,31 @@ export interface ItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 't
 }
 
 const Item = forwardRef<HTMLDivElement, ItemProps>(
-  ({
-    title,
-    description,
-    header,
-    helperText,
-    media,
-    leadingIcon: LeadingIcon,
-    actions,
-    showChevron = false,
-    footer,
-    showDivider = false,
-    selected = false,
-    disabled = false,
-    clickable = false,
-    href,
-    size = 'md',
-    role: roleProp,
-    'aria-label': ariaLabel,
-    style,
-    onClick,
-    ...props
-  }, ref) => {
+  (
+    {
+      title,
+      description,
+      header,
+      helperText,
+      media,
+      leadingIcon: LeadingIcon,
+      actions,
+      showChevron = false,
+      footer,
+      showDivider = false,
+      selected = false,
+      disabled = false,
+      clickable = false,
+      href,
+      size = 'md',
+      role: roleProp,
+      'aria-label': ariaLabel,
+      style,
+      onClick,
+      ...props
+    },
+    ref
+  ) => {
     const [isHovered, setIsHovered] = React.useState(false)
     const [isPressed, setIsPressed] = React.useState(false)
     const [isFocused, setIsFocused] = React.useState(false)
@@ -247,16 +250,19 @@ const Item = forwardRef<HTMLDivElement, ItemProps>(
     const handleMouseDown = () => !disabled && setIsPressed(true)
     const handleMouseUp = () => setIsPressed(false)
     const handleMouseEnter = () => setIsHovered(true)
-    const handleMouseLeave = () => { setIsHovered(false); setIsPressed(false) }
+    const handleMouseLeave = () => {
+      setIsHovered(false)
+      setIsPressed(false)
+    }
     const handleFocus = () => setIsFocused(true)
     const handleBlur = () => setIsFocused(false)
 
     // Build aria-label if not provided
-    const finalAriaLabel = ariaLabel || (
-      typeof title === 'string' 
+    const finalAriaLabel =
+      ariaLabel ||
+      (typeof title === 'string'
         ? `${title}${description ? `, ${description}` : ''}${selected ? ', selected' : ''}`
-        : undefined
-    )
+        : undefined)
 
     const mainContent = (
       <div style={mainContentStyle}>
@@ -265,7 +271,7 @@ const Item = forwardRef<HTMLDivElement, ItemProps>(
             {media || (LeadingIcon && <LeadingIcon size={ITEM_TOKENS.media.iconSize} />)}
           </span>
         )}
-        
+
         <div style={contentStyle}>
           {header && (
             <div style={headerStyle}>
@@ -276,7 +282,7 @@ const Item = forwardRef<HTMLDivElement, ItemProps>(
           <p style={titleStyle}>{title}</p>
           {description && <p style={descriptionStyle}>{description}</p>}
         </div>
-        
+
         {(actions || showChevron) && (
           <span style={actionsStyle}>
             {actions}
@@ -289,11 +295,7 @@ const Item = forwardRef<HTMLDivElement, ItemProps>(
     const content = (
       <>
         {mainContent}
-        {footer && (
-          <div style={footerStyle}>
-            {footer}
-          </div>
-        )}
+        {footer && <div style={footerStyle}>{footer}</div>}
         {showDivider && <hr style={dividerStyle} />}
       </>
     )
@@ -314,19 +316,16 @@ const Item = forwardRef<HTMLDivElement, ItemProps>(
     }
 
     if (href && !disabled) {
+      const { ...anchorProps } = props as React.AnchorHTMLAttributes<HTMLAnchorElement>
       return (
-        <a 
-          href={href} 
-          {...commonProps}
-          {...props}
-        >
+        <a href={href} {...commonProps} {...anchorProps}>
           {content}
         </a>
       )
     }
 
     return (
-      <div 
+      <div
         onClick={disabled ? undefined : onClick}
         tabIndex={isInteractive && !disabled ? 0 : undefined}
         {...commonProps}
@@ -338,7 +337,7 @@ const Item = forwardRef<HTMLDivElement, ItemProps>(
   }
 )
 
-Item.displayName = "Item"
+Item.displayName = 'Item'
 
 // ============================================================================
 // List Container
@@ -360,14 +359,20 @@ const List = forwardRef<HTMLDivElement, ListProps>(
 
     // Add dividers if needed
     const childrenWithDividers = divided
-      ? React.Children.toArray(children).flatMap((child, index, array) => 
+      ? React.Children.toArray(children).flatMap((child, index, array) =>
           index < array.length - 1
-            ? [child, <hr key={`divider-${index}`} style={{ 
-                margin: 0, 
-                border: 'none', 
-                borderTop: `1px solid ${ITEM_TOKENS.border}`,
-                marginLeft: ITEM_TOKENS.paddingX,
-              }} />]
+            ? [
+                child,
+                <hr
+                  key={`divider-${index}`}
+                  style={{
+                    margin: 0,
+                    border: 'none',
+                    borderTop: `1px solid ${ITEM_TOKENS.border}`,
+                    marginLeft: ITEM_TOKENS.paddingX,
+                  }}
+                />,
+              ]
             : [child]
         )
       : children
@@ -380,7 +385,7 @@ const List = forwardRef<HTMLDivElement, ListProps>(
   }
 )
 
-List.displayName = "List"
+List.displayName = 'List'
 
 // Export both names for compatibility
 export { List, Item as ListItem, Item, ITEM_TOKENS as LIST_ITEM_TOKENS, ITEM_TOKENS }

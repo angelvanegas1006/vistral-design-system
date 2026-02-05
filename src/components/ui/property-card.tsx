@@ -1,6 +1,6 @@
-import * as React from "react"
-import { forwardRef, useState } from "react"
-import { Heart, Building, Home, Bed, Bath, Maximize, Info } from "lucide-react"
+import * as React from 'react'
+import { forwardRef, useState } from 'react'
+import { Heart, Building, Home, Bed, Bath, Maximize, Info } from 'lucide-react'
 
 /**
  * Property Card Design Tokens from Figma
@@ -154,31 +154,34 @@ export interface PropertyCardProps extends React.HTMLAttributes<HTMLDivElement> 
 }
 
 const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
-  ({
-    image,
-    type,
-    title,
-    status,
-    valueLabels = [],
-    location,
-    category,
-    bedrooms,
-    bathrooms,
-    area,
-    price,
-    currency = '€',
-    yieldPercent,
-    infoRows = [],
-    deliveryDate,
-    constructionStatus,
-    showFavorite = false,
-    isFavorite = false,
-    onFavoriteChange,
-    onCardClick,
-    loading = false,
-    style,
-    ...props
-  }, ref) => {
+  (
+    {
+      image,
+      type,
+      title,
+      status,
+      valueLabels = [],
+      location,
+      category,
+      bedrooms,
+      bathrooms,
+      area,
+      price,
+      currency = '€',
+      yieldPercent,
+      infoRows = [],
+      deliveryDate,
+      constructionStatus,
+      showFavorite = false,
+      isFavorite = false,
+      onFavoriteChange,
+      onCardClick,
+      loading = false,
+      style,
+      ...props
+    },
+    ref
+  ) => {
     const [isHovered, setIsHovered] = useState(false)
     const [favorite, setFavorite] = useState(isFavorite)
 
@@ -210,22 +213,50 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
           }}
           {...props}
         >
-          <div style={{ 
-            height: PROPERTY_CARD_TOKENS.image.height, 
-            backgroundColor: '#f4f4f5',
-          }} />
+          <div
+            style={{
+              height: PROPERTY_CARD_TOKENS.image.height,
+              backgroundColor: '#f4f4f5',
+            }}
+          />
           <div style={{ padding: PROPERTY_CARD_TOKENS.card.contentPadding }}>
-            <div style={{ height: 16, width: '80%', backgroundColor: '#f4f4f5', borderRadius: 4, marginBottom: 8 }} />
-            <div style={{ height: 12, width: '50%', backgroundColor: '#f4f4f5', borderRadius: 3, marginBottom: 12 }} />
+            <div
+              style={{
+                height: 16,
+                width: '80%',
+                backgroundColor: '#f4f4f5',
+                borderRadius: 4,
+                marginBottom: 8,
+              }}
+            />
+            <div
+              style={{
+                height: 12,
+                width: '50%',
+                backgroundColor: '#f4f4f5',
+                borderRadius: 3,
+                marginBottom: 12,
+              }}
+            />
             <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
-              {[1,2,3,4].map(i => (
-                <div key={i} style={{ height: 36, width: 80, backgroundColor: '#f4f4f5', borderRadius: 8 }} />
+              {[1, 2, 3, 4].map(i => (
+                <div
+                  key={i}
+                  style={{ height: 36, width: 80, backgroundColor: '#f4f4f5', borderRadius: 8 }}
+                />
               ))}
             </div>
-            {[1,2,3].map(i => (
-              <div key={i} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                <div style={{ height: 12, width: '40%', backgroundColor: '#f4f4f5', borderRadius: 3 }} />
-                <div style={{ height: 12, width: '25%', backgroundColor: '#f4f4f5', borderRadius: 3 }} />
+            {[1, 2, 3].map(i => (
+              <div
+                key={i}
+                style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}
+              >
+                <div
+                  style={{ height: 12, width: '40%', backgroundColor: '#f4f4f5', borderRadius: 3 }}
+                />
+                <div
+                  style={{ height: 12, width: '25%', backgroundColor: '#f4f4f5', borderRadius: 3 }}
+                />
               </div>
             ))}
           </div>
@@ -238,7 +269,9 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
       backgroundColor: PROPERTY_CARD_TOKENS.card.bg,
       borderRadius: PROPERTY_CARD_TOKENS.card.radius,
       border: `1px solid ${PROPERTY_CARD_TOKENS.card.border}`,
-      boxShadow: isHovered ? PROPERTY_CARD_TOKENS.card.shadowHover : PROPERTY_CARD_TOKENS.card.shadow,
+      boxShadow: isHovered
+        ? PROPERTY_CARD_TOKENS.card.shadowHover
+        : PROPERTY_CARD_TOKENS.card.shadow,
       overflow: 'hidden',
       cursor: onCardClick ? 'pointer' : 'default',
       transition: 'box-shadow 200ms ease, transform 200ms ease',
@@ -261,7 +294,7 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
       objectPosition: 'center',
       display: 'block',
     }
-    
+
     const isSold = status === 'sold'
     const isProject = type === 'Project'
 
@@ -349,7 +382,8 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
       backgroundColor: PROPERTY_CARD_TOKENS.featurePill.bg,
     }
 
-    const hasFeatures = category || bedrooms !== undefined || bathrooms !== undefined || area !== undefined
+    const hasFeatures =
+      category || bedrooms !== undefined || bathrooms !== undefined || area !== undefined
 
     return (
       <div
@@ -367,13 +401,15 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
           {image ? (
             <img src={image} alt={title} style={imageStyle} />
           ) : (
-            <div style={{ 
-              ...imageStyle, 
-              backgroundColor: '#f4f4f5',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
+            <div
+              style={{
+                ...imageStyle,
+                backgroundColor: '#f4f4f5',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
               <Building size={48} color="#d4d4d8" />
             </div>
           )}
@@ -383,15 +419,17 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
 
           {/* Value labels (on image, max 2) */}
           {displayValueLabels.length > 0 && (
-            <div style={{ 
-              position: 'absolute', 
-              top: 12, 
-              left: type ? 110 : 12, 
-              display: 'flex', 
-              gap: 6,
-              zIndex: 2,
-            }}>
-              {displayValueLabels.map((label) => (
+            <div
+              style={{
+                position: 'absolute',
+                top: 12,
+                left: type ? 110 : 12,
+                display: 'flex',
+                gap: 6,
+                zIndex: 2,
+              }}
+            >
+              {displayValueLabels.map(label => (
                 <span key={label} style={getValueLabelStyle(label)}>
                   {PROPERTY_CARD_TOKENS.valueLabel[label].label}
                 </span>
@@ -401,16 +439,16 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
 
           {/* Favorite button (top right) */}
           {showFavorite && (
-            <button 
-              type="button" 
-              style={favoriteButtonStyle} 
+            <button
+              type="button"
+              style={favoriteButtonStyle}
               onClick={handleFavoriteClick}
               aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
             >
-              <Heart 
-                size={18} 
-                fill={favorite ? '#ef4444' : 'none'} 
-                color={favorite ? '#ef4444' : '#71717a'} 
+              <Heart
+                size={18}
+                fill={favorite ? '#ef4444' : 'none'}
+                color={favorite ? '#ef4444' : '#71717a'}
               />
             </button>
           )}
@@ -420,38 +458,48 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
         <div style={contentStyle}>
           {/* Title + Status inline */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 4 }}>
-            <h3 style={{
-              margin: 0,
-              fontSize: PROPERTY_CARD_TOKENS.title.fontSize,
-              fontWeight: PROPERTY_CARD_TOKENS.title.fontWeight,
-              color: PROPERTY_CARD_TOKENS.title.color,
-              lineHeight: PROPERTY_CARD_TOKENS.title.lineHeight,
-              flex: 1,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-            }}>
+            <h3
+              style={{
+                margin: 0,
+                fontSize: PROPERTY_CARD_TOKENS.title.fontSize,
+                fontWeight: PROPERTY_CARD_TOKENS.title.fontWeight,
+                color: PROPERTY_CARD_TOKENS.title.color,
+                lineHeight: PROPERTY_CARD_TOKENS.title.lineHeight,
+                flex: 1,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+            >
               {title}
             </h3>
-            {status && <span style={getStatusStyle(status)}>{PROPERTY_CARD_TOKENS.status[status].label}</span>}
+            {status && (
+              <span style={getStatusStyle(status)}>
+                {PROPERTY_CARD_TOKENS.status[status].label}
+              </span>
+            )}
           </div>
 
           {/* Location */}
-          <div style={{
-            fontSize: PROPERTY_CARD_TOKENS.location.fontSize,
-            color: PROPERTY_CARD_TOKENS.location.color,
-            marginBottom: 16,
-          }}>
+          <div
+            style={{
+              fontSize: PROPERTY_CARD_TOKENS.location.fontSize,
+              color: PROPERTY_CARD_TOKENS.location.color,
+              marginBottom: 16,
+            }}
+          >
             {location}
           </div>
 
           {/* Feature pills (for apartments) or Delivery info (for projects) */}
           {isProject && (deliveryDate || constructionStatus) ? (
-            <div style={{ 
-              fontSize: PROPERTY_CARD_TOKENS.delivery.fontSize,
-              color: PROPERTY_CARD_TOKENS.delivery.color,
-              marginBottom: 20,
-            }}>
+            <div
+              style={{
+                fontSize: PROPERTY_CARD_TOKENS.delivery.fontSize,
+                color: PROPERTY_CARD_TOKENS.delivery.color,
+                marginBottom: 20,
+              }}
+            >
               {deliveryDate && `Delivery: ${deliveryDate}`}
               {deliveryDate && constructionStatus && ' · '}
               {constructionStatus && `Status: ${constructionStatus}`}
@@ -486,26 +534,32 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
           ) : null}
 
           {/* Price section - two columns with labels */}
-          <div style={{ 
-            display: 'flex', 
-            gap: 32, 
-            marginBottom: 20,
-            opacity: isSold ? 0.5 : 1,
-          }}>
+          <div
+            style={{
+              display: 'flex',
+              gap: 32,
+              marginBottom: 20,
+              opacity: isSold ? 0.5 : 1,
+            }}
+          >
             {/* Purchase price */}
             <div style={{ flex: 1 }}>
-              <div style={{
-                fontSize: PROPERTY_CARD_TOKENS.priceLabel.fontSize,
-                color: PROPERTY_CARD_TOKENS.priceLabel.color,
-                marginBottom: 4,
-              }}>
+              <div
+                style={{
+                  fontSize: PROPERTY_CARD_TOKENS.priceLabel.fontSize,
+                  color: PROPERTY_CARD_TOKENS.priceLabel.color,
+                  marginBottom: 4,
+                }}
+              >
                 Purchase price
               </div>
-              <div style={{
-                fontSize: PROPERTY_CARD_TOKENS.priceValue.fontSize,
-                fontWeight: PROPERTY_CARD_TOKENS.priceValue.fontWeight,
-                color: isSold ? '#71717a' : PROPERTY_CARD_TOKENS.priceValue.color,
-              }}>
+              <div
+                style={{
+                  fontSize: PROPERTY_CARD_TOKENS.priceValue.fontSize,
+                  fontWeight: PROPERTY_CARD_TOKENS.priceValue.fontWeight,
+                  color: isSold ? '#71717a' : PROPERTY_CARD_TOKENS.priceValue.color,
+                }}
+              >
                 {formatPrice(price)} {currency}
               </div>
             </div>
@@ -513,18 +567,22 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
             {/* Net yield */}
             {yieldPercent !== undefined && (
               <div>
-                <div style={{
-                  fontSize: PROPERTY_CARD_TOKENS.priceLabel.fontSize,
-                  color: PROPERTY_CARD_TOKENS.priceLabel.color,
-                  marginBottom: 4,
-                }}>
+                <div
+                  style={{
+                    fontSize: PROPERTY_CARD_TOKENS.priceLabel.fontSize,
+                    color: PROPERTY_CARD_TOKENS.priceLabel.color,
+                    marginBottom: 4,
+                  }}
+                >
                   Net yield
                 </div>
-                <div style={{
-                  fontSize: PROPERTY_CARD_TOKENS.yieldValue.fontSize,
-                  fontWeight: PROPERTY_CARD_TOKENS.yieldValue.fontWeight,
-                  color: isSold ? '#71717a' : PROPERTY_CARD_TOKENS.yieldValue.color,
-                }}>
+                <div
+                  style={{
+                    fontSize: PROPERTY_CARD_TOKENS.yieldValue.fontSize,
+                    fontWeight: PROPERTY_CARD_TOKENS.yieldValue.fontWeight,
+                    color: isSold ? '#71717a' : PROPERTY_CARD_TOKENS.yieldValue.color,
+                  }}
+                >
                   {yieldPercent} %
                 </div>
               </div>
@@ -533,47 +591,50 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
 
           {/* Separator + Info rows */}
           {infoRows.length > 0 && (
-            <div style={{ 
-              borderTop: '1px solid #e4e4e7',
-              paddingTop: 16,
-              display: 'flex', 
-              flexDirection: 'column', 
-              gap: 16,
-              opacity: isSold ? 0.5 : 1,
-            }}>
+            <div
+              style={{
+                borderTop: '1px solid #e4e4e7',
+                paddingTop: 16,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 16,
+                opacity: isSold ? 0.5 : 1,
+              }}
+            >
               {infoRows.map((row, index) => (
-                <div 
-                  key={index} 
-                  style={{ 
-                    display: 'flex', 
+                <div
+                  key={index}
+                  style={{
+                    display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     fontSize: PROPERTY_CARD_TOKENS.infoRow.fontSize,
                   }}
                 >
-                  <span style={{ 
-                    color: PROPERTY_CARD_TOKENS.infoRow.labelColor,
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 6,
-                  }}>
+                  <span
+                    style={{
+                      color: PROPERTY_CARD_TOKENS.infoRow.labelColor,
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 6,
+                    }}
+                  >
                     {row.label}
                     {row.hasInfo && (
-                      <Info 
-                        size={16} 
-                        style={{ opacity: 0.5 }} 
-                        aria-label="More information"
-                      />
+                      <Info size={16} style={{ opacity: 0.5 }} aria-label="More information" />
                     )}
                   </span>
-                  <span style={{ 
-                    color: row.value === null || row.value === '—' || row.value === 'XXXXX'
-                      ? '#a1a1aa'
-                      : isSold 
-                        ? '#a1a1aa' 
-                        : PROPERTY_CARD_TOKENS.infoRow.valueColor,
-                    fontWeight: PROPERTY_CARD_TOKENS.infoRow.valueWeight,
-                  }}>
+                  <span
+                    style={{
+                      color:
+                        row.value === null || row.value === '—' || row.value === 'XXXXX'
+                          ? '#a1a1aa'
+                          : isSold
+                            ? '#a1a1aa'
+                            : PROPERTY_CARD_TOKENS.infoRow.valueColor,
+                      fontWeight: PROPERTY_CARD_TOKENS.infoRow.valueWeight,
+                    }}
+                  >
                     {row.value === null ? '—' : row.value}
                   </span>
                 </div>
@@ -586,7 +647,7 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
   }
 )
 
-PropertyCard.displayName = "PropertyCard"
+PropertyCard.displayName = 'PropertyCard'
 
 // ============================================================================
 // Property Card Grid
@@ -615,7 +676,7 @@ const PropertyCardGrid = forwardRef<HTMLDivElement, PropertyCardGridProps>(
   }
 )
 
-PropertyCardGrid.displayName = "PropertyCardGrid"
+PropertyCardGrid.displayName = 'PropertyCardGrid'
 
 export { PropertyCard, PropertyCardGrid, PROPERTY_CARD_TOKENS }
-export type { PropertyStatus, ValueLabel, PropertyInfoRow }
+export type { PropertyStatus, ValueLabel }
