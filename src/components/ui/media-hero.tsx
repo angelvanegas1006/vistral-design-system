@@ -224,8 +224,8 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                 onClick={handleShowAll}
                 aria-label={`${buttonText} (${images.length} photos)`}
               >
-                <Images size={16} style={{ flexShrink: 0, color: MEDIA_HERO_TOKENS.button.fg }} />
-                <span>{buttonText}</span>
+                      <Images size={16} style={{ flexShrink: 0, color: MEDIA_HERO_TOKENS.button.fg }} />
+                      <span style={{ whiteSpace: 'nowrap' }}>{buttonText}</span>
               </button>
             </div>
           )}

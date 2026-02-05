@@ -168,7 +168,7 @@ const DataBlock = forwardRef<HTMLDivElement, DataBlockProps>(
         <div style={headerStyle}>
           {Icon && (
             <div style={iconContainerStyle}>
-              <Icon size={currentSize.iconSize * 0.5} />
+              <Icon size={Math.max(16, currentSize.iconSize * 0.4)} />
             </div>
           )}
           <p style={labelStyle}>{label}</p>

@@ -268,6 +268,8 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
       cursor: disabled ? 'not-allowed' : 'pointer',
       fontSize: PHONE_INPUT_TOKENS.country.fontSize,
       transition: 'border-color 150ms ease, background-color 150ms ease',
+      boxSizing: 'border-box',
+      alignSelf: 'stretch',
     }
 
     // Input container style - seamless connection
@@ -284,6 +286,8 @@ const PhoneInput = forwardRef<HTMLInputElement, PhoneInputProps>(
       borderTopRightRadius: PHONE_INPUT_TOKENS.radius,
       borderBottomRightRadius: PHONE_INPUT_TOKENS.radius,
       transition: 'border-color 150ms ease',
+      boxSizing: 'border-box',
+      alignSelf: 'stretch',
     }
 
     const inputStyle: React.CSSProperties = {

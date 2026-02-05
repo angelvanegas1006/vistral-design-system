@@ -178,7 +178,7 @@ const BottomNavItem = forwardRef<HTMLButtonElement, BottomNavItemProps>(
       ...style,
     }
 
-    // Pill background for active item
+    // Pill background for active item - wraps entire item (icon + label)
     const pillStyle: React.CSSProperties = {
       display: 'flex',
       flexDirection: 'column',
@@ -191,19 +191,19 @@ const BottomNavItem = forwardRef<HTMLButtonElement, BottomNavItemProps>(
       transition: 'background-color 200ms ease',
     }
 
-    // Circle icon container
+    // Icon container - no circle, just icon
     const iconContainerStyle: React.CSSProperties = {
       position: 'relative',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      width: BOTTOM_NAV_TOKENS.item.iconContainerSize,
-      height: BOTTOM_NAV_TOKENS.item.iconContainerSize,
-      borderRadius: '50%',
-      border: isActive ? 'none' : `1.5px solid ${BOTTOM_NAV_TOKENS.item.fg}`,
-      backgroundColor: isActive ? BOTTOM_NAV_TOKENS.item.fgActive : 'transparent',
-      color: isActive ? '#ffffff' : BOTTOM_NAV_TOKENS.item.fg,
-      transition: 'all 150ms ease',
+      width: 'auto',
+      height: 'auto',
+      borderRadius: 'none',
+      border: 'none',
+      backgroundColor: 'transparent',
+      color: isActive ? BOTTOM_NAV_TOKENS.item.fgActive : BOTTOM_NAV_TOKENS.item.fg,
+      transition: 'color 150ms ease',
     }
 
     const labelStyle: React.CSSProperties = {
@@ -244,14 +244,14 @@ const BottomNavItem = forwardRef<HTMLButtonElement, BottomNavItemProps>(
         {...props}
       >
         <div style={pillStyle}>
-          <span style={iconContainerStyle}>
-            <IconComponent size={16} />
+          <div style={iconContainerStyle}>
+            <IconComponent size={BOTTOM_NAV_TOKENS.item.iconSize} />
             {badge !== undefined && badge > 0 && (
               <span style={badgeStyle}>
                 {badge > 99 ? '99+' : badge}
               </span>
             )}
-          </span>
+          </div>
           {shouldShowLabel && <span style={labelStyle}>{label}</span>}
         </div>
       </button>

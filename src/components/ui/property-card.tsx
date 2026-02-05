@@ -279,16 +279,18 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
       zIndex: 2,
     }
 
-    // Value labels style (on image, after type badge)
+    // Value labels style (on image, after type badge) - pill shape with dark background
     const getValueLabelStyle = (label: ValueLabel): React.CSSProperties => {
       const tokens = PROPERTY_CARD_TOKENS.valueLabel[label]
       return {
-        padding: '4px 10px',
-        fontSize: 11,
+        padding: '4px 12px',
+        fontSize: 12,
         fontWeight: 600,
         backgroundColor: tokens.bg,
         color: tokens.fg,
-        borderRadius: 4,
+        borderRadius: 9999, // Pill shape - fully rounded ends
+        whiteSpace: 'nowrap',
+        display: 'inline-block',
       }
     }
 
