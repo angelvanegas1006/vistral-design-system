@@ -31,7 +31,7 @@ const MEDIA_HERO_TOKENS = {
     radius: 16, // Pill shape - half of height (32px / 2 = 16px)
     shadow: '0 2px 8px rgba(0,0,0,0.15)',
     gap: 8,
-    minWidth: '160px', // Width from SVG
+    minWidth: '180px', // Increased width to fit "Show all photos" text in one line
     height: '32px', // Height from SVG
   },
   // Counter (mobile)
@@ -214,6 +214,7 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                   cursor: 'pointer',
                   fontFamily: 'inherit',
                   transition: 'background-color 150ms ease',
+                  whiteSpace: 'nowrap',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bgHover
@@ -440,8 +441,8 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                       }}
                       aria-label={`${buttonText} (${images.length} photos)`}
                     >
-                      <Images size={16} style={{ flexShrink: 0 }} />
-                      <span>{buttonText}</span>
+                      <Images size={16} style={{ flexShrink: 0, color: MEDIA_HERO_TOKENS.button.fg }} />
+                      <span style={{ whiteSpace: 'nowrap' }}>{buttonText}</span>
                     </button>
                   </div>
                 )}
@@ -654,8 +655,8 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                       }}
                       aria-label={`${buttonText} (${images.length} photos)`}
                     >
-                      <Images size={16} style={{ flexShrink: 0 }} />
-                      <span>{buttonText}</span>
+                      <Images size={16} style={{ flexShrink: 0, color: MEDIA_HERO_TOKENS.button.fg }} />
+                      <span style={{ whiteSpace: 'nowrap' }}>{buttonText}</span>
                     </button>
                   </div>
                 )}
