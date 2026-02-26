@@ -113,12 +113,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       style,
       value,
       onChange,
+      onFocus,
+      onBlur,
       ...props
     },
     ref
   ) => {
-    const [isFocused, setIsFocused] = React.useState(false)
-    const [isHovered, setIsHovered] = React.useState(false)
     const [currentValue, setCurrentValue] = React.useState(value || '')
     const generatedId = useId()
     const id = providedId || generatedId
@@ -133,15 +133,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       : error
         ? INPUT_TOKENS.error
         : INPUT_TOKENS.default
-
-    // Get border color based on state
-    const getBorderColor = () => {
-      if (disabled) return stateTokens.border
-      if (isFocused)
-        return error ? INPUT_TOKENS.error.borderFocus : INPUT_TOKENS.default.borderFocus
-      if (isHovered) return INPUT_TOKENS.default.borderHover
-      return stateTokens.border
-    }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const newValue = e.target.value
@@ -173,14 +164,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         : error
           ? INPUT_TOKENS.label.colorError
           : INPUT_TOKENS.label.color,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
     }
 
     const optionalStyle: React.CSSProperties = {
       fontSize: 12,
       fontWeight: 400,
       color: '#a1a1aa',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
     }
 
     const inputWrapperStyle: React.CSSProperties = {
@@ -189,30 +180,37 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       alignItems: 'center',
     }
 
-    // Calculate padding to accommodate icons and counter
     const iconPadding = sizeTokens.paddingX + sizeTokens.iconSize + 12
 
+    const focusRing = error
+      ? '0 0 0 3px rgba(239, 68, 68, 0.15)'
+      : '0 0 0 3px rgba(32, 80, 246, 0.15)'
+
     const inputStyle: React.CSSProperties = {
+      '--v-border': stateTokens.border,
+      '--v-border-hover': disabled ? stateTokens.border : INPUT_TOKENS.default.borderHover,
+      '--v-border-focus': disabled
+        ? stateTokens.border
+        : error
+          ? INPUT_TOKENS.error.borderFocus
+          : INPUT_TOKENS.default.borderFocus,
+      '--v-focus-ring': disabled ? 'none' : focusRing,
       width: '100%',
       height: sizeTokens.height,
       paddingLeft: LeftIcon ? iconPadding : sizeTokens.paddingX,
       paddingRight: RightIcon || showCharacterCounter ? iconPadding : sizeTokens.paddingX,
       fontSize: sizeTokens.fontSize,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       color: stateTokens.fg,
       backgroundColor: stateTokens.bg,
-      border: `1px solid ${getBorderColor()}`,
+      border: `1px solid var(--v-border)`,
       borderRadius: INPUT_TOKENS.radius,
       outline: 'none',
       transition: 'border-color 150ms ease-in-out, box-shadow 150ms ease-in-out',
-      boxShadow:
-        isFocused && !disabled
-          ? `0 0 0 3px ${error ? 'rgba(239, 68, 68, 0.15)' : 'rgba(32, 80, 246, 0.15)'}`
-          : 'none',
       cursor: disabled ? 'not-allowed' : 'text',
       boxSizing: 'border-box',
       ...style,
-    }
+    } as React.CSSProperties
 
     const iconStyle = (position: 'left' | 'right'): React.CSSProperties => ({
       position: 'absolute',
@@ -234,7 +232,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       transform: 'translateY(-50%)',
       fontSize: INPUT_TOKENS.counter.fontSize,
       color: INPUT_TOKENS.counter.color,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       pointerEvents: 'none',
       zIndex: 1,
     }
@@ -249,7 +247,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const helperStyle: React.CSSProperties = {
       fontSize: INPUT_TOKENS.helperText.fontSize,
       color: error ? INPUT_TOKENS.helperText.colorError : INPUT_TOKENS.helperText.color,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       margin: 0,
       flex: 1,
     }
@@ -257,7 +255,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     const suffixStyle: React.CSSProperties = {
       fontSize: INPUT_TOKENS.suffix.fontSize,
       color: INPUT_TOKENS.suffix.color,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       margin: 0,
     }
 
@@ -272,11 +270,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           </div>
         )}
 
-        <div
-          style={inputWrapperStyle}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
+        <div style={inputWrapperStyle} data-vistral="input-wrapper">
           {LeftIcon && (
             <div style={iconStyle('left')}>
               <LeftIcon size={sizeTokens.iconSize} />
@@ -291,17 +285,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             value={currentValue}
             onChange={handleChange}
             style={inputStyle}
-            onFocus={e => {
-              setIsFocused(true)
-              props.onFocus?.(e)
-            }}
-            onBlur={e => {
-              setIsFocused(false)
-              props.onBlur?.(e)
-            }}
+            onFocus={onFocus}
+            onBlur={onBlur}
             aria-invalid={error}
             aria-describedby={helperText || errorMessage || suffix ? `${id}-helper` : undefined}
             aria-required={!optional}
+            data-vistral="input"
             {...props}
           />
 
@@ -377,12 +366,12 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       rows = 3,
       value,
       onChange,
+      onFocus,
+      onBlur,
       ...props
     },
     ref
   ) => {
-    const [isFocused, setIsFocused] = React.useState(false)
-    const [isHovered, setIsHovered] = React.useState(false)
     const [currentValue, setCurrentValue] = React.useState(value || '')
     const textareaRef = React.useRef<HTMLTextAreaElement>(null)
     const generatedId = useId()
@@ -392,7 +381,6 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       setCurrentValue(value?.toString() || '')
     }, [value])
 
-    // Combine refs
     React.useImperativeHandle(ref, () => textareaRef.current as HTMLTextAreaElement)
 
     React.useEffect(() => {
@@ -407,14 +395,6 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
       : error
         ? INPUT_TOKENS.error
         : INPUT_TOKENS.default
-
-    const getBorderColor = () => {
-      if (disabled) return stateTokens.border
-      if (isFocused)
-        return error ? INPUT_TOKENS.error.borderFocus : INPUT_TOKENS.default.borderFocus
-      if (isHovered) return INPUT_TOKENS.default.borderHover
-      return stateTokens.border
-    }
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       const newValue = e.target.value
@@ -440,31 +420,39 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         : error
           ? INPUT_TOKENS.label.colorError
           : INPUT_TOKENS.label.color,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
     }
 
+    const focusRing = error
+      ? '0 0 0 3px rgba(239, 68, 68, 0.15)'
+      : '0 0 0 3px rgba(32, 80, 246, 0.15)'
+
     const textareaStyle: React.CSSProperties = {
+      '--v-border': stateTokens.border,
+      '--v-border-hover': disabled ? stateTokens.border : INPUT_TOKENS.default.borderHover,
+      '--v-border-focus': disabled
+        ? stateTokens.border
+        : error
+          ? INPUT_TOKENS.error.borderFocus
+          : INPUT_TOKENS.default.borderFocus,
+      '--v-focus-ring': disabled ? 'none' : focusRing,
       width: '100%',
       padding: 12,
       fontSize: 14,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       color: stateTokens.fg,
       backgroundColor: stateTokens.bg,
-      border: `1px solid ${getBorderColor()}`,
+      border: `1px solid var(--v-border)`,
       borderRadius: INPUT_TOKENS.radius,
       outline: 'none',
       transition: 'border-color 150ms ease-in-out, box-shadow 150ms ease-in-out',
-      boxShadow:
-        isFocused && !disabled
-          ? `0 0 0 3px ${error ? 'rgba(239, 68, 68, 0.15)' : 'rgba(32, 80, 246, 0.15)'}`
-          : 'none',
       cursor: disabled ? 'not-allowed' : 'text',
       resize: autoResize ? 'none' : 'vertical',
       minHeight: autoResize ? 'auto' : undefined,
       boxSizing: 'border-box',
       lineHeight: 1.5,
       ...style,
-    }
+    } as React.CSSProperties
 
     const helperWrapperStyle: React.CSSProperties = {
       display: 'flex',
@@ -476,7 +464,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const helperStyle: React.CSSProperties = {
       fontSize: INPUT_TOKENS.helperText.fontSize,
       color: error ? INPUT_TOKENS.helperText.colorError : INPUT_TOKENS.helperText.color,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       margin: 0,
       flex: 1,
     }
@@ -484,7 +472,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     const counterStyle: React.CSSProperties = {
       fontSize: INPUT_TOKENS.counter.fontSize,
       color: INPUT_TOKENS.counter.color,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       margin: 0,
     }
 
@@ -496,31 +484,26 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           </label>
         )}
 
-        <textarea
-          ref={textareaRef}
-          id={id}
-          disabled={disabled}
-          maxLength={maxLength}
-          rows={rows}
-          value={currentValue}
-          onChange={handleChange}
-          style={textareaStyle}
-          onFocus={e => {
-            setIsFocused(true)
-            props.onFocus?.(e)
-          }}
-          onBlur={e => {
-            setIsFocused(false)
-            props.onBlur?.(e)
-          }}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          aria-invalid={error}
-          aria-describedby={
-            helperText || errorMessage || showCharacterCounter ? `${id}-helper` : undefined
-          }
-          {...props}
-        />
+        <div data-vistral="input-wrapper">
+          <textarea
+            ref={textareaRef}
+            id={id}
+            disabled={disabled}
+            maxLength={maxLength}
+            rows={rows}
+            value={currentValue}
+            onChange={handleChange}
+            style={textareaStyle}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            aria-invalid={error}
+            aria-describedby={
+              helperText || errorMessage || showCharacterCounter ? `${id}-helper` : undefined
+            }
+            data-vistral="input"
+            {...props}
+          />
+        </div>
 
         {(helperText || errorMessage || showCharacterCounter) && (
           <div style={helperWrapperStyle}>

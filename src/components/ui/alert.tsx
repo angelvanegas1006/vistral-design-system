@@ -85,7 +85,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(
       backgroundColor: tokens.bg,
       border: `1px solid ${tokens.border}`,
       borderRadius: ALERT_TOKENS.radius,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 
@@ -116,7 +116,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(
       fontSize: 14,
       fontWeight: 500,
       borderRadius: 6,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
     }
 
     const dismissStyle: React.CSSProperties = {
@@ -172,7 +172,7 @@ const AlertTitle = forwardRef<HTMLHeadingElement, AlertTitleProps>(
       fontWeight: 600,
       lineHeight: 1.4,
       color: context?.fg || '#18181b', // Use variant color
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 
@@ -201,7 +201,7 @@ const AlertDescription = forwardRef<HTMLParagraphElement, AlertDescriptionProps>
       fontWeight: 400,
       lineHeight: 1.5,
       color: context?.fg || '#3f3f46', // Use variant color
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 

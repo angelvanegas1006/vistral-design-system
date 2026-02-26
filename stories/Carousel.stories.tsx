@@ -5,6 +5,62 @@ import { Carousel, CarouselItem } from '../src/components/ui/carousel'
 const meta: Meta<typeof Carousel> = {
   title: 'Components/Carousel',
   component: Carousel,
+  argTypes: {
+    orientation: {
+      control: 'select',
+      options: ['horizontal', 'vertical'],
+      description: 'Carousel orientation',
+    },
+    autoPlay: {
+      control: 'number',
+      description: 'Auto play interval (ms), 0 to disable',
+    },
+    showArrows: {
+      control: 'boolean',
+      description: 'Show navigation arrows',
+    },
+    showDots: {
+      control: 'boolean',
+      description: 'Show dot indicators',
+    },
+    showThumbnails: {
+      control: 'boolean',
+      description: 'Show thumbnail indicators',
+    },
+    showCounter: {
+      control: 'boolean',
+      description: 'Show counter (e.g., "1 of 5")',
+    },
+    loop: {
+      control: 'boolean',
+      description: 'Loop infinitely',
+    },
+    slidesToShow: {
+      control: 'number',
+      description: 'Slides to show at once',
+    },
+    slidesToScroll: {
+      control: 'number',
+      description: 'Slides to scroll',
+    },
+    gap: {
+      control: 'number',
+      description: 'Gap between slides',
+    },
+    height: {
+      control: 'number',
+      description: 'Height for vertical orientation',
+    },
+    mobileVariant: {
+      control: 'select',
+      options: ['multi-item', 'uncontained', 'hero'],
+      description: 'Mobile variant',
+    },
+    edgeMasking: {
+      control: 'boolean',
+      description: 'Enable edge masking (mobile)',
+    },
+  },
   parameters: {
     layout: 'centered',
     docs: {

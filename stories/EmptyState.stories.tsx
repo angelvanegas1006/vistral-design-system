@@ -6,6 +6,21 @@ import { ShoppingCart, Users, FileText, CloudOff } from 'lucide-react'
 const meta: Meta<typeof EmptyState> = {
   title: 'Components/EmptyState',
   component: EmptyState,
+  argTypes: {
+    title: {
+      control: 'text',
+      description: 'Title text',
+    },
+    description: {
+      control: 'text',
+      description: 'Description text',
+    },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Size variant',
+    },
+  },
   parameters: {
     layout: 'centered',
     docs: {

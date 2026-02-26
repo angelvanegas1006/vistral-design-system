@@ -5,6 +5,12 @@ import { RadioGroup, Radio } from '../src/components/ui/radio'
 const meta: Meta<typeof RadioGroup> = {
   title: 'Components/Radio',
   component: RadioGroup,
+  argTypes: {
+    orientation: { control: 'select', options: ['vertical', 'horizontal'] },
+    disabled: { control: 'boolean' },
+    defaultValue: { control: 'text' },
+    value: { control: 'text' },
+  },
   parameters: {
     layout: 'centered',
     docs: {

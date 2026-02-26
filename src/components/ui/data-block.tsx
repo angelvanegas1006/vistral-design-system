@@ -99,7 +99,7 @@ const DataBlock = forwardRef<HTMLDivElement, DataBlockProps>(
       backgroundColor: DATA_BLOCK_TOKENS.bg,
       border: `1px solid ${DATA_BLOCK_TOKENS.border}`,
       borderRadius: DATA_BLOCK_TOKENS.radius,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 

@@ -127,7 +127,6 @@ const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
     const { open, setOpen, triggerRef } = usePopover()
     const contentRef = useRef<HTMLDivElement>(null)
 
-    // Close on outside click
     useEffect(() => {
       if (!open) return
 
@@ -199,7 +198,14 @@ const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
     }
 
     return (
-      <div ref={ref || contentRef} role="dialog" style={contentStyle} {...props}>
+      <div
+        ref={ref || contentRef}
+        data-vistral="popover"
+        data-side={side}
+        role="dialog"
+        style={contentStyle}
+        {...props}
+      >
         {children}
       </div>
     )
@@ -235,21 +241,5 @@ const PopoverClose: React.FC<PopoverCloseProps> = ({ asChild, children, onClick,
 }
 
 PopoverClose.displayName = 'PopoverClose'
-
-// Add keyframes
-if (typeof document !== 'undefined') {
-  const styleId = 'vistral-popover-styles'
-  if (!document.getElementById(styleId)) {
-    const style = document.createElement('style')
-    style.id = styleId
-    style.textContent = `
-      @keyframes popover-show {
-        from { opacity: 0; transform: scale(0.95); }
-        to { opacity: 1; transform: scale(1); }
-      }
-    `
-    document.head.appendChild(style)
-  }
-}
 
 export { Popover, PopoverTrigger, PopoverContent, PopoverClose, POPOVER_TOKENS }

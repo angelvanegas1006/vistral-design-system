@@ -183,7 +183,6 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
     },
     ref
   ) => {
-    const [isHovered, setIsHovered] = useState(false)
     const [favorite, setFavorite] = useState(isFavorite)
 
     const handleFavoriteClick = (e: React.MouseEvent) => {
@@ -270,14 +269,9 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
       backgroundColor: PROPERTY_CARD_TOKENS.card.bg,
       borderRadius: PROPERTY_CARD_TOKENS.card.radius,
       border: `1px solid ${PROPERTY_CARD_TOKENS.card.border}`,
-      boxShadow: isHovered
-        ? PROPERTY_CARD_TOKENS.card.shadowHover
-        : PROPERTY_CARD_TOKENS.card.shadow,
       overflow: 'hidden',
       cursor: onCardClick ? 'pointer' : 'default',
-      transition: 'box-shadow 200ms ease, transform 200ms ease',
-      transform: isHovered ? 'translateY(-2px)' : 'none',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 
@@ -395,10 +389,17 @@ const PropertyCard = forwardRef<HTMLDivElement, PropertyCardProps>(
     return (
       <div
         ref={ref}
-        style={cardStyle}
+        data-vistral="card"
+        data-hoverable
+        style={
+          {
+            ...cardStyle,
+            '--v-shadow': PROPERTY_CARD_TOKENS.card.shadow,
+            '--v-shadow-hover': PROPERTY_CARD_TOKENS.card.shadowHover,
+            '--v-transform-hover': 'translateY(-2px)',
+          } as React.CSSProperties
+        }
         onClick={onCardClick}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
         role="article"
         aria-label={`Property: ${title}`}
         {...props}

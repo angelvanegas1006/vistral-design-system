@@ -172,7 +172,7 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(
       fontSize: 14,
       fontWeight: 500,
       color: disabled ? '#a1a1aa' : '#18181b',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
     }
 
     return (
@@ -187,6 +187,7 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(
           aria-valuenow={value}
           aria-disabled={disabled}
           tabIndex={disabled ? -1 : 0}
+          data-vistral-interactive
         >
           <div style={trackStyle} />
           <div style={filledStyle} />
@@ -305,7 +306,7 @@ const RangeSlider = forwardRef<HTMLDivElement, RangeSliderProps>(
     const containerStyle: React.CSSProperties = {
       position: 'relative',
       width: '100%',
-      height: SLIDER_TOKENS.thumb.size + 4, // Enough height for thumbs
+      height: SLIDER_TOKENS.thumb.size + 4,
       cursor: disabled ? 'not-allowed' : 'pointer',
       ...style,
     }
@@ -356,7 +357,7 @@ const RangeSlider = forwardRef<HTMLDivElement, RangeSliderProps>(
 
     return (
       <div ref={ref} style={containerStyle} {...props}>
-        <div ref={trackRef} style={{ position: 'absolute', inset: 0 }}>
+        <div ref={trackRef} style={{ position: 'absolute', inset: 0 }} data-vistral-interactive>
           <div style={trackWrapperStyle}>
             <div style={trackStyle} />
             <div style={filledStyle} />

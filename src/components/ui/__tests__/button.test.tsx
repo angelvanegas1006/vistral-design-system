@@ -14,19 +14,19 @@ describe('Button', () => {
     const { rerender } = render(<Button variant="primary">Primary</Button>)
     let button = screen.getByRole('button')
     expect(button).toBeInTheDocument()
-    expect(button.style.backgroundColor).toBe('rgb(32, 80, 246)')
+    expect(button.style.getPropertyValue('--v-bg')).toBe('#2050f6')
 
     rerender(<Button variant="secondary">Secondary</Button>)
     button = screen.getByRole('button')
-    expect(button.style.backgroundColor).toBe('rgb(217, 231, 255)')
+    expect(button.style.getPropertyValue('--v-bg')).toBe('#d9e7ff')
 
     rerender(<Button variant="outline">Outline</Button>)
     button = screen.getByRole('button')
-    expect(button.style.backgroundColor).toBe('transparent')
+    expect(button.style.getPropertyValue('--v-bg')).toBe('transparent')
 
     rerender(<Button variant="ghost">Ghost</Button>)
     button = screen.getByRole('button')
-    expect(button.style.backgroundColor).toBe('transparent')
+    expect(button.style.getPropertyValue('--v-bg')).toBe('transparent')
   })
 
   it('renders with different sizes', () => {
@@ -84,19 +84,22 @@ describe('Button', () => {
 
   it('renders with left icon', () => {
     const TestIcon = () => <svg data-testid="left-icon" />
-    render(<Button leftIcon={TestIcon}>With Icon</Button>)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    render(<Button leftIcon={TestIcon as any}>With Icon</Button>)
     expect(screen.getByTestId('left-icon')).toBeInTheDocument()
   })
 
   it('renders with right icon', () => {
     const TestIcon = () => <svg data-testid="right-icon" />
-    render(<Button rightIcon={TestIcon}>With Icon</Button>)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    render(<Button rightIcon={TestIcon as any}>With Icon</Button>)
     expect(screen.getByTestId('right-icon')).toBeInTheDocument()
   })
 
   it('renders as icon-only button', () => {
     const TestIcon = () => <svg data-testid="icon" />
-    render(<Button iconOnly leftIcon={TestIcon} aria-label="Icon button" />)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    render(<Button iconOnly leftIcon={TestIcon as any} aria-label="Icon button" />)
     const button = screen.getByRole('button', { name: /icon button/i })
     expect(button).toBeInTheDocument()
     expect(screen.getByTestId('icon')).toBeInTheDocument()

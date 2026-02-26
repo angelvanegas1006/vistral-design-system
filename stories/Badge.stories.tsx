@@ -7,6 +7,14 @@ import { Bell, Mail, ShoppingCart } from 'lucide-react'
 const meta: Meta<typeof Badge> = {
   title: 'Components/Badge',
   component: Badge,
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['default', 'primary', 'brand', 'error', 'warning', 'success'],
+    },
+    size: { control: 'select', options: ['sm', 'md'] },
+    children: { control: 'text' },
+  },
   parameters: {
     layout: 'centered',
     docs: {

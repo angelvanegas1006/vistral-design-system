@@ -66,19 +66,8 @@ export interface PaginationButtonProps extends React.ButtonHTMLAttributes<HTMLBu
 
 const PaginationButton = forwardRef<HTMLButtonElement, PaginationButtonProps>(
   ({ active = false, iconOnly = false, disabled, style, children, ...props }, ref) => {
-    const [isHovered, setIsHovered] = React.useState(false)
-
-    const getColor = () => {
-      if (disabled) return PAGINATION_TOKENS.button.fgDisabled
-      if (active) return PAGINATION_TOKENS.button.fgActive
-      if (isHovered) return PAGINATION_TOKENS.button.fgHover
-      return PAGINATION_TOKENS.button.fg
-    }
-
-    const getBg = () => {
-      if (active) return PAGINATION_TOKENS.button.bgActive
-      if (isHovered && !disabled) return PAGINATION_TOKENS.button.bgHover
-      return PAGINATION_TOKENS.button.bg
+    const cssVars: Record<string, string> = {
+      '--v-bg-hover': PAGINATION_TOKENS.button.bgHover,
     }
 
     const buttonStyle: React.CSSProperties = {
@@ -90,13 +79,18 @@ const PaginationButton = forwardRef<HTMLButtonElement, PaginationButtonProps>(
       padding: iconOnly ? 0 : '0 12px',
       fontSize: PAGINATION_TOKENS.button.fontSize,
       fontWeight: PAGINATION_TOKENS.button.fontWeight,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      color: getColor(),
-      backgroundColor: getBg(),
+      fontFamily: 'var(--vistral-font-family-sans)',
+      color: disabled
+        ? PAGINATION_TOKENS.button.fgDisabled
+        : active
+          ? PAGINATION_TOKENS.button.fgActive
+          : PAGINATION_TOKENS.button.fg,
+      backgroundColor: active ? PAGINATION_TOKENS.button.bgActive : PAGINATION_TOKENS.button.bg,
       border: 'none',
       borderRadius: PAGINATION_TOKENS.button.radius,
       cursor: disabled ? 'not-allowed' : 'pointer',
       transition: 'all 150ms ease',
+      ...cssVars,
       ...style,
     }
 
@@ -106,9 +100,9 @@ const PaginationButton = forwardRef<HTMLButtonElement, PaginationButtonProps>(
         type="button"
         disabled={disabled}
         aria-current={active ? 'page' : undefined}
+        data-vistral="page-btn"
+        {...(active ? { 'data-active': '' } : {})}
         style={buttonStyle}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
         {...props}
       >
         {children}

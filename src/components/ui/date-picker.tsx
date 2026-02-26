@@ -121,7 +121,6 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
   ) => {
     const [isOpen, setIsOpen] = useState(false)
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(value || defaultValue)
-    const [isFocused, setIsFocused] = useState(false)
     const [inputValue, setInputValue] = useState(selectedDate ? formatDate(selectedDate) : '')
     const containerRef = useRef<HTMLDivElement>(null)
     const inputRef = useRef<HTMLInputElement>(null)
@@ -181,8 +180,6 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
     }
 
     const handleInputBlur = () => {
-      setIsFocused(false)
-      // If input doesn't parse to a valid date, reset to selected date or empty
       if (inputValue && !parseDate(inputValue)) {
         setInputValue(selectedDate ? formatDate(selectedDate) : '')
       }
@@ -200,11 +197,15 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       }
     }
 
-    const getBorderColor = () => {
-      if (error) return DATE_PICKER_TOKENS.trigger.borderError
-      if (isFocused || isOpen) return DATE_PICKER_TOKENS.trigger.borderFocus
-      return DATE_PICKER_TOKENS.trigger.border
-    }
+    const borderColor = error
+      ? DATE_PICKER_TOKENS.trigger.borderError
+      : isOpen
+        ? DATE_PICKER_TOKENS.trigger.borderFocus
+        : DATE_PICKER_TOKENS.trigger.border
+
+    const focusRing = error
+      ? '0 0 0 3px rgba(220, 38, 38, 0.15)'
+      : '0 0 0 3px rgba(32, 80, 246, 0.15)'
 
     const containerStyle: React.CSSProperties = {
       position: 'relative',
@@ -212,7 +213,12 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       ...style,
     }
 
-    const triggerStyle: React.CSSProperties = {
+    const triggerStyle = {
+      '--v-border': borderColor,
+      '--v-border-focus': error
+        ? DATE_PICKER_TOKENS.trigger.borderError
+        : DATE_PICKER_TOKENS.trigger.borderFocus,
+      '--v-focus-ring': disabled ? 'none' : focusRing,
       display: 'flex',
       alignItems: 'center',
       gap: 8,
@@ -220,14 +226,14 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
       height: DATE_PICKER_TOKENS.trigger.height,
       padding: `0 ${DATE_PICKER_TOKENS.trigger.paddingX}px`,
       backgroundColor: DATE_PICKER_TOKENS.trigger.bg,
-      border: `1px solid ${getBorderColor()}`,
+      border: '1px solid var(--v-border)',
       borderRadius: DATE_PICKER_TOKENS.trigger.radius,
       fontSize: DATE_PICKER_TOKENS.trigger.fontSize,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       cursor: disabled ? 'not-allowed' : 'pointer',
       opacity: disabled ? 0.5 : 1,
-      transition: 'border-color 150ms ease',
-    }
+      transition: 'border-color 150ms ease, box-shadow 150ms ease',
+    } as React.CSSProperties
 
     const dropdownStyle: React.CSSProperties = {
       position: 'absolute',
@@ -247,8 +253,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
               fontSize: 14,
               fontWeight: 500,
               color: '#18181b',
-              fontFamily:
-                "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+              fontFamily: 'var(--vistral-font-family-sans)',
             }}
           >
             {label}
@@ -263,6 +268,8 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
               setIsOpen(!isOpen)
             }
           }}
+          data-vistral="input"
+          data-disabled={disabled || undefined}
         >
           <CalendarIcon
             size={16}
@@ -282,7 +289,6 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
               type="text"
               value={inputValue}
               onChange={handleInputChange}
-              onFocus={() => setIsFocused(true)}
               onBlur={handleInputBlur}
               onKeyDown={handleInputKeyDown}
               placeholder={placeholder}
@@ -304,8 +310,6 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
                 color: selectedDate ? '#18181b' : DATE_PICKER_TOKENS.trigger.placeholder,
               }}
               tabIndex={disabled ? -1 : 0}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
             >
               {selectedDate ? formatDate(selectedDate) : placeholder}
             </span>
@@ -334,8 +338,7 @@ const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(
               margin: '6px 0 0',
               fontSize: 12,
               color: error ? '#dc2626' : '#71717a',
-              fontFamily:
-                "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+              fontFamily: 'var(--vistral-font-family-sans)',
             }}
           >
             {helperText}

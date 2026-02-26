@@ -49,7 +49,7 @@ const Breadcrumb = forwardRef<HTMLElement, BreadcrumbProps>(
       margin: 0,
       padding: 0,
       listStyle: 'none',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       fontSize: BREADCRUMB_TOKENS.fontSize,
     }
 
@@ -103,8 +103,6 @@ export interface BreadcrumbLinkProps extends React.AnchorHTMLAttributes<HTMLAnch
 
 const BreadcrumbLink = forwardRef<HTMLAnchorElement, BreadcrumbLinkProps>(
   ({ current = false, href, style, children, ...props }, ref) => {
-    const [isHovered, setIsHovered] = React.useState(false)
-
     if (current) {
       return (
         <span
@@ -120,23 +118,21 @@ const BreadcrumbLink = forwardRef<HTMLAnchorElement, BreadcrumbLinkProps>(
       )
     }
 
+    const cssVars: Record<string, string> = {
+      '--v-fg': BREADCRUMB_TOKENS.link.color,
+      '--v-fg-hover': BREADCRUMB_TOKENS.link.colorHover,
+    }
+
     const linkStyle: React.CSSProperties = {
-      color: isHovered ? BREADCRUMB_TOKENS.link.colorHover : BREADCRUMB_TOKENS.link.color,
       fontWeight: BREADCRUMB_TOKENS.link.fontWeight,
       textDecoration: 'none',
       transition: 'color 150ms ease',
+      ...cssVars,
       ...style,
     }
 
     return (
-      <a
-        ref={ref}
-        href={href}
-        style={linkStyle}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        {...props}
-      >
+      <a ref={ref} href={href} data-vistral-interactive style={linkStyle} {...props}>
         {children}
       </a>
     )

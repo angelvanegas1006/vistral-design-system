@@ -130,7 +130,7 @@ const SideNav = forwardRef<HTMLElement, SideNavProps>(
       padding: SIDE_NAV_TOKENS.padding,
       display: 'flex',
       flexDirection: 'column',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       transition: 'width 200ms ease',
       overflow: 'hidden',
       ...style,
@@ -346,7 +346,6 @@ const SideNavItem = forwardRef<HTMLButtonElement, SideNavItemProps>(
     ref
   ) => {
     const { collapsed, activeItem, setActiveItem } = useSideNav()
-    const [isHovered, setIsHovered] = useState(false)
 
     const isActive = activeItem === value
 
@@ -354,6 +353,10 @@ const SideNavItem = forwardRef<HTMLButtonElement, SideNavItemProps>(
       if (disabled) return
       setActiveItem(value)
       onClick?.(e)
+    }
+
+    const cssVars: Record<string, string> = {
+      '--v-bg-hover': SIDE_NAV_TOKENS.item.bgHover,
     }
 
     const itemStyle: React.CSSProperties = {
@@ -367,16 +370,8 @@ const SideNavItem = forwardRef<HTMLButtonElement, SideNavItemProps>(
       fontSize: SIDE_NAV_TOKENS.item.fontSize,
       fontWeight: SIDE_NAV_TOKENS.item.fontWeight,
       fontFamily: 'inherit',
-      color: isActive
-        ? SIDE_NAV_TOKENS.item.fgActive
-        : isHovered
-          ? SIDE_NAV_TOKENS.item.fgHover
-          : SIDE_NAV_TOKENS.item.fg,
-      backgroundColor: isActive
-        ? SIDE_NAV_TOKENS.item.bgActive
-        : isHovered && !disabled
-          ? SIDE_NAV_TOKENS.item.bgHover
-          : SIDE_NAV_TOKENS.item.bg,
+      color: isActive ? SIDE_NAV_TOKENS.item.fgActive : SIDE_NAV_TOKENS.item.fg,
+      backgroundColor: isActive ? SIDE_NAV_TOKENS.item.bgActive : SIDE_NAV_TOKENS.item.bg,
       border: 'none',
       borderRadius: SIDE_NAV_TOKENS.item.radius,
       cursor: disabled ? 'not-allowed' : 'pointer',
@@ -384,10 +379,10 @@ const SideNavItem = forwardRef<HTMLButtonElement, SideNavItemProps>(
       textDecoration: 'none',
       textAlign: 'left',
       transition: 'all 150ms ease',
+      ...cssVars,
       ...style,
     }
 
-    // Circle icon style (matching Figma)
     const iconWrapperStyle: React.CSSProperties = {
       display: 'flex',
       alignItems: 'center',
@@ -451,9 +446,9 @@ const SideNavItem = forwardRef<HTMLButtonElement, SideNavItemProps>(
       return (
         <a
           href={href}
+          data-vistral="list-item"
+          {...(disabled ? { 'data-disabled': '' } : {})}
           style={itemStyle}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
         >
           {content}
         </a>
@@ -464,11 +459,11 @@ const SideNavItem = forwardRef<HTMLButtonElement, SideNavItemProps>(
       <button
         ref={ref}
         type="button"
+        data-vistral="list-item"
+        {...(disabled ? { 'data-disabled': '' } : {})}
         style={itemStyle}
         onClick={handleClick}
         disabled={disabled}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
         {...props}
       >
         {content}
@@ -520,7 +515,6 @@ export interface SideNavUserProps extends React.HTMLAttributes<HTMLDivElement> {
 const SideNavUser = forwardRef<HTMLDivElement, SideNavUserProps>(
   ({ avatar, name, email, showExpand = false, style, onClick, ...props }, ref) => {
     const { collapsed } = useSideNav()
-    const [isHovered, setIsHovered] = useState(false)
 
     // Get initials from name
     const initials = name
@@ -530,6 +524,11 @@ const SideNavUser = forwardRef<HTMLDivElement, SideNavUserProps>(
       .toUpperCase()
       .slice(0, 2)
 
+    const cssVars: Record<string, string> = {
+      '--v-bg': 'transparent',
+      '--v-bg-hover': onClick ? '#f4f4f5' : 'transparent',
+    }
+
     const containerStyle: React.CSSProperties = {
       display: 'flex',
       alignItems: 'center',
@@ -538,8 +537,8 @@ const SideNavUser = forwardRef<HTMLDivElement, SideNavUserProps>(
       padding: collapsed ? '8px 0' : '8px 12px',
       borderRadius: 8,
       cursor: onClick ? 'pointer' : 'default',
-      backgroundColor: isHovered && onClick ? '#f4f4f5' : 'transparent',
       transition: 'background-color 150ms ease',
+      ...cssVars,
       ...style,
     }
 
@@ -566,14 +565,7 @@ const SideNavUser = forwardRef<HTMLDivElement, SideNavUserProps>(
     }
 
     return (
-      <div
-        ref={ref}
-        style={containerStyle}
-        onClick={onClick}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        {...props}
-      >
+      <div ref={ref} data-vistral-interactive style={containerStyle} onClick={onClick} {...props}>
         <div style={avatarStyle}>
           {avatar ? (
             <img

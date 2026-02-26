@@ -561,3 +561,95 @@ export const AllStates: Story = {
     </div>
   ),
 }
+
+export const Primary: Story = {
+  args: {
+    variant: 'primary',
+    children: 'Primary Action',
+  },
+}
+
+export const Secondary: Story = {
+  args: {
+    variant: 'secondary',
+    children: 'Secondary',
+  },
+}
+
+export const Outline: Story = {
+  args: {
+    variant: 'outline',
+    children: 'Outline',
+  },
+}
+
+export const Ghost: Story = {
+  args: {
+    variant: 'ghost',
+    children: 'Ghost',
+  },
+}
+
+export const Destructive: Story = {
+  args: {
+    variant: 'destructive',
+    children: 'Delete',
+  },
+}
+
+export const Small: Story = {
+  args: {
+    size: 'sm',
+    children: 'Small',
+  },
+}
+
+export const Large: Story = {
+  args: {
+    size: 'lg',
+    children: 'Large',
+  },
+}
+
+export const Loading: Story = {
+  args: {
+    isLoading: true,
+    children: 'Saving...',
+  },
+}
+
+export const Disabled: Story = {
+  args: {
+    disabled: true,
+    children: 'Disabled',
+  },
+}
+
+export const WithLeftIcon: Story = {
+  render: () => <Button leftIcon={Search}>Search</Button>,
+}
+
+export const IconOnly: Story = {
+  render: () => (
+    <Button iconOnly aria-label="Settings">
+      <Settings size={18} />
+    </Button>
+  ),
+}
+
+export const FullWidth: Story = {
+  render: () => (
+    <div style={{ width: 320 }}>
+      <Button style={{ width: '100%' }}>Full Width Button</Button>
+    </div>
+  ),
+}
+
+export const ButtonGroup: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end' }}>
+      <Button variant="ghost">Cancel</Button>
+      <Button variant="primary">Save</Button>
+    </div>
+  ),
+}

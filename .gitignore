@@ -53,4 +53,5 @@ coverage/
 
 # Planning documents (internal use only)
 PLAN.md
+COMPARISON_ANALYSIS.md
 .cursor/plans/

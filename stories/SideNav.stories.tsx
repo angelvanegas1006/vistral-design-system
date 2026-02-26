@@ -15,6 +15,13 @@ import { Home, Users, Settings, FileText, BarChart3, Mail, HelpCircle } from 'lu
 const meta: Meta<typeof SideNav> = {
   title: 'Components/SideNav',
   component: SideNav,
+  argTypes: {
+    collapsed: { control: 'boolean' },
+    activeItem: { control: 'text' },
+    defaultActiveItem: { control: 'text' },
+    onCollapsedChange: { action: 'collapsedChanged' },
+    onActiveItemChange: { action: 'activeItemChanged' },
+  },
   parameters: {
     layout: 'fullscreen',
     docs: {

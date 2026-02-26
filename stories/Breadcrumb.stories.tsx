@@ -11,6 +11,9 @@ import {
 const meta: Meta<typeof Breadcrumb> = {
   title: 'Components/Breadcrumb',
   component: Breadcrumb,
+  argTypes: {
+    separator: { control: 'text', description: 'Custom separator element between items' },
+  },
   parameters: {
     layout: 'centered',
     docs: {

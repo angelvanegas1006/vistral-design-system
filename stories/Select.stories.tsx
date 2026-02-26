@@ -12,6 +12,14 @@ import {
 
 const meta: Meta = {
   title: 'Components/Select',
+  argTypes: {
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    error: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    label: { control: 'text' },
+    helperText: { control: 'text' },
+    fullWidth: { control: 'boolean' },
+  },
   parameters: {
     layout: 'centered',
     docs: {

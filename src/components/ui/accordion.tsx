@@ -120,7 +120,6 @@ const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
     }
 
     const containerStyle: React.CSSProperties = {
-      // No outer border, only dividers between items
       ...style,
     }
 
@@ -158,8 +157,6 @@ const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(
       ...style,
     }
 
-    // Remove border from last item (handled via CSS)
-
     return (
       <AccordionItemContext.Provider value={{ value, isExpanded, triggerId, contentId }}>
         <div
@@ -187,55 +184,56 @@ export interface AccordionTriggerProps extends React.ButtonHTMLAttributes<HTMLBu
   showIcon?: boolean
 }
 
-const AccordionTrigger = forwardRef<HTMLButtonElement, AccordionTriggerProps>(
-  ({ showIcon = true, style, children, ...props }, ref) => {
-    const { toggleItem } = useAccordion()
-    const { value, isExpanded, triggerId, contentId } = useAccordionItem()
-    const [isHovered, setIsHovered] = useState(false)
+const AccordionTrigger = React.memo(
+  forwardRef<HTMLButtonElement, AccordionTriggerProps>(
+    ({ showIcon = true, style, children, ...props }, ref) => {
+      const { toggleItem } = useAccordion()
+      const { value, isExpanded, triggerId, contentId } = useAccordionItem()
 
-    const triggerStyle: React.CSSProperties = {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      width: '100%',
-      padding: `${ACCORDION_TOKENS.padding.y}px ${ACCORDION_TOKENS.padding.x}px`,
-      backgroundColor: isHovered ? ACCORDION_TOKENS.header.bgHover : ACCORDION_TOKENS.header.bg,
-      color: ACCORDION_TOKENS.header.fg,
-      fontSize: 14,
-      fontWeight: 500,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      textAlign: 'left',
-      border: 'none',
-      cursor: 'pointer',
-      transition: 'background-color 150ms ease-in-out',
-      ...style,
+      const triggerStyle = {
+        '--v-bg': ACCORDION_TOKENS.header.bg,
+        '--v-bg-hover': ACCORDION_TOKENS.header.bgHover,
+        '--v-fg': ACCORDION_TOKENS.header.fg,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        width: '100%',
+        padding: `${ACCORDION_TOKENS.padding.y}px ${ACCORDION_TOKENS.padding.x}px`,
+        fontSize: 14,
+        fontWeight: 500,
+        fontFamily: 'var(--vistral-font-family-sans)',
+        textAlign: 'left' as const,
+        border: 'none',
+        cursor: 'pointer',
+        transition: 'background-color 150ms ease-in-out',
+        ...style,
+      } as React.CSSProperties
+
+      const iconStyle: React.CSSProperties = {
+        flexShrink: 0,
+        marginLeft: 12,
+        transition: 'transform 200ms ease-in-out',
+        transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+      }
+
+      return (
+        <button
+          ref={ref}
+          type="button"
+          data-vistral-interactive
+          id={triggerId}
+          aria-expanded={isExpanded}
+          aria-controls={contentId}
+          style={triggerStyle}
+          onClick={() => toggleItem(value)}
+          {...props}
+        >
+          <span style={{ flex: 1 }}>{children}</span>
+          {showIcon && <ChevronDown size={16} style={iconStyle} />}
+        </button>
+      )
     }
-
-    const iconStyle: React.CSSProperties = {
-      flexShrink: 0,
-      marginLeft: 12,
-      transition: 'transform 200ms ease-in-out',
-      transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
-    }
-
-    return (
-      <button
-        ref={ref}
-        type="button"
-        id={triggerId}
-        aria-expanded={isExpanded}
-        aria-controls={contentId}
-        style={triggerStyle}
-        onClick={() => toggleItem(value)}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        {...props}
-      >
-        <span style={{ flex: 1 }}>{children}</span>
-        {showIcon && <ChevronDown size={16} style={iconStyle} />}
-      </button>
-    )
-  }
+  )
 )
 
 AccordionTrigger.displayName = 'AccordionTrigger'
@@ -245,8 +243,8 @@ AccordionTrigger.displayName = 'AccordionTrigger'
 // ============================================================================
 export interface AccordionContentProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps>(
-  ({ style, children, ...props }, ref) => {
+const AccordionContent = React.memo(
+  forwardRef<HTMLDivElement, AccordionContentProps>(({ style, children, ...props }, ref) => {
     const { isExpanded, triggerId, contentId } = useAccordionItem()
 
     const wrapperStyle: React.CSSProperties = {
@@ -260,7 +258,7 @@ const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps>(
       fontSize: 14,
       lineHeight: 1.6,
       color: ACCORDION_TOKENS.content.fg,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 
@@ -279,7 +277,7 @@ const AccordionContent = forwardRef<HTMLDivElement, AccordionContentProps>(
         </div>
       </div>
     )
-  }
+  })
 )
 
 AccordionContent.displayName = 'AccordionContent'

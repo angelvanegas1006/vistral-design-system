@@ -6,11 +6,9 @@ import { forwardRef, useState, useRef, useEffect, createContext, useContext } fr
  * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=1023-28801
  */
 const TOOLTIP_TOKENS = {
-  // Container
-  bg: '#18181b', // zinc-900
+  bg: '#18181b',
   fg: '#ffffff',
   radius: 6,
-  // Sizes
   padding: {
     sm: { x: 8, y: 4 },
     md: { x: 12, y: 6 },
@@ -19,7 +17,6 @@ const TOOLTIP_TOKENS = {
     sm: 12,
     md: 13,
   },
-  // Animation
   offset: 8,
   delay: 300,
 } as const
@@ -215,7 +212,6 @@ const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
       let top = 0
       let left = 0
 
-      // Calculate position based on side
       switch (side) {
         case 'top':
           top = trigger.top - content.height - offset
@@ -235,7 +231,6 @@ const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
           break
       }
 
-      // Adjust for alignment
       if (side === 'top' || side === 'bottom') {
         if (align === 'start') {
           left = trigger.left
@@ -244,7 +239,6 @@ const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
         }
       }
 
-      // Add scroll offset
       top += window.scrollY
       left += window.scrollX
 
@@ -264,7 +258,7 @@ const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
       backgroundColor: TOOLTIP_TOKENS.bg,
       color: TOOLTIP_TOKENS.fg,
       fontSize: TOOLTIP_TOKENS.fontSize[size],
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       fontWeight: 500,
       lineHeight: 1.4,
       borderRadius: TOOLTIP_TOKENS.radius,
@@ -274,7 +268,14 @@ const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
     }
 
     return (
-      <div ref={ref || contentRef} role="tooltip" style={contentStyle} {...props}>
+      <div
+        ref={ref || contentRef}
+        data-vistral="tooltip"
+        data-side={side}
+        role="tooltip"
+        style={contentStyle}
+        {...props}
+      >
         {children}
       </div>
     )
@@ -282,21 +283,5 @@ const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
 )
 
 TooltipContent.displayName = 'TooltipContent'
-
-// Add keyframes
-if (typeof document !== 'undefined') {
-  const styleId = 'vistral-tooltip-styles'
-  if (!document.getElementById(styleId)) {
-    const style = document.createElement('style')
-    style.id = styleId
-    style.textContent = `
-      @keyframes tooltip-show {
-        from { opacity: 0; transform: scale(0.96); }
-        to { opacity: 1; transform: scale(1); }
-      }
-    `
-    document.head.appendChild(style)
-  }
-}
 
 export { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent, TOOLTIP_TOKENS }

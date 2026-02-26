@@ -82,7 +82,6 @@ const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
   ) => {
     const [internalValue, setInternalValue] = useState<string[]>(defaultValue)
     const [inputValue, setInputValue] = useState('')
-    const [isFocused, setIsFocused] = useState(false)
     const inputRef = useRef<HTMLInputElement>(null)
 
     const isControlled = controlledValue !== undefined
@@ -144,32 +143,37 @@ const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
       onChange?.(newTags)
     }
 
-    const getBorderColor = () => {
-      if (error) return TAG_INPUT_TOKENS.container.borderError
-      if (isFocused) return TAG_INPUT_TOKENS.container.borderFocus
-      return TAG_INPUT_TOKENS.container.border
-    }
+    const focusRing = error
+      ? '0 0 0 3px rgba(220, 38, 38, 0.15)'
+      : '0 0 0 3px rgba(32, 80, 246, 0.15)'
 
     const wrapperStyle: React.CSSProperties = {
       width: '100%',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 
-    const containerStyle: React.CSSProperties = {
+    const containerStyle = {
+      '--v-border': error
+        ? TAG_INPUT_TOKENS.container.borderError
+        : TAG_INPUT_TOKENS.container.border,
+      '--v-border-focus': error
+        ? TAG_INPUT_TOKENS.container.borderError
+        : TAG_INPUT_TOKENS.container.borderFocus,
+      '--v-focus-ring': disabled ? 'none' : focusRing,
       display: 'flex',
-      flexWrap: 'wrap',
+      flexWrap: 'wrap' as const,
       alignItems: 'center',
       gap: TAG_INPUT_TOKENS.gap,
       minHeight: TAG_INPUT_TOKENS.container.minHeight,
       padding: `${TAG_INPUT_TOKENS.container.paddingY}px ${TAG_INPUT_TOKENS.container.paddingX}px`,
       backgroundColor: TAG_INPUT_TOKENS.container.bg,
-      border: `1px solid ${getBorderColor()}`,
+      border: '1px solid var(--v-border)',
       borderRadius: TAG_INPUT_TOKENS.container.radius,
       cursor: disabled ? 'not-allowed' : 'text',
       opacity: disabled ? 0.5 : 1,
-      transition: 'border-color 150ms ease',
-    }
+      transition: 'border-color 150ms ease, box-shadow 150ms ease',
+    } as React.CSSProperties
 
     const tagStyle: React.CSSProperties = {
       display: 'inline-flex',
@@ -221,9 +225,14 @@ const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
           </label>
         )}
 
-        <div style={containerStyle} onClick={() => !disabled && inputRef.current?.focus()}>
+        <div
+          style={containerStyle}
+          onClick={() => !disabled && inputRef.current?.focus()}
+          data-vistral="input"
+          data-disabled={disabled || undefined}
+        >
           {tags.map((tag, index) => (
-            <span key={`${tag}-${index}`} style={tagStyle}>
+            <span key={`${tag}-${index}`} style={tagStyle} data-vistral="tag">
               {tag}
               {!disabled && (
                 <button
@@ -247,9 +256,7 @@ const TagInput = forwardRef<HTMLDivElement, TagInputProps>(
             onChange={e => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
             onPaste={handlePaste}
-            onFocus={() => setIsFocused(true)}
             onBlur={() => {
-              setIsFocused(false)
               if (inputValue) addTag(inputValue)
             }}
             placeholder={tags.length === 0 ? placeholder : ''}

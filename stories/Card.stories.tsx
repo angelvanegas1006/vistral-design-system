@@ -404,3 +404,132 @@ export const StatsCard: Story = {
     </div>
   ),
 }
+
+export const SmallCard: Story = {
+  args: {
+    size: 'sm',
+  },
+  render: args => (
+    <Card {...args} style={{ width: 280 }}>
+      <CardHeader>
+        <CardTitle>Small Card</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p style={{ margin: 0, fontSize: 13, color: '#52525b', lineHeight: 1.6 }}>
+          A compact card using the small size variant with reduced padding and minimum height.
+        </p>
+      </CardContent>
+    </Card>
+  ),
+}
+
+export const LargeCard: Story = {
+  args: {
+    size: 'lg',
+  },
+  render: args => (
+    <Card {...args} style={{ width: 420 }}>
+      <CardHeader>
+        <CardTitle>Large Card</CardTitle>
+        <CardDescription>This card uses the large size variant with more padding.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p style={{ margin: 0, fontSize: 14, color: '#52525b', lineHeight: 1.6 }}>
+          The large variant provides extra breathing room for content-heavy cards. It has increased
+          minimum height and padding compared to the medium and small variants.
+        </p>
+      </CardContent>
+      <CardFooter align="right">
+        <Button variant="secondary">Dismiss</Button>
+        <Button>Continue</Button>
+      </CardFooter>
+    </Card>
+  ),
+}
+
+export const FlatCard: Story = {
+  args: {
+    flat: true,
+  },
+  render: args => (
+    <Card {...args} style={{ width: 340 }}>
+      <CardHeader>
+        <CardTitle>Flat Card</CardTitle>
+        <CardDescription>No shadow, border only.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p style={{ margin: 0, fontSize: 14, color: '#52525b', lineHeight: 1.6 }}>
+          This card has the shadow removed, relying only on the border for visual separation. Useful
+          for cards within already-elevated containers.
+        </p>
+      </CardContent>
+    </Card>
+  ),
+}
+
+export const HoverableCard: Story = {
+  args: {
+    hoverable: true,
+  },
+  render: args => (
+    <Card {...args} style={{ width: 340 }}>
+      <CardHeader>
+        <CardTitle>Hoverable Card</CardTitle>
+        <CardDescription>Hover over me to see the elevation effect.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p style={{ margin: 0, fontSize: 14, color: '#52525b', lineHeight: 1.6 }}>
+          This card increases its shadow on hover, creating an elevated interactive feel. Great for
+          clickable card grids and listing items.
+        </p>
+      </CardContent>
+    </Card>
+  ),
+}
+
+export const CardWithFooter: Story = {
+  name: 'Card With Footer',
+  render: () => (
+    <Card style={{ width: 380 }}>
+      <CardHeader>
+        <CardTitle>Confirm Action</CardTitle>
+        <CardDescription>Are you sure you want to proceed with this change?</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p style={{ margin: 0, fontSize: 14, color: '#52525b', lineHeight: 1.6 }}>
+          This action will update the project settings and notify all team members. Changes cannot
+          be undone once confirmed.
+        </p>
+      </CardContent>
+      <CardFooter align="between">
+        <Button variant="ghost">Cancel</Button>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <Button variant="secondary">Save Draft</Button>
+          <Button>Confirm</Button>
+        </div>
+      </CardFooter>
+    </Card>
+  ),
+}
+
+export const MinimalCard: Story = {
+  name: 'Minimal Card',
+  render: () => (
+    <Card style={{ width: 320 }}>
+      <CardContent style={{ marginTop: 0 }}>
+        <p
+          style={{
+            margin: 0,
+            fontSize: 14,
+            color: '#52525b',
+            lineHeight: 1.7,
+            fontFamily: 'Inter, sans-serif',
+          }}
+        >
+          A minimal card with only content — no header or footer. Perfect for simple informational
+          blocks, callouts, or inline notes.
+        </p>
+      </CardContent>
+    </Card>
+  ),
+}

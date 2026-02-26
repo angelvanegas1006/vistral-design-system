@@ -5,6 +5,12 @@ import { Calendar } from '../src/components/ui/calendar'
 const meta: Meta<typeof Calendar> = {
   title: 'Components/Calendar',
   component: Calendar,
+  argTypes: {
+    showToday: {
+      control: 'boolean',
+      description: 'Show today indicator',
+    },
+  },
   parameters: {
     layout: 'centered',
     docs: {

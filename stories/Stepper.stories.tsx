@@ -6,6 +6,17 @@ import { Button } from '../src/components/ui/button'
 const meta: Meta<typeof Stepper> = {
   title: 'Components/Stepper',
   component: Stepper,
+  argTypes: {
+    currentStep: {
+      control: 'number',
+      description: 'Current active step (0-indexed)',
+    },
+    orientation: {
+      control: 'select',
+      options: ['horizontal', 'vertical'],
+      description: 'Stepper orientation',
+    },
+  },
   parameters: {
     layout: 'padded',
     docs: {

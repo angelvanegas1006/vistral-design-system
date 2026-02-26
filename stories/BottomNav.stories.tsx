@@ -6,6 +6,13 @@ import { Home, Search, Heart, User, MessageCircle, Settings } from 'lucide-react
 const meta: Meta<typeof BottomNav> = {
   title: 'Components/BottomNav',
   component: BottomNav,
+  argTypes: {
+    value: { control: 'text' },
+    defaultValue: { control: 'text' },
+    fixed: { control: 'boolean' },
+    showLabels: { control: 'boolean' },
+    onValueChange: { action: 'valueChanged' },
+  },
   parameters: {
     layout: 'fullscreen',
     docs: {

@@ -27,6 +27,23 @@ import {
 const meta: Meta<typeof Item> = {
   title: 'Components/Item',
   component: Item,
+  argTypes: {
+    title: { control: 'text' },
+    description: { control: 'text' },
+    header: { table: { disable: true } },
+    helperText: { control: 'text' },
+    showChevron: { control: 'boolean' },
+    showDivider: { control: 'boolean' },
+    selected: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    clickable: { control: 'boolean' },
+    size: { control: 'select', options: ['sm', 'md'] },
+    href: { control: 'text' },
+    media: { table: { disable: true } },
+    leadingIcon: { table: { disable: true } },
+    actions: { table: { disable: true } },
+    footer: { table: { disable: true } },
+  },
   parameters: {
     layout: 'centered',
     docs: {

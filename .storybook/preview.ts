@@ -2,6 +2,7 @@ import React from "react"
 import type { Preview } from "@storybook/react"
 
 const preview: Preview = {
+  tags: ['autodocs'],
   parameters: {
     controls: {
       matchers: {
@@ -87,7 +88,7 @@ const preview: Preview = {
         { 
           style: { 
             padding: "2rem",
-            fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+            fontFamily: "var(--vistral-font-family-sans, 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif)"
           } 
         },
         React.createElement(Story)

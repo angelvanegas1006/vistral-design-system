@@ -124,7 +124,6 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
     { value: radioValue, label, description, disabled: localDisabled, id: providedId, ...props },
     ref
   ) => {
-    const [isHovered, setIsHovered] = React.useState(false)
     const groupContext = useRadioGroup()
     const generatedId = useId()
     const id = providedId || generatedId
@@ -141,6 +140,24 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
       props.onChange?.(e)
     }
 
+    const getOuterCssVars = (): Record<string, string> => {
+      if (isDisabled) {
+        return { '--v-border': RADIO_TOKENS.outer.borderDisabled }
+      }
+      if (isChecked) {
+        return {
+          '--v-border': RADIO_TOKENS.outer.borderChecked,
+          '--v-border-hover': RADIO_TOKENS.outer.borderChecked,
+        }
+      }
+      return {
+        '--v-border': RADIO_TOKENS.outer.border,
+        '--v-border-hover': RADIO_TOKENS.outer.borderHover,
+      }
+    }
+
+    const outerCssVars = getOuterCssVars()
+
     const containerStyle: React.CSSProperties = {
       display: 'inline-flex',
       alignItems: 'flex-start',
@@ -156,23 +173,15 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
       flexShrink: 0,
     }
 
-    const getBorderColor = () => {
-      if (isDisabled) return RADIO_TOKENS.outer.borderDisabled
-      if (isChecked) return RADIO_TOKENS.outer.borderChecked
-      if (isHovered) return RADIO_TOKENS.outer.borderHover
-      return RADIO_TOKENS.outer.border
-    }
-
     const outerStyle: React.CSSProperties = {
       position: 'absolute',
       inset: 0,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      border: `2px solid ${getBorderColor()}`,
       borderRadius: '50%',
-      transition: 'border-color 150ms ease-in-out',
       pointerEvents: 'none',
+      ...outerCssVars,
     }
 
     const innerStyle: React.CSSProperties = {
@@ -204,7 +213,7 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
       fontWeight: 500,
       lineHeight: 1.4,
       color: isDisabled ? '#a1a1aa' : '#18181b',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
     }
 
     const descriptionStyle: React.CSSProperties = {
@@ -212,14 +221,14 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
       fontWeight: 400,
       lineHeight: 1.4,
       color: isDisabled ? '#d4d4d8' : '#71717a',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
     }
 
     return (
       <label
+        data-vistral-interactive
+        {...(isDisabled ? { 'data-disabled': '' } : {})}
         style={containerStyle}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
       >
         <span style={radioWrapperStyle}>
           <input
@@ -234,7 +243,7 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(
             style={inputStyle}
             {...props}
           />
-          <span style={outerStyle}>
+          <span data-vistral="radio-outer" style={outerStyle}>
             <span style={innerStyle} />
           </span>
         </span>

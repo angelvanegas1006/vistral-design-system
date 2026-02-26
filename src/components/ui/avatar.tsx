@@ -74,95 +74,97 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLSpanElement> {
   status?: 'online' | 'offline' | 'busy' | 'away'
 }
 
-const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(
-  (
-    {
-      src,
-      alt,
-      name,
-      size = 'md',
-      initials,
-      showStatus = false,
-      status = 'online',
-      style,
-      ...props
-    },
-    ref
-  ) => {
-    const [imgError, setImgError] = React.useState(false)
-    const sizeTokens = AVATAR_TOKENS.sizes[size]
+const Avatar = React.memo(
+  forwardRef<HTMLSpanElement, AvatarProps>(
+    (
+      {
+        src,
+        alt,
+        name,
+        size = 'md',
+        initials,
+        showStatus = false,
+        status = 'online',
+        style,
+        ...props
+      },
+      ref
+    ) => {
+      const [imgError, setImgError] = React.useState(false)
+      const sizeTokens = AVATAR_TOKENS.sizes[size]
 
-    // Get color based on name
-    const colorIndex = name ? hashString(name) % AVATAR_TOKENS.colors.length : 0
-    const colors = name ? AVATAR_TOKENS.colors[colorIndex] : AVATAR_TOKENS.fallback
+      // Get color based on name
+      const colorIndex = name ? hashString(name) % AVATAR_TOKENS.colors.length : 0
+      const colors = name ? AVATAR_TOKENS.colors[colorIndex] : AVATAR_TOKENS.fallback
 
-    // Determine what to show
-    const showImage = src && !imgError
-    const displayInitials = initials || (name ? getInitials(name) : null)
+      // Determine what to show
+      const showImage = src && !imgError
+      const displayInitials = initials || (name ? getInitials(name) : null)
 
-    const avatarStyle: React.CSSProperties = {
-      position: 'relative',
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: sizeTokens.size,
-      height: sizeTokens.size,
-      borderRadius: '50%',
-      backgroundColor: showImage ? 'transparent' : colors.bg,
-      color: colors.fg,
-      fontSize: sizeTokens.fontSize,
-      fontWeight: 600,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      // No overflow:hidden to allow badge to show
-      flexShrink: 0,
-      ...style,
+      const avatarStyle: React.CSSProperties = {
+        position: 'relative',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: sizeTokens.size,
+        height: sizeTokens.size,
+        borderRadius: '50%',
+        backgroundColor: showImage ? 'transparent' : colors.bg,
+        color: colors.fg,
+        fontSize: sizeTokens.fontSize,
+        fontWeight: 600,
+        fontFamily: 'var(--vistral-font-family-sans)',
+        // No overflow:hidden to allow badge to show
+        flexShrink: 0,
+        ...style,
+      }
+
+      const imgStyle: React.CSSProperties = {
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        borderRadius: '50%', // Clip image with border-radius instead
+      }
+
+      const statusColors = {
+        online: '#22c55e', // green-500
+        offline: '#71717a', // zinc-500
+        busy: '#ef4444', // red-500
+        away: '#f59e0b', // amber-500
+      }
+
+      const statusSize = Math.max(8, sizeTokens.size * 0.25)
+      const statusStyle: React.CSSProperties = {
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        width: statusSize,
+        height: statusSize,
+        borderRadius: '50%',
+        backgroundColor: statusColors[status],
+        border: `2px solid ${AVATAR_TOKENS.border}`,
+        boxSizing: 'content-box',
+      }
+
+      return (
+        <span ref={ref} style={avatarStyle} {...props}>
+          {showImage ? (
+            <img
+              src={src}
+              alt={alt || name || 'Avatar'}
+              style={imgStyle}
+              onError={() => setImgError(true)}
+            />
+          ) : displayInitials ? (
+            displayInitials
+          ) : (
+            <User size={sizeTokens.iconSize} />
+          )}
+          {showStatus && <span style={statusStyle} />}
+        </span>
+      )
     }
-
-    const imgStyle: React.CSSProperties = {
-      width: '100%',
-      height: '100%',
-      objectFit: 'cover',
-      borderRadius: '50%', // Clip image with border-radius instead
-    }
-
-    const statusColors = {
-      online: '#22c55e', // green-500
-      offline: '#71717a', // zinc-500
-      busy: '#ef4444', // red-500
-      away: '#f59e0b', // amber-500
-    }
-
-    const statusSize = Math.max(8, sizeTokens.size * 0.25)
-    const statusStyle: React.CSSProperties = {
-      position: 'absolute',
-      bottom: 0,
-      right: 0,
-      width: statusSize,
-      height: statusSize,
-      borderRadius: '50%',
-      backgroundColor: statusColors[status],
-      border: `2px solid ${AVATAR_TOKENS.border}`,
-      boxSizing: 'content-box',
-    }
-
-    return (
-      <span ref={ref} style={avatarStyle} {...props}>
-        {showImage ? (
-          <img
-            src={src}
-            alt={alt || name || 'Avatar'}
-            style={imgStyle}
-            onError={() => setImgError(true)}
-          />
-        ) : displayInitials ? (
-          displayInitials
-        ) : (
-          <User size={sizeTokens.iconSize} />
-        )}
-        {showStatus && <span style={statusStyle} />}
-      </span>
-    )
-  }
+  )
 )
 
 Avatar.displayName = 'Avatar'
@@ -215,7 +217,7 @@ const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(
       color: '#3f3f46',
       fontSize: sizeTokens.fontSize,
       fontWeight: 600,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       border: `${AVATAR_TOKENS.borderWidth}px solid ${AVATAR_TOKENS.border}`,
     }
 

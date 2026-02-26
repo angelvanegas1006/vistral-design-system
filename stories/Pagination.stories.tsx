@@ -10,6 +10,13 @@ import {
 const meta: Meta<typeof FullPagination> = {
   title: 'Components/Pagination',
   component: FullPagination,
+  argTypes: {
+    page: { control: { type: 'number', min: 1 } },
+    totalPages: { control: { type: 'number', min: 1 } },
+    showFirstLast: { control: 'boolean' },
+    siblingCount: { control: { type: 'number', min: 0, max: 5 } },
+    onPageChange: { action: 'pageChanged' },
+  },
   parameters: {
     layout: 'centered',
     docs: {

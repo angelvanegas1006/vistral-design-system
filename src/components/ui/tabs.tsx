@@ -145,8 +145,8 @@ export interface TabsListProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'pills'
 }
 
-const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
-  ({ variant, style, children, ...props }, ref) => {
+const TabsList = React.memo(
+  forwardRef<HTMLDivElement, TabsListProps>(({ variant, style, children, ...props }, ref) => {
     const { level } = useTabs()
     const effectiveLevel = variant === 'pills' ? 2 : level
 
@@ -176,7 +176,7 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
         {children}
       </div>
     )
-  }
+  })
 )
 
 TabsList.displayName = 'TabsList'
@@ -203,22 +203,22 @@ const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
     ref
   ) => {
     const { value, onValueChange, level } = useTabs()
-    const [isHovered, setIsHovered] = useState(false)
     const isActive = value === tabValue
     const effectiveLevel = variant === 'pills' ? 2 : level
     const tokens = effectiveLevel === 1 ? TABS_TOKENS.level1 : TABS_TOKENS.level2
 
-    const getColor = () => {
-      if (disabled) return tokens.trigger.fgDisabled
-      if (isActive) return tokens.trigger.fgActive
-      if (isHovered) return tokens.trigger.fgHover
-      return tokens.trigger.fg
-    }
+    const baseColor = disabled
+      ? tokens.trigger.fgDisabled
+      : isActive
+        ? tokens.trigger.fgActive
+        : tokens.trigger.fg
 
     const triggerId = useId()
     const panelId = `tabpanel-${tabValue}`
 
-    const defaultStyle: React.CSSProperties = {
+    const defaultStyle = {
+      '--v-fg': baseColor,
+      '--v-fg-hover': tokens.trigger.fgHover,
       position: 'relative',
       display: 'flex',
       alignItems: 'center',
@@ -228,17 +228,18 @@ const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
       padding: `0 ${tokens.trigger.paddingX}px`,
       fontSize: tokens.trigger.fontSize,
       fontWeight: tokens.trigger.fontWeight,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      color: getColor(),
+      fontFamily: 'var(--vistral-font-family-sans)',
       backgroundColor: 'transparent',
       border: 'none',
       cursor: disabled ? 'not-allowed' : 'pointer',
       transition: 'color 150ms ease-in-out',
       whiteSpace: 'nowrap',
       ...style,
-    }
+    } as React.CSSProperties
 
-    const pillStyle: React.CSSProperties = {
+    const pillStyle = {
+      '--v-fg': baseColor,
+      '--v-fg-hover': tokens.trigger.fgHover,
       position: 'relative',
       display: 'flex',
       alignItems: 'center',
@@ -248,8 +249,7 @@ const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
       padding: `0 ${tokens.trigger.paddingX}px`,
       fontSize: tokens.trigger.fontSize,
       fontWeight: tokens.trigger.fontWeight,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      color: getColor(),
+      fontFamily: 'var(--vistral-font-family-sans)',
       backgroundColor:
         isActive && effectiveLevel === 2
           ? (tokens.trigger as typeof TABS_TOKENS.level2.trigger).activeBg
@@ -267,7 +267,7 @@ const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
           : 'none',
       whiteSpace: 'nowrap',
       ...style,
-    }
+    } as React.CSSProperties
 
     const indicatorStyle: React.CSSProperties = {
       position: 'absolute',
@@ -326,10 +326,10 @@ const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
         aria-controls={panelId}
         aria-disabled={disabled}
         disabled={disabled}
+        data-vistral="tab-trigger"
+        data-state={isActive ? 'active' : 'inactive'}
         style={effectiveLevel === 1 ? defaultStyle : pillStyle}
         onClick={() => !disabled && onValueChange(tabValue)}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
         onKeyDown={e => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault()
@@ -360,25 +360,27 @@ export interface TabsContentProps extends React.HTMLAttributes<HTMLDivElement> {
   value: string
 }
 
-const TabsContent = forwardRef<HTMLDivElement, TabsContentProps>(
-  ({ value: tabValue, style, children, ...props }, ref) => {
-    const { value } = useTabs()
-    const isActive = value === tabValue
-    const panelId = `tabpanel-${tabValue}`
+const TabsContent = React.memo(
+  forwardRef<HTMLDivElement, TabsContentProps>(
+    ({ value: tabValue, style, children, ...props }, ref) => {
+      const { value } = useTabs()
+      const isActive = value === tabValue
+      const panelId = `tabpanel-${tabValue}`
 
-    if (!isActive) return null
+      if (!isActive) return null
 
-    const contentStyle: React.CSSProperties = {
-      padding: 16,
-      ...style,
+      const contentStyle: React.CSSProperties = {
+        padding: 16,
+        ...style,
+      }
+
+      return (
+        <div ref={ref} role="tabpanel" id={panelId} tabIndex={0} style={contentStyle} {...props}>
+          {children}
+        </div>
+      )
     }
-
-    return (
-      <div ref={ref} role="tabpanel" id={panelId} tabIndex={0} style={contentStyle} {...props}>
-        {children}
-      </div>
-    )
-  }
+  )
 )
 
 TabsContent.displayName = 'TabsContent'

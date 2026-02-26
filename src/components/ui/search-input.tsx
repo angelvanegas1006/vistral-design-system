@@ -115,7 +115,6 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     ref
   ) => {
     const [internalValue, setInternalValue] = useState('')
-    const [isFocused, setIsFocused] = useState(false)
     const inputRef = useRef<HTMLInputElement>(null)
 
     const isControlled = controlledValue !== undefined
@@ -150,8 +149,13 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
 
     const wrapperStyle: React.CSSProperties = {
       width: '100%',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
+    }
+
+    const containerCssVars: Record<string, string> = {
+      '--v-icon-color': SEARCH_INPUT_TOKENS.iconColor,
+      '--v-icon-color-focus': SEARCH_INPUT_TOKENS.iconColorFocus,
     }
 
     const containerStyle: React.CSSProperties = {
@@ -159,36 +163,30 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       display: 'flex',
       alignItems: 'center',
       gap: showFilter ? 8 : 0,
+      ...containerCssVars,
     }
 
-    const getBorderColor = () => {
-      if (error) return SEARCH_INPUT_TOKENS.borderError
-      if (isFocused) return SEARCH_INPUT_TOKENS.borderFocus
-      return SEARCH_INPUT_TOKENS.border
+    const inputCssVars: Record<string, string> = {
+      '--v-border': error ? SEARCH_INPUT_TOKENS.borderError : SEARCH_INPUT_TOKENS.border,
+      '--v-border-focus': error ? SEARCH_INPUT_TOKENS.borderError : SEARCH_INPUT_TOKENS.borderFocus,
     }
 
     const inputStyle: React.CSSProperties = {
       width: '100%',
       height,
-      paddingLeft: height, // Space for icon on the left
+      paddingLeft: height,
       paddingRight:
         (clearable && value ? height : SEARCH_INPUT_TOKENS.paddingX) +
-        (showFilter ? height + 8 : 0), // Space for clear button and filter
+        (showFilter ? height + 8 : 0),
       paddingTop: 0,
       paddingBottom: 0,
       fontSize,
       fontFamily: 'inherit',
       backgroundColor: filled ? SEARCH_INPUT_TOKENS.bgFilled : SEARCH_INPUT_TOKENS.bg,
-      border: filled ? 'none' : `1px solid ${getBorderColor()}`,
       borderRadius: rounded ? SEARCH_INPUT_TOKENS.radiusFull : SEARCH_INPUT_TOKENS.radius,
-      outline: 'none',
-      transition: 'border-color 150ms ease, box-shadow 150ms ease',
       opacity: disabled ? 0.5 : 1,
       boxSizing: 'border-box',
-      ...(isFocused &&
-        filled && {
-          boxShadow: `0 0 0 2px ${SEARCH_INPUT_TOKENS.borderFocus}`,
-        }),
+      ...inputCssVars,
     }
 
     const iconContainerStyle: React.CSSProperties = {
@@ -200,10 +198,14 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      color: isFocused ? SEARCH_INPUT_TOKENS.iconColorFocus : SEARCH_INPUT_TOKENS.iconColor,
       pointerEvents: 'none',
       zIndex: 1,
-      transition: 'color 150ms ease',
+    }
+
+    const clearButtonCssVars: Record<string, string> = {
+      '--v-bg': SEARCH_INPUT_TOKENS.clearButton.bg,
+      '--v-bg-hover': SEARCH_INPUT_TOKENS.clearButton.bgHover,
+      '--v-fg': SEARCH_INPUT_TOKENS.clearButton.fg,
     }
 
     const clearButtonStyle: React.CSSProperties = {
@@ -217,13 +219,20 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       width: SEARCH_INPUT_TOKENS.clearButton.size,
       height: SEARCH_INPUT_TOKENS.clearButton.size,
       padding: 0,
-      background: SEARCH_INPUT_TOKENS.clearButton.bg,
       border: 'none',
       borderRadius: SEARCH_INPUT_TOKENS.clearButton.radius,
       cursor: 'pointer',
-      color: SEARCH_INPUT_TOKENS.clearButton.fg,
       transition: 'background-color 150ms ease',
       zIndex: 2,
+      ...clearButtonCssVars,
+    }
+
+    const filterButtonCssVars: Record<string, string> = {
+      '--v-bg': filterCount
+        ? SEARCH_INPUT_TOKENS.filterButton.bgActive
+        : SEARCH_INPUT_TOKENS.filterButton.bg,
+      '--v-bg-hover': SEARCH_INPUT_TOKENS.filterButton.bgHover,
+      '--v-fg': SEARCH_INPUT_TOKENS.filterButton.fg,
     }
 
     const filterButtonStyle: React.CSSProperties = {
@@ -233,16 +242,13 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
       width: SEARCH_INPUT_TOKENS.filterButton.size,
       height: SEARCH_INPUT_TOKENS.filterButton.size,
       padding: 0,
-      background: filterCount
-        ? SEARCH_INPUT_TOKENS.filterButton.bgActive
-        : SEARCH_INPUT_TOKENS.filterButton.bg,
       border: 'none',
       borderRadius: SEARCH_INPUT_TOKENS.filterButton.radius,
       cursor: disabled ? 'not-allowed' : 'pointer',
-      color: SEARCH_INPUT_TOKENS.filterButton.fg,
       transition: 'background-color 150ms ease',
       flexShrink: 0,
       position: 'relative',
+      ...filterButtonCssVars,
     }
 
     const filterBadgeStyle: React.CSSProperties = {
@@ -283,8 +289,8 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           </label>
         )}
 
-        <div style={containerStyle}>
-          <span style={iconContainerStyle}>
+        <div data-vistral="search-container" style={containerStyle}>
+          <span data-vistral="search-icon" style={iconContainerStyle}>
             <Search size={iconSize} />
           </span>
 
@@ -292,11 +298,11 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             ref={inputRef || ref}
             id={inputId}
             type="search"
+            data-vistral="search-input"
+            {...(filled ? { 'data-filled': '' } : {})}
             value={value}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
             placeholder={placeholder}
             disabled={disabled}
             style={inputStyle}
@@ -309,15 +315,10 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           {clearable && value && (
             <button
               type="button"
+              data-vistral-interactive
               style={clearButtonStyle}
               onClick={handleClear}
               aria-label="Clear search"
-              onMouseEnter={e => {
-                e.currentTarget.style.backgroundColor = SEARCH_INPUT_TOKENS.clearButton.bgHover
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.backgroundColor = SEARCH_INPUT_TOKENS.clearButton.bg
-              }}
             >
               <X size={12} />
             </button>
@@ -326,20 +327,12 @@ const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           {showFilter && (
             <button
               type="button"
+              data-vistral-interactive
+              {...(disabled ? { 'data-disabled': '' } : {})}
               style={filterButtonStyle}
               onClick={onFilterClick}
               disabled={disabled}
               aria-label={`Filter search results${filterCount ? `, ${filterCount} filter${filterCount > 1 ? 's' : ''} applied` : ''}`}
-              onMouseEnter={e => {
-                if (!disabled) {
-                  e.currentTarget.style.backgroundColor = SEARCH_INPUT_TOKENS.filterButton.bgHover
-                }
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.backgroundColor = filterCount
-                  ? SEARCH_INPUT_TOKENS.filterButton.bgActive
-                  : SEARCH_INPUT_TOKENS.filterButton.bg
-              }}
             >
               {FilterIcon ? <FilterIcon size={16} /> : <Filter size={16} />}
               {filterCount !== undefined && filterCount > 0 && (

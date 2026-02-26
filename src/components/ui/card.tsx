@@ -42,17 +42,11 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ size = 'md', flat = false, hoverable = false, style, children, ...props }, ref) => {
-    const [isHovered, setIsHovered] = React.useState(false)
-
     const cardStyle: React.CSSProperties = {
       backgroundColor: CARD_TOKENS.bg,
       border: `1px solid ${CARD_TOKENS.border}`,
       borderRadius: CARD_TOKENS.radius,
-      boxShadow: flat
-        ? 'none'
-        : isHovered && hoverable
-          ? '0px 0px 24px 0px rgba(0, 0, 0, 0.1)'
-          : CARD_TOKENS.shadow,
+      boxShadow: flat ? 'none' : CARD_TOKENS.shadow,
       padding: CARD_TOKENS.padding[size],
       minHeight: CARD_TOKENS.sizes[size].minHeight,
       display: 'flex',
@@ -64,9 +58,9 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
     return (
       <div
         ref={ref}
+        data-vistral="card"
+        data-hoverable={hoverable || undefined}
         style={cardStyle}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
         {...props}
       >
         {children}
@@ -85,24 +79,26 @@ export interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   rightContent?: React.ReactNode
 }
 
-const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
-  ({ rightContent, style, children, ...props }, ref) => {
-    const headerStyle: React.CSSProperties = {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'flex-start',
-      gap: 16,
-      marginBottom: 12,
-      ...style,
-    }
+const CardHeader = React.memo(
+  forwardRef<HTMLDivElement, CardHeaderProps>(
+    ({ rightContent, style, children, ...props }, ref) => {
+      const headerStyle: React.CSSProperties = {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        gap: 16,
+        marginBottom: 12,
+        ...style,
+      }
 
-    return (
-      <div ref={ref} style={headerStyle} {...props}>
-        <div style={{ flex: 1 }}>{children}</div>
-        {rightContent && <div>{rightContent}</div>}
-      </div>
-    )
-  }
+      return (
+        <div ref={ref} style={headerStyle} {...props}>
+          <div style={{ flex: 1 }}>{children}</div>
+          {rightContent && <div>{rightContent}</div>}
+        </div>
+      )
+    }
+  )
 )
 
 CardHeader.displayName = 'CardHeader'
@@ -114,24 +110,26 @@ export interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement>
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
 }
 
-const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(
-  ({ as: Component = 'h3', style, children, ...props }, ref) => {
-    const titleStyle: React.CSSProperties = {
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      fontSize: 16,
-      fontWeight: 600,
-      lineHeight: 1.4,
-      color: '#09090b', // zinc-950
-      margin: 0,
-      ...style,
-    }
+const CardTitle = React.memo(
+  forwardRef<HTMLHeadingElement, CardTitleProps>(
+    ({ as: Component = 'h3', style, children, ...props }, ref) => {
+      const titleStyle: React.CSSProperties = {
+        fontFamily: 'var(--vistral-font-family-sans)',
+        fontSize: 16,
+        fontWeight: 600,
+        lineHeight: 1.4,
+        color: '#09090b', // zinc-950
+        margin: 0,
+        ...style,
+      }
 
-    return (
-      <Component ref={ref} style={titleStyle} {...props}>
-        {children}
-      </Component>
-    )
-  }
+      return (
+        <Component ref={ref} style={titleStyle} {...props}>
+          {children}
+        </Component>
+      )
+    }
+  )
 )
 
 CardTitle.displayName = 'CardTitle'
@@ -141,10 +139,10 @@ CardTitle.displayName = 'CardTitle'
 // ============================================================================
 export interface CardDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {}
 
-const CardDescription = forwardRef<HTMLParagraphElement, CardDescriptionProps>(
-  ({ style, children, ...props }, ref) => {
+const CardDescription = React.memo(
+  forwardRef<HTMLParagraphElement, CardDescriptionProps>(({ style, children, ...props }, ref) => {
     const descStyle: React.CSSProperties = {
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       fontSize: 14,
       fontWeight: 400,
       lineHeight: 1.5,
@@ -158,7 +156,7 @@ const CardDescription = forwardRef<HTMLParagraphElement, CardDescriptionProps>(
         {children}
       </p>
     )
-  }
+  })
 )
 
 CardDescription.displayName = 'CardDescription'
@@ -168,8 +166,8 @@ CardDescription.displayName = 'CardDescription'
 // ============================================================================
 export interface CardContentProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-const CardContent = forwardRef<HTMLDivElement, CardContentProps>(
-  ({ style, children, ...props }, ref) => {
+const CardContent = React.memo(
+  forwardRef<HTMLDivElement, CardContentProps>(({ style, children, ...props }, ref) => {
     const contentStyle: React.CSSProperties = {
       flex: 1,
       marginTop: 16,
@@ -181,7 +179,7 @@ const CardContent = forwardRef<HTMLDivElement, CardContentProps>(
         {children}
       </div>
     )
-  }
+  })
 )
 
 CardContent.displayName = 'CardContent'
@@ -194,32 +192,34 @@ export interface CardFooterProps extends React.HTMLAttributes<HTMLDivElement> {
   align?: 'left' | 'center' | 'right' | 'between'
 }
 
-const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
-  ({ align = 'left', style, children, ...props }, ref) => {
-    const justifyMap = {
-      left: 'flex-start',
-      center: 'center',
-      right: 'flex-end',
-      between: 'space-between',
-    }
+const CardFooter = React.memo(
+  forwardRef<HTMLDivElement, CardFooterProps>(
+    ({ align = 'left', style, children, ...props }, ref) => {
+      const justifyMap = {
+        left: 'flex-start',
+        center: 'center',
+        right: 'flex-end',
+        between: 'space-between',
+      }
 
-    const footerStyle: React.CSSProperties = {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: justifyMap[align],
-      gap: 12,
-      marginTop: 16,
-      paddingTop: 16,
-      borderTop: `1px solid ${CARD_TOKENS.border}`,
-      ...style,
-    }
+      const footerStyle: React.CSSProperties = {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: justifyMap[align],
+        gap: 12,
+        marginTop: 16,
+        paddingTop: 16,
+        borderTop: `1px solid ${CARD_TOKENS.border}`,
+        ...style,
+      }
 
-    return (
-      <div ref={ref} style={footerStyle} {...props}>
-        {children}
-      </div>
-    )
-  }
+      return (
+        <div ref={ref} style={footerStyle} {...props}>
+          {children}
+        </div>
+      )
+    }
+  )
 )
 
 CardFooter.displayName = 'CardFooter'

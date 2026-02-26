@@ -1,0 +1,593 @@
+/*
+ * Vistral Design System - Base Styles
+ * Contains shared animations, interactive states, and utility classes.
+ * Import via: import 'vistral-design-system/styles.css'
+ */
+
+/* ============================================================================
+ * Shared Animations
+ * Replaces all runtime document.createElement('style') injections
+ * ============================================================================ */
+
+@keyframes vistral-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes vistral-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes vistral-progress-indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
+}
+
+@keyframes vistral-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes vistral-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes vistral-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes vistral-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes vistral-scale-in-subtle {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes vistral-overlay-show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes vistral-sheet-slide-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes vistral-sheet-slide-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes vistral-sheet-slide-top {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes vistral-sheet-slide-bottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes vistral-toast-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes vistral-toast-enter-top {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Legacy animation names (backwards compatibility) */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes progress-indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
+}
+
+@keyframes dropdown-show {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tooltip-show {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes context-menu-show {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes popover-show {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes toast-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sheet-overlay-show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes sheet-slide-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes sheet-slide-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes sheet-slide-top {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes sheet-slide-bottom {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================================
+ * CSS-driven interactive states
+ * Components set CSS custom properties, CSS handles hover/focus/active
+ * This eliminates useState for hover/press/focus = zero re-renders
+ * ============================================================================ */
+
+/* --- Button --- */
+[data-vistral='button'] {
+  background-color: var(--v-bg);
+  color: var(--v-fg);
+  border-color: var(--v-border, transparent);
+  transition: all 150ms ease-in-out;
+  outline: none;
+}
+
+[data-vistral='button']:hover:not(:disabled) {
+  background-color: var(--v-bg-hover, var(--v-bg));
+  color: var(--v-fg-hover, var(--v-fg));
+  border-color: var(--v-border-hover, var(--v-border, transparent));
+}
+
+[data-vistral='button']:active:not(:disabled) {
+  background-color: var(--v-bg-active, var(--v-bg-hover, var(--v-bg)));
+  color: var(--v-fg-active, var(--v-fg));
+  border-color: var(--v-border-active, var(--v-border, transparent));
+  transform: scale(0.98);
+}
+
+[data-vistral='button']:focus-visible:not(:disabled) {
+  box-shadow: 0 0 0 3px rgba(32, 80, 246, 0.2);
+}
+
+/* --- Toast --- */
+[data-vistral='toast-close'] {
+  transition: opacity 150ms ease-in-out;
+}
+
+[data-vistral='toast-close']:hover {
+  opacity: 0.7;
+}
+
+[data-vistral='toast-action'] {
+  transition: background-color 150ms ease-in-out;
+}
+
+[data-vistral='toast-action']:hover {
+  background-color: var(--v-bg-hover, transparent);
+}
+
+/* --- Card --- */
+[data-vistral='card'] {
+  box-shadow: var(--v-shadow, none);
+  transition:
+    box-shadow 200ms ease,
+    transform 200ms ease;
+}
+
+[data-vistral='card'][data-hoverable]:hover {
+  box-shadow: var(--v-shadow-hover, 0 0 24px 0 rgba(0, 0, 0, 0.1));
+  transform: var(--v-transform-hover, none);
+}
+
+/* --- Input/Textarea --- */
+[data-vistral='input-wrapper']:hover [data-vistral='input']:not(:disabled):not(:focus) {
+  border-color: var(--v-border-hover, var(--v-border));
+}
+
+[data-vistral='input']:focus:not(:disabled) {
+  border-color: var(--v-border-focus, var(--v-border));
+  box-shadow: var(--v-focus-ring, 0 0 0 3px rgba(32, 80, 246, 0.15));
+}
+
+[data-vistral='input']:focus-within:not(:disabled):not([data-disabled]) {
+  border-color: var(--v-border-focus, var(--v-border));
+  box-shadow: var(--v-focus-ring, 0 0 0 3px rgba(32, 80, 246, 0.15));
+}
+
+[data-vistral='input'][aria-invalid='true']:focus {
+  border-color: var(--v-border-focus-error, #ef4444);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+/* --- Compound input group (number-input, phone-input wrappers) --- */
+[data-vistral='input-group'] {
+  border-color: var(--v-border, #d4d4d8);
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+[data-vistral='input-group']:focus-within:not([data-disabled]) {
+  border-color: var(--v-border-focus, var(--v-border));
+  box-shadow: var(--v-focus-ring, 0 0 0 3px rgba(32, 80, 246, 0.15));
+}
+
+/* --- Link --- */
+[data-vistral='link']:hover {
+  color: var(--v-fg-hover, var(--v-fg));
+  text-decoration-color: var(--v-fg-hover, var(--v-fg));
+}
+
+[data-vistral='link']:active {
+  color: var(--v-fg-active, var(--v-fg));
+}
+
+[data-vistral='link']:focus-visible {
+  outline: 2px solid rgba(32, 80, 246, 0.5);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* --- Tag --- */
+[data-vistral='tag'] {
+  background-color: var(--v-bg);
+  color: var(--v-fg);
+}
+
+[data-vistral='tag']:hover:not([data-disabled]) {
+  background-color: var(--v-bg-hover, var(--v-bg));
+}
+
+/* --- Generic interactive element (checkbox, radio, accordion trigger, etc.) --- */
+[data-vistral-interactive] {
+  background-color: var(--v-bg, transparent);
+  color: var(--v-fg, inherit);
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+[data-vistral-interactive]:hover:not(:disabled):not([data-disabled]) {
+  background-color: var(--v-bg-hover, var(--v-bg, transparent));
+  color: var(--v-fg-hover, var(--v-fg, inherit));
+}
+
+[data-vistral-interactive]:focus-visible {
+  box-shadow: 0 0 0 3px rgba(32, 80, 246, 0.2);
+  outline: none;
+}
+
+/* --- Checkbox --- */
+[data-vistral='checkbox-box'] {
+  background-color: var(--v-bg);
+  border: 2px solid var(--v-border);
+  transition: all 150ms ease-in-out;
+}
+
+[data-vistral-interactive]:hover:not([data-disabled]) [data-vistral='checkbox-box'] {
+  background-color: var(--v-bg-hover, var(--v-bg));
+  border-color: var(--v-border-hover, var(--v-border));
+}
+
+[data-vistral-interactive]:focus-within:not([data-disabled]) [data-vistral='checkbox-box'] {
+  box-shadow: 0 0 0 3px rgba(32, 80, 246, 0.2);
+}
+
+/* --- Radio --- */
+[data-vistral='radio-outer'] {
+  border: 2px solid var(--v-border);
+  transition: border-color 150ms ease-in-out;
+}
+
+[data-vistral-interactive]:hover:not([data-disabled]) [data-vistral='radio-outer'] {
+  border-color: var(--v-border-hover, var(--v-border));
+}
+
+[data-vistral-interactive]:focus-within:not([data-disabled]) [data-vistral='radio-outer'] {
+  box-shadow: 0 0 0 3px rgba(32, 80, 246, 0.2);
+}
+
+/* --- Switch --- */
+[data-vistral-interactive]:focus-within:not([data-disabled]) [data-vistral='switch-track'] {
+  box-shadow: 0 0 0 3px rgba(32, 80, 246, 0.2);
+}
+
+/* --- Search input --- */
+[data-vistral='search-input'] {
+  border: 1px solid var(--v-border, transparent);
+  outline: none;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+[data-vistral='search-input']:focus:not(:disabled) {
+  border-color: var(--v-border-focus, var(--v-border));
+}
+
+[data-vistral='search-input'][data-filled] {
+  border: none;
+}
+
+[data-vistral='search-input'][data-filled]:focus:not(:disabled) {
+  box-shadow: 0 0 0 2px #2050f6;
+}
+
+[data-vistral='search-icon'] {
+  color: var(--v-icon-color, inherit);
+  transition: color 150ms ease;
+}
+
+[data-vistral='search-container']:focus-within [data-vistral='search-icon'] {
+  color: var(--v-icon-color-focus, var(--v-icon-color));
+}
+
+/* --- List item / Nav item --- */
+[data-vistral='list-item']:hover:not([data-disabled]) {
+  background-color: var(--v-bg-hover, #f4f4f5);
+}
+
+[data-vistral='list-item']:active:not([data-disabled]) {
+  background-color: var(--v-bg-active, #e4e4e7);
+}
+
+[data-vistral='list-item']:focus-visible {
+  box-shadow: inset 0 0 0 2px rgba(32, 80, 246, 0.3);
+  outline: none;
+}
+
+/* --- Dropdown / Context menu item --- */
+[data-vistral='menu-item']:hover:not([data-disabled]) {
+  background-color: var(--v-bg-hover, #f4f4f5);
+}
+
+[data-vistral='menu-item']:focus-visible:not([data-disabled]) {
+  background-color: var(--v-bg-hover, #f4f4f5);
+  outline: none;
+}
+
+/* --- Tab trigger --- */
+[data-vistral='tab-trigger'] {
+  color: var(--v-fg, inherit);
+}
+
+[data-vistral='tab-trigger']:hover:not(:disabled):not([data-state='active']) {
+  color: var(--v-fg-hover, #18181b);
+}
+
+/* --- Pagination button --- */
+[data-vistral='page-btn']:hover:not(:disabled):not([data-active]) {
+  background-color: var(--v-bg-hover, #f4f4f5);
+}
+
+/* --- Table row --- */
+[data-vistral='table-row']:hover {
+  background-color: var(--v-bg-hover, #fafafa);
+}
+
+/* --- Chip --- */
+[data-vistral='chip'] {
+  background-color: var(--v-bg);
+  border-color: var(--v-border, transparent);
+  transition: all 150ms ease-in-out;
+  outline: none;
+}
+
+[data-vistral='chip']:hover:not([data-disabled]) {
+  background-color: var(--v-bg-hover, var(--v-bg));
+  border-color: var(--v-border-hover, var(--v-border, transparent));
+}
+
+[data-vistral='chip']:focus-visible:not([data-disabled]) {
+  box-shadow: 0 0 0 3px rgba(32, 80, 246, 0.2);
+}
+
+/* --- Bottom nav item --- */
+[data-vistral='bottom-nav-item']:hover {
+  color: var(--v-fg-hover, var(--v-fg));
+}
+
+[data-vistral='bottom-nav-item']:active {
+  transform: scale(0.95);
+}
+
+/* --- Hover scale (media-hero images) --- */
+[data-vistral-hover-scale]:hover > img {
+  transform: scale(1.02);
+}
+
+/* ============================================================================
+ * Utility classes
+ * ============================================================================ */
+
+.vistral-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Legacy class name compatibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

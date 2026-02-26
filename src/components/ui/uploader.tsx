@@ -149,7 +149,6 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
   ) => {
     const [files, setFiles] = useState<UploadedFile[]>([])
     const [isDragActive, setIsDragActive] = useState(false)
-    const [isHovered, setIsHovered] = useState(false)
     const [currentError, setCurrentError] = useState<string | null>(error || null)
     const inputRef = useRef<HTMLInputElement>(null)
     const progressTimersRef = useRef<Map<string, NodeJS.Timeout>>(new Map())
@@ -186,59 +185,62 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
       })
     }, [files, simulateProgress, onProgress])
 
-    const validateFile = (file: File): UploadError | null => {
-      // Check file type
-      if (accept) {
-        const acceptedTypes = accept.split(',').map(t => t.trim())
-        const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase()
-        const matchesType = acceptedTypes.some(type => {
-          if (type.startsWith('.')) {
-            return fileExtension === type.toLowerCase()
+    const validateFile = useCallback(
+      (file: File): UploadError | null => {
+        if (accept) {
+          const acceptedTypes = accept.split(',').map(t => t.trim())
+          const fileExtension = '.' + file.name.split('.').pop()?.toLowerCase()
+          const matchesType = acceptedTypes.some(type => {
+            if (type.startsWith('.')) {
+              return fileExtension === type.toLowerCase()
+            }
+            if (type.includes('/*')) {
+              const baseType = type.split('/')[0]
+              return file.type.startsWith(baseType + '/')
+            }
+            return file.type === type
+          })
+          if (!matchesType) {
+            return 'invalid-format'
           }
-          if (type.includes('/*')) {
-            const baseType = type.split('/')[0]
-            return file.type.startsWith(baseType + '/')
-          }
-          return file.type === type
-        })
-        if (!matchesType) {
-          return 'invalid-format'
         }
-      }
 
-      // Check file size
-      if (file.size > maxSize) {
-        return 'size-limit'
-      }
+        if (file.size > maxSize) {
+          return 'size-limit'
+        }
 
-      // Check duplicate
-      if (files.some(f => f.file.name === file.name && f.file.size === file.size)) {
-        return 'duplicate'
-      }
+        if (files.some(f => f.file.name === file.name && f.file.size === file.size)) {
+          return 'duplicate'
+        }
 
-      return null
-    }
+        return null
+      },
+      [accept, maxSize, files]
+    )
 
-    const getErrorMessage = (errorType: UploadError, _file?: File): string => {
-      switch (errorType) {
-        case 'invalid-format':
-          return accept
-            ? `This file format is not supported. Please upload files in ${accept}.`
-            : 'This file format is not supported.'
-        case 'size-limit':
-          return `File size exceeds size limit of ${formatFileSize(maxSize)}. Reduce file size or choose another document.`
-        case 'quantity-limit':
-          return `You can only upload a maximum of ${maxFiles} documents. Remove one before adding another.`
-        case 'duplicate':
-          return 'This document is already in the upload list.'
-        case 'network-failure':
-          return 'The upload could not be completed due to a network issue.'
-        case 'required':
-          return 'You must upload at least one document to continue with the process.'
-        default:
-          return 'An error occurred while uploading the file.'
-      }
-    }
+    const getErrorMessage = useCallback(
+      (errorType: UploadError, _file?: File): string => {
+        switch (errorType) {
+          case 'invalid-format':
+            return accept
+              ? `This file format is not supported. Please upload files in ${accept}.`
+              : 'This file format is not supported.'
+          case 'size-limit':
+            return `File size exceeds size limit of ${formatFileSize(maxSize)}. Reduce file size or choose another document.`
+          case 'quantity-limit':
+            return `You can only upload a maximum of ${maxFiles} documents. Remove one before adding another.`
+          case 'duplicate':
+            return 'This document is already in the upload list.'
+          case 'network-failure':
+            return 'The upload could not be completed due to a network issue.'
+          case 'required':
+            return 'You must upload at least one document to continue with the process.'
+          default:
+            return 'An error occurred while uploading the file.'
+        }
+      },
+      [accept, maxSize, maxFiles]
+    )
 
     const handleFiles = useCallback(
       (newFiles: FileList | null) => {
@@ -281,7 +283,18 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
           onChange?.(updatedFiles.map(f => f.file))
         }
       },
-      [files, maxFiles, maxSize, multiple, disabled, onChange, accept, simulateProgress]
+      [
+        files,
+        maxFiles,
+        maxSize,
+        multiple,
+        disabled,
+        onChange,
+        accept,
+        simulateProgress,
+        getErrorMessage,
+        validateFile,
+      ]
     )
 
     const handleDrop = useCallback(
@@ -362,7 +375,7 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
       width: '100%',
       maxWidth: variant === 'dropzone' ? UPLOADER_TOKENS.dropzone.maxWidth : '100%',
       minWidth: variant === 'dropzone' ? UPLOADER_TOKENS.dropzone.minWidth : undefined,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 
@@ -378,17 +391,12 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
           : UPLOADER_TOKENS.text.primary,
     }
 
-    const dropzoneStyle: React.CSSProperties = {
+    const dropzoneStyle = {
       display: 'flex',
-      flexDirection: 'column',
+      flexDirection: 'column' as const,
       alignItems: 'center',
       justifyContent: 'center',
       padding: UPLOADER_TOKENS.dropzone.padding,
-      backgroundColor: isDragActive
-        ? UPLOADER_TOKENS.dropzone.bgActive
-        : isHovered
-          ? UPLOADER_TOKENS.dropzone.bgHover
-          : UPLOADER_TOKENS.dropzone.bg,
       border: `${UPLOADER_TOKENS.dropzone.borderWidth}px ${UPLOADER_TOKENS.dropzone.borderDashed} ${
         hasError
           ? UPLOADER_TOKENS.dropzone.borderError
@@ -400,19 +408,22 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
       cursor: disabled ? 'not-allowed' : 'pointer',
       transition: 'all 200ms ease',
       opacity: disabled ? 0.5 : 1,
-    }
+      '--v-bg': isDragActive ? UPLOADER_TOKENS.dropzone.bgActive : UPLOADER_TOKENS.dropzone.bg,
+      '--v-bg-hover': isDragActive
+        ? UPLOADER_TOKENS.dropzone.bgActive
+        : UPLOADER_TOKENS.dropzone.bgHover,
+    } as React.CSSProperties
 
     const iconStyle: React.CSSProperties = {
       marginBottom: 12,
       color: isDragActive ? UPLOADER_TOKENS.icon.colorActive : UPLOADER_TOKENS.icon.color,
     }
 
-    const buttonStyle: React.CSSProperties = {
+    const buttonStyle = {
       display: 'inline-flex',
       alignItems: 'center',
       gap: UPLOADER_TOKENS.button.gap,
       padding: UPLOADER_TOKENS.button.padding,
-      backgroundColor: UPLOADER_TOKENS.button.bg,
       color: UPLOADER_TOKENS.text.primary,
       border: `1px solid ${hasError ? UPLOADER_TOKENS.button.borderError : UPLOADER_TOKENS.button.border}`,
       borderRadius: UPLOADER_TOKENS.button.radius,
@@ -421,21 +432,23 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
       cursor: disabled ? 'not-allowed' : 'pointer',
       transition: 'all 150ms ease',
       opacity: disabled ? 0.5 : 1,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-    }
+      fontFamily: 'var(--vistral-font-family-sans)',
+      '--v-bg': UPLOADER_TOKENS.button.bg,
+      '--v-bg-hover': UPLOADER_TOKENS.button.bgHover,
+    } as React.CSSProperties
 
     const errorStyle: React.CSSProperties = {
       marginTop: 8,
       fontSize: 13,
       color: UPLOADER_TOKENS.text.error,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
     }
 
     const helperStyle: React.CSSProperties = {
       marginTop: 8,
       fontSize: 13,
       color: UPLOADER_TOKENS.text.secondary,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
     }
 
     const renderDropzone = () => {
@@ -447,13 +460,13 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
 
       return (
         <div
+          data-vistral-interactive
+          data-disabled={disabled || undefined}
           style={dropzoneStyle}
           onClick={handleClick}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
           role="button"
           tabIndex={disabled ? -1 : 0}
           aria-label="Upload files"
@@ -472,8 +485,7 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
               fontSize: 14,
               fontWeight: 500,
               color: UPLOADER_TOKENS.text.primary,
-              fontFamily:
-                "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+              fontFamily: 'var(--vistral-font-family-sans)',
             }}
           >
             Drag & drop files here
@@ -483,17 +495,13 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
               margin: '4px 0 0',
               fontSize: 13,
               color: UPLOADER_TOKENS.text.secondary,
-              fontFamily:
-                "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+              fontFamily: 'var(--vistral-font-family-sans)',
             }}
           >
             Or{' '}
             <span
               style={{
-                color:
-                  isDragActive || isHovered
-                    ? UPLOADER_TOKENS.text.linkHover
-                    : UPLOADER_TOKENS.text.link,
+                color: UPLOADER_TOKENS.text.link,
                 fontWeight: 500,
                 textDecoration: 'underline',
                 cursor: 'pointer',
@@ -519,11 +527,10 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
       return (
         <button
           type="button"
+          data-vistral-interactive
           style={buttonStyle}
           onClick={handleClick}
           disabled={disabled}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
           aria-label={buttonText}
           aria-describedby={helperText ? 'uploader-helper' : undefined}
         >
@@ -650,8 +657,7 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap',
-                      fontFamily:
-                        "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+                      fontFamily: 'var(--vistral-font-family-sans)',
                     }}
                   >
                     {uploadedFile.file.name}
@@ -661,8 +667,7 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
                       margin: '2px 0 0',
                       fontSize: 12,
                       color: UPLOADER_TOKENS.text.secondary,
-                      fontFamily:
-                        "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+                      fontFamily: 'var(--vistral-font-family-sans)',
                     }}
                   >
                     {isUploading && uploadedFile.progress !== undefined
@@ -691,12 +696,6 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
                     removeFile(uploadedFile.id)
                   }}
                   aria-label={`Remove ${uploadedFile.file.name}`}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.opacity = '0.8'
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.opacity = '1'
-                  }}
                 >
                   <X size={14} />
                 </button>
@@ -739,21 +738,5 @@ const Uploader = forwardRef<HTMLDivElement, UploaderProps>(
 )
 
 Uploader.displayName = 'Uploader'
-
-// Add spinner animation
-if (typeof document !== 'undefined') {
-  const styleId = 'vistral-uploader-spinner'
-  if (!document.getElementById(styleId)) {
-    const style = document.createElement('style')
-    style.id = styleId
-    style.textContent = `
-      @keyframes spin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-      }
-    `
-    document.head.appendChild(style)
-  }
-}
 
 export { Uploader, UPLOADER_TOKENS }

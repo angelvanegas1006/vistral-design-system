@@ -97,37 +97,39 @@ export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   size?: number | string
 }
 
-const Text = forwardRef<HTMLElement, TextProps>(
-  ({ variant = 'body', color, as, weight, size, style, children, ...props }, ref) => {
-    const variantTokens = TEXT_TOKENS.variants[variant]
+const Text = React.memo(
+  forwardRef<HTMLElement, TextProps>(
+    ({ variant = 'body', color, as, weight, size, style, children, ...props }, ref) => {
+      const variantTokens = TEXT_TOKENS.variants[variant]
 
-    // Determine semantic HTML element
-    const getElement = (): 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div' => {
-      if (as) return as
-      if (variant.startsWith('h')) return variant as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
-      if (variant === 'body' || variant === 'bodyLarge') return 'p'
-      return 'span'
+      // Determine semantic HTML element
+      const getElement = (): 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div' => {
+        if (as) return as
+        if (variant.startsWith('h')) return variant as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+        if (variant === 'body' || variant === 'bodyLarge') return 'p'
+        return 'span'
+      }
+
+      const Element = getElement()
+      const textColor = color ? TEXT_TOKENS.colors[color] : variantTokens.color
+
+      const textStyle: React.CSSProperties = {
+        fontFamily: 'var(--vistral-font-family-sans)',
+        fontSize: size || variantTokens.fontSize,
+        fontWeight: weight || variantTokens.fontWeight,
+        lineHeight: variantTokens.lineHeight,
+        color: textColor,
+        margin: 0,
+        ...style,
+      }
+
+      return (
+        <Element ref={ref as any} style={textStyle} {...props}>
+          {children}
+        </Element>
+      )
     }
-
-    const Element = getElement()
-    const textColor = color ? TEXT_TOKENS.colors[color] : variantTokens.color
-
-    const textStyle: React.CSSProperties = {
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      fontSize: size || variantTokens.fontSize,
-      fontWeight: weight || variantTokens.fontWeight,
-      lineHeight: variantTokens.lineHeight,
-      color: textColor,
-      margin: 0,
-      ...style,
-    }
-
-    return (
-      <Element ref={ref as any} style={textStyle} {...props}>
-        {children}
-      </Element>
-    )
-  }
+  )
 )
 
 Text.displayName = 'Text'

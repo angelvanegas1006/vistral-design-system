@@ -10,7 +10,7 @@ const PIN_CODE_TOKENS = {
   cell: {
     size: 48,
     fontSize: 24,
-    fontWeight: 500, // Medium weight
+    fontWeight: 500,
     bg: '#ffffff',
     border: '#d4d4d8',
     borderFocus: '#2050f6',
@@ -80,7 +80,6 @@ const PinCode = forwardRef<HTMLDivElement, PinCodeProps>(
 
     const currentSize = sizeStyles[size]
 
-    // Sync with external value
     useEffect(() => {
       if (value) {
         const chars = value.split('').slice(0, length)
@@ -88,24 +87,27 @@ const PinCode = forwardRef<HTMLDivElement, PinCodeProps>(
       }
     }, [value, length])
 
-    // Auto focus first input
     useEffect(() => {
       if (autoFocus && inputRefs.current[0]) {
         inputRefs.current[0].focus()
       }
     }, [autoFocus])
 
-    const getBorderColor = (index: number, focused: boolean) => {
+    const getBorderColor = () => {
       if (error) return PIN_CODE_TOKENS.cell.borderError
       if (success) return PIN_CODE_TOKENS.cell.borderSuccess
-      if (focused) return PIN_CODE_TOKENS.cell.borderFocus
       return PIN_CODE_TOKENS.cell.border
     }
+
+    const focusRing = error
+      ? '0 0 0 3px rgba(220, 38, 38, 0.15)'
+      : success
+        ? '0 0 0 3px rgba(22, 163, 74, 0.15)'
+        : '0 0 0 3px rgba(32, 80, 246, 0.15)'
 
     const handleChange = (index: number, char: string) => {
       if (disabled) return
 
-      // Only allow single digit
       const digit = char.replace(/\D/g, '').slice(-1)
 
       const newValues = [...values]
@@ -115,12 +117,10 @@ const PinCode = forwardRef<HTMLDivElement, PinCodeProps>(
       const newValue = newValues.join('')
       onChange?.(newValue)
 
-      // Move to next input if digit entered
       if (digit && index < length - 1) {
         inputRefs.current[index + 1]?.focus()
       }
 
-      // Call onComplete when all filled
       if (newValues.every(v => v) && newValues.length === length) {
         onComplete?.(newValue)
       }
@@ -131,7 +131,6 @@ const PinCode = forwardRef<HTMLDivElement, PinCodeProps>(
 
       if (e.key === 'Backspace') {
         if (!values[index] && index > 0) {
-          // Move to previous input on backspace if current is empty
           inputRefs.current[index - 1]?.focus()
         }
         const newValues = [...values]
@@ -155,7 +154,6 @@ const PinCode = forwardRef<HTMLDivElement, PinCodeProps>(
       setValues(newValues)
       onChange?.(newValues.join(''))
 
-      // Focus last filled or next empty
       const lastIndex = Math.min(chars.length, length - 1)
       inputRefs.current[lastIndex]?.focus()
 
@@ -168,7 +166,7 @@ const PinCode = forwardRef<HTMLDivElement, PinCodeProps>(
       display: 'flex',
       flexDirection: 'column',
       gap: 8,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 
@@ -177,21 +175,25 @@ const PinCode = forwardRef<HTMLDivElement, PinCodeProps>(
       gap: PIN_CODE_TOKENS.gap,
     }
 
-    const getCellStyle = (index: number, focused: boolean): React.CSSProperties => ({
-      width: currentSize.size,
-      height: currentSize.size,
-      textAlign: 'center',
-      fontSize: currentSize.fontSize,
-      fontWeight: PIN_CODE_TOKENS.cell.fontWeight,
-      fontFamily: 'inherit',
-      backgroundColor: PIN_CODE_TOKENS.cell.bg,
-      border: `2px solid ${getBorderColor(index, focused)}`,
-      borderRadius: PIN_CODE_TOKENS.cell.radius,
-      outline: 'none',
-      transition: 'border-color 150ms ease',
-      opacity: disabled ? 0.5 : 1,
-      cursor: disabled ? 'not-allowed' : 'text',
-    })
+    const getCellStyle = (): React.CSSProperties =>
+      ({
+        '--v-border': getBorderColor(),
+        '--v-border-focus': PIN_CODE_TOKENS.cell.borderFocus,
+        '--v-focus-ring': disabled ? 'none' : focusRing,
+        width: currentSize.size,
+        height: currentSize.size,
+        textAlign: 'center',
+        fontSize: currentSize.fontSize,
+        fontWeight: PIN_CODE_TOKENS.cell.fontWeight,
+        fontFamily: 'inherit',
+        backgroundColor: PIN_CODE_TOKENS.cell.bg,
+        border: `2px solid var(--v-border)`,
+        borderRadius: PIN_CODE_TOKENS.cell.radius,
+        outline: 'none',
+        transition: 'border-color 150ms ease, box-shadow 150ms ease',
+        opacity: disabled ? 0.5 : 1,
+        cursor: disabled ? 'not-allowed' : 'text',
+      }) as React.CSSProperties
 
     return (
       <div ref={ref} style={containerStyle} {...props}>
@@ -217,8 +219,7 @@ const PinCode = forwardRef<HTMLDivElement, PinCodeProps>(
               value={values[index]}
               mask={mask}
               disabled={disabled}
-              style={getCellStyle}
-              index={index}
+              style={getCellStyle()}
               onChange={char => handleChange(index, char)}
               onKeyDown={e => handleKeyDown(index, e)}
               onPaste={index === 0 ? handlePaste : undefined}
@@ -251,17 +252,14 @@ interface PinCellProps {
   value: string
   mask: boolean
   disabled: boolean
-  style: (index: number, focused: boolean) => React.CSSProperties
-  index: number
+  style: React.CSSProperties
   onChange: (char: string) => void
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void
   onPaste?: (e: React.ClipboardEvent) => void
 }
 
 const PinCell = forwardRef<HTMLInputElement, PinCellProps>(
-  ({ value, mask, disabled, style, index, onChange, onKeyDown, onPaste }, ref) => {
-    const [isFocused, setIsFocused] = useState(false)
-
+  ({ value, mask, disabled, style, onChange, onKeyDown, onPaste }, ref) => {
     return (
       <input
         ref={ref}
@@ -271,12 +269,11 @@ const PinCell = forwardRef<HTMLInputElement, PinCellProps>(
         maxLength={1}
         value={value}
         disabled={disabled}
-        style={style(index, isFocused)}
+        style={style}
+        data-vistral="input"
         onChange={e => onChange(e.target.value)}
         onKeyDown={onKeyDown}
         onPaste={onPaste}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
         autoComplete="one-time-code"
       />
     )

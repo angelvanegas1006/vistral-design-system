@@ -5,6 +5,33 @@ import { Rating, RatingDisplay } from '../src/components/ui/rating'
 const meta: Meta<typeof Rating> = {
   title: 'Components/Rating',
   component: Rating,
+  argTypes: {
+    max: {
+      control: 'number',
+      description: 'Maximum stars',
+    },
+    readOnly: {
+      control: 'boolean',
+      description: 'Read-only mode',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disabled state',
+    },
+    allowHalf: {
+      control: 'boolean',
+      description: 'Allow half stars',
+    },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg', 'xl'],
+      description: 'Size variant',
+    },
+    showValue: {
+      control: 'boolean',
+      description: 'Show value label',
+    },
+  },
   parameters: {
     layout: 'centered',
     docs: {

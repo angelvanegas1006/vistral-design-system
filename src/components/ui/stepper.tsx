@@ -78,7 +78,7 @@ const Stepper = forwardRef<HTMLDivElement, StepperProps>(
       flexDirection: orientation === 'horizontal' ? 'row' : 'column',
       alignItems: orientation === 'horizontal' ? 'flex-start' : 'stretch',
       gap: orientation === 'horizontal' ? 0 : 0,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 

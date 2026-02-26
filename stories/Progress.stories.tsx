@@ -5,6 +5,13 @@ import { ProgressBar, ProgressCircle } from '../src/components/ui/progress'
 const meta: Meta<typeof ProgressBar> = {
   title: 'Components/Progress',
   component: ProgressBar,
+  argTypes: {
+    value: { control: { type: 'range', min: 0, max: 100, step: 1 } },
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    status: { control: 'select', options: ['default', 'success', 'error'] },
+    showLabel: { control: 'boolean' },
+    indeterminate: { control: 'boolean' },
+  },
   parameters: {
     layout: 'centered',
     docs: {

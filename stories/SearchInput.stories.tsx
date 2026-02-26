@@ -5,6 +5,49 @@ import { SearchInput } from '../src/components/ui/search-input'
 const meta: Meta<typeof SearchInput> = {
   title: 'Components/SearchInput',
   component: SearchInput,
+  argTypes: {
+    placeholder: {
+      control: 'text',
+      description: 'Placeholder text',
+    },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Size variant',
+    },
+    rounded: {
+      control: 'boolean',
+      description: 'Rounded pill shape',
+    },
+    clearable: {
+      control: 'boolean',
+      description: 'Show clear button',
+    },
+    showFilter: {
+      control: 'boolean',
+      description: 'Show filter button',
+    },
+    filterCount: {
+      control: 'number',
+      description: 'Filter button badge count',
+    },
+    filled: {
+      control: 'boolean',
+      description: 'Filled background style',
+    },
+    label: {
+      control: 'text',
+      description: 'Label text',
+    },
+    helperText: {
+      control: 'text',
+      description: 'Helper text',
+    },
+    error: {
+      control: 'boolean',
+      description: 'Error state',
+    },
+  },
   parameters: {
     layout: 'centered',
     docs: {

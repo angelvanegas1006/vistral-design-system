@@ -7,21 +7,19 @@ import { X, CheckCircle2, AlertCircle, AlertTriangle, Info, Circle } from 'lucid
  * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=707-2506
  */
 const TOAST_TOKENS = {
-  // Container
   width: 360,
   padding: 16,
   radius: 12,
   shadow: '0px 4px 24px rgba(0, 0, 0, 0.12)',
-  borderWidth: 2, // Left border width for colored indicator
-  gap: 12, // Gap between icon, content, and close button
-  // Variants - white background with colored left border
+  borderWidth: 2,
+  gap: 12,
   variants: {
     default: {
       bg: '#ffffff',
       border: '#e4e4e7',
       titleColor: '#18181b',
       descriptionColor: '#52525b',
-      icon: Circle, // Outline circle for default
+      icon: Circle,
     },
     success: {
       bg: '#ffffff',
@@ -52,20 +50,17 @@ const TOAST_TOKENS = {
       icon: Info,
     },
   },
-  // Default durations per Figma best practices
   durations: {
-    success: 4000, // 4 seconds for success
-    error: 6000, // 6 seconds for errors
-    warning: 5000, // 5 seconds for warnings
-    info: 5000, // 5 seconds for info
-    default: 5000, // 5 seconds for default
+    success: 4000,
+    error: 6000,
+    warning: 5000,
+    info: 5000,
+    default: 5000,
   },
-  // Close button
   closeButton: {
-    color: '#2050f6', // Blue X icon per Figma
+    color: '#2050f6',
     size: 16,
   },
-  // Action button
   actionButton: {
     fontSize: 13,
     fontWeight: 500,
@@ -207,21 +202,18 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
   const tokens = TOAST_TOKENS.variants[variant]
   const Icon = tokens.icon
 
-  // Get default duration based on variant
-  const getDefaultDuration = () => {
+  const getDefaultDuration = React.useCallback(() => {
     return TOAST_TOKENS.durations[variant]
-  }
+  }, [variant])
 
-  // Auto dismiss
   React.useEffect(() => {
     const duration = toast.duration !== undefined ? toast.duration : getDefaultDuration()
     if (duration > 0) {
       const timer = setTimeout(onDismiss, duration)
       return () => clearTimeout(timer)
     }
-  }, [toast.duration, onDismiss])
+  }, [toast.duration, onDismiss, getDefaultDuration])
 
-  // Determine ARIA role and live region
   const isCritical = variant === 'error' || variant === 'warning'
   const ariaRole = isCritical ? 'alert' : 'status'
   const ariaLive = isCritical ? 'assertive' : 'polite'
@@ -238,12 +230,12 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
     borderRadius: TOAST_TOKENS.radius,
     boxShadow: TOAST_TOKENS.shadow,
     animation: 'toast-enter 200ms ease-out',
-    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    fontFamily: 'var(--vistral-font-family-sans)',
   }
 
   const iconStyle: React.CSSProperties = {
     flexShrink: 0,
-    color: tokens.border, // Use border color for icon
+    color: tokens.border,
     marginTop: 2,
     display: 'flex',
     alignItems: 'center',
@@ -259,8 +251,8 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
     margin: 0,
     fontSize: 14,
     fontWeight: 600,
-    color: tokens.titleColor, // Colored title per Figma
-    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    color: tokens.titleColor,
+    fontFamily: 'var(--vistral-font-family-sans)',
     lineHeight: 1.4,
   }
 
@@ -268,7 +260,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
     margin: '4px 0 0 0',
     fontSize: 13,
     color: tokens.descriptionColor,
-    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    fontFamily: 'var(--vistral-font-family-sans)',
     lineHeight: 1.5,
   }
 
@@ -279,7 +271,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
     border: 'none',
     borderRadius: 4,
     cursor: 'pointer',
-    color: TOAST_TOKENS.closeButton.color, // Blue X icon per Figma
+    color: TOAST_TOKENS.closeButton.color,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -287,6 +279,7 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
   }
 
   const actionStyle: React.CSSProperties = {
+    '--v-bg-hover': `${tokens.border}15`,
     marginTop: 8,
     padding: TOAST_TOKENS.actionButton.padding,
     fontSize: TOAST_TOKENS.actionButton.fontSize,
@@ -296,9 +289,9 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
     border: `1px solid ${tokens.border}`,
     borderRadius: TOAST_TOKENS.actionButton.radius,
     cursor: 'pointer',
-    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    fontFamily: 'var(--vistral-font-family-sans)',
     transition: 'background-color 150ms ease-in-out',
-  }
+  } as React.CSSProperties
 
   const handleActionClick = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -311,7 +304,14 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
   }
 
   return (
-    <div style={toastStyle} role={ariaRole} aria-live={ariaLive} aria-atomic="true">
+    <div
+      data-vistral="toast"
+      data-variant={variant}
+      style={toastStyle}
+      role={ariaRole}
+      aria-live={ariaLive}
+      aria-atomic="true"
+    >
       <div style={iconStyle}>
         {variant === 'default' ? (
           <Circle size={20} strokeWidth={2} fill="none" />
@@ -323,57 +323,21 @@ const ToastItem: React.FC<ToastItemProps> = ({ toast, onDismiss }) => {
         <p style={titleStyle}>{toast.title}</p>
         {toast.description && <p style={descriptionStyle}>{toast.description}</p>}
         {toast.action && (
-          <button
-            style={actionStyle}
-            onClick={handleActionClick}
-            onMouseEnter={e => {
-              e.currentTarget.style.backgroundColor = `${tokens.border}15`
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.backgroundColor = 'transparent'
-            }}
-          >
+          <button data-vistral="toast-action" style={actionStyle} onClick={handleActionClick}>
             {toast.action.label}
           </button>
         )}
       </div>
       <button
+        data-vistral="toast-close"
         style={closeStyle}
         onClick={handleCloseClick}
         aria-label="Dismiss notification"
-        onMouseEnter={e => {
-          e.currentTarget.style.opacity = '0.7'
-        }}
-        onMouseLeave={e => {
-          e.currentTarget.style.opacity = '1'
-        }}
       >
         <X size={TOAST_TOKENS.closeButton.size} />
       </button>
     </div>
   )
-}
-
-// Add keyframes
-if (typeof document !== 'undefined') {
-  const styleId = 'vistral-toast-styles'
-  if (!document.getElementById(styleId)) {
-    const style = document.createElement('style')
-    style.id = styleId
-    style.textContent = `
-      @keyframes toast-enter {
-        from { 
-          opacity: 0; 
-          transform: translateY(${typeof window !== 'undefined' && window.innerWidth > 768 ? '8px' : '-8px'});
-        }
-        to { 
-          opacity: 1; 
-          transform: translateY(0); 
-        }
-      }
-    `
-    document.head.appendChild(style)
-  }
 }
 
 export { ToastProvider, TOAST_TOKENS }

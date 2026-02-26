@@ -6,6 +6,11 @@ import { Home, Settings, User, Bell, Star, Filter } from 'lucide-react'
 const meta: Meta<typeof Tabs> = {
   title: 'Components/Tabs',
   component: Tabs,
+  argTypes: {
+    level: { control: 'select', options: [1, 2] },
+    defaultValue: { control: 'text' },
+    value: { control: 'text' },
+  },
   parameters: {
     layout: 'centered',
     docs: {

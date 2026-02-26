@@ -70,7 +70,7 @@ const Table = forwardRef<HTMLTableElement, TableProps>(
     const tableStyle: React.CSSProperties = {
       width: '100%',
       borderCollapse: 'collapse',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 
@@ -137,28 +137,17 @@ export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement>
 
 const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
   ({ selected = false, clickable = false, style, children, ...props }, ref) => {
-    const [isHovered, setIsHovered] = React.useState(false)
-
-    const rowStyle: React.CSSProperties = {
+    const rowStyle = {
       borderBottom: `1px solid ${TABLE_TOKENS.row.borderColor}`,
-      backgroundColor: selected
-        ? TABLE_TOKENS.row.bgSelected
-        : isHovered && clickable
-          ? TABLE_TOKENS.row.bgHover
-          : 'transparent',
+      ...(selected ? { backgroundColor: TABLE_TOKENS.row.bgSelected } : {}),
       cursor: clickable ? 'pointer' : 'default',
       transition: 'background-color 150ms ease',
+      '--v-bg-hover': TABLE_TOKENS.row.bgHover,
       ...style,
-    }
+    } as React.CSSProperties
 
     return (
-      <tr
-        ref={ref}
-        style={rowStyle}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        {...props}
-      >
+      <tr ref={ref} data-vistral="table-row" style={rowStyle} {...props}>
         {children}
       </tr>
     )
@@ -342,7 +331,7 @@ const TablePagination = ({
     padding: '12px 16px',
     borderTop: `1px solid ${TABLE_TOKENS.border}`,
     backgroundColor: TABLE_TOKENS.bg,
-    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    fontFamily: 'var(--vistral-font-family-sans)',
   }
 
   const leftSectionStyle: React.CSSProperties = {

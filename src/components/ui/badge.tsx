@@ -41,35 +41,37 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   size?: BadgeSize
 }
 
-const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
-  ({ variant = 'default', size = 'md', style, children, ...props }, ref) => {
-    const tokens = BADGE_TOKENS.variants[variant]
-    const sizeTokens = BADGE_TOKENS.sizes[size]
+const Badge = React.memo(
+  forwardRef<HTMLSpanElement, BadgeProps>(
+    ({ variant = 'default', size = 'md', style, children, ...props }, ref) => {
+      const tokens = BADGE_TOKENS.variants[variant]
+      const sizeTokens = BADGE_TOKENS.sizes[size]
 
-    const badgeStyle: React.CSSProperties = {
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: sizeTokens.height,
-      paddingLeft: sizeTokens.paddingX,
-      paddingRight: sizeTokens.paddingX,
-      fontSize: sizeTokens.fontSize,
-      fontWeight: 500,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      lineHeight: 1,
-      backgroundColor: tokens.bg,
-      color: tokens.fg,
-      borderRadius: BADGE_TOKENS.radius,
-      whiteSpace: 'nowrap',
-      ...style,
+      const badgeStyle: React.CSSProperties = {
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: sizeTokens.height,
+        paddingLeft: sizeTokens.paddingX,
+        paddingRight: sizeTokens.paddingX,
+        fontSize: sizeTokens.fontSize,
+        fontWeight: 500,
+        fontFamily: 'var(--vistral-font-family-sans)',
+        lineHeight: 1,
+        backgroundColor: tokens.bg,
+        color: tokens.fg,
+        borderRadius: BADGE_TOKENS.radius,
+        whiteSpace: 'nowrap',
+        ...style,
+      }
+
+      return (
+        <span ref={ref} style={badgeStyle} {...props}>
+          {children}
+        </span>
+      )
     }
-
-    return (
-      <span ref={ref} style={badgeStyle} {...props}>
-        {children}
-      </span>
-    )
-  }
+  )
 )
 
 Badge.displayName = 'Badge'
@@ -90,64 +92,66 @@ export interface DotBadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   standalone?: boolean
 }
 
-const DotBadge = forwardRef<HTMLSpanElement, DotBadgeProps>(
-  (
-    {
-      variant = 'error',
-      size = 'md',
-      count,
-      maxCount = 99,
-      position = 'top-right',
-      standalone = false,
-      style,
-      ...props
-    },
-    ref
-  ) => {
-    const dotTokens = BADGE_TOKENS.dotVariants[variant]
-    const sizeTokens = BADGE_TOKENS.sizes[size]
+const DotBadge = React.memo(
+  forwardRef<HTMLSpanElement, DotBadgeProps>(
+    (
+      {
+        variant = 'error',
+        size = 'md',
+        count,
+        maxCount = 99,
+        position = 'top-right',
+        standalone = false,
+        style,
+        ...props
+      },
+      ref
+    ) => {
+      const dotTokens = BADGE_TOKENS.dotVariants[variant]
+      const sizeTokens = BADGE_TOKENS.sizes[size]
 
-    const hasCount = count !== undefined && count > 0
-    const displayCount = hasCount ? (count > maxCount ? `${maxCount}+` : count.toString()) : null
+      const hasCount = count !== undefined && count > 0
+      const displayCount = hasCount ? (count > maxCount ? `${maxCount}+` : count.toString()) : null
 
-    // Position offsets
-    const positionStyles: Record<string, React.CSSProperties> = {
-      'top-right': { top: 0, right: 0, transform: 'translate(50%, -50%)' },
-      'top-left': { top: 0, left: 0, transform: 'translate(-50%, -50%)' },
-      'bottom-right': { bottom: 0, right: 0, transform: 'translate(50%, 50%)' },
-      'bottom-left': { bottom: 0, left: 0, transform: 'translate(-50%, 50%)' },
+      // Position offsets
+      const positionStyles: Record<string, React.CSSProperties> = {
+        'top-right': { top: 0, right: 0, transform: 'translate(50%, -50%)' },
+        'top-left': { top: 0, left: 0, transform: 'translate(-50%, -50%)' },
+        'bottom-right': { bottom: 0, right: 0, transform: 'translate(50%, 50%)' },
+        'bottom-left': { bottom: 0, left: 0, transform: 'translate(-50%, 50%)' },
+      }
+
+      const dotStyle: React.CSSProperties = {
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minWidth: hasCount ? sizeTokens.height : sizeTokens.dotSize,
+        height: hasCount ? sizeTokens.height : sizeTokens.dotSize,
+        padding: hasCount ? `0 ${sizeTokens.paddingX / 2}px` : 0,
+        fontSize: sizeTokens.fontSize - 2,
+        fontWeight: 600,
+        fontFamily: 'var(--vistral-font-family-sans)',
+        lineHeight: 1,
+        backgroundColor: dotTokens.bg,
+        color: '#ffffff',
+        borderRadius: BADGE_TOKENS.radius,
+        // Positioning
+        ...(standalone
+          ? {}
+          : {
+              position: 'absolute',
+              ...positionStyles[position],
+            }),
+        ...style,
+      }
+
+      return (
+        <span ref={ref} style={dotStyle} {...props}>
+          {displayCount}
+        </span>
+      )
     }
-
-    const dotStyle: React.CSSProperties = {
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minWidth: hasCount ? sizeTokens.height : sizeTokens.dotSize,
-      height: hasCount ? sizeTokens.height : sizeTokens.dotSize,
-      padding: hasCount ? `0 ${sizeTokens.paddingX / 2}px` : 0,
-      fontSize: sizeTokens.fontSize - 2,
-      fontWeight: 600,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-      lineHeight: 1,
-      backgroundColor: dotTokens.bg,
-      color: '#ffffff',
-      borderRadius: BADGE_TOKENS.radius,
-      // Positioning
-      ...(standalone
-        ? {}
-        : {
-            position: 'absolute',
-            ...positionStyles[position],
-          }),
-      ...style,
-    }
-
-    return (
-      <span ref={ref} style={dotStyle} {...props}>
-        {displayCount}
-      </span>
-    )
-  }
+  )
 )
 
 DotBadge.displayName = 'DotBadge'

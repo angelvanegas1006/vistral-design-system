@@ -174,19 +174,6 @@ const Lightbox: React.FC<LightboxProps> = ({
   const isZoomControlled = controlledZoomLevel !== undefined
   const zoomLevel = isZoomControlled ? controlledZoomLevel : internalZoomLevel
 
-  const setOpen = useCallback(
-    (newOpen: boolean) => {
-      if (!isControlled) {
-        setInternalOpen(newOpen)
-      }
-      onOpenChange?.(newOpen)
-      if (!newOpen) {
-        setZoomLevel(100)
-      }
-    },
-    [isControlled, onOpenChange]
-  )
-
   const setZoomLevel = useCallback(
     (newZoom: number) => {
       if (!isZoomControlled) {
@@ -197,14 +184,25 @@ const Lightbox: React.FC<LightboxProps> = ({
     [isZoomControlled, onZoomChange]
   )
 
+  const setOpen = useCallback(
+    (newOpen: boolean) => {
+      if (!isControlled) {
+        setInternalOpen(newOpen)
+      }
+      onOpenChange?.(newOpen)
+      if (!newOpen) {
+        setZoomLevel(100)
+      }
+    },
+    [isControlled, onOpenChange, setZoomLevel]
+  )
+
   useEffect(() => {
     if (open) {
       setCurrentIndex(initialIndex)
       setZoomLevel(100)
-      // Store previous focus
       previousFocusRef.current = document.activeElement as HTMLElement
     } else {
-      // Restore focus
       if (previousFocusRef.current) {
         previousFocusRef.current.focus()
         previousFocusRef.current = null
@@ -243,6 +241,14 @@ const Lightbox: React.FC<LightboxProps> = ({
     return () => document.removeEventListener('keydown', handleTab)
   }, [open])
 
+  const goToPrevious = useCallback(() => {
+    setCurrentIndex(prev => (prev > 0 ? prev - 1 : images.length - 1))
+  }, [images.length])
+
+  const goToNext = useCallback(() => {
+    setCurrentIndex(prev => (prev < images.length - 1 ? prev + 1 : 0))
+  }, [images.length])
+
   // Keyboard navigation
   useEffect(() => {
     if (!open || !enableKeyboard) return
@@ -263,7 +269,7 @@ const Lightbox: React.FC<LightboxProps> = ({
 
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [open, enableKeyboard, currentIndex])
+  }, [open, enableKeyboard, currentIndex, goToNext, goToPrevious, setOpen])
 
   // Lock body scroll
   useEffect(() => {
@@ -302,14 +308,6 @@ const Lightbox: React.FC<LightboxProps> = ({
       }, 1000)
     }
   }, [open, currentIndex, images.length])
-
-  const goToPrevious = () => {
-    setCurrentIndex(prev => (prev > 0 ? prev - 1 : images.length - 1))
-  }
-
-  const goToNext = () => {
-    setCurrentIndex(prev => (prev < images.length - 1 ? prev + 1 : 0))
-  }
 
   const handleZoomIn = () => {
     const newZoom = Math.min(zoomLevel + 25, 200)
@@ -351,7 +349,7 @@ const Lightbox: React.FC<LightboxProps> = ({
     zIndex: 9999,
     display: 'flex',
     flexDirection: 'column',
-    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    fontFamily: 'var(--vistral-font-family-sans)',
   }
 
   const headerStyle: React.CSSProperties = {
@@ -371,28 +369,28 @@ const Lightbox: React.FC<LightboxProps> = ({
     justifyContent: 'center',
     width: LIGHTBOX_TOKENS.controls.size,
     height: LIGHTBOX_TOKENS.controls.size,
-    backgroundColor: LIGHTBOX_TOKENS.controls.bg,
-    color: LIGHTBOX_TOKENS.controls.color,
     border: 'none',
     borderRadius: LIGHTBOX_TOKENS.controls.radius,
     cursor: 'pointer',
-    transition: 'background-color 150ms',
   }
+
+  const controlBtnVars = {
+    '--v-bg': LIGHTBOX_TOKENS.controls.bg,
+    '--v-bg-hover': LIGHTBOX_TOKENS.controls.bgHover,
+    '--v-fg': LIGHTBOX_TOKENS.controls.color,
+  } as React.CSSProperties
 
   const secondaryButtonStyle: React.CSSProperties = {
     display: 'inline-flex',
     alignItems: 'center',
     gap: 8,
     padding: '8px 16px',
-    backgroundColor: 'transparent',
-    color: '#2050f6',
     border: '1px solid #2050f6',
     borderRadius: 8,
     fontSize: 14,
     fontWeight: 500,
     cursor: 'pointer',
-    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-    transition: 'all 150ms',
+    fontFamily: 'var(--vistral-font-family-sans)',
   }
 
   const mainAreaStyle: React.CSSProperties = {
@@ -423,14 +421,17 @@ const Lightbox: React.FC<LightboxProps> = ({
     justifyContent: 'center',
     width: LIGHTBOX_TOKENS.navArrow.size,
     height: LIGHTBOX_TOKENS.navArrow.size,
-    backgroundColor: LIGHTBOX_TOKENS.navArrow.bg,
-    color: LIGHTBOX_TOKENS.navArrow.color,
     border: 'none',
     borderRadius: LIGHTBOX_TOKENS.navArrow.radius,
     cursor: 'pointer',
     zIndex: 10,
-    transition: 'background-color 150ms',
   })
+
+  const navArrowVars = {
+    '--v-bg': LIGHTBOX_TOKENS.navArrow.bg,
+    '--v-bg-hover': LIGHTBOX_TOKENS.navArrow.bgHover,
+    '--v-fg': LIGHTBOX_TOKENS.navArrow.color,
+  } as React.CSSProperties
 
   const thumbnailsContainerStyle: React.CSSProperties = {
     display: 'flex',
@@ -495,30 +496,20 @@ const Lightbox: React.FC<LightboxProps> = ({
           {showBack && (
             <button
               type="button"
-              style={controlBtnStyle}
+              data-vistral-interactive
+              style={{ ...controlBtnStyle, ...controlBtnVars }}
               onClick={handleBack}
               aria-label="Go back"
-              onMouseEnter={e => {
-                e.currentTarget.style.backgroundColor = LIGHTBOX_TOKENS.controls.bgHover
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.backgroundColor = LIGHTBOX_TOKENS.controls.bg
-              }}
             >
               <ArrowLeft size={20} />
             </button>
           )}
           <button
             type="button"
-            style={controlBtnStyle}
+            data-vistral-interactive
+            style={{ ...controlBtnStyle, ...controlBtnVars }}
             onClick={() => setOpen(false)}
             aria-label="Close lightbox"
-            onMouseEnter={e => {
-              e.currentTarget.style.backgroundColor = LIGHTBOX_TOKENS.controls.bgHover
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.backgroundColor = LIGHTBOX_TOKENS.controls.bg
-            }}
           >
             <X size={20} />
           </button>
@@ -552,18 +543,11 @@ const Lightbox: React.FC<LightboxProps> = ({
             <div style={{ display: 'flex', alignItems: 'center', gap: LIGHTBOX_TOKENS.zoom.gap }}>
               <button
                 type="button"
-                style={controlBtnStyle}
+                data-vistral-interactive
+                style={{ ...controlBtnStyle, ...controlBtnVars }}
                 onClick={handleZoomOut}
                 aria-label={`Zoom out to ${zoomLevel - 25}%`}
                 disabled={zoomLevel <= 50}
-                onMouseEnter={e => {
-                  if (!e.currentTarget.disabled) {
-                    e.currentTarget.style.backgroundColor = LIGHTBOX_TOKENS.controls.bgHover
-                  }
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.backgroundColor = LIGHTBOX_TOKENS.controls.bg
-                }}
               >
                 <ZoomOut size={20} />
               </button>
@@ -580,18 +564,11 @@ const Lightbox: React.FC<LightboxProps> = ({
               </span>
               <button
                 type="button"
-                style={controlBtnStyle}
+                data-vistral-interactive
+                style={{ ...controlBtnStyle, ...controlBtnVars }}
                 onClick={handleZoomIn}
                 aria-label={`Zoom in to ${zoomLevel + 25}%`}
                 disabled={zoomLevel >= 200}
-                onMouseEnter={e => {
-                  if (!e.currentTarget.disabled) {
-                    e.currentTarget.style.backgroundColor = LIGHTBOX_TOKENS.controls.bgHover
-                  }
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.backgroundColor = LIGHTBOX_TOKENS.controls.bg
-                }}
               >
                 <ZoomIn size={20} />
               </button>
@@ -600,14 +577,16 @@ const Lightbox: React.FC<LightboxProps> = ({
           {secondaryAction && (
             <button
               type="button"
-              style={secondaryButtonStyle}
+              data-vistral-interactive
+              style={
+                {
+                  ...secondaryButtonStyle,
+                  '--v-bg': 'transparent',
+                  '--v-bg-hover': 'rgba(32, 80, 246, 0.1)',
+                  '--v-fg': '#2050f6',
+                } as React.CSSProperties
+              }
               onClick={secondaryAction.onClick}
-              onMouseEnter={e => {
-                e.currentTarget.style.backgroundColor = 'rgba(32, 80, 246, 0.1)'
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.backgroundColor = 'transparent'
-              }}
             >
               {secondaryAction.label}
             </button>
@@ -615,15 +594,10 @@ const Lightbox: React.FC<LightboxProps> = ({
           {enableDownload && (
             <button
               type="button"
-              style={controlBtnStyle}
+              data-vistral-interactive
+              style={{ ...controlBtnStyle, ...controlBtnVars }}
               onClick={handleDownload}
               aria-label="Download image"
-              onMouseEnter={e => {
-                e.currentTarget.style.backgroundColor = LIGHTBOX_TOKENS.controls.bgHover
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.backgroundColor = LIGHTBOX_TOKENS.controls.bg
-              }}
             >
               <Download size={20} />
             </button>
@@ -637,18 +611,13 @@ const Lightbox: React.FC<LightboxProps> = ({
         {images.length > 1 && variant === 'image' && (
           <button
             type="button"
-            style={navArrowStyle('left')}
+            data-vistral-interactive
+            style={{ ...navArrowStyle('left'), ...navArrowVars }}
             onClick={e => {
               e.stopPropagation()
               goToPrevious()
             }}
             aria-label="Previous image"
-            onMouseEnter={e => {
-              e.currentTarget.style.backgroundColor = LIGHTBOX_TOKENS.navArrow.bgHover
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.backgroundColor = LIGHTBOX_TOKENS.navArrow.bg
-            }}
           >
             <ChevronLeft size={28} />
           </button>
@@ -671,18 +640,13 @@ const Lightbox: React.FC<LightboxProps> = ({
         {images.length > 1 && variant === 'image' && (
           <button
             type="button"
-            style={navArrowStyle('right')}
+            data-vistral-interactive
+            style={{ ...navArrowStyle('right'), ...navArrowVars }}
             onClick={e => {
               e.stopPropagation()
               goToNext()
             }}
             aria-label="Next image"
-            onMouseEnter={e => {
-              e.currentTarget.style.backgroundColor = LIGHTBOX_TOKENS.navArrow.bgHover
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.backgroundColor = LIGHTBOX_TOKENS.navArrow.bg
-            }}
           >
             <ChevronRight size={28} />
           </button>
@@ -813,28 +777,5 @@ const LightboxTrigger: React.FC<LightboxTriggerProps> = ({
 }
 
 LightboxTrigger.displayName = 'LightboxTrigger'
-
-// Add screen reader only styles
-if (typeof document !== 'undefined') {
-  const styleId = 'vistral-lightbox-sr-only'
-  if (!document.getElementById(styleId)) {
-    const style = document.createElement('style')
-    style.id = styleId
-    style.textContent = `
-      .sr-only {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border-width: 0;
-      }
-    `
-    document.head.appendChild(style)
-  }
-}
 
 export { Lightbox, LightboxTrigger, LIGHTBOX_TOKENS }

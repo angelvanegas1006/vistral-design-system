@@ -5,6 +5,32 @@ import { Autocomplete } from '../src/components/ui/autocomplete'
 const meta: Meta<typeof Autocomplete> = {
   title: 'Components/Autocomplete',
   component: Autocomplete,
+  argTypes: {
+    placeholder: {
+      control: 'text',
+      description: 'Placeholder text',
+    },
+    clearable: {
+      control: 'boolean',
+      description: 'Show clear button',
+    },
+    loading: {
+      control: 'boolean',
+      description: 'Loading state',
+    },
+    emptyMessage: {
+      control: 'text',
+      description: 'No results message',
+    },
+    freeSolo: {
+      control: 'boolean',
+      description: 'Allow free text input',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disabled state',
+    },
+  },
   parameters: {
     layout: 'centered',
     docs: {

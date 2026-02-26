@@ -5,6 +5,15 @@ import { Avatar, AvatarGroup } from '../src/components/ui/avatar'
 const meta: Meta<typeof Avatar> = {
   title: 'Components/Avatar',
   component: Avatar,
+  argTypes: {
+    size: { control: 'select', options: ['xs', 'sm', 'md', 'lg', 'xl', '2xl'] },
+    src: { control: 'text' },
+    alt: { control: 'text' },
+    name: { control: 'text' },
+    initials: { control: 'text' },
+    showStatus: { control: 'boolean' },
+    status: { control: 'select', options: ['online', 'offline', 'busy', 'away'] },
+  },
   parameters: {
     layout: 'centered',
     docs: {

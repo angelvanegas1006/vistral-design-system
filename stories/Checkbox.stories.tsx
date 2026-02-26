@@ -5,6 +5,16 @@ import { Checkbox, CheckboxGroup } from '../src/components/ui/checkbox'
 const meta: Meta<typeof Checkbox> = {
   title: 'Components/Checkbox',
   component: Checkbox,
+  argTypes: {
+    checked: { control: 'boolean' },
+    indeterminate: { control: 'boolean' },
+    error: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    label: { control: 'text' },
+    description: { control: 'text' },
+    position: { control: 'select', options: ['left', 'right'] },
+    showHoverBg: { control: 'boolean' },
+  },
   parameters: {
     layout: 'centered',
     docs: {

@@ -6,6 +6,13 @@ import { Package, Truck, Home, CreditCard, FileText, CheckCircle } from 'lucide-
 const meta: Meta<typeof Timeline> = {
   title: 'Components/Timeline',
   component: Timeline,
+  argTypes: {
+    position: {
+      control: 'select',
+      options: ['left', 'right', 'alternate'],
+      description: 'Position of the timeline',
+    },
+  },
   parameters: {
     layout: 'centered',
     docs: {

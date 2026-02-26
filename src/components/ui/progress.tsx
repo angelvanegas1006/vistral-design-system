@@ -7,20 +7,18 @@ import { forwardRef } from 'react'
  * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=1746-2004
  */
 const PROGRESS_TOKENS = {
-  // Bar tokens
   bar: {
     height: {
       sm: 4,
       md: 8,
       lg: 12,
     },
-    bg: '#e4e4e7', // zinc-200
-    fill: '#2050f6', // spaceblue-600
-    fillSuccess: '#22c55e', // green-500
-    fillError: '#ef4444', // red-500
+    bg: '#e4e4e7',
+    fill: '#2050f6',
+    fillSuccess: '#22c55e',
+    fillError: '#ef4444',
     radius: 9999,
   },
-  // Circle tokens
   circle: {
     sizes: {
       sm: 32,
@@ -113,7 +111,7 @@ const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
       fontSize: 12,
       fontWeight: 500,
       color: '#3f3f46',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       minWidth: 40,
       textAlign: 'right',
     }
@@ -121,6 +119,8 @@ const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
     return (
       <div
         ref={ref}
+        data-vistral="progress-bar"
+        data-status={status}
         role="progressbar"
         aria-valuenow={indeterminate ? undefined : clampedValue}
         aria-valuemin={0}
@@ -195,12 +195,14 @@ const ProgressCircle = forwardRef<HTMLDivElement, ProgressCircleProps>(
       fontSize: size === 'sm' ? 10 : size === 'md' ? 12 : size === 'lg' ? 14 : 18,
       fontWeight: 600,
       color: '#18181b',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
     }
 
     return (
       <div
         ref={ref}
+        data-vistral="progress-circle"
+        data-status={status}
         role="progressbar"
         aria-valuenow={clampedValue}
         aria-valuemin={0}
@@ -209,7 +211,6 @@ const ProgressCircle = forwardRef<HTMLDivElement, ProgressCircleProps>(
         {...props}
       >
         <svg width={circleSize} height={circleSize} style={svgStyle}>
-          {/* Background circle */}
           <circle
             cx={circleSize / 2}
             cy={circleSize / 2}
@@ -218,7 +219,6 @@ const ProgressCircle = forwardRef<HTMLDivElement, ProgressCircleProps>(
             stroke={PROGRESS_TOKENS.circle.bg}
             strokeWidth={strokeWidth}
           />
-          {/* Progress circle */}
           <circle
             cx={circleSize / 2}
             cy={circleSize / 2}
@@ -239,21 +239,5 @@ const ProgressCircle = forwardRef<HTMLDivElement, ProgressCircleProps>(
 )
 
 ProgressCircle.displayName = 'ProgressCircle'
-
-// Add keyframes for indeterminate animation
-if (typeof document !== 'undefined') {
-  const styleId = 'vistral-progress-styles'
-  if (!document.getElementById(styleId)) {
-    const style = document.createElement('style')
-    style.id = styleId
-    style.textContent = `
-      @keyframes progress-indeterminate {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(400%); }
-      }
-    `
-    document.head.appendChild(style)
-  }
-}
 
 export { ProgressBar, ProgressCircle, PROGRESS_TOKENS }

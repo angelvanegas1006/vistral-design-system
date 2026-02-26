@@ -5,6 +5,36 @@ import { PhoneInput } from '../src/components/ui/phone-input'
 const meta: Meta<typeof PhoneInput> = {
   title: 'Components/PhoneInput',
   component: PhoneInput,
+  argTypes: {
+    defaultCountry: {
+      control: 'text',
+      description: 'Default country code',
+    },
+    label: {
+      control: 'text',
+      description: 'Label text',
+    },
+    helperText: {
+      control: 'text',
+      description: 'Helper text',
+    },
+    error: {
+      control: 'boolean',
+      description: 'Error state',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disabled state',
+    },
+    autoDetectCountry: {
+      control: 'boolean',
+      description: 'Enable auto-detection of country',
+    },
+    formatOnType: {
+      control: 'boolean',
+      description: 'Format phone number as user types',
+    },
+  },
   parameters: {
     layout: 'centered',
     docs: {

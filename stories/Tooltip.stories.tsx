@@ -12,6 +12,11 @@ import { HelpCircle, Info, Settings, AlertCircle } from 'lucide-react'
 const meta: Meta<typeof Tooltip> = {
   title: 'Components/Tooltip',
   component: Tooltip,
+  argTypes: {
+    open: { control: 'boolean' },
+    defaultOpen: { control: 'boolean' },
+    delayDuration: { control: 'number' },
+  },
   parameters: {
     layout: 'centered',
     docs: {

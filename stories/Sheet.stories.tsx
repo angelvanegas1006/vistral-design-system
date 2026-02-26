@@ -16,6 +16,14 @@ import { Input } from '../src/components/ui/input'
 
 const meta: Meta = {
   title: 'Components/Sheet',
+  argTypes: {
+    side: { control: 'select', options: ['left', 'right', 'top', 'bottom'] },
+    size: { control: 'select', options: ['sm', 'md', 'lg', 'xl', 'full'] },
+    showClose: { control: 'boolean' },
+    closeOnOverlayClick: { control: 'boolean' },
+    open: { control: 'boolean' },
+    defaultOpen: { control: 'boolean' },
+  },
   parameters: {
     layout: 'centered',
     docs: {

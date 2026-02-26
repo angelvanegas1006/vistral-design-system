@@ -5,6 +5,32 @@ import { Text } from '../src/components/ui/text'
 const meta: Meta<typeof Text> = {
   title: 'Components/Text',
   component: Text,
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'body', 'bodyLarge', 'caption', 'small'],
+      description: 'Typography variant',
+    },
+    color: {
+      control: 'select',
+      options: ['default', 'muted', 'subtle', 'error', 'success', 'warning', 'info'],
+      description: 'Text color',
+    },
+    as: {
+      control: 'select',
+      options: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'span', 'div'],
+      description: 'Render as specific HTML element',
+    },
+    weight: {
+      control: 'select',
+      options: [400, 500, 600, 700],
+      description: 'Font weight override',
+    },
+    size: {
+      control: 'number',
+      description: 'Font size override',
+    },
+  },
   parameters: {
     layout: 'centered',
     docs: {

@@ -137,7 +137,7 @@ const PageFooter = forwardRef<HTMLElement, PageFooterProps>(
       backgroundColor: isDark ? '#18181b' : '#fafafa',
       color: isDark ? '#fafafa' : '#18181b',
       padding: '48px 24px 24px',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 
@@ -192,22 +192,23 @@ export interface FooterLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorEl
 
 const FooterLink = forwardRef<HTMLAnchorElement, FooterLinkProps>(
   ({ style, children, ...props }, ref) => {
-    const [isHovered, setIsHovered] = React.useState(false)
-
     const linkStyle: React.CSSProperties = {
       fontSize: 14,
-      color: isHovered ? '#2050f6' : '#71717a',
       textDecoration: 'none',
-      transition: 'color 150ms ease',
       ...style,
     }
 
     return (
       <a
         ref={ref}
-        style={linkStyle}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        data-vistral-interactive
+        style={
+          {
+            ...linkStyle,
+            '--v-fg': '#71717a',
+            '--v-fg-hover': '#2050f6',
+          } as React.CSSProperties
+        }
         {...props}
       >
         {children}

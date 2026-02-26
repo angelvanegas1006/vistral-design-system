@@ -183,7 +183,7 @@ const Rating = forwardRef<HTMLDivElement, RatingProps>(
       fontWeight: 500,
       color: '#18181b',
       marginLeft: 8,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
     }
 
     return (
@@ -225,7 +225,7 @@ const RatingDisplay = forwardRef<HTMLDivElement, RatingDisplayProps>(
       display: 'inline-flex',
       alignItems: 'center',
       gap: 6,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 

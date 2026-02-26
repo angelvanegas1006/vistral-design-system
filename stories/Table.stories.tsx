@@ -19,6 +19,10 @@ import { MoreHorizontal } from 'lucide-react'
 const meta: Meta<typeof Table> = {
   title: 'Components/Table',
   component: Table,
+  argTypes: {
+    striped: { control: 'boolean' },
+    bordered: { control: 'boolean' },
+  },
   parameters: {
     layout: 'centered',
     docs: {

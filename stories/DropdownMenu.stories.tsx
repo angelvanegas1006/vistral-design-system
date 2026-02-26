@@ -28,6 +28,10 @@ import {
 
 const meta: Meta = {
   title: 'Components/DropdownMenu',
+  component: DropdownMenu,
+  argTypes: {
+    open: { control: 'boolean' },
+  },
   parameters: {
     layout: 'centered',
     docs: {

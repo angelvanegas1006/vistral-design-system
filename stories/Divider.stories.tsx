@@ -5,6 +5,11 @@ import { Divider, DividerWithLabel } from '../src/components/ui/divider'
 const meta: Meta<typeof Divider> = {
   title: 'Components/Divider',
   component: Divider,
+  argTypes: {
+    orientation: { control: 'select', options: ['horizontal', 'vertical'] },
+    spacing: { control: 'select', options: ['none', 'sm', 'md', 'lg'] },
+    color: { control: 'color' },
+  },
   parameters: {
     layout: 'centered',
     docs: {

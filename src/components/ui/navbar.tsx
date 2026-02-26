@@ -13,33 +13,28 @@ const NAVBAR_TOKENS = {
   paddingX: 16,
   bg: '#ffffff',
   border: '#e4e4e7',
-  // Title
   title: {
     fontSize: 17,
     fontWeight: 600,
     color: '#18181b',
   },
-  // Back button
   back: {
     fontSize: 14,
     fontWeight: 500,
     color: '#2050f6',
   },
-  // Divider between back and title
   divider: {
     width: 1,
     height: 24,
     color: '#e4e4e7',
     marginX: 12,
   },
-  // Actions
   action: {
     size: 40,
     iconSize: 20,
     color: '#3f3f46',
     colorHover: '#18181b',
   },
-  // Tools button (outlined/dashed)
   toolsButton: {
     height: 36,
     paddingX: 16,
@@ -50,7 +45,6 @@ const NAVBAR_TOKENS = {
     borderStyle: 'dashed',
     radius: 8,
   },
-  // Secondary button (text)
   secondaryButton: {
     height: 36,
     paddingX: 16,
@@ -58,7 +52,6 @@ const NAVBAR_TOKENS = {
     fontWeight: 500,
     color: '#2050f6',
   },
-  // Primary button (solid)
   primaryButton: {
     height: 36,
     paddingX: 20,
@@ -68,7 +61,6 @@ const NAVBAR_TOKENS = {
     color: '#ffffff',
     radius: 9999, // Pill
   },
-  // Tools area
   tools: {
     gap: 12,
   },
@@ -97,7 +89,7 @@ const Navbar = forwardRef<HTMLElement, NavbarProps>(
       padding: `0 ${NAVBAR_TOKENS.paddingX}px`,
       backgroundColor: transparent ? 'transparent' : NAVBAR_TOKENS.bg,
       borderBottom: bordered ? `1px solid ${NAVBAR_TOKENS.border}` : 'none',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...(fixed && {
         position: 'fixed',
         top: 0,
@@ -145,7 +137,7 @@ const NavbarBrand = forwardRef<HTMLDivElement | HTMLAnchorElement, NavbarBrandPr
       fontSize: NAVBAR_TOKENS.title.fontSize,
       fontWeight: NAVBAR_TOKENS.title.fontWeight,
       color: NAVBAR_TOKENS.title.color,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
     }
 
     const content = (
@@ -195,7 +187,7 @@ const NavbarTitle = forwardRef<HTMLHeadingElement, NavbarTitleProps>(
       fontSize: NAVBAR_TOKENS.title.fontSize,
       fontWeight: NAVBAR_TOKENS.title.fontWeight,
       color: NAVBAR_TOKENS.title.color,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       whiteSpace: 'nowrap',
       ...style,
     }
@@ -251,9 +243,11 @@ export interface NavbarButtonProps extends React.ButtonHTMLAttributes<HTMLButton
 
 const NavbarButton = forwardRef<HTMLButtonElement, NavbarButtonProps>(
   ({ icon: Icon, badge, style, children, ...props }, ref) => {
-    const [isHovered, setIsHovered] = React.useState(false)
-
-    const buttonStyle: React.CSSProperties = {
+    const buttonStyle = {
+      '--v-bg': 'transparent',
+      '--v-bg-hover': '#f4f4f5',
+      '--v-fg': NAVBAR_TOKENS.action.color,
+      '--v-fg-hover': NAVBAR_TOKENS.action.colorHover,
       position: 'relative',
       display: 'flex',
       alignItems: 'center',
@@ -261,15 +255,12 @@ const NavbarButton = forwardRef<HTMLButtonElement, NavbarButtonProps>(
       width: NAVBAR_TOKENS.action.size,
       height: NAVBAR_TOKENS.action.size,
       padding: 0,
-      backgroundColor: 'transparent',
       border: 'none',
       borderRadius: 8,
-      color: isHovered ? NAVBAR_TOKENS.action.colorHover : NAVBAR_TOKENS.action.color,
       cursor: 'pointer',
       transition: 'color 150ms, background-color 150ms',
-      ...(isHovered && { backgroundColor: '#f4f4f5' }),
       ...style,
-    }
+    } as React.CSSProperties
 
     const badgeStyle: React.CSSProperties = {
       position: 'absolute',
@@ -283,14 +274,7 @@ const NavbarButton = forwardRef<HTMLButtonElement, NavbarButtonProps>(
     }
 
     return (
-      <button
-        ref={ref}
-        type="button"
-        style={buttonStyle}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        {...props}
-      >
+      <button ref={ref} type="button" data-vistral-interactive style={buttonStyle} {...props}>
         {Icon ? <Icon size={20} /> : children}
         {badge && <span style={badgeStyle} />}
       </button>
@@ -310,35 +294,25 @@ export interface NavbarBackProps extends React.ButtonHTMLAttributes<HTMLButtonEl
 
 const NavbarBack = forwardRef<HTMLButtonElement, NavbarBackProps>(
   ({ label = 'Back', style, ...props }, ref) => {
-    const [isHovered, setIsHovered] = React.useState(false)
-
-    const backStyle: React.CSSProperties = {
+    const backStyle = {
+      '--v-fg': NAVBAR_TOKENS.back.color,
+      '--v-fg-hover': 'rgba(32, 80, 246, 0.7)',
       display: 'flex',
       alignItems: 'center',
       gap: 2,
       padding: '8px 8px 8px 0',
-      backgroundColor: 'transparent',
       border: 'none',
       borderRadius: 8,
-      color: NAVBAR_TOKENS.back.color,
       fontSize: NAVBAR_TOKENS.back.fontSize,
       fontWeight: NAVBAR_TOKENS.back.fontWeight,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       cursor: 'pointer',
-      transition: 'opacity 150ms',
-      opacity: isHovered ? 0.7 : 1,
+      transition: 'color 150ms',
       ...style,
-    }
+    } as React.CSSProperties
 
     return (
-      <button
-        ref={ref}
-        type="button"
-        style={backStyle}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        {...props}
-      >
+      <button ref={ref} type="button" data-vistral-interactive style={backStyle} {...props}>
         <ChevronLeft size={20} />
         {label}
       </button>
@@ -374,35 +348,27 @@ export interface NavbarToolsButtonProps extends React.ButtonHTMLAttributes<HTMLB
 
 const NavbarToolsButton = forwardRef<HTMLButtonElement, NavbarToolsButtonProps>(
   ({ style, children, ...props }, ref) => {
-    const [isHovered, setIsHovered] = React.useState(false)
-
-    const buttonStyle: React.CSSProperties = {
+    const buttonStyle = {
+      '--v-bg': 'transparent',
+      '--v-bg-hover': 'rgba(124, 58, 237, 0.05)',
+      '--v-fg': NAVBAR_TOKENS.toolsButton.color,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       height: NAVBAR_TOKENS.toolsButton.height,
       padding: `0 ${NAVBAR_TOKENS.toolsButton.paddingX}px`,
-      backgroundColor: isHovered ? 'rgba(124, 58, 237, 0.05)' : 'transparent',
       border: `1.5px ${NAVBAR_TOKENS.toolsButton.borderStyle} ${NAVBAR_TOKENS.toolsButton.border}`,
       borderRadius: NAVBAR_TOKENS.toolsButton.radius,
-      color: NAVBAR_TOKENS.toolsButton.color,
       fontSize: NAVBAR_TOKENS.toolsButton.fontSize,
       fontWeight: NAVBAR_TOKENS.toolsButton.fontWeight,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       cursor: 'pointer',
       transition: 'all 150ms ease',
       ...style,
-    }
+    } as React.CSSProperties
 
     return (
-      <button
-        ref={ref}
-        type="button"
-        style={buttonStyle}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        {...props}
-      >
+      <button ref={ref} type="button" data-vistral-interactive style={buttonStyle} {...props}>
         {children}
       </button>
     )
@@ -418,35 +384,25 @@ export interface NavbarSecondaryButtonProps extends React.ButtonHTMLAttributes<H
 
 const NavbarSecondaryButton = forwardRef<HTMLButtonElement, NavbarSecondaryButtonProps>(
   ({ style, children, ...props }, ref) => {
-    const [isHovered, setIsHovered] = React.useState(false)
-
-    const buttonStyle: React.CSSProperties = {
+    const buttonStyle = {
+      '--v-fg': NAVBAR_TOKENS.secondaryButton.color,
+      '--v-fg-hover': 'rgba(32, 80, 246, 0.7)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       height: NAVBAR_TOKENS.secondaryButton.height,
       padding: `0 ${NAVBAR_TOKENS.secondaryButton.paddingX}px`,
-      backgroundColor: 'transparent',
       border: 'none',
-      color: NAVBAR_TOKENS.secondaryButton.color,
       fontSize: NAVBAR_TOKENS.secondaryButton.fontSize,
       fontWeight: NAVBAR_TOKENS.secondaryButton.fontWeight,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       cursor: 'pointer',
-      transition: 'opacity 150ms ease',
-      opacity: isHovered ? 0.7 : 1,
+      transition: 'color 150ms ease',
       ...style,
-    }
+    } as React.CSSProperties
 
     return (
-      <button
-        ref={ref}
-        type="button"
-        style={buttonStyle}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        {...props}
-      >
+      <button ref={ref} type="button" data-vistral-interactive style={buttonStyle} {...props}>
         {children}
       </button>
     )
@@ -462,35 +418,27 @@ export interface NavbarPrimaryButtonProps extends React.ButtonHTMLAttributes<HTM
 
 const NavbarPrimaryButton = forwardRef<HTMLButtonElement, NavbarPrimaryButtonProps>(
   ({ style, children, ...props }, ref) => {
-    const [isHovered, setIsHovered] = React.useState(false)
-
-    const buttonStyle: React.CSSProperties = {
+    const buttonStyle = {
+      '--v-bg': NAVBAR_TOKENS.primaryButton.bg,
+      '--v-bg-hover': '#1a42c7',
+      '--v-fg': NAVBAR_TOKENS.primaryButton.color,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       height: NAVBAR_TOKENS.primaryButton.height,
       padding: `0 ${NAVBAR_TOKENS.primaryButton.paddingX}px`,
-      backgroundColor: isHovered ? '#1a42c7' : NAVBAR_TOKENS.primaryButton.bg,
       border: 'none',
       borderRadius: NAVBAR_TOKENS.primaryButton.radius,
-      color: NAVBAR_TOKENS.primaryButton.color,
       fontSize: NAVBAR_TOKENS.primaryButton.fontSize,
       fontWeight: NAVBAR_TOKENS.primaryButton.fontWeight,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       cursor: 'pointer',
       transition: 'background-color 150ms ease',
       ...style,
-    }
+    } as React.CSSProperties
 
     return (
-      <button
-        ref={ref}
-        type="button"
-        style={buttonStyle}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        {...props}
-      >
+      <button ref={ref} type="button" data-vistral-interactive style={buttonStyle} {...props}>
         {children}
       </button>
     )

@@ -88,7 +88,7 @@ const Timeline = forwardRef<HTMLDivElement, TimelineProps>(
   ({ position = 'left', style, children, ...props }, ref) => {
     const timelineStyle: React.CSSProperties = {
       position: 'relative',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 

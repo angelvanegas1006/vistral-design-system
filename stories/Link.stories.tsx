@@ -5,6 +5,14 @@ import { Link } from '../src/components/ui/link'
 const meta: Meta<typeof Link> = {
   title: 'Components/Link',
   component: Link,
+  argTypes: {
+    underline: { control: 'select', options: ['always', 'hover', 'none'] },
+    size: { control: 'select', options: ['inherit', 'sm', 'md', 'lg'] },
+    external: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    href: { control: 'text' },
+    children: { control: 'text' },
+  },
   parameters: {
     layout: 'centered',
     docs: {

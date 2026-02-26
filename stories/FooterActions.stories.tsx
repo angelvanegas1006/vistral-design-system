@@ -3,8 +3,37 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { FooterActions } from '../src/components/ui/footer-actions'
 import { Button } from '../src/components/ui/button'
 
-const meta: Meta = {
+const meta: Meta<typeof FooterActions> = {
   title: 'Components/FooterActions',
+  component: FooterActions,
+  argTypes: {
+    fixed: {
+      control: 'boolean',
+      description: 'Fixed at bottom',
+    },
+    bordered: {
+      control: 'boolean',
+      description: 'Show top border',
+    },
+    align: {
+      control: 'select',
+      options: ['left', 'center', 'right', 'space-between'],
+      description: 'Alignment of actions',
+    },
+    direction: {
+      control: 'select',
+      options: ['horizontal', 'vertical'],
+      description: 'Direction: horizontal (desktop) or vertical (mobile)',
+    },
+    gap: {
+      control: 'number',
+      description: 'Gap between items',
+    },
+    mobile: {
+      control: 'boolean',
+      description: 'Mobile variant: full-width stacked buttons',
+    },
+  },
   parameters: {
     layout: 'centered',
     docs: {

@@ -121,14 +121,14 @@ const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(
       fontSize: EMPTY_STATE_TOKENS.title.fontSize * sizeMultiplier,
       fontWeight: EMPTY_STATE_TOKENS.title.fontWeight,
       color: EMPTY_STATE_TOKENS.title.color,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
     }
 
     const descriptionStyle: React.CSSProperties = {
       margin: '8px 0 0 0',
       fontSize: EMPTY_STATE_TOKENS.description.fontSize * sizeMultiplier,
       color: EMPTY_STATE_TOKENS.description.color,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       lineHeight: 1.5,
     }
 

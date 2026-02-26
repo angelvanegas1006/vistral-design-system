@@ -98,7 +98,6 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       onCheckedChange?.(newChecked)
     }
 
-    // Get track background color based on state
     const getTrackBg = () => {
       if (disabled) {
         return isChecked ? SWITCH_TOKENS.track.bgDisabledOn : SWITCH_TOKENS.track.bgDisabledOff
@@ -112,13 +111,13 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       flexDirection: labelPosition === 'left' ? 'row-reverse' : 'row',
       gap: 12,
       cursor: disabled ? 'not-allowed' : 'pointer',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
     }
 
     const switchWrapperStyle: React.CSSProperties = {
       position: 'relative',
       flexShrink: 0,
-      marginTop: 2, // Align with first line of text
+      marginTop: 2,
     }
 
     const trackStyle: React.CSSProperties = {
@@ -128,11 +127,10 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       height: sizeTokens.trackHeight,
       backgroundColor: getTrackBg(),
       borderRadius: SWITCH_TOKENS.track.radius,
-      transition: 'background-color 200ms ease-in-out',
+      transition: 'background-color 200ms ease-in-out, box-shadow 150ms ease',
       cursor: disabled ? 'not-allowed' : 'pointer',
     }
 
-    // Thumb positioning
     const thumbOffset = sizeTokens.thumbOffset
     const thumbTravel = sizeTokens.trackWidth - sizeTokens.thumbSize - thumbOffset * 2
 
@@ -192,7 +190,7 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
           aria-checked={isChecked}
           {...props}
         />
-        <span style={trackStyle} aria-hidden="true">
+        <span data-vistral="switch-track" style={trackStyle} aria-hidden="true">
           <span style={thumbStyle} />
         </span>
       </span>
@@ -207,7 +205,12 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       ) : null
 
     return (
-      <label htmlFor={id} style={containerStyle}>
+      <label
+        htmlFor={id}
+        data-vistral-interactive
+        {...(disabled ? { 'data-disabled': '' } : {})}
+        style={containerStyle}
+      >
         {switchElement}
         {labelElement}
       </label>

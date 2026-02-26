@@ -249,28 +249,26 @@ const DropdownMenuItem = forwardRef<HTMLDivElement, DropdownMenuItemProps>(
     ref
   ) => {
     const { setOpen } = useDropdown()
-    const [isHovered, setIsHovered] = useState(false)
 
-    const itemStyle: React.CSSProperties = {
+    const itemStyle = {
       display: 'flex',
       alignItems: 'center',
       gap: 8,
       height: DROPDOWN_TOKENS.item.height,
       padding: `0 ${DROPDOWN_TOKENS.item.paddingX}px`,
       fontSize: DROPDOWN_TOKENS.item.fontSize,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       color: disabled
         ? DROPDOWN_TOKENS.item.fgDisabled
         : destructive
           ? DROPDOWN_TOKENS.item.fgDestructive
           : DROPDOWN_TOKENS.item.fg,
-      backgroundColor:
-        isHovered && !disabled ? DROPDOWN_TOKENS.item.bgHover : DROPDOWN_TOKENS.item.bg,
       borderRadius: DROPDOWN_TOKENS.item.radius,
       cursor: disabled ? 'not-allowed' : 'pointer',
       transition: 'background-color 100ms ease',
+      '--v-bg-hover': DROPDOWN_TOKENS.item.bgHover,
       ...style,
-    }
+    } as React.CSSProperties
 
     const shortcutStyle: React.CSSProperties = {
       marginLeft: 'auto',
@@ -289,10 +287,10 @@ const DropdownMenuItem = forwardRef<HTMLDivElement, DropdownMenuItemProps>(
         ref={ref}
         role="menuitem"
         aria-disabled={disabled}
+        data-vistral="menu-item"
+        data-disabled={disabled || undefined}
         style={itemStyle}
         onClick={handleClick}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
         {...props}
       >
         {Icon && <Icon size={16} />}
@@ -334,7 +332,7 @@ const DropdownMenuLabel = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDi
       fontSize: DROPDOWN_TOKENS.label.fontSize,
       fontWeight: DROPDOWN_TOKENS.label.fontWeight,
       color: DROPDOWN_TOKENS.label.color,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 
@@ -360,27 +358,25 @@ export interface DropdownMenuCheckboxItemProps extends Omit<DropdownMenuItemProp
 
 const DropdownMenuCheckboxItem = forwardRef<HTMLDivElement, DropdownMenuCheckboxItemProps>(
   ({ checked = false, onCheckedChange, onClick, children, ...props }, ref) => {
-    const [isHovered, setIsHovered] = useState(false)
-
     const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
       onCheckedChange?.(!checked)
       onClick?.(e)
     }
 
-    const itemStyle: React.CSSProperties = {
+    const itemStyle = {
       display: 'flex',
       alignItems: 'center',
       gap: 10,
       height: DROPDOWN_TOKENS.item.height,
       padding: `0 ${DROPDOWN_TOKENS.item.paddingX}px`,
       fontSize: DROPDOWN_TOKENS.item.fontSize,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       color: DROPDOWN_TOKENS.item.fg,
-      backgroundColor: isHovered ? DROPDOWN_TOKENS.item.bgHover : DROPDOWN_TOKENS.item.bg,
       borderRadius: DROPDOWN_TOKENS.item.radius,
       cursor: 'pointer',
       transition: 'background-color 100ms ease',
-    }
+      '--v-bg-hover': DROPDOWN_TOKENS.item.bgHover,
+    } as React.CSSProperties
 
     const checkboxStyle: React.CSSProperties = {
       width: 16,
@@ -400,10 +396,9 @@ const DropdownMenuCheckboxItem = forwardRef<HTMLDivElement, DropdownMenuCheckbox
         ref={ref}
         role="menuitemcheckbox"
         aria-checked={checked}
+        data-vistral="menu-item"
         style={itemStyle}
         onClick={handleClick}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
         {...props}
       >
         <span style={checkboxStyle}>
@@ -416,22 +411,6 @@ const DropdownMenuCheckboxItem = forwardRef<HTMLDivElement, DropdownMenuCheckbox
 )
 
 DropdownMenuCheckboxItem.displayName = 'DropdownMenuCheckboxItem'
-
-// Add keyframes
-if (typeof document !== 'undefined') {
-  const styleId = 'vistral-dropdown-styles'
-  if (!document.getElementById(styleId)) {
-    const style = document.createElement('style')
-    style.id = styleId
-    style.textContent = `
-      @keyframes dropdown-show {
-        from { opacity: 0; transform: translateY(-4px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-    `
-    document.head.appendChild(style)
-  }
-}
 
 export {
   DropdownMenu,

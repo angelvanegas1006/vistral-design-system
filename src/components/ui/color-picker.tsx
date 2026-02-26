@@ -143,23 +143,28 @@ const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
     const wrapperStyle: React.CSSProperties = {
       position: 'relative',
       width: 'fit-content',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 
-    const triggerStyle: React.CSSProperties = {
+    const triggerStyle = {
+      '--v-border': isOpen
+        ? COLOR_PICKER_TOKENS.trigger.borderFocus
+        : COLOR_PICKER_TOKENS.trigger.border,
+      '--v-border-focus': COLOR_PICKER_TOKENS.trigger.borderFocus,
+      '--v-focus-ring': disabled ? 'none' : '0 0 0 3px rgba(32, 80, 246, 0.15)',
       display: 'flex',
       alignItems: 'center',
       gap: 8,
       height: COLOR_PICKER_TOKENS.trigger.height,
       padding: `0 ${COLOR_PICKER_TOKENS.trigger.paddingX}px`,
       backgroundColor: '#ffffff',
-      border: `1px solid ${isOpen ? COLOR_PICKER_TOKENS.trigger.borderFocus : COLOR_PICKER_TOKENS.trigger.border}`,
+      border: '1px solid var(--v-border)',
       borderRadius: COLOR_PICKER_TOKENS.trigger.radius,
       cursor: disabled ? 'not-allowed' : 'pointer',
       opacity: disabled ? 0.5 : 1,
-      transition: 'border-color 150ms ease',
-    }
+      transition: 'border-color 150ms ease, box-shadow 150ms ease',
+    } as React.CSSProperties
 
     const swatchStyle: React.CSSProperties = {
       width: COLOR_PICKER_TOKENS.swatch.size,
@@ -209,17 +214,21 @@ const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
       padding: 0,
     })
 
-    const hexInputStyle: React.CSSProperties = {
+    const hexInputStyle = {
+      '--v-border': '#e4e4e7',
+      '--v-border-focus': COLOR_PICKER_TOKENS.trigger.borderFocus,
+      '--v-focus-ring': '0 0 0 3px rgba(32, 80, 246, 0.15)',
       width: '100%',
       height: 36,
       marginTop: 12,
       padding: '0 8px',
       fontSize: 13,
       fontFamily: 'monospace',
-      border: '1px solid #e4e4e7',
+      border: '1px solid var(--v-border)',
       borderRadius: 6,
       outline: 'none',
-    }
+      transition: 'border-color 150ms ease, box-shadow 150ms ease',
+    } as React.CSSProperties
 
     return (
       <div ref={containerRef} style={wrapperStyle} {...props}>
@@ -237,7 +246,13 @@ const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
           </label>
         )}
 
-        <div ref={ref} style={triggerStyle} onClick={() => !disabled && setIsOpen(!isOpen)}>
+        <div
+          ref={ref}
+          style={triggerStyle}
+          onClick={() => !disabled && setIsOpen(!isOpen)}
+          data-vistral-interactive
+          data-disabled={disabled || undefined}
+        >
           <div style={swatchStyle} />
           <span style={{ fontSize: 13, fontFamily: 'monospace', color: '#3f3f46' }}>
             {color.toUpperCase()}
@@ -279,6 +294,7 @@ const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
                 placeholder="#000000"
                 style={hexInputStyle}
                 maxLength={7}
+                data-vistral="input"
               />
             )}
           </div>

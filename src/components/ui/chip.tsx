@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { forwardRef, useState } from 'react'
+import { forwardRef } from 'react'
 import { X, ChevronDown, ChevronUp } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -87,47 +87,42 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
       showDivider = false,
       onClick,
       onRemove,
-      onFocus,
-      onBlur,
       style,
       children,
       ...props
     },
     ref
   ) => {
-    const [isHovered, setIsHovered] = useState(false)
-    const [isFocused, setIsFocused] = useState(false)
     const tokens = CHIP_TOKENS.variants[variant]
     const sizeTokens = CHIP_TOKENS.sizes[size]
 
-    // Get background color based on state
-    const getBgColor = () => {
-      if (disabled) return CHIP_TOKENS.disabled.bg
-      if (selected) {
-        return isHovered ? tokens.bgSelectedHover : tokens.bgSelected
-      }
-      if (active) return tokens.bgActive
-      if (isHovered) return tokens.bgHover
-      return tokens.bg
-    }
+    const baseBg = disabled
+      ? CHIP_TOKENS.disabled.bg
+      : selected
+        ? tokens.bgSelected
+        : active
+          ? tokens.bgActive
+          : tokens.bg
 
-    // Get text color based on state
-    const getFgColor = () => {
-      if (disabled) return CHIP_TOKENS.disabled.fg
-      if (selected) return tokens.fgSelected
-      return tokens.fg
-    }
+    const hoverBg = selected ? tokens.bgSelectedHover : active ? tokens.bgActive : tokens.bgHover
 
-    // Get border color (for outlined variant)
-    const getBorderColor = () => {
-      if (variant !== 'outlined') return 'transparent'
-      if (disabled) return CHIP_TOKENS.disabled.border
-      if (selected) return (tokens as typeof CHIP_TOKENS.variants.outlined).borderSelected
-      if (isHovered) return (tokens as typeof CHIP_TOKENS.variants.outlined).borderHover
-      return (tokens as typeof CHIP_TOKENS.variants.outlined).border
-    }
+    const fgColor = disabled ? CHIP_TOKENS.disabled.fg : selected ? tokens.fgSelected : tokens.fg
 
-    const chipStyle: React.CSSProperties = {
+    const baseBorder =
+      variant !== 'outlined'
+        ? 'transparent'
+        : disabled
+          ? CHIP_TOKENS.disabled.border
+          : selected
+            ? (tokens as typeof CHIP_TOKENS.variants.outlined).borderSelected
+            : (tokens as typeof CHIP_TOKENS.variants.outlined).border
+
+    const hoverBorder =
+      variant === 'outlined'
+        ? (tokens as typeof CHIP_TOKENS.variants.outlined).borderHover
+        : undefined
+
+    const chipStyle = {
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -137,19 +132,20 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
       paddingRight: rightElement ? sizeTokens.gap : sizeTokens.paddingX,
       fontSize: sizeTokens.fontSize,
       fontWeight: 500,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       lineHeight: 1,
-      backgroundColor: getBgColor(),
-      color: getFgColor(),
-      border: `1px solid ${getBorderColor()}`,
+      color: fgColor,
+      borderWidth: 1,
+      borderStyle: 'solid' as const,
       borderRadius: CHIP_TOKENS.radius,
       cursor: disabled ? 'not-allowed' : 'pointer',
       opacity: disabled ? 0.5 : 1,
-      transition: 'all 150ms ease-in-out',
-      outline: 'none',
-      boxShadow: isFocused && !disabled ? CHIP_TOKENS.focusRing : 'none',
+      '--v-bg': baseBg,
+      '--v-bg-hover': hoverBg,
+      '--v-border': baseBorder,
+      ...(hoverBorder ? { '--v-border-hover': hoverBorder } : {}),
       ...style,
-    }
+    } as React.CSSProperties
 
     const dividerStyle: React.CSSProperties = {
       width: 1,
@@ -190,16 +186,6 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
     const handleRemove = (e: React.MouseEvent) => {
       e.stopPropagation()
       if (!disabled) onRemove?.()
-    }
-
-    const handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
-      setIsFocused(true)
-      onFocus?.(e)
-    }
-
-    const handleBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
-      setIsFocused(false)
-      onBlur?.(e)
     }
 
     const renderRightElement = () => {
@@ -261,13 +247,11 @@ const Chip = forwardRef<HTMLButtonElement, ChipProps>(
       <button
         ref={ref}
         type="button"
+        data-vistral="chip"
+        data-disabled={disabled || undefined}
         style={chipStyle}
         disabled={disabled}
         onClick={handleClick}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
         aria-pressed={selected}
         aria-expanded={active}
         {...props}

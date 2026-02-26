@@ -115,15 +115,21 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       [loop, maxIndex]
     )
 
-    const prev = () => goTo(currentIndex - slidesToScroll)
-    const next = () => goTo(currentIndex + slidesToScroll)
+    const prev = useCallback(
+      () => goTo(currentIndex - slidesToScroll),
+      [goTo, currentIndex, slidesToScroll]
+    )
+    const next = useCallback(
+      () => goTo(currentIndex + slidesToScroll),
+      [goTo, currentIndex, slidesToScroll]
+    )
 
-    // Auto play
+    // Auto play (pauses on container hover)
     useEffect(() => {
       if (autoPlay <= 0 || isHovered) return
       const timer = setInterval(() => next(), autoPlay)
       return () => clearInterval(timer)
-    }, [autoPlay, isHovered, currentIndex])
+    }, [autoPlay, isHovered, currentIndex, next])
 
     const containerStyle: React.CSSProperties = {
       position: 'relative',
@@ -185,7 +191,6 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       justifyContent: 'center',
       width: CAROUSEL_TOKENS.nav.size,
       height: CAROUSEL_TOKENS.nav.size,
-      backgroundColor: CAROUSEL_TOKENS.nav.bg,
       border: 'none',
       borderRadius: CAROUSEL_TOKENS.nav.radius,
       boxShadow: CAROUSEL_TOKENS.nav.shadow,
@@ -205,7 +210,6 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
       justifyContent: 'center',
       width: CAROUSEL_TOKENS.nav.size,
       height: CAROUSEL_TOKENS.nav.size,
-      backgroundColor: CAROUSEL_TOKENS.nav.bg,
       border: 'none',
       borderRadius: CAROUSEL_TOKENS.nav.radius,
       boxShadow: CAROUSEL_TOKENS.nav.shadow,
@@ -268,7 +272,7 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     const counterStyle: React.CSSProperties = {
       fontSize: CAROUSEL_TOKENS.counter.fontSize,
       color: CAROUSEL_TOKENS.counter.color,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       textAlign: 'center',
       marginTop: 8,
     }
@@ -276,6 +280,11 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
     const canGoPrev = loop || currentIndex > 0
     const canGoNext = loop || currentIndex < maxIndex
     const currentSlide = currentIndex + 1
+
+    const navButtonVars = {
+      '--v-bg': CAROUSEL_TOKENS.nav.bg,
+      '--v-bg-hover': CAROUSEL_TOKENS.nav.bgHover,
+    }
 
     return (
       <div
@@ -301,12 +310,14 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
           <>
             <button
               type="button"
-              style={{
-                ...navButtonStyleHorizontal('left'),
-                opacity: canGoPrev ? 1 : 0.5,
-                backgroundColor:
-                  isHovered && canGoPrev ? CAROUSEL_TOKENS.nav.bgHover : CAROUSEL_TOKENS.nav.bg,
-              }}
+              data-vistral-interactive
+              style={
+                {
+                  ...navButtonStyleHorizontal('left'),
+                  opacity: canGoPrev ? 1 : 0.5,
+                  ...navButtonVars,
+                } as React.CSSProperties
+              }
               onClick={prev}
               disabled={!canGoPrev}
               aria-label="Previous slide"
@@ -315,12 +326,14 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
             </button>
             <button
               type="button"
-              style={{
-                ...navButtonStyleHorizontal('right'),
-                opacity: canGoNext ? 1 : 0.5,
-                backgroundColor:
-                  isHovered && canGoNext ? CAROUSEL_TOKENS.nav.bgHover : CAROUSEL_TOKENS.nav.bg,
-              }}
+              data-vistral-interactive
+              style={
+                {
+                  ...navButtonStyleHorizontal('right'),
+                  opacity: canGoNext ? 1 : 0.5,
+                  ...navButtonVars,
+                } as React.CSSProperties
+              }
               onClick={next}
               disabled={!canGoNext}
               aria-label="Next slide"
@@ -334,12 +347,14 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
           <>
             <button
               type="button"
-              style={{
-                ...navButtonStyleVertical('top'),
-                opacity: canGoPrev ? 1 : 0.5,
-                backgroundColor:
-                  isHovered && canGoPrev ? CAROUSEL_TOKENS.nav.bgHover : CAROUSEL_TOKENS.nav.bg,
-              }}
+              data-vistral-interactive
+              style={
+                {
+                  ...navButtonStyleVertical('top'),
+                  opacity: canGoPrev ? 1 : 0.5,
+                  ...navButtonVars,
+                } as React.CSSProperties
+              }
               onClick={prev}
               disabled={!canGoPrev}
               aria-label="Previous slide"
@@ -348,12 +363,14 @@ const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
             </button>
             <button
               type="button"
-              style={{
-                ...navButtonStyleVertical('bottom'),
-                opacity: canGoNext ? 1 : 0.5,
-                backgroundColor:
-                  isHovered && canGoNext ? CAROUSEL_TOKENS.nav.bgHover : CAROUSEL_TOKENS.nav.bg,
-              }}
+              data-vistral-interactive
+              style={
+                {
+                  ...navButtonStyleVertical('bottom'),
+                  opacity: canGoNext ? 1 : 0.5,
+                  ...navButtonVars,
+                } as React.CSSProperties
+              }
               onClick={next}
               disabled={!canGoNext}
               aria-label="Next slide"

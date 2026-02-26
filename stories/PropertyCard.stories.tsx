@@ -10,6 +10,77 @@ const PROJECT_IMAGE =
 const meta: Meta<typeof PropertyCard> = {
   title: 'Components/PropertyCard',
   component: PropertyCard,
+  argTypes: {
+    image: {
+      control: 'text',
+      description: 'Property image URL',
+    },
+    type: {
+      control: 'text',
+      description: 'Property type badge (e.g., "Apartment", "Project")',
+    },
+    title: {
+      control: 'text',
+      description: 'Property title',
+    },
+    status: {
+      control: 'select',
+      options: ['available', 'reserved', 'sold', 'comingSoon'],
+      description: 'Property status',
+    },
+    location: {
+      control: 'text',
+      description: 'Property location',
+    },
+    category: {
+      control: 'text',
+      description: 'Property category (e.g., "Flat", "House")',
+    },
+    bedrooms: {
+      control: 'number',
+      description: 'Number of bedrooms',
+    },
+    bathrooms: {
+      control: 'number',
+      description: 'Number of bathrooms',
+    },
+    area: {
+      control: 'number',
+      description: 'Area in square meters',
+    },
+    price: {
+      control: 'number',
+      description: 'Purchase price',
+    },
+    currency: {
+      control: 'text',
+      description: 'Currency symbol',
+    },
+    yieldPercent: {
+      control: 'number',
+      description: 'Net yield percentage',
+    },
+    deliveryDate: {
+      control: 'text',
+      description: 'Delivery date (for projects)',
+    },
+    constructionStatus: {
+      control: 'text',
+      description: 'Construction status (for projects)',
+    },
+    showFavorite: {
+      control: 'boolean',
+      description: 'Show favorite button',
+    },
+    isFavorite: {
+      control: 'boolean',
+      description: 'Favorite state',
+    },
+    loading: {
+      control: 'boolean',
+      description: 'Show skeleton loading state',
+    },
+  },
   parameters: {
     layout: 'centered',
     docs: {

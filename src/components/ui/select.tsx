@@ -108,8 +108,7 @@ const SelectTrigger = React.forwardRef<
             fontSize: 14,
             fontWeight: 500,
             color: props.disabled ? '#a1a1aa' : '#18181b',
-            fontFamily:
-              "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+            fontFamily: 'var(--vistral-font-family-sans)',
           }}
         >
           {label}
@@ -165,8 +164,7 @@ const SelectTrigger = React.forwardRef<
             margin: '6px 0 0',
             fontSize: 12,
             color: error ? '#dc2626' : '#71717a',
-            fontFamily:
-              "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+            fontFamily: 'var(--vistral-font-family-sans)',
           }}
         >
           {helperText}

@@ -5,6 +5,44 @@ import { NumberStepper } from '../src/components/ui/number-stepper'
 const meta: Meta<typeof NumberStepper> = {
   title: 'Components/NumberStepper',
   component: NumberStepper,
+  argTypes: {
+    min: {
+      control: 'number',
+      description: 'Minimum value',
+    },
+    max: {
+      control: 'number',
+      description: 'Maximum value',
+    },
+    step: {
+      control: 'number',
+      description: 'Step increment',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disabled state',
+    },
+    label: {
+      control: 'text',
+      description: 'Label text',
+    },
+    helperText: {
+      control: 'text',
+      description: 'Helper text',
+    },
+    error: {
+      control: 'boolean',
+      description: 'Error state',
+    },
+    errorMessage: {
+      control: 'text',
+      description: 'Error message',
+    },
+    showDivider: {
+      control: 'boolean',
+      description: 'Show divider between label and control',
+    },
+  },
   parameters: {
     layout: 'centered',
     docs: {

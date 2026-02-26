@@ -18,6 +18,11 @@ import { Menu, Bell, Search, User, Settings, MoreVertical, ChevronLeft } from 'l
 const meta: Meta<typeof Navbar> = {
   title: 'Components/Navbar',
   component: Navbar,
+  argTypes: {
+    fixed: { control: 'boolean' },
+    bordered: { control: 'boolean' },
+    transparent: { control: 'boolean' },
+  },
   parameters: {
     layout: 'fullscreen',
     docs: {

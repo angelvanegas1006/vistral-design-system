@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { forwardRef, useState } from 'react'
+import { forwardRef } from 'react'
 import { X } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
@@ -12,31 +12,37 @@ const TAG_TOKENS = {
   variants: {
     default: {
       bg: '#f4f4f5',
+      bgHover: '#e4e4e7',
       fg: '#18181b',
       border: 'none',
     },
     outlined: {
       bg: '#ffffff',
+      bgHover: '#f4f4f5',
       fg: '#18181b',
       border: '#e4e4e7',
     },
     dark: {
       bg: '#18181b',
+      bgHover: '#27272a',
       fg: '#ffffff',
       border: 'none',
     },
     error: {
       bg: '#fee2e2',
+      bgHover: '#fecaca',
       fg: '#dc2626',
       border: 'none',
     },
     success: {
       bg: '#dcfce7',
+      bgHover: '#bbf7d0',
       fg: '#16a34a',
       border: 'none',
     },
     info: {
       bg: '#dbeafe',
+      bgHover: '#bfdbfe',
       fg: '#1d4ed8',
       border: 'none',
     },
@@ -114,13 +120,20 @@ const Tag = forwardRef<HTMLSpanElement, TagProps>(
     },
     ref
   ) => {
-    const [isHovered, setIsHovered] = useState(false)
     const tokens = TAG_TOKENS.variants[variant]
     const sizeTokens = TAG_TOKENS.sizes[size]
 
     const handleClose = (e: React.MouseEvent) => {
       e.stopPropagation()
       onClose?.()
+    }
+
+    const cssVars: Record<string, string> = {
+      '--v-bg': tokens.bg,
+      '--v-fg': tokens.fg,
+    }
+    if (clickable) {
+      cssVars['--v-bg-hover'] = tokens.bgHover
     }
 
     const tagStyle: React.CSSProperties = {
@@ -132,19 +145,14 @@ const Tag = forwardRef<HTMLSpanElement, TagProps>(
       paddingRight: closable ? sizeTokens.gap : sizeTokens.paddingX,
       fontSize: sizeTokens.fontSize,
       fontWeight: 500,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       lineHeight: 1,
-      backgroundColor: tokens.bg,
-      color: tokens.fg,
       border: tokens.border !== 'none' ? `1px solid ${tokens.border}` : 'none',
       borderRadius: TAG_TOKENS.radius,
       whiteSpace: 'nowrap',
       cursor: clickable ? 'pointer' : 'default',
       transition: 'all 150ms ease',
-      ...(clickable &&
-        isHovered && {
-          opacity: 0.8,
-        }),
+      ...cssVars,
       ...style,
     }
 
@@ -174,12 +182,11 @@ const Tag = forwardRef<HTMLSpanElement, TagProps>(
     return (
       <span
         ref={ref}
+        data-vistral="tag"
         role={clickable ? 'button' : undefined}
         aria-label={finalAriaLabel}
         style={tagStyle}
         onClick={clickable ? onClick : undefined}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
         {...props}
       >
         {Icon && <Icon size={sizeTokens.iconSize} />}

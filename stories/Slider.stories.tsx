@@ -5,6 +5,16 @@ import { Slider, RangeSlider } from '../src/components/ui/slider'
 const meta: Meta<typeof Slider> = {
   title: 'Components/Slider',
   component: Slider,
+  argTypes: {
+    value: { control: { type: 'number', min: 0, max: 100 } },
+    defaultValue: { control: { type: 'number', min: 0, max: 100 } },
+    min: { control: 'number' },
+    max: { control: 'number' },
+    step: { control: { type: 'number', min: 1 } },
+    disabled: { control: 'boolean' },
+    showValue: { control: 'boolean' },
+    onChange: { action: 'changed' },
+  },
   parameters: {
     layout: 'centered',
     docs: {

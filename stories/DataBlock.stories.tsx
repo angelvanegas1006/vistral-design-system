@@ -6,6 +6,41 @@ import { DollarSign, Users, ShoppingCart, TrendingUp, Eye, MousePointer } from '
 const meta: Meta<typeof DataBlock> = {
   title: 'Components/DataBlock',
   component: DataBlock,
+  argTypes: {
+    label: {
+      control: 'text',
+      description: 'Label/title',
+    },
+    value: {
+      control: 'text',
+      description: 'Main value',
+    },
+    trend: {
+      control: 'number',
+      description: 'Trend percentage',
+    },
+    trendLabel: {
+      control: 'text',
+      description: 'Trend label',
+    },
+    iconBg: {
+      control: 'color',
+      description: 'Icon background color',
+    },
+    iconColor: {
+      control: 'color',
+      description: 'Icon color',
+    },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Size variant',
+    },
+    loading: {
+      control: 'boolean',
+      description: 'Loading state',
+    },
+  },
   parameters: {
     layout: 'centered',
     docs: {

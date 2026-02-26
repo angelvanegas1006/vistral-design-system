@@ -13,8 +13,9 @@ import {
 } from '../src/components/ui/context-menu'
 import { Copy, Trash2, Edit, Share, Download, Star, Folder, File, Image, Video } from 'lucide-react'
 
-const meta: Meta = {
+const meta: Meta<typeof ContextMenu> = {
   title: 'Components/ContextMenu',
+  component: ContextMenu,
   parameters: {
     layout: 'centered',
     docs: {

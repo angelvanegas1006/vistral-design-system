@@ -5,6 +5,21 @@ import { Button } from '../src/components/ui/button'
 
 const meta: Meta = {
   title: 'Components/Toast',
+  component: ToastProvider,
+  argTypes: {
+    position: {
+      control: 'select',
+      options: [
+        'top-right',
+        'top-left',
+        'bottom-right',
+        'bottom-left',
+        'top-center',
+        'bottom-center',
+      ],
+    },
+    max: { control: 'number' },
+  },
   parameters: {
     layout: 'centered',
     docs: {

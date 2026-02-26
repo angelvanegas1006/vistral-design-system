@@ -27,33 +27,35 @@ export interface DividerProps extends React.HTMLAttributes<HTMLHRElement> {
   color?: string
 }
 
-const Divider = forwardRef<HTMLHRElement, DividerProps>(
-  ({ orientation = 'horizontal', spacing = 'md', color, style, ...props }, ref) => {
-    const spacingValue = spacing === 'none' ? 0 : DIVIDER_TOKENS.spacing[spacing]
+const Divider = React.memo(
+  forwardRef<HTMLHRElement, DividerProps>(
+    ({ orientation = 'horizontal', spacing = 'md', color, style, ...props }, ref) => {
+      const spacingValue = spacing === 'none' ? 0 : DIVIDER_TOKENS.spacing[spacing]
 
-    const dividerStyle: React.CSSProperties =
-      orientation === 'horizontal'
-        ? {
-            width: '100%',
-            height: DIVIDER_TOKENS.thickness,
-            margin: `${spacingValue}px 0`,
-            backgroundColor: color || DIVIDER_TOKENS.color,
-            border: 'none',
-            ...style,
-          }
-        : {
-            width: DIVIDER_TOKENS.thickness,
-            height: '100%',
-            minHeight: 16,
-            margin: `0 ${spacingValue}px`,
-            backgroundColor: color || DIVIDER_TOKENS.color,
-            border: 'none',
-            alignSelf: 'stretch',
-            ...style,
-          }
+      const dividerStyle: React.CSSProperties =
+        orientation === 'horizontal'
+          ? {
+              width: '100%',
+              height: DIVIDER_TOKENS.thickness,
+              margin: `${spacingValue}px 0`,
+              backgroundColor: color || DIVIDER_TOKENS.color,
+              border: 'none',
+              ...style,
+            }
+          : {
+              width: DIVIDER_TOKENS.thickness,
+              height: '100%',
+              minHeight: 16,
+              margin: `0 ${spacingValue}px`,
+              backgroundColor: color || DIVIDER_TOKENS.color,
+              border: 'none',
+              alignSelf: 'stretch',
+              ...style,
+            }
 
-    return <hr ref={ref} aria-orientation={orientation} style={dividerStyle} {...props} />
-  }
+      return <hr ref={ref} aria-orientation={orientation} style={dividerStyle} {...props} />
+    }
+  )
 )
 
 Divider.displayName = 'Divider'
@@ -95,7 +97,7 @@ const DividerWithLabel = forwardRef<HTMLDivElement, DividerWithLabelProps>(
       fontSize: 12,
       fontWeight: 500,
       color: '#71717a', // zinc-500
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       whiteSpace: 'nowrap',
     }
 

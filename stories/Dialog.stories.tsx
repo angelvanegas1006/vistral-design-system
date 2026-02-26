@@ -18,6 +18,10 @@ import { AlertTriangle, Trash2, Upload, X } from 'lucide-react'
 
 const meta: Meta = {
   title: 'Components/Dialog',
+  argTypes: {
+    size: { control: 'select', options: ['sm', 'md', 'lg', 'xl', 'full'] },
+    variant: { control: 'select', options: ['desktop', 'mobile', 'bottom-sheet'] },
+  },
   parameters: {
     layout: 'centered',
     docs: {

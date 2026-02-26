@@ -7,6 +7,11 @@ import { Settings, Info } from 'lucide-react'
 
 const meta: Meta = {
   title: 'Components/Popover',
+  component: Popover,
+  argTypes: {
+    open: { control: 'boolean' },
+    defaultOpen: { control: 'boolean' },
+  },
   parameters: {
     layout: 'centered',
     docs: {

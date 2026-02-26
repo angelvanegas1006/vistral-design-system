@@ -76,6 +76,28 @@ export interface MediaHeroProps extends React.HTMLAttributes<HTMLDivElement> {
   enableHover?: boolean
 }
 
+const showAllButtonStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: MEDIA_HERO_TOKENS.button.gap,
+  padding: MEDIA_HERO_TOKENS.button.padding,
+  minWidth: MEDIA_HERO_TOKENS.button.minWidth,
+  height: MEDIA_HERO_TOKENS.button.height,
+  fontSize: MEDIA_HERO_TOKENS.button.fontSize,
+  fontWeight: MEDIA_HERO_TOKENS.button.fontWeight,
+  color: MEDIA_HERO_TOKENS.button.fg,
+  borderRadius: MEDIA_HERO_TOKENS.button.radius,
+  boxShadow: MEDIA_HERO_TOKENS.button.shadow,
+  border: MEDIA_HERO_TOKENS.button.border,
+  cursor: 'pointer',
+  fontFamily: 'inherit',
+  transition: 'background-color 150ms ease',
+  whiteSpace: 'nowrap' as const,
+  '--v-bg': MEDIA_HERO_TOKENS.button.bg,
+  '--v-bg-hover': MEDIA_HERO_TOKENS.button.bgHover,
+} as React.CSSProperties
+
 const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
   (
     {
@@ -98,7 +120,6 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
     const [lightboxIndex, setLightboxIndex] = useState(0)
     const [carouselIndex, setCarouselIndex] = useState(0)
     const [isMobile, setIsMobile] = useState(false)
-    const [isHovered, setIsHovered] = useState<number | null>(null)
 
     // Detect mobile
     useEffect(() => {
@@ -150,19 +171,18 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
       height,
       borderRadius: MEDIA_HERO_TOKENS.container.radius,
       overflow: 'hidden',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 
-    const imageBaseStyle = (index?: number): React.CSSProperties => ({
+    const imageBaseStyle: React.CSSProperties = {
       width: '100%',
       height: '100%',
       objectFit: 'cover',
       cursor: 'pointer',
       display: 'block',
       transition: enableHover ? 'transform 200ms ease' : 'none',
-      transform: enableHover && isHovered === index ? 'scale(1.02)' : 'scale(1)',
-    })
+    }
 
     const showAllButtonWrapperStyle: React.CSSProperties = {
       position: 'absolute',
@@ -171,20 +191,16 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
       zIndex: 10,
     }
 
+    const hoverScaleProps = enableHover ? { 'data-vistral-hover-scale': true } : {}
+
     // ========== SINGLE IMAGE ==========
     if (actualVariant === 'single' || images.length === 1) {
       return (
-        <div
-          ref={ref}
-          style={containerStyle}
-          {...props}
-          onMouseEnter={() => setIsHovered(0)}
-          onMouseLeave={() => setIsHovered(null)}
-        >
+        <div ref={ref} style={containerStyle} {...props} {...hoverScaleProps}>
           <img
             src={images[0]?.src}
             alt={images[0]?.alt || 'Hero image'}
-            style={imageBaseStyle(0)}
+            style={imageBaseStyle}
             onClick={() => openLightbox(0)}
           />
           {instanceSlot && <div style={MEDIA_HERO_TOKENS.instanceSlot}>{instanceSlot}</div>}
@@ -192,32 +208,8 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
             <div style={showAllButtonWrapperStyle}>
               <button
                 type="button"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: MEDIA_HERO_TOKENS.button.gap,
-                  padding: MEDIA_HERO_TOKENS.button.padding,
-                  minWidth: MEDIA_HERO_TOKENS.button.minWidth,
-                  height: MEDIA_HERO_TOKENS.button.height,
-                  fontSize: MEDIA_HERO_TOKENS.button.fontSize,
-                  fontWeight: MEDIA_HERO_TOKENS.button.fontWeight,
-                  backgroundColor: MEDIA_HERO_TOKENS.button.bg,
-                  color: MEDIA_HERO_TOKENS.button.fg,
-                  borderRadius: MEDIA_HERO_TOKENS.button.radius,
-                  boxShadow: MEDIA_HERO_TOKENS.button.shadow,
-                  border: MEDIA_HERO_TOKENS.button.border,
-                  cursor: 'pointer',
-                  fontFamily: 'inherit',
-                  transition: 'background-color 150ms ease',
-                  whiteSpace: 'nowrap',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bgHover
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bg
-                }}
+                data-vistral-interactive
+                style={showAllButtonStyle}
                 onClick={handleShowAll}
                 aria-label={`${buttonText} (${images.length} photos)`}
               >
@@ -258,7 +250,7 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
         boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
         cursor: 'pointer',
         zIndex: 10,
-        touchAction: 'manipulation', // Better touch handling
+        touchAction: 'manipulation',
       })
 
       return (
@@ -275,7 +267,7 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
               height: '100%',
               transition: 'transform 300ms ease',
               transform: `translateX(-${carouselIndex * 100}%)`,
-              touchAction: 'pan-y', // Allow vertical scroll
+              touchAction: 'pan-y',
             }}
           >
             {images.map((image, index) => (
@@ -291,7 +283,7 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                 <img
                   src={image.src}
                   alt={image.alt || `Property photo ${index + 1}`}
-                  style={imageBaseStyle()}
+                  style={imageBaseStyle}
                   onClick={() => openLightbox(index)}
                   loading={index === 0 ? 'eager' : 'lazy'}
                 />
@@ -370,11 +362,11 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
     const renderGrid = () => {
       if (gridImages.length === 1) {
         return (
-          <div style={{ height: '100%', position: 'relative' }}>
+          <div style={{ height: '100%', position: 'relative' }} {...hoverScaleProps}>
             <img
               src={gridImages[0].src}
               alt={gridImages[0].alt || 'Property photo'}
-              style={imageBaseStyle(0)}
+              style={imageBaseStyle}
               onClick={() => openLightbox(0)}
             />
           </div>
@@ -389,13 +381,12 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
               <div
                 key={i}
                 style={{ flex: 1, overflow: 'hidden', position: 'relative' }}
-                onMouseEnter={() => setIsHovered(i)}
-                onMouseLeave={() => setIsHovered(null)}
+                {...hoverScaleProps}
               >
                 <img
                   src={img.src}
                   alt={img.alt || `Property photo ${i + 1}`}
-                  style={imageBaseStyle(i)}
+                  style={imageBaseStyle}
                   onClick={() => openLightbox(i)}
                 />
                 {/* Show all button on last thumbnail */}
@@ -415,31 +406,8 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                   >
                     <button
                       type="button"
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: MEDIA_HERO_TOKENS.button.gap,
-                        padding: MEDIA_HERO_TOKENS.button.padding,
-                        minWidth: MEDIA_HERO_TOKENS.button.minWidth,
-                        height: MEDIA_HERO_TOKENS.button.height,
-                        fontSize: MEDIA_HERO_TOKENS.button.fontSize,
-                        fontWeight: MEDIA_HERO_TOKENS.button.fontWeight,
-                        backgroundColor: MEDIA_HERO_TOKENS.button.bg,
-                        color: MEDIA_HERO_TOKENS.button.fg,
-                        borderRadius: MEDIA_HERO_TOKENS.button.radius,
-                        boxShadow: MEDIA_HERO_TOKENS.button.shadow,
-                        border: MEDIA_HERO_TOKENS.button.border,
-                        cursor: 'pointer',
-                        fontFamily: 'inherit',
-                        transition: 'background-color 150ms ease',
-                      }}
-                      onMouseEnter={e => {
-                        e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bgHover
-                      }}
-                      onMouseLeave={e => {
-                        e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bg
-                      }}
+                      data-vistral-interactive
+                      style={showAllButtonStyle}
                       aria-label={`${buttonText} (${images.length} photos)`}
                     >
                       <Images
@@ -462,13 +430,12 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
           <div style={{ display: 'flex', gap, height: '100%' }}>
             <div
               style={{ width: '60%', overflow: 'hidden', position: 'relative' }}
-              onMouseEnter={() => setIsHovered(0)}
-              onMouseLeave={() => setIsHovered(null)}
+              {...hoverScaleProps}
             >
               <img
                 src={gridImages[0].src}
                 alt={gridImages[0].alt || 'Main property photo'}
-                style={imageBaseStyle(0)}
+                style={imageBaseStyle}
                 onClick={() => openLightbox(0)}
               />
             </div>
@@ -479,13 +446,12 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                   <div
                     key={i}
                     style={{ flex: 1, overflow: 'hidden', position: 'relative' }}
-                    onMouseEnter={() => setIsHovered(i + 1)}
-                    onMouseLeave={() => setIsHovered(null)}
+                    {...hoverScaleProps}
                   >
                     <img
                       src={img.src}
                       alt={img.alt || `Property photo ${i + 2}`}
-                      style={imageBaseStyle(i + 1)}
+                      style={imageBaseStyle}
                       onClick={() => openLightbox(i + 1)}
                     />
                     {/* Show all button on last thumbnail */}
@@ -505,28 +471,8 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                       >
                         <button
                           type="button"
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: MEDIA_HERO_TOKENS.button.gap,
-                            padding: MEDIA_HERO_TOKENS.button.padding,
-                            fontSize: MEDIA_HERO_TOKENS.button.fontSize,
-                            fontWeight: MEDIA_HERO_TOKENS.button.fontWeight,
-                            backgroundColor: MEDIA_HERO_TOKENS.button.bg,
-                            color: MEDIA_HERO_TOKENS.button.fg,
-                            borderRadius: MEDIA_HERO_TOKENS.button.radius,
-                            boxShadow: MEDIA_HERO_TOKENS.button.shadow,
-                            border: MEDIA_HERO_TOKENS.button.border,
-                            cursor: 'pointer',
-                            fontFamily: 'inherit',
-                            transition: 'background-color 150ms ease',
-                          }}
-                          onMouseEnter={e => {
-                            e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bgHover
-                          }}
-                          onMouseLeave={e => {
-                            e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bg
-                          }}
+                          data-vistral-interactive
+                          style={showAllButtonStyle}
                           aria-label={`${buttonText} (${images.length} photos)`}
                         >
                           <Images size={16} style={{ flexShrink: 0 }} />
@@ -548,13 +494,12 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
           <div style={{ display: 'flex', gap, height: '100%' }}>
             <div
               style={{ width: '60%', overflow: 'hidden', position: 'relative' }}
-              onMouseEnter={() => setIsHovered(0)}
-              onMouseLeave={() => setIsHovered(null)}
+              {...hoverScaleProps}
             >
               <img
                 src={gridImages[0].src}
                 alt={gridImages[0].alt || 'Main property photo'}
-                style={imageBaseStyle(0)}
+                style={imageBaseStyle}
                 onClick={() => openLightbox(0)}
               />
             </div>
@@ -563,13 +508,12 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                 <div
                   key={i}
                   style={{ flex: 1, overflow: 'hidden', position: 'relative' }}
-                  onMouseEnter={() => setIsHovered(i + 1)}
-                  onMouseLeave={() => setIsHovered(null)}
+                  {...hoverScaleProps}
                 >
                   <img
                     src={img.src}
                     alt={img.alt || `Property photo ${i + 2}`}
-                    style={imageBaseStyle(i + 1)}
+                    style={imageBaseStyle}
                     onClick={() => openLightbox(i + 1)}
                   />
                 </div>
@@ -585,13 +529,12 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
           {/* Main image - 60% */}
           <div
             style={{ width: '60%', overflow: 'hidden', position: 'relative' }}
-            onMouseEnter={() => setIsHovered(0)}
-            onMouseLeave={() => setIsHovered(null)}
+            {...hoverScaleProps}
           >
             <img
               src={gridImages[0].src}
               alt={gridImages[0].alt || 'Main property photo'}
-              style={imageBaseStyle(0)}
+              style={imageBaseStyle}
               onClick={() => openLightbox(0)}
             />
           </div>
@@ -610,13 +553,12 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
               <div
                 key={i}
                 style={{ overflow: 'hidden', position: 'relative' }}
-                onMouseEnter={() => setIsHovered(i + 1)}
-                onMouseLeave={() => setIsHovered(null)}
+                {...hoverScaleProps}
               >
                 <img
                   src={img.src}
                   alt={img.alt || `Property photo ${i + 2}`}
-                  style={imageBaseStyle(i + 1)}
+                  style={imageBaseStyle}
                   onClick={() => openLightbox(i + 1)}
                 />
                 {/* Show all button on last thumbnail - bottom-right corner */}
@@ -636,31 +578,8 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
                   >
                     <button
                       type="button"
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: MEDIA_HERO_TOKENS.button.gap,
-                        padding: MEDIA_HERO_TOKENS.button.padding,
-                        minWidth: MEDIA_HERO_TOKENS.button.minWidth,
-                        height: MEDIA_HERO_TOKENS.button.height,
-                        fontSize: MEDIA_HERO_TOKENS.button.fontSize,
-                        fontWeight: MEDIA_HERO_TOKENS.button.fontWeight,
-                        backgroundColor: MEDIA_HERO_TOKENS.button.bg,
-                        color: MEDIA_HERO_TOKENS.button.fg,
-                        borderRadius: MEDIA_HERO_TOKENS.button.radius,
-                        boxShadow: MEDIA_HERO_TOKENS.button.shadow,
-                        border: MEDIA_HERO_TOKENS.button.border,
-                        cursor: 'pointer',
-                        fontFamily: 'inherit',
-                        transition: 'background-color 150ms ease',
-                      }}
-                      onMouseEnter={e => {
-                        e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bgHover
-                      }}
-                      onMouseLeave={e => {
-                        e.currentTarget.style.backgroundColor = MEDIA_HERO_TOKENS.button.bg
-                      }}
+                      data-vistral-interactive
+                      style={showAllButtonStyle}
                       aria-label={`${buttonText} (${images.length} photos)`}
                     >
                       <Images
@@ -703,28 +622,5 @@ const MediaHero = forwardRef<HTMLDivElement, MediaHeroProps>(
 )
 
 MediaHero.displayName = 'MediaHero'
-
-// Add screen reader only styles
-if (typeof document !== 'undefined') {
-  const styleId = 'vistral-media-hero-sr-only'
-  if (!document.getElementById(styleId)) {
-    const style = document.createElement('style')
-    style.id = styleId
-    style.textContent = `
-      .sr-only {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border-width: 0;
-      }
-    `
-    document.head.appendChild(style)
-  }
-}
 
 export { MediaHero, MEDIA_HERO_TOKENS }

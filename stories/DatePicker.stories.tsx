@@ -5,6 +5,36 @@ import { DatePicker } from '../src/components/ui/date-picker'
 const meta: Meta<typeof DatePicker> = {
   title: 'Components/DatePicker',
   component: DatePicker,
+  argTypes: {
+    placeholder: {
+      control: 'text',
+      description: 'Placeholder text',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disabled state',
+    },
+    error: {
+      control: 'boolean',
+      description: 'Error state',
+    },
+    label: {
+      control: 'text',
+      description: 'Label text',
+    },
+    helperText: {
+      control: 'text',
+      description: 'Helper text',
+    },
+    clearable: {
+      control: 'boolean',
+      description: 'Allow clearing selection',
+    },
+    allowManualInput: {
+      control: 'boolean',
+      description: 'Allow manual date input',
+    },
+  },
   parameters: {
     layout: 'centered',
     docs: {

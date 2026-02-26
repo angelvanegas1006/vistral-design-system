@@ -50,7 +50,7 @@ const PageHeader = forwardRef<HTMLDivElement, PageHeaderProps>(
   ({ title, description, level = 'h1', actions, breadcrumb, style, children, ...props }, ref) => {
     const containerStyle: React.CSSProperties = {
       padding: `${HEADER_TOKENS.page.paddingY}px ${HEADER_TOKENS.page.paddingX}px`,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 
@@ -132,7 +132,7 @@ const SectionHeader = forwardRef<HTMLDivElement, SectionHeaderProps>(
       paddingBottom: bordered ? 16 : 0,
       marginBottom: 16,
       borderBottom: bordered ? '1px solid #e4e4e7' : 'none',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 
@@ -183,7 +183,7 @@ const CardHeaderTitle = forwardRef<HTMLDivElement, CardHeaderTitleProps>(
       display: 'flex',
       alignItems: 'center',
       gap: 12,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 

@@ -210,7 +210,7 @@ const ContextMenuContent = forwardRef<HTMLDivElement, ContextMenuContentProps>(
       boxShadow: CONTEXT_MENU_TOKENS.menu.shadow,
       zIndex: 100,
       animation: 'context-menu-show 100ms ease-out',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 
@@ -286,7 +286,6 @@ const ContextMenuItem = forwardRef<HTMLDivElement, ContextMenuItemProps>(
     ref
   ) => {
     const { closeMenu } = useContextMenu()
-    const [isHovered, setIsHovered] = useState(false)
 
     const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
       if (disabled) return
@@ -296,7 +295,7 @@ const ContextMenuItem = forwardRef<HTMLDivElement, ContextMenuItemProps>(
       }
     }
 
-    const itemStyle: React.CSSProperties = {
+    const itemStyle = {
       display: 'flex',
       alignItems: 'center',
       gap: 8,
@@ -308,22 +307,22 @@ const ContextMenuItem = forwardRef<HTMLDivElement, ContextMenuItemProps>(
         : destructive
           ? CONTEXT_MENU_TOKENS.item.fgDestructive
           : CONTEXT_MENU_TOKENS.item.fg,
-      backgroundColor: isHovered && !disabled ? CONTEXT_MENU_TOKENS.item.bgHover : 'transparent',
       borderRadius: CONTEXT_MENU_TOKENS.item.radius,
       cursor: disabled ? 'not-allowed' : 'pointer',
       transition: 'background-color 150ms ease',
+      '--v-bg-hover': CONTEXT_MENU_TOKENS.item.bgHover,
       ...style,
-    }
+    } as React.CSSProperties
 
     return (
       <div
         ref={ref}
         role="menuitem"
         aria-disabled={disabled}
+        data-vistral="menu-item"
+        data-disabled={disabled || undefined}
         style={itemStyle}
         onClick={handleClick}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
         {...props}
       >
         {Icon && <Icon size={CONTEXT_MENU_TOKENS.item.iconSize} style={{ flexShrink: 0 }} />}
@@ -506,22 +505,6 @@ const ContextMenuSubmenu: React.FC<ContextMenuSubmenuProps> = ({ label, children
 }
 
 ContextMenuSubmenu.displayName = 'ContextMenuSubmenu'
-
-// Add keyframes
-if (typeof document !== 'undefined') {
-  const styleId = 'vistral-context-menu-styles'
-  if (!document.getElementById(styleId)) {
-    const style = document.createElement('style')
-    style.id = styleId
-    style.textContent = `
-      @keyframes context-menu-show {
-        from { opacity: 0; transform: scale(0.95); }
-        to { opacity: 1; transform: scale(1); }
-      }
-    `
-    document.head.appendChild(style)
-  }
-}
 
 export {
   ContextMenu,

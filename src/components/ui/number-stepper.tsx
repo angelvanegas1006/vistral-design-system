@@ -17,12 +17,12 @@ const NUMBER_STEPPER_TOKENS = {
   // Buttons (filled style - blue when enabled, gray when disabled)
   button: {
     size: 28,
-    bgEnabled: '#b3d4fc', // Light blue background when enabled
-    bgDisabled: '#e0e0e0', // Light gray background when disabled
-    bgHover: '#9bc4f5', // Slightly darker blue on hover
-    fgEnabled: '#ffffff', // White icon when enabled
-    fgDisabled: '#a0a0a0', // Gray icon when disabled
-    radius: 9999, // Full circle
+    bgEnabled: '#b3d4fc',
+    bgDisabled: '#e0e0e0',
+    bgHover: '#9bc4f5',
+    fgEnabled: '#ffffff',
+    fgDisabled: '#a0a0a0',
+    radius: 9999,
   },
   // Input/Value display (editable field)
   input: {
@@ -105,7 +105,6 @@ const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
     ref
   ) => {
     const [internalValue, setInternalValue] = useState(defaultValue)
-    const [hoveredButton, setHoveredButton] = useState<'dec' | 'inc' | null>(null)
     const [inputValue, setInputValue] = useState(String(defaultValue))
     const [isFocused, setIsFocused] = useState(false)
     const inputRef = React.useRef<HTMLInputElement>(null)
@@ -114,14 +113,12 @@ const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
     const isControlled = controlledValue !== undefined
     const value = isControlled ? controlledValue : internalValue
 
-    // Sync input value when controlled value changes
     React.useEffect(() => {
       if (isControlled && !isFocused) {
         setInputValue(String(controlledValue))
       }
     }, [controlledValue, isControlled, isFocused])
 
-    // Sync input value when internal value changes (uncontrolled)
     React.useEffect(() => {
       if (!isControlled && !isFocused) {
         setInputValue(String(internalValue))
@@ -156,7 +153,6 @@ const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
       const newValue = e.target.value
       setInputValue(newValue)
 
-      // Allow empty input while typing
       if (newValue === '') {
         return
       }
@@ -169,7 +165,6 @@ const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
 
     const handleInputBlur = () => {
       setIsFocused(false)
-      // Reset to current value if invalid
       const numValue = parseInt(inputValue, 10)
       if (isNaN(numValue) || numValue < min || numValue > max) {
         setInputValue(String(value))
@@ -196,12 +191,11 @@ const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
       }
     }
 
-    // Container: horizontal row with label left, controls right
     const containerStyle: React.CSSProperties = {
       display: 'flex',
       flexDirection: 'column',
       gap: 4,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 
@@ -238,21 +232,22 @@ const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
       gap: NUMBER_STEPPER_TOKENS.control.gap,
     }
 
-    const getButtonStyle = (isEnabled: boolean, buttonType: 'dec' | 'inc'): React.CSSProperties => {
-      const isHovered = hoveredButton === buttonType
+    const getButtonStyle = (isEnabled: boolean): React.CSSProperties => {
       const isActive = isEnabled && !disabled
 
       return {
+        '--v-bg': isActive
+          ? NUMBER_STEPPER_TOKENS.button.bgEnabled
+          : NUMBER_STEPPER_TOKENS.button.bgDisabled,
+        '--v-bg-hover': isActive
+          ? NUMBER_STEPPER_TOKENS.button.bgHover
+          : NUMBER_STEPPER_TOKENS.button.bgDisabled,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         width: NUMBER_STEPPER_TOKENS.button.size,
         height: NUMBER_STEPPER_TOKENS.button.size,
-        backgroundColor: isActive
-          ? isHovered
-            ? NUMBER_STEPPER_TOKENS.button.bgHover
-            : NUMBER_STEPPER_TOKENS.button.bgEnabled
-          : NUMBER_STEPPER_TOKENS.button.bgDisabled,
+        backgroundColor: 'var(--v-bg)',
         color: isActive
           ? NUMBER_STEPPER_TOKENS.button.fgEnabled
           : NUMBER_STEPPER_TOKENS.button.fgDisabled,
@@ -262,26 +257,33 @@ const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
         transition: 'all 150ms ease',
         padding: 0,
         opacity: disabled ? 0.5 : 1,
-      }
+      } as React.CSSProperties
     }
 
+    const focusRing = error
+      ? '0 0 0 3px rgba(220, 38, 38, 0.15)'
+      : '0 0 0 3px rgba(32, 80, 246, 0.15)'
+
     const inputStyle: React.CSSProperties = {
+      '--v-border': error ? '#dc2626' : NUMBER_STEPPER_TOKENS.input.border,
+      '--v-border-focus': error ? '#dc2626' : NUMBER_STEPPER_TOKENS.input.borderFocus,
+      '--v-focus-ring': disabled ? 'none' : focusRing,
       width: NUMBER_STEPPER_TOKENS.input.minWidth,
       height: NUMBER_STEPPER_TOKENS.input.height,
       fontSize: NUMBER_STEPPER_TOKENS.input.fontSize,
       fontWeight: NUMBER_STEPPER_TOKENS.input.fontWeight,
       color: NUMBER_STEPPER_TOKENS.input.fg,
       backgroundColor: disabled ? '#f4f4f5' : NUMBER_STEPPER_TOKENS.input.bg,
-      border: `1px solid ${isFocused ? NUMBER_STEPPER_TOKENS.input.borderFocus : NUMBER_STEPPER_TOKENS.input.border}`,
+      border: `1px solid var(--v-border)`,
       borderRadius: NUMBER_STEPPER_TOKENS.input.radius,
       padding: NUMBER_STEPPER_TOKENS.input.padding,
       textAlign: 'center',
       fontFamily: 'inherit',
       outline: 'none',
-      transition: 'border-color 150ms ease',
+      transition: 'border-color 150ms ease, box-shadow 150ms ease',
       cursor: disabled ? 'not-allowed' : 'text',
       opacity: disabled ? 0.5 : 1,
-    }
+    } as React.CSSProperties
 
     const helperStyle: React.CSSProperties = {
       fontSize: NUMBER_STEPPER_TOKENS.error.fontSize,
@@ -306,11 +308,10 @@ const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
               type="button"
               onClick={handleDecrement}
               disabled={!canDecrement}
-              style={getButtonStyle(canDecrement, 'dec')}
-              onMouseEnter={() => setHoveredButton('dec')}
-              onMouseLeave={() => setHoveredButton(null)}
+              style={getButtonStyle(canDecrement)}
               aria-label="Decrease value"
               aria-disabled={!canDecrement}
+              data-vistral-interactive=""
             >
               <Minus size={16} />
             </button>
@@ -327,6 +328,7 @@ const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
               onKeyDown={handleKeyDown}
               disabled={disabled}
               style={inputStyle}
+              data-vistral="input"
               aria-valuenow={value}
               aria-valuemin={min}
               aria-valuemax={max}
@@ -339,11 +341,10 @@ const NumberStepper = forwardRef<HTMLDivElement, NumberStepperProps>(
               type="button"
               onClick={handleIncrement}
               disabled={!canIncrement}
-              style={getButtonStyle(canIncrement, 'inc')}
-              onMouseEnter={() => setHoveredButton('inc')}
-              onMouseLeave={() => setHoveredButton(null)}
+              style={getButtonStyle(canIncrement)}
               aria-label="Increase value"
               aria-disabled={!canIncrement}
+              data-vistral-interactive=""
             >
               <Plus size={16} />
             </button>

@@ -223,66 +223,70 @@ export interface DialogHeaderProps extends React.HTMLAttributes<HTMLDivElement> 
   onBack?: () => void
 }
 
-const DialogHeader = React.forwardRef<HTMLDivElement, DialogHeaderProps>(
-  ({ className, showBack, onBack, children, ...props }, ref) => {
-    const handleBack = () => {
-      if (onBack) {
-        onBack()
+const DialogHeader = React.memo(
+  React.forwardRef<HTMLDivElement, DialogHeaderProps>(
+    ({ className, showBack, onBack, children, ...props }, ref) => {
+      const handleBack = () => {
+        if (onBack) {
+          onBack()
+        }
       }
-    }
 
-    return (
-      <div
-        ref={ref}
-        className={cn('flex flex-col space-y-1.5', className)}
-        style={{
-          paddingBottom: DIALOG_TOKENS.desktop.verticalSpace,
-        }}
-        {...props}
-      >
-        {showBack && (
-          <DialogPrimitive.Close asChild>
-            <button
-              onClick={handleBack}
-              className="absolute left-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-[#2050f6] focus:ring-offset-2 disabled:pointer-events-none"
-              style={{
-                width: 32,
-                height: 32,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: '#f4f4f5',
-                borderRadius: '50%',
-                border: 'none',
-                cursor: 'pointer',
-              }}
-            >
-              <ChevronLeft className="h-4 w-4" />
-              <span className="sr-only">Back</span>
-            </button>
-          </DialogPrimitive.Close>
-        )}
-        {children}
-      </div>
-    )
-  }
+      return (
+        <div
+          ref={ref}
+          className={cn('flex flex-col space-y-1.5', className)}
+          style={{
+            paddingBottom: DIALOG_TOKENS.desktop.verticalSpace,
+          }}
+          {...props}
+        >
+          {showBack && (
+            <DialogPrimitive.Close asChild>
+              <button
+                onClick={handleBack}
+                className="absolute left-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-[#2050f6] focus:ring-offset-2 disabled:pointer-events-none"
+                style={{
+                  width: 32,
+                  height: 32,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: '#f4f4f5',
+                  borderRadius: '50%',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                <ChevronLeft className="h-4 w-4" />
+                <span className="sr-only">Back</span>
+              </button>
+            </DialogPrimitive.Close>
+          )}
+          {children}
+        </div>
+      )
+    }
+  )
 )
 DialogHeader.displayName = 'DialogHeader'
 
 // ============================================================================
 // Dialog Body (Helper component)
 // ============================================================================
-const DialogBody = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, style, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn('overflow-y-auto', className)}
-      style={{
-        flex: 1,
-        ...style,
-      }}
-      {...props}
-    />
+const DialogBody = React.memo(
+  React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+    ({ className, style, ...props }, ref) => (
+      <div
+        ref={ref}
+        className={cn('overflow-y-auto', className)}
+        style={{
+          flex: 1,
+          ...style,
+        }}
+        {...props}
+      />
+    )
   )
 )
 DialogBody.displayName = 'DialogBody'
@@ -295,22 +299,24 @@ export interface DialogFooterProps extends React.HTMLAttributes<HTMLDivElement> 
   stacked?: boolean
 }
 
-const DialogFooter = React.forwardRef<HTMLDivElement, DialogFooterProps>(
-  ({ className, stacked, style, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cn(
-        stacked
-          ? 'flex flex-col gap-2'
-          : 'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
-        className
-      )}
-      style={{
-        paddingTop: DIALOG_TOKENS.desktop.verticalSpace,
-        ...style,
-      }}
-      {...props}
-    />
+const DialogFooter = React.memo(
+  React.forwardRef<HTMLDivElement, DialogFooterProps>(
+    ({ className, stacked, style, ...props }, ref) => (
+      <div
+        ref={ref}
+        className={cn(
+          stacked
+            ? 'flex flex-col gap-2'
+            : 'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
+          className
+        )}
+        style={{
+          paddingTop: DIALOG_TOKENS.desktop.verticalSpace,
+          ...style,
+        }}
+        {...props}
+      />
+    )
   )
 )
 DialogFooter.displayName = 'DialogFooter'
@@ -318,35 +324,39 @@ DialogFooter.displayName = 'DialogFooter'
 // ============================================================================
 // Dialog Title (Radix UI compatible)
 // ============================================================================
-const DialogTitle = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Title>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
->(({ className, ...props }, ref) => (
-  <DialogPrimitive.Title
-    ref={ref}
-    className={cn(
-      'text-lg font-semibold leading-none tracking-tight',
-      'text-[#18181b] dark:text-white',
-      className
-    )}
-    {...props}
-  />
-))
+const DialogTitle = React.memo(
+  React.forwardRef<
+    React.ElementRef<typeof DialogPrimitive.Title>,
+    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
+  >(({ className, ...props }, ref) => (
+    <DialogPrimitive.Title
+      ref={ref}
+      className={cn(
+        'text-lg font-semibold leading-none tracking-tight',
+        'text-[#18181b] dark:text-white',
+        className
+      )}
+      {...props}
+    />
+  ))
+)
 DialogTitle.displayName = DialogPrimitive.Title.displayName
 
 // ============================================================================
 // Dialog Description (Radix UI compatible)
 // ============================================================================
-const DialogDescription = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
->(({ className, ...props }, ref) => (
-  <DialogPrimitive.Description
-    ref={ref}
-    className={cn('text-sm text-[#71717a] dark:text-[#a3a3a3]', className)}
-    {...props}
-  />
-))
+const DialogDescription = React.memo(
+  React.forwardRef<
+    React.ElementRef<typeof DialogPrimitive.Description>,
+    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
+  >(({ className, ...props }, ref) => (
+    <DialogPrimitive.Description
+      ref={ref}
+      className={cn('text-sm text-[#71717a] dark:text-[#a3a3a3]', className)}
+      {...props}
+    />
+  ))
+)
 DialogDescription.displayName = DialogPrimitive.Description.displayName
 
 // ============================================================================

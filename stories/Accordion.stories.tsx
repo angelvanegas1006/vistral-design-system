@@ -10,6 +10,12 @@ import {
 const meta: Meta<typeof Accordion> = {
   title: 'Components/Accordion',
   component: Accordion,
+  argTypes: {
+    type: { control: 'select', options: ['single', 'multiple'] },
+    collapsible: { control: 'boolean' },
+    defaultValue: { control: 'object' },
+    value: { control: 'object' },
+  },
   parameters: {
     layout: 'centered',
     docs: {
@@ -233,5 +239,307 @@ export const NestedContent: Story = {
         </AccordionContent>
       </AccordionItem>
     </Accordion>
+  ),
+}
+
+export const SingleExpand: Story = {
+  name: 'Single Expand',
+  render: () => (
+    <Accordion type="single" style={{ width: 400 }}>
+      <AccordionItem value="item-1">
+        <AccordionTrigger>Section One</AccordionTrigger>
+        <AccordionContent>
+          Only one section can be open at a time. Opening another will close this one.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2">
+        <AccordionTrigger>Section Two</AccordionTrigger>
+        <AccordionContent>
+          Click on Section Three to see this one collapse automatically.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-3">
+        <AccordionTrigger>Section Three</AccordionTrigger>
+        <AccordionContent>
+          This is the third section. Only one section is visible at any given time.
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  ),
+}
+
+export const MultipleExpand: Story = {
+  name: 'Multiple Expand',
+  render: () => (
+    <Accordion type="multiple" style={{ width: 400 }}>
+      <AccordionItem value="item-1">
+        <AccordionTrigger>Personal Information</AccordionTrigger>
+        <AccordionContent>
+          Name, email, phone number, and address fields would go here.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2">
+        <AccordionTrigger>Payment Details</AccordionTrigger>
+        <AccordionContent>
+          Credit card number, expiration date, and CVV fields would go here.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-3">
+        <AccordionTrigger>Shipping Preferences</AccordionTrigger>
+        <AccordionContent>
+          Delivery method, special instructions, and preferred time slot options would go here.
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  ),
+}
+
+export const Collapsible: Story = {
+  name: 'Collapsible',
+  render: () => (
+    <Accordion type="single" collapsible style={{ width: 400 }}>
+      <AccordionItem value="item-1">
+        <AccordionTrigger>Click me, then click again to collapse</AccordionTrigger>
+        <AccordionContent>
+          With collapsible enabled, clicking the open trigger again will close it, leaving all items
+          collapsed.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2">
+        <AccordionTrigger>Another collapsible item</AccordionTrigger>
+        <AccordionContent>
+          Each item can be toggled open and closed independently of the others.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-3">
+        <AccordionTrigger>Third collapsible item</AccordionTrigger>
+        <AccordionContent>
+          All items can be closed at the same time when collapsible is true.
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  ),
+}
+
+export const DefaultOpen: Story = {
+  name: 'Default Open',
+  render: () => (
+    <Accordion type="multiple" defaultValue={['item-1']} style={{ width: 400 }}>
+      <AccordionItem value="item-1">
+        <AccordionTrigger>Open by Default</AccordionTrigger>
+        <AccordionContent>
+          This item is expanded on initial render via the defaultValue prop.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2">
+        <AccordionTrigger>Closed by Default</AccordionTrigger>
+        <AccordionContent>
+          This item starts collapsed but can be opened by clicking the trigger.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-3">
+        <AccordionTrigger>Also Closed by Default</AccordionTrigger>
+        <AccordionContent>Another item that starts in the closed state.</AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  ),
+}
+
+export const DisabledItem: Story = {
+  name: 'Disabled Item',
+  render: () => (
+    <Accordion type="single" collapsible style={{ width: 400 }}>
+      <AccordionItem value="item-1">
+        <AccordionTrigger>Enabled Item</AccordionTrigger>
+        <AccordionContent>
+          This item works normally and can be expanded or collapsed.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2" disabled>
+        <AccordionTrigger disabled style={{ opacity: 0.5, cursor: 'not-allowed' }}>
+          Disabled Item (cannot expand)
+        </AccordionTrigger>
+        <AccordionContent>
+          This content should not be reachable because the item is disabled.
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-3">
+        <AccordionTrigger>Another Enabled Item</AccordionTrigger>
+        <AccordionContent>
+          This item also works normally alongside the disabled one.
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  ),
+}
+
+export const CustomContent: Story = {
+  name: 'Custom Content',
+  render: () => (
+    <Accordion type="multiple" style={{ width: 480 }}>
+      <AccordionItem value="checklist">
+        <AccordionTrigger>Project Checklist</AccordionTrigger>
+        <AccordionContent>
+          <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
+            {[
+              { done: true, label: 'Set up repository' },
+              { done: true, label: 'Configure CI/CD pipeline' },
+              { done: false, label: 'Write unit tests' },
+              { done: false, label: 'Deploy to staging' },
+            ].map((item, i) => (
+              <li
+                key={i}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '6px 0',
+                  fontSize: 13,
+                  color: item.done ? '#16a34a' : '#52525b',
+                }}
+              >
+                <span>{item.done ? '✓' : '○'}</span>
+                <span style={{ textDecoration: item.done ? 'line-through' : 'none' }}>
+                  {item.label}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="nested">
+        <AccordionTrigger>Team Members</AccordionTrigger>
+        <AccordionContent>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {[
+              { name: 'Ana López', role: 'Lead Designer', color: '#6366f1' },
+              { name: 'Carlos Reyes', role: 'Frontend Engineer', color: '#0ea5e9' },
+              { name: 'Mia Santos', role: 'Product Manager', color: '#f59e0b' },
+            ].map(member => (
+              <div key={member.name} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div
+                  style={{
+                    width: 32,
+                    height: 32,
+                    borderRadius: '50%',
+                    backgroundColor: member.color,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#fff',
+                    fontSize: 13,
+                    fontWeight: 600,
+                  }}
+                >
+                  {member.name[0]}
+                </div>
+                <div>
+                  <div style={{ fontSize: 13, fontWeight: 500 }}>{member.name}</div>
+                  <div style={{ fontSize: 12, color: '#71717a' }}>{member.role}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="stats">
+        <AccordionTrigger>Project Statistics</AccordionTrigger>
+        <AccordionContent>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            {[
+              { label: 'Commits', value: '1,247' },
+              { label: 'Pull Requests', value: '312' },
+              { label: 'Open Issues', value: '28' },
+              { label: 'Contributors', value: '9' },
+            ].map(stat => (
+              <div
+                key={stat.label}
+                style={{
+                  padding: 12,
+                  backgroundColor: '#fafafa',
+                  borderRadius: 8,
+                  textAlign: 'center',
+                }}
+              >
+                <div style={{ fontSize: 20, fontWeight: 700, color: '#09090b' }}>{stat.value}</div>
+                <div style={{ fontSize: 12, color: '#71717a', marginTop: 2 }}>{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  ),
+}
+
+export const FAQSection: Story = {
+  name: 'FAQ Section',
+  render: () => (
+    <div style={{ width: 540 }}>
+      <div style={{ marginBottom: 24, textAlign: 'center' }}>
+        <h2
+          style={{
+            margin: '0 0 8px',
+            fontSize: 24,
+            fontWeight: 700,
+            color: '#09090b',
+            fontFamily: 'Inter, sans-serif',
+          }}
+        >
+          Got Questions?
+        </h2>
+        <p
+          style={{
+            margin: 0,
+            fontSize: 14,
+            color: '#71717a',
+            fontFamily: 'Inter, sans-serif',
+          }}
+        >
+          Find answers to the most common questions about our platform.
+        </p>
+      </div>
+      <Accordion type="single" collapsible>
+        <AccordionItem value="faq-1">
+          <AccordionTrigger>How do I create an account?</AccordionTrigger>
+          <AccordionContent>
+            Click the "Sign Up" button in the top right corner. You can register with your email
+            address or use Google/Apple sign-in. The process takes less than a minute.
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="faq-2">
+          <AccordionTrigger>What are the subscription plans?</AccordionTrigger>
+          <AccordionContent>
+            We offer three plans: Free (up to 3 projects), Pro ($12/month for unlimited projects and
+            priority support), and Enterprise (custom pricing with dedicated account management and
+            SLA guarantees).
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="faq-3">
+          <AccordionTrigger>Can I invite team members?</AccordionTrigger>
+          <AccordionContent>
+            Yes! Pro and Enterprise plans support unlimited team members. Go to Settings → Team to
+            send invitations via email. Each member can be assigned roles like Admin, Editor, or
+            Viewer.
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="faq-4">
+          <AccordionTrigger>Is my data secure?</AccordionTrigger>
+          <AccordionContent>
+            Absolutely. All data is encrypted at rest (AES-256) and in transit (TLS 1.3). We are SOC
+            2 Type II certified and conduct regular third-party security audits. Your data is backed
+            up daily across multiple regions.
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="faq-5">
+          <AccordionTrigger>How do I cancel my subscription?</AccordionTrigger>
+          <AccordionContent>
+            You can cancel anytime from Settings → Billing → Cancel Plan. Your access continues
+            until the end of the current billing period. We also offer a 30-day money-back guarantee
+            for new subscribers.
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    </div>
   ),
 }

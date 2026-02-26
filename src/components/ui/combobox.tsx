@@ -273,7 +273,7 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       borderRadius: COMBOBOX_TOKENS.trigger.radius,
       cursor: disabled ? 'not-allowed' : 'pointer',
       opacity: disabled ? 0.5 : 1,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       transition: 'border-color 150ms ease',
     }
 
@@ -344,7 +344,7 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       backgroundColor: COMBOBOX_TOKENS.search.bg,
       border: `1px solid ${COMBOBOX_TOKENS.search.border}`,
       borderRadius: COMBOBOX_TOKENS.search.radius,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       outline: 'none',
     }
 
@@ -381,8 +381,7 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
               fontSize: 14,
               fontWeight: 500,
               color: '#18181b',
-              fontFamily:
-                "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+              fontFamily: 'var(--vistral-font-family-sans)',
             }}
           >
             {label}
@@ -496,8 +495,7 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
               fontSize: COMBOBOX_TOKENS.error.fontSize,
               color: error ? COMBOBOX_TOKENS.error.color : '#71717a',
               marginTop: COMBOBOX_TOKENS.error.marginTop,
-              fontFamily:
-                "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+              fontFamily: 'var(--vistral-font-family-sans)',
             }}
           >
             {error || description}
@@ -566,8 +564,7 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                     textAlign: 'center',
                     fontSize: 13,
                     color: COMBOBOX_TOKENS.option.fgMuted,
-                    fontFamily:
-                      "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+                    fontFamily: 'var(--vistral-font-family-sans)',
                   }}
                 >
                   No element found

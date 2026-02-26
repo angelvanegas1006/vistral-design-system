@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { forwardRef, useId, useState } from 'react'
+import { forwardRef, useId } from 'react'
 import { Check, Minus } from 'lucide-react'
 
 /**
@@ -34,7 +34,6 @@ const CHECKBOX_TOKENS = {
     bg: '#ffffff',
     border: '#ef4444', // red-500
   },
-  // Container hover state
   containerHover: {
     bg: '#fafafa',
   },
@@ -80,8 +79,6 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       showHoverBg = false,
       onCheckedChange,
       onChange,
-      onFocus,
-      onBlur,
       style,
       className: _className,
       id: providedId,
@@ -89,8 +86,6 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     },
     ref
   ) => {
-    const [isHovered, setIsHovered] = useState(false)
-    const [isFocused, setIsFocused] = useState(false)
     const generatedId = useId()
     const id = providedId || generatedId
 
@@ -99,31 +94,49 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       onCheckedChange?.(e.target.checked)
     }
 
-    const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-      setIsFocused(true)
-      onFocus?.(e)
-    }
-
-    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-      setIsFocused(false)
-      onBlur?.(e)
-    }
-
-    // Determine visual state
-    const getStateTokens = () => {
-      if (disabled) return CHECKBOX_TOKENS.disabled
+    const getBoxCssVars = (): Record<string, string> => {
+      if (disabled) {
+        return {
+          '--v-bg': CHECKBOX_TOKENS.disabled.bg,
+          '--v-border': CHECKBOX_TOKENS.disabled.border,
+        }
+      }
       if (checked || indeterminate) {
         const state = indeterminate ? CHECKBOX_TOKENS.indeterminate : CHECKBOX_TOKENS.checked
         return {
-          ...state,
-          bg: isHovered && !disabled ? state.bgHover : state.bg,
+          '--v-bg': state.bg,
+          '--v-bg-hover': state.bgHover,
+          '--v-border': state.border,
+          '--v-border-hover': state.border,
         }
       }
-      if (error) return { ...CHECKBOX_TOKENS.unchecked, border: CHECKBOX_TOKENS.error.border }
-      return CHECKBOX_TOKENS.unchecked
+      if (error) {
+        return {
+          '--v-bg': CHECKBOX_TOKENS.unchecked.bg,
+          '--v-border': CHECKBOX_TOKENS.error.border,
+          '--v-border-hover': CHECKBOX_TOKENS.error.border,
+        }
+      }
+      return {
+        '--v-bg': CHECKBOX_TOKENS.unchecked.bg,
+        '--v-border': CHECKBOX_TOKENS.unchecked.border,
+        '--v-border-hover': CHECKBOX_TOKENS.unchecked.borderHover,
+      }
     }
 
-    const stateTokens = getStateTokens()
+    const getFg = () => {
+      if (disabled) return CHECKBOX_TOKENS.disabled.fg
+      if (checked || indeterminate) {
+        return indeterminate ? CHECKBOX_TOKENS.indeterminate.fg : CHECKBOX_TOKENS.checked.fg
+      }
+      return '#ffffff'
+    }
+
+    const boxCssVars = getBoxCssVars()
+
+    const containerCssVars: Record<string, string> = showHoverBg
+      ? { '--v-bg-hover': CHECKBOX_TOKENS.containerHover.bg }
+      : {}
 
     const containerStyle: React.CSSProperties = {
       display: 'inline-flex',
@@ -134,9 +147,8 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       opacity: disabled ? 0.6 : 1,
       padding: showHoverBg ? '8px' : '0',
       borderRadius: showHoverBg ? 8 : 0,
-      backgroundColor:
-        showHoverBg && isHovered && !disabled ? CHECKBOX_TOKENS.containerHover.bg : 'transparent',
       transition: 'background-color 150ms ease',
+      ...containerCssVars,
       ...style,
     }
 
@@ -154,16 +166,9 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: stateTokens.bg,
-      border: `2px solid ${
-        isHovered && !disabled && !checked && !indeterminate
-          ? CHECKBOX_TOKENS.unchecked.borderHover
-          : stateTokens.border
-      }`,
       borderRadius: CHECKBOX_TOKENS.radius,
-      transition: 'all 150ms ease-in-out',
       pointerEvents: 'none',
-      boxShadow: isFocused && !disabled ? CHECKBOX_TOKENS.focusRing : 'none',
+      ...boxCssVars,
     }
 
     const inputStyle: React.CSSProperties = {
@@ -186,7 +191,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       fontWeight: 500,
       lineHeight: 1.4,
       color: disabled ? '#a1a1aa' : error ? '#ef4444' : '#18181b',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
     }
 
     const descriptionStyle: React.CSSProperties = {
@@ -194,7 +199,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       fontWeight: 400,
       lineHeight: 1.4,
       color: disabled ? '#d4d4d8' : '#71717a',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
     }
 
     const IconComponent = indeterminate ? Minus : Check
@@ -202,9 +207,9 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 
     return (
       <label
+        data-vistral-interactive
+        {...(disabled ? { 'data-disabled': '' } : {})}
         style={containerStyle}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
         htmlFor={id}
       >
         <span style={checkboxWrapperStyle}>
@@ -215,20 +220,14 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             checked={checked}
             disabled={disabled}
             onChange={handleChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
             style={inputStyle}
             aria-invalid={error}
             aria-checked={indeterminate ? 'mixed' : checked}
             {...props}
           />
-          <span style={visualBoxStyle}>
+          <span data-vistral="checkbox-box" style={visualBoxStyle}>
             {showIcon && (
-              <IconComponent
-                size={CHECKBOX_TOKENS.iconSize}
-                color={'fg' in stateTokens ? stateTokens.fg : '#ffffff'}
-                strokeWidth={3}
-              />
+              <IconComponent size={CHECKBOX_TOKENS.iconSize} color={getFg()} strokeWidth={3} />
             )}
           </span>
         </span>
@@ -271,7 +270,7 @@ const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(
       fontSize: 13,
       color: '#ef4444',
       marginTop: 8,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
     }
 
     return (

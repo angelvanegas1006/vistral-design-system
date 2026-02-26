@@ -90,7 +90,7 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
       padding: `${BANNER_TOKENS.padding}px ${BANNER_TOKENS.paddingX}px`,
       backgroundColor: tokens.bg,
       borderBottom: `1px solid ${tokens.border}`,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...(fixed && {
         position: 'fixed',
         top: 0,
@@ -171,7 +171,12 @@ const Banner = forwardRef<HTMLDivElement, BannerProps>(
             </button>
           )}
           {dismissible && (
-            <button type="button" style={closeButtonStyle} onClick={handleDismiss}>
+            <button
+              type="button"
+              data-vistral-interactive
+              style={closeButtonStyle}
+              onClick={handleDismiss}
+            >
               <X size={16} />
             </button>
           )}
@@ -228,7 +233,7 @@ const PromoBanner = forwardRef<HTMLDivElement, PromoBannerProps>(
       background,
       color,
       textAlign: 'center',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       fontSize: 14,
       fontWeight: 500,
       ...style,
@@ -250,7 +255,7 @@ const PromoBanner = forwardRef<HTMLDivElement, PromoBannerProps>(
       <div ref={ref} style={{ ...containerStyle, position: 'relative' }} {...props}>
         {children}
         {dismissible && (
-          <button type="button" style={closeStyle} onClick={handleDismiss}>
+          <button type="button" data-vistral-interactive style={closeStyle} onClick={handleDismiss}>
             <X size={16} />
           </button>
         )}

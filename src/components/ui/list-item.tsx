@@ -127,39 +127,29 @@ const Item = forwardRef<HTMLDivElement, ItemProps>(
     },
     ref
   ) => {
-    const [isHovered, setIsHovered] = React.useState(false)
-    const [isPressed, setIsPressed] = React.useState(false)
-    const [isFocused, setIsFocused] = React.useState(false)
-
     const isInteractive = clickable || !!onClick || !!href
-    const role = roleProp || (isInteractive ? 'button' : 'listitem')
 
-    const getBgColor = () => {
-      if (selected) return ITEM_TOKENS.bgSelected
-      if (isPressed) return ITEM_TOKENS.bgActive
-      if (isHovered && isInteractive) return ITEM_TOKENS.bgHover
-      return ITEM_TOKENS.bg
-    }
+    const role = roleProp || (isInteractive ? 'button' : 'listitem')
 
     const getMinHeight = () => {
       return size === 'sm' ? ITEM_TOKENS.minHeightMobile : ITEM_TOKENS.minHeight
     }
 
-    const containerStyle: React.CSSProperties = {
+    const containerStyle = {
       display: 'flex',
       flexDirection: 'column',
       minHeight: getMinHeight(),
       padding: `${ITEM_TOKENS.paddingY}px ${ITEM_TOKENS.paddingX}px`,
-      backgroundColor: getBgColor(),
+      ...(selected ? { backgroundColor: ITEM_TOKENS.bgSelected } : {}),
       cursor: disabled ? 'not-allowed' : isInteractive ? 'pointer' : 'default',
       opacity: disabled ? 0.5 : 1,
       transition: 'background-color 150ms ease',
       textDecoration: 'none',
       color: 'inherit',
-      outline: isFocused && isInteractive ? `2px solid #2050f6` : 'none',
-      outlineOffset: -2,
+      '--v-bg-hover': isInteractive ? ITEM_TOKENS.bgHover : 'transparent',
+      '--v-bg-active': isInteractive ? ITEM_TOKENS.bgActive : 'transparent',
       ...style,
-    }
+    } as React.CSSProperties
 
     const mainContentStyle: React.CSSProperties = {
       display: 'flex',
@@ -201,7 +191,7 @@ const Item = forwardRef<HTMLDivElement, ItemProps>(
       fontWeight: ITEM_TOKENS.title.fontWeight,
       color: ITEM_TOKENS.title.color,
       lineHeight: ITEM_TOKENS.title.lineHeight,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       margin: 0,
       overflow: 'hidden',
       textOverflow: 'ellipsis',
@@ -214,7 +204,7 @@ const Item = forwardRef<HTMLDivElement, ItemProps>(
       fontSize: ITEM_TOKENS.description.fontSize,
       color: ITEM_TOKENS.description.color,
       lineHeight: ITEM_TOKENS.description.lineHeight,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       margin: 0,
       overflow: 'hidden',
       textOverflow: 'ellipsis',
@@ -246,16 +236,6 @@ const Item = forwardRef<HTMLDivElement, ItemProps>(
       margin: 0,
       marginTop: ITEM_TOKENS.paddingY,
     }
-
-    const handleMouseDown = () => !disabled && setIsPressed(true)
-    const handleMouseUp = () => setIsPressed(false)
-    const handleMouseEnter = () => setIsHovered(true)
-    const handleMouseLeave = () => {
-      setIsHovered(false)
-      setIsPressed(false)
-    }
-    const handleFocus = () => setIsFocused(true)
-    const handleBlur = () => setIsFocused(false)
 
     // Build aria-label if not provided
     const finalAriaLabel =
@@ -306,13 +286,9 @@ const Item = forwardRef<HTMLDivElement, ItemProps>(
       'aria-label': finalAriaLabel,
       'aria-selected': selected ? true : undefined,
       'aria-disabled': disabled ? true : undefined,
+      'data-vistral': 'list-item',
+      'data-disabled': disabled || undefined,
       style: containerStyle,
-      onMouseEnter: handleMouseEnter,
-      onMouseLeave: handleMouseLeave,
-      onMouseDown: handleMouseDown,
-      onMouseUp: handleMouseUp,
-      onFocus: handleFocus,
-      onBlur: handleBlur,
     }
 
     if (href && !disabled) {

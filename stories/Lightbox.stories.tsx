@@ -45,6 +45,49 @@ const DEMO_IMAGES = [
 const meta: Meta<typeof Lightbox> = {
   title: 'Components/Lightbox',
   component: Lightbox,
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['image', 'document'],
+      description: 'Variant: image viewer or document viewer',
+    },
+    initialIndex: {
+      control: 'number',
+      description: 'Initial image index',
+    },
+    showThumbnails: {
+      control: 'boolean',
+      description: 'Show thumbnails strip or sidebar',
+    },
+    showCounter: {
+      control: 'boolean',
+      description: 'Show counter',
+    },
+    enableZoom: {
+      control: 'boolean',
+      description: 'Enable zoom',
+    },
+    zoomLevel: {
+      control: 'number',
+      description: 'Zoom level (percentage)',
+    },
+    enableDownload: {
+      control: 'boolean',
+      description: 'Enable download',
+    },
+    showBack: {
+      control: 'boolean',
+      description: 'Show back button',
+    },
+    closeOnBackdrop: {
+      control: 'boolean',
+      description: 'Close on backdrop click',
+    },
+    enableKeyboard: {
+      control: 'boolean',
+      description: 'Enable keyboard navigation',
+    },
+  },
   parameters: {
     layout: 'centered',
     docs: {

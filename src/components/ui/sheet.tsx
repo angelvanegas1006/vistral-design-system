@@ -7,16 +7,13 @@ import { X } from 'lucide-react'
  * https://www.figma.com/design/i0plqavJ8VqpKeqr6TkLtD/Design-System---PropHero?node-id=652-21796
  */
 const SHEET_TOKENS = {
-  // Overlay
   overlay: {
     bg: 'rgba(0, 0, 0, 0.5)',
   },
-  // Content
   content: {
     bg: '#ffffff',
     shadow: '0px 0px 24px rgba(0, 0, 0, 0.15)',
   },
-  // Sizes
   sizes: {
     sm: 320,
     md: 400,
@@ -24,17 +21,14 @@ const SHEET_TOKENS = {
     xl: 720,
     full: '100%',
   },
-  // Header
   header: {
     paddingX: 24,
     paddingY: 16,
     borderColor: '#e4e4e7',
   },
-  // Body
   body: {
     padding: 24,
   },
-  // Footer
   footer: {
     paddingX: 24,
     paddingY: 16,
@@ -154,7 +148,6 @@ const SheetContent = forwardRef<HTMLDivElement, SheetContentProps>(
   ) => {
     const { open, setOpen } = useSheet()
 
-    // Lock body scroll when open
     useEffect(() => {
       if (open) {
         document.body.style.overflow = 'hidden'
@@ -164,7 +157,6 @@ const SheetContent = forwardRef<HTMLDivElement, SheetContentProps>(
       }
     }, [open])
 
-    // Handle escape
     useEffect(() => {
       if (!open) return
       const handleEscape = (e: KeyboardEvent) => {
@@ -178,20 +170,6 @@ const SheetContent = forwardRef<HTMLDivElement, SheetContentProps>(
 
     const isHorizontal = side === 'left' || side === 'right'
     const sheetSize = SHEET_TOKENS.sizes[size]
-
-    const _getTransform = (entering: boolean) => {
-      if (entering) return 'none'
-      switch (side) {
-        case 'left':
-          return 'translateX(-100%)'
-        case 'right':
-          return 'translateX(100%)'
-        case 'top':
-          return 'translateY(-100%)'
-        case 'bottom':
-          return 'translateY(100%)'
-      }
-    }
 
     const overlayStyle: React.CSSProperties = {
       position: 'fixed',
@@ -238,11 +216,20 @@ const SheetContent = forwardRef<HTMLDivElement, SheetContentProps>(
     return (
       <>
         <div
+          data-vistral="sheet-overlay"
           style={overlayStyle}
           onClick={closeOnOverlayClick ? () => setOpen(false) : undefined}
           aria-hidden="true"
         />
-        <div ref={ref} role="dialog" aria-modal="true" style={contentStyle} {...props}>
+        <div
+          ref={ref}
+          data-vistral="sheet-content"
+          data-side={side}
+          role="dialog"
+          aria-modal="true"
+          style={contentStyle}
+          {...props}
+        >
           {showClose && (
             <button type="button" style={closeStyle} onClick={() => setOpen(false)}>
               <X size={20} />
@@ -267,12 +254,12 @@ const SheetHeader = forwardRef<HTMLDivElement, SheetHeaderProps>(
     const headerStyle: React.CSSProperties = {
       padding: `${SHEET_TOKENS.header.paddingY}px ${SHEET_TOKENS.header.paddingX}px`,
       borderBottom: `1px solid ${SHEET_TOKENS.header.borderColor}`,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 
     return (
-      <div ref={ref} style={headerStyle} {...props}>
+      <div ref={ref} data-vistral="sheet-header" style={headerStyle} {...props}>
         {children}
       </div>
     )
@@ -409,38 +396,6 @@ const SheetClose: React.FC<SheetCloseProps> = ({ asChild, children, onClick, ...
 }
 
 SheetClose.displayName = 'SheetClose'
-
-// Add keyframes
-if (typeof document !== 'undefined') {
-  const styleId = 'vistral-sheet-styles'
-  if (!document.getElementById(styleId)) {
-    const style = document.createElement('style')
-    style.id = styleId
-    style.textContent = `
-      @keyframes sheet-overlay-show {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-      @keyframes sheet-slide-right {
-        from { transform: translateX(100%); }
-        to { transform: translateX(0); }
-      }
-      @keyframes sheet-slide-left {
-        from { transform: translateX(-100%); }
-        to { transform: translateX(0); }
-      }
-      @keyframes sheet-slide-top {
-        from { transform: translateY(-100%); }
-        to { transform: translateY(0); }
-      }
-      @keyframes sheet-slide-bottom {
-        from { transform: translateY(100%); }
-        to { transform: translateY(0); }
-      }
-    `
-    document.head.appendChild(style)
-  }
-}
 
 export {
   Sheet,

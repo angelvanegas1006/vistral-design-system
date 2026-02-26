@@ -107,7 +107,7 @@ const BottomNav = forwardRef<HTMLElement, BottomNavProps>(
       padding: '8px 16px',
       backgroundColor: BOTTOM_NAV_TOKENS.bg,
       borderTop: `1px solid ${BOTTOM_NAV_TOKENS.border}`,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...(fixed && {
         position: 'fixed',
         bottom: 0,
@@ -163,10 +163,14 @@ const BottomNavItem = forwardRef<HTMLButtonElement, BottomNavItemProps>(
     ref
   ) => {
     const { value, onValueChange, showLabels } = useBottomNav()
-    const [isHovered, setIsHovered] = useState(false)
     const isActive = value === itemValue
     const IconComponent = isActive && ActiveIcon ? ActiveIcon : Icon
     const shouldShowLabel = hideLabel === undefined ? showLabels : !hideLabel
+
+    const cssVars: Record<string, string> = {
+      '--v-fg': isActive ? BOTTOM_NAV_TOKENS.item.fgActive : BOTTOM_NAV_TOKENS.item.fg,
+      '--v-fg-hover': BOTTOM_NAV_TOKENS.item.fgActive,
+    }
 
     const itemStyle: React.CSSProperties = {
       display: 'flex',
@@ -179,12 +183,13 @@ const BottomNavItem = forwardRef<HTMLButtonElement, BottomNavItemProps>(
       backgroundColor: 'transparent',
       border: 'none',
       cursor: 'pointer',
+      color: isActive ? BOTTOM_NAV_TOKENS.item.fgActive : BOTTOM_NAV_TOKENS.item.fg,
       transition: 'all 150ms ease',
       WebkitTapHighlightColor: 'transparent',
+      ...cssVars,
       ...style,
     }
 
-    // Pill background for active item - wraps entire item (icon + label)
     const pillStyle: React.CSSProperties = {
       display: 'flex',
       flexDirection: 'column',
@@ -193,15 +198,10 @@ const BottomNavItem = forwardRef<HTMLButtonElement, BottomNavItemProps>(
       gap: BOTTOM_NAV_TOKENS.item.gap,
       padding: `${BOTTOM_NAV_TOKENS.item.activePillPaddingY}px ${BOTTOM_NAV_TOKENS.item.activePillPaddingX}px`,
       borderRadius: BOTTOM_NAV_TOKENS.item.activePillRadius,
-      backgroundColor: isActive
-        ? BOTTOM_NAV_TOKENS.item.activePillBg
-        : isHovered
-          ? 'rgba(0,0,0,0.04)'
-          : 'transparent',
+      backgroundColor: isActive ? BOTTOM_NAV_TOKENS.item.activePillBg : 'transparent',
       transition: 'background-color 200ms ease',
     }
 
-    // Icon container - no circle, just icon
     const iconContainerStyle: React.CSSProperties = {
       position: 'relative',
       display: 'flex',
@@ -212,14 +212,14 @@ const BottomNavItem = forwardRef<HTMLButtonElement, BottomNavItemProps>(
       borderRadius: 'none',
       border: 'none',
       backgroundColor: 'transparent',
-      color: isActive ? BOTTOM_NAV_TOKENS.item.fgActive : BOTTOM_NAV_TOKENS.item.fg,
+      color: 'inherit',
       transition: 'color 150ms ease',
     }
 
     const labelStyle: React.CSSProperties = {
       fontSize: BOTTOM_NAV_TOKENS.item.fontSize,
       fontWeight: BOTTOM_NAV_TOKENS.item.fontWeight,
-      color: isActive ? BOTTOM_NAV_TOKENS.item.fgActive : BOTTOM_NAV_TOKENS.item.fg,
+      color: 'inherit',
       transition: 'color 150ms ease',
       lineHeight: 1,
     }
@@ -247,10 +247,9 @@ const BottomNavItem = forwardRef<HTMLButtonElement, BottomNavItemProps>(
         type="button"
         role="tab"
         aria-selected={isActive}
+        data-vistral="bottom-nav-item"
         style={itemStyle}
         onClick={() => onValueChange(itemValue)}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
         {...props}
       >
         <div style={pillStyle}>
@@ -281,8 +280,10 @@ export interface BottomNavSearchProps extends React.ButtonHTMLAttributes<HTMLBut
 
 const BottomNavSearch = forwardRef<HTMLButtonElement, BottomNavSearchProps>(
   ({ icon: Icon, onPress, style, ...props }, ref) => {
-    const [isHovered, setIsHovered] = useState(false)
-    const [isPressed, setIsPressed] = useState(false)
+    const cssVars: Record<string, string> = {
+      '--v-bg': 'transparent',
+      '--v-bg-hover': '#f4f4f5',
+    }
 
     const buttonStyle: React.CSSProperties = {
       display: 'flex',
@@ -291,12 +292,12 @@ const BottomNavSearch = forwardRef<HTMLButtonElement, BottomNavSearchProps>(
       width: 48,
       height: 48,
       borderRadius: '50%',
-      backgroundColor: isPressed ? '#e4e4e7' : isHovered ? '#f4f4f5' : 'transparent',
       border: 'none',
       cursor: 'pointer',
       color: '#71717a',
       transition: 'all 150ms ease',
       WebkitTapHighlightColor: 'transparent',
+      ...cssVars,
       ...style,
     }
 
@@ -321,12 +322,9 @@ const BottomNavSearch = forwardRef<HTMLButtonElement, BottomNavSearchProps>(
       <button
         ref={ref}
         type="button"
+        data-vistral-interactive
         style={buttonStyle}
         onClick={onPress}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        onMouseDown={() => setIsPressed(true)}
-        onMouseUp={() => setIsPressed(false)}
         {...props}
       >
         {Icon ? <Icon size={24} /> : <SearchIcon />}

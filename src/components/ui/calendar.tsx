@@ -158,7 +158,7 @@ const Calendar = forwardRef<HTMLDivElement, CalendarProps>(
       backgroundColor: CALENDAR_TOKENS.bg,
       border: `1px solid ${CALENDAR_TOKENS.border}`,
       borderRadius: CALENDAR_TOKENS.radius,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 

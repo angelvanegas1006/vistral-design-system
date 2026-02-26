@@ -6,6 +6,22 @@ import { Search, Mail, Lock, Eye, EyeOff, AtSign, User } from 'lucide-react'
 const meta: Meta<typeof Input> = {
   title: 'Components/Text Input',
   component: Input,
+  argTypes: {
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    error: { control: 'boolean' },
+    errorMessage: { control: 'text' },
+    label: { control: 'text' },
+    helperText: { control: 'text' },
+    fullWidth: { control: 'boolean' },
+    showCounter: { control: 'boolean' },
+    maxLength: { control: 'number' },
+    suffix: { control: 'text' },
+    optional: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    placeholder: { control: 'text' },
+    leftIcon: { table: { disable: true } },
+    rightIcon: { table: { disable: true } },
+  },
   parameters: {
     layout: 'centered',
     docs: {

@@ -6,6 +6,12 @@ import { Rocket } from 'lucide-react'
 const meta: Meta<typeof Alert> = {
   title: 'Components/Alert',
   component: Alert,
+  argTypes: {
+    variant: { control: 'select', options: ['info', 'success', 'warning', 'error'] },
+    dismissible: { control: 'boolean' },
+    actionLabel: { control: 'text' },
+    icon: { table: { disable: true } },
+  },
   parameters: {
     layout: 'centered',
     docs: {

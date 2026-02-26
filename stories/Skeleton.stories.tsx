@@ -5,6 +5,13 @@ import { Skeleton, SkeletonText, SkeletonCard, SkeletonAvatar } from '../src/com
 const meta: Meta<typeof Skeleton> = {
   title: 'Components/Skeleton',
   component: Skeleton,
+  argTypes: {
+    width: { control: 'text' },
+    height: { control: 'text' },
+    radius: { control: 'select', options: ['none', 'sm', 'md', 'lg', 'full'] },
+    circle: { control: 'boolean' },
+    animate: { control: 'boolean' },
+  },
   parameters: {
     layout: 'centered',
     docs: {

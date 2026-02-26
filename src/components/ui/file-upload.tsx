@@ -206,7 +206,7 @@ const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
 
     const containerStyle: React.CSSProperties = {
       width: '100%',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 
@@ -266,6 +266,7 @@ const FileUpload = forwardRef<HTMLDivElement, FileUploadProps>(
         )}
 
         <div
+          data-vistral-interactive
           style={dropzoneStyle}
           onDragEnter={handleDragIn}
           onDragLeave={handleDragOut}

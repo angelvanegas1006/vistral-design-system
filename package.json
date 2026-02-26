@@ -5,17 +5,262 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css"
+  ],
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
+    "./accordion": {
+      "import": "./dist/components/accordion.mjs",
+      "require": "./dist/components/accordion.js"
+    },
+    "./alert": {
+      "import": "./dist/components/alert.mjs",
+      "require": "./dist/components/alert.js"
+    },
+    "./autocomplete": {
+      "import": "./dist/components/autocomplete.mjs",
+      "require": "./dist/components/autocomplete.js"
+    },
+    "./avatar": {
+      "import": "./dist/components/avatar.mjs",
+      "require": "./dist/components/avatar.js"
+    },
+    "./badge": {
+      "import": "./dist/components/badge.mjs",
+      "require": "./dist/components/badge.js"
+    },
+    "./banner": {
+      "import": "./dist/components/banner.mjs",
+      "require": "./dist/components/banner.js"
+    },
+    "./bottom-nav": {
+      "import": "./dist/components/bottom-nav.mjs",
+      "require": "./dist/components/bottom-nav.js"
+    },
+    "./breadcrumb": {
+      "import": "./dist/components/breadcrumb.mjs",
+      "require": "./dist/components/breadcrumb.js"
+    },
+    "./button": {
+      "import": "./dist/components/button.mjs",
+      "require": "./dist/components/button.js"
+    },
+    "./calendar": {
+      "import": "./dist/components/calendar.mjs",
+      "require": "./dist/components/calendar.js"
+    },
+    "./card": {
+      "import": "./dist/components/card.mjs",
+      "require": "./dist/components/card.js"
+    },
+    "./carousel": {
+      "import": "./dist/components/carousel.mjs",
+      "require": "./dist/components/carousel.js"
+    },
+    "./checkbox": {
+      "import": "./dist/components/checkbox.mjs",
+      "require": "./dist/components/checkbox.js"
+    },
+    "./chip": {
+      "import": "./dist/components/chip.mjs",
+      "require": "./dist/components/chip.js"
+    },
+    "./color-picker": {
+      "import": "./dist/components/color-picker.mjs",
+      "require": "./dist/components/color-picker.js"
+    },
+    "./combobox": {
+      "import": "./dist/components/combobox.mjs",
+      "require": "./dist/components/combobox.js"
+    },
+    "./context-menu": {
+      "import": "./dist/components/context-menu.mjs",
+      "require": "./dist/components/context-menu.js"
+    },
+    "./data-block": {
+      "import": "./dist/components/data-block.mjs",
+      "require": "./dist/components/data-block.js"
+    },
+    "./date-picker": {
+      "import": "./dist/components/date-picker.mjs",
+      "require": "./dist/components/date-picker.js"
+    },
+    "./dialog": {
+      "import": "./dist/components/dialog.mjs",
+      "require": "./dist/components/dialog.js"
+    },
+    "./divider": {
+      "import": "./dist/components/divider.mjs",
+      "require": "./dist/components/divider.js"
+    },
+    "./dropdown-menu": {
+      "import": "./dist/components/dropdown-menu.mjs",
+      "require": "./dist/components/dropdown-menu.js"
+    },
+    "./empty-state": {
+      "import": "./dist/components/empty-state.mjs",
+      "require": "./dist/components/empty-state.js"
+    },
+    "./file-upload": {
+      "import": "./dist/components/file-upload.mjs",
+      "require": "./dist/components/file-upload.js"
+    },
+    "./footer-actions": {
+      "import": "./dist/components/footer-actions.mjs",
+      "require": "./dist/components/footer-actions.js"
+    },
+    "./header": {
+      "import": "./dist/components/header.mjs",
+      "require": "./dist/components/header.js"
+    },
+    "./input": {
+      "import": "./dist/components/input.mjs",
+      "require": "./dist/components/input.js"
+    },
+    "./lightbox": {
+      "import": "./dist/components/lightbox.mjs",
+      "require": "./dist/components/lightbox.js"
+    },
+    "./link": {
+      "import": "./dist/components/link.mjs",
+      "require": "./dist/components/link.js"
+    },
+    "./list-item": {
+      "import": "./dist/components/list-item.mjs",
+      "require": "./dist/components/list-item.js"
+    },
+    "./media-hero": {
+      "import": "./dist/components/media-hero.mjs",
+      "require": "./dist/components/media-hero.js"
+    },
+    "./navbar": {
+      "import": "./dist/components/navbar.mjs",
+      "require": "./dist/components/navbar.js"
+    },
+    "./number-input": {
+      "import": "./dist/components/number-input.mjs",
+      "require": "./dist/components/number-input.js"
+    },
+    "./number-stepper": {
+      "import": "./dist/components/number-stepper.mjs",
+      "require": "./dist/components/number-stepper.js"
+    },
+    "./pagination": {
+      "import": "./dist/components/pagination.mjs",
+      "require": "./dist/components/pagination.js"
+    },
+    "./phone-input": {
+      "import": "./dist/components/phone-input.mjs",
+      "require": "./dist/components/phone-input.js"
+    },
+    "./pin-code": {
+      "import": "./dist/components/pin-code.mjs",
+      "require": "./dist/components/pin-code.js"
+    },
+    "./popover": {
+      "import": "./dist/components/popover.mjs",
+      "require": "./dist/components/popover.js"
+    },
+    "./progress": {
+      "import": "./dist/components/progress.mjs",
+      "require": "./dist/components/progress.js"
+    },
+    "./property-card": {
+      "import": "./dist/components/property-card.mjs",
+      "require": "./dist/components/property-card.js"
+    },
+    "./radio": {
+      "import": "./dist/components/radio.mjs",
+      "require": "./dist/components/radio.js"
+    },
+    "./rating": {
+      "import": "./dist/components/rating.mjs",
+      "require": "./dist/components/rating.js"
+    },
+    "./search-input": {
+      "import": "./dist/components/search-input.mjs",
+      "require": "./dist/components/search-input.js"
+    },
+    "./select": {
+      "import": "./dist/components/select.mjs",
+      "require": "./dist/components/select.js"
+    },
+    "./sheet": {
+      "import": "./dist/components/sheet.mjs",
+      "require": "./dist/components/sheet.js"
+    },
+    "./side-nav": {
+      "import": "./dist/components/side-nav.mjs",
+      "require": "./dist/components/side-nav.js"
+    },
+    "./skeleton": {
+      "import": "./dist/components/skeleton.mjs",
+      "require": "./dist/components/skeleton.js"
+    },
+    "./slider": {
+      "import": "./dist/components/slider.mjs",
+      "require": "./dist/components/slider.js"
+    },
+    "./stepper": {
+      "import": "./dist/components/stepper.mjs",
+      "require": "./dist/components/stepper.js"
+    },
+    "./switch": {
+      "import": "./dist/components/switch.mjs",
+      "require": "./dist/components/switch.js"
+    },
+    "./table": {
+      "import": "./dist/components/table.mjs",
+      "require": "./dist/components/table.js"
+    },
+    "./tabs": {
+      "import": "./dist/components/tabs.mjs",
+      "require": "./dist/components/tabs.js"
+    },
+    "./tag": {
+      "import": "./dist/components/tag.mjs",
+      "require": "./dist/components/tag.js"
+    },
+    "./tag-input": {
+      "import": "./dist/components/tag-input.mjs",
+      "require": "./dist/components/tag-input.js"
+    },
+    "./text": {
+      "import": "./dist/components/text.mjs",
+      "require": "./dist/components/text.js"
+    },
+    "./timeline": {
+      "import": "./dist/components/timeline.mjs",
+      "require": "./dist/components/timeline.js"
+    },
+    "./toast": {
+      "import": "./dist/components/toast.mjs",
+      "require": "./dist/components/toast.js"
+    },
+    "./toggle-group": {
+      "import": "./dist/components/toggle-group.mjs",
+      "require": "./dist/components/toggle-group.js"
+    },
+    "./tooltip": {
+      "import": "./dist/components/tooltip.mjs",
+      "require": "./dist/components/tooltip.js"
+    },
+    "./uploader": {
+      "import": "./dist/components/uploader.mjs",
+      "require": "./dist/components/uploader.js"
+    },
+    "./styles.css": "./src/components/ui/styles/base.css",
     "./tokens.css": "./src/tokens/vistral-tokens.css"
   },
   "files": [
     "dist",
-    "src/tokens/vistral-tokens.css"
+    "src/tokens/vistral-tokens.css",
+    "src/components/ui/styles/base.css"
   ],
   "scripts": {
     "prepare": "husky",
@@ -25,7 +270,7 @@
     "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit -p tsconfig.typecheck.json",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run",

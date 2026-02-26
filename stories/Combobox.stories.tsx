@@ -5,6 +5,44 @@ import { Combobox } from '../src/components/ui/combobox'
 const meta: Meta<typeof Combobox> = {
   title: 'Components/Combobox',
   component: Combobox,
+  argTypes: {
+    multiple: {
+      control: 'boolean',
+      description: 'Multiple selection',
+    },
+    placeholder: {
+      control: 'text',
+      description: 'Placeholder text',
+    },
+    searchable: {
+      control: 'boolean',
+      description: 'Enable search in dropdown',
+    },
+    clearable: {
+      control: 'boolean',
+      description: 'Allow clearing selection',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disabled state',
+    },
+    label: {
+      control: 'text',
+      description: 'Label text',
+    },
+    error: {
+      control: 'text',
+      description: 'Error message',
+    },
+    description: {
+      control: 'text',
+      description: 'Description text',
+    },
+    showCount: {
+      control: 'boolean',
+      description: 'Show count badge',
+    },
+  },
   parameters: {
     layout: 'centered',
     docs: {

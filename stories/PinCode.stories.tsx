@@ -5,6 +5,45 @@ import { PinCode } from '../src/components/ui/pin-code'
 const meta: Meta<typeof PinCode> = {
   title: 'Components/PinCode',
   component: PinCode,
+  argTypes: {
+    length: {
+      control: 'number',
+      description: 'Number of digits',
+    },
+    mask: {
+      control: 'boolean',
+      description: 'Mask input (for passwords)',
+    },
+    error: {
+      control: 'boolean',
+      description: 'Error state',
+    },
+    success: {
+      control: 'boolean',
+      description: 'Success state',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disabled state',
+    },
+    autoFocus: {
+      control: 'boolean',
+      description: 'Auto focus first input',
+    },
+    label: {
+      control: 'text',
+      description: 'Label text',
+    },
+    helperText: {
+      control: 'text',
+      description: 'Helper text',
+    },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Size variant',
+    },
+  },
   parameters: {
     layout: 'centered',
     docs: {

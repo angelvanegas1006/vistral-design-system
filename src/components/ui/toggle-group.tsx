@@ -114,7 +114,7 @@ const ToggleGroup = forwardRef<HTMLDivElement, ToggleGroupProps>(
       padding: TOGGLE_GROUP_TOKENS.container.padding,
       backgroundColor: TOGGLE_GROUP_TOKENS.container.bg,
       borderRadius: TOGGLE_GROUP_TOKENS.container.radius,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       opacity: disabled ? 0.5 : 1,
       ...style,
     }

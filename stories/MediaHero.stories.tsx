@@ -41,6 +41,37 @@ const DEMO_IMAGES = [
 const meta: Meta<typeof MediaHero> = {
   title: 'Components/MediaHero',
   component: MediaHero,
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['grid', 'carousel', 'single', 'auto'],
+      description: 'Layout variant',
+    },
+    height: {
+      control: 'number',
+      description: 'Container height',
+    },
+    showAllButton: {
+      control: 'boolean',
+      description: 'Show "Show all photos" button',
+    },
+    buttonText: {
+      control: 'text',
+      description: 'Custom button text',
+    },
+    showCounter: {
+      control: 'boolean',
+      description: 'Show counter on mobile',
+    },
+    visibleImages: {
+      control: 'number',
+      description: 'Number of visible images in grid (1-5)',
+    },
+    enableHover: {
+      control: 'boolean',
+      description: 'Enable hover effects on desktop',
+    },
+  },
   parameters: {
     layout: 'fullscreen',
     docs: {

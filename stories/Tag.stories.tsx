@@ -6,6 +6,16 @@ import { CreditCard, Star, Check } from 'lucide-react'
 const meta: Meta<typeof Tag> = {
   title: 'Components/Tag',
   component: Tag,
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['default', 'outlined', 'dark', 'error', 'success', 'info'],
+    },
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    closable: { control: 'boolean' },
+    clickable: { control: 'boolean' },
+    children: { control: 'text' },
+  },
   parameters: {
     layout: 'centered',
     docs: {

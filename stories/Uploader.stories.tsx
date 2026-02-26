@@ -5,6 +5,62 @@ import { Uploader } from '../src/components/ui/uploader'
 const meta: Meta<typeof Uploader> = {
   title: 'Components/Uploader',
   component: Uploader,
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['dropzone', 'button'],
+      description: 'Visual variant',
+    },
+    accept: {
+      control: 'text',
+      description: 'Accepted file types (e.g., "image/*", ".pdf,.doc")',
+    },
+    multiple: {
+      control: 'boolean',
+      description: 'Allow multiple files',
+    },
+    maxSize: {
+      control: 'number',
+      description: 'Max file size in bytes',
+    },
+    maxFiles: {
+      control: 'number',
+      description: 'Max number of files',
+    },
+    label: {
+      control: 'text',
+      description: 'Label text',
+    },
+    helperText: {
+      control: 'text',
+      description: 'Helper text',
+    },
+    error: {
+      control: 'text',
+      description: 'Error message',
+    },
+    showPreviews: {
+      control: 'boolean',
+      description: 'Show file previews',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disabled state',
+    },
+    buttonText: {
+      control: 'text',
+      description: 'Button text for button variant',
+    },
+    displayMode: {
+      control: 'select',
+      options: ['list', 'thumbnails', 'compact'],
+      description: 'Display mode for file list',
+    },
+    simulateProgress: {
+      control: 'boolean',
+      description: 'Simulate upload progress (for demo)',
+    },
+  },
   parameters: {
     layout: 'centered',
     docs: {

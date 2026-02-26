@@ -5,6 +5,15 @@ import { Switch } from '../src/components/ui/switch'
 const meta: Meta<typeof Switch> = {
   title: 'Components/Switch',
   component: Switch,
+  argTypes: {
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    checked: { control: 'boolean' },
+    defaultChecked: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    label: { control: 'text' },
+    description: { control: 'text' },
+    labelPosition: { control: 'select', options: ['left', 'right'] },
+  },
   parameters: {
     layout: 'centered',
     docs: {

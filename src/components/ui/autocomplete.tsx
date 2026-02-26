@@ -90,7 +90,6 @@ const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
     const [isOpen, setIsOpen] = useState(false)
     const [inputValue, setInputValue] = useState('')
     const [highlightedIndex, setHighlightedIndex] = useState(-1)
-    const [isFocused, setIsFocused] = useState(false)
     const containerRef = useRef<HTMLDivElement>(null)
     const inputRef = useRef<HTMLInputElement>(null)
     const listId = React.useId()
@@ -191,20 +190,23 @@ const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       alignItems: 'center',
     }
 
-    const inputStyle: React.CSSProperties = {
+    const inputStyle = {
+      '--v-border': AUTOCOMPLETE_TOKENS.input.border,
+      '--v-border-focus': AUTOCOMPLETE_TOKENS.input.borderFocus,
+      '--v-focus-ring': disabled ? 'none' : '0 0 0 3px rgba(32, 80, 246, 0.15)',
       width: '100%',
       height: AUTOCOMPLETE_TOKENS.input.height,
       padding: `0 ${clearable && inputValue ? 36 : 12}px 0 36px`,
       fontSize: AUTOCOMPLETE_TOKENS.input.fontSize,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       backgroundColor: AUTOCOMPLETE_TOKENS.input.bg,
-      border: `1px solid ${isFocused ? AUTOCOMPLETE_TOKENS.input.borderFocus : AUTOCOMPLETE_TOKENS.input.border}`,
+      border: `1px solid var(--v-border)`,
       borderRadius: AUTOCOMPLETE_TOKENS.input.radius,
       outline: 'none',
-      transition: 'border-color 150ms ease',
+      transition: 'border-color 150ms ease, box-shadow 150ms ease',
       opacity: disabled ? 0.5 : 1,
       cursor: disabled ? 'not-allowed' : 'text',
-    }
+    } as React.CSSProperties
 
     const iconStyle: React.CSSProperties = {
       position: 'absolute',
@@ -255,7 +257,7 @@ const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
             ? AUTOCOMPLETE_TOKENS.option.bgHover
             : 'transparent',
       cursor: option.disabled ? 'not-allowed' : 'pointer',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
     })
 
     const emptyStyle: React.CSSProperties = {
@@ -263,7 +265,7 @@ const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
       textAlign: 'center',
       fontSize: 13,
       color: AUTOCOMPLETE_TOKENS.option.fgMuted,
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
     }
 
     return (
@@ -275,11 +277,7 @@ const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
             type="text"
             value={inputValue}
             onChange={handleInputChange}
-            onFocus={() => {
-              setIsFocused(true)
-              setIsOpen(true)
-            }}
-            onBlur={() => setIsFocused(false)}
+            onFocus={() => setIsOpen(true)}
             onKeyDown={handleKeyDown}
             placeholder={placeholder}
             disabled={disabled}
@@ -288,6 +286,7 @@ const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
             aria-expanded={isOpen}
             aria-autocomplete="list"
             aria-controls={isOpen ? listId : undefined}
+            data-vistral="input"
             {...props}
           />
           {clearable && inputValue && !disabled && (

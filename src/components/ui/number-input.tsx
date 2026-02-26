@@ -144,44 +144,55 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     const canDecrement = min === undefined || value > min
     const canIncrement = max === undefined || value < max
 
-    const getBorderColor = () => {
-      if (error) return NUMBER_INPUT_TOKENS.borderError
-      if (isFocused) return NUMBER_INPUT_TOKENS.borderFocus
-      return NUMBER_INPUT_TOKENS.border
-    }
+    const borderColor = error ? NUMBER_INPUT_TOKENS.borderError : NUMBER_INPUT_TOKENS.border
+    const focusBorderColor = error
+      ? NUMBER_INPUT_TOKENS.borderError
+      : NUMBER_INPUT_TOKENS.borderFocus
+    const focusRing = error
+      ? '0 0 0 3px rgba(220, 38, 38, 0.15)'
+      : '0 0 0 3px rgba(32, 80, 246, 0.15)'
 
     const wrapperStyle: React.CSSProperties = {
       width: '100%',
-      fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      fontFamily: 'var(--vistral-font-family-sans)',
       ...style,
     }
 
     const containerStyle: React.CSSProperties = {
+      '--v-border': borderColor,
+      '--v-border-focus': focusBorderColor,
+      '--v-focus-ring': disabled ? 'none' : focusRing,
       display: 'flex',
       alignItems: 'stretch',
       height: NUMBER_INPUT_TOKENS.height,
       backgroundColor: NUMBER_INPUT_TOKENS.bg,
-      border: `1px solid ${getBorderColor()}`,
+      borderWidth: 1,
+      borderStyle: 'solid',
       borderRadius: NUMBER_INPUT_TOKENS.radius,
       overflow: 'hidden',
       opacity: disabled ? 0.5 : 1,
-      transition: 'border-color 150ms ease',
-    }
+    } as React.CSSProperties
 
-    const buttonStyle = (canClick: boolean): React.CSSProperties => ({
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: NUMBER_INPUT_TOKENS.button.width,
-      backgroundColor: NUMBER_INPUT_TOKENS.button.bg,
-      border: 'none',
-      cursor: canClick && !disabled ? 'pointer' : 'not-allowed',
-      color:
-        canClick && !disabled
-          ? NUMBER_INPUT_TOKENS.button.fg
-          : NUMBER_INPUT_TOKENS.button.fgDisabled,
-      transition: 'background-color 150ms ease',
-    })
+    const buttonStyle = (canClick: boolean): React.CSSProperties =>
+      ({
+        '--v-bg': NUMBER_INPUT_TOKENS.button.bg,
+        '--v-bg-hover':
+          canClick && !disabled
+            ? NUMBER_INPUT_TOKENS.button.bgHover
+            : NUMBER_INPUT_TOKENS.button.bg,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: NUMBER_INPUT_TOKENS.button.width,
+        backgroundColor: 'var(--v-bg)',
+        border: 'none',
+        cursor: canClick && !disabled ? 'pointer' : 'not-allowed',
+        color:
+          canClick && !disabled
+            ? NUMBER_INPUT_TOKENS.button.fg
+            : NUMBER_INPUT_TOKENS.button.fgDisabled,
+        transition: 'background-color 150ms ease',
+      }) as React.CSSProperties
 
     const inputStyle: React.CSSProperties = {
       flex: 1,
@@ -211,7 +222,11 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
           </label>
         )}
 
-        <div style={containerStyle}>
+        <div
+          style={containerStyle}
+          data-vistral="input-group"
+          data-disabled={disabled || undefined}
+        >
           {!hideButtons && (
             <button
               type="button"
@@ -219,6 +234,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
               onClick={decrement}
               disabled={disabled || !canDecrement}
               tabIndex={-1}
+              data-vistral-interactive=""
             >
               <Minus size={16} />
             </button>
@@ -234,6 +250,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
             onBlur={handleBlur}
             disabled={disabled}
             style={inputStyle}
+            data-vistral="input"
             {...props}
           />
 
@@ -244,6 +261,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
               onClick={increment}
               disabled={disabled || !canIncrement}
               tabIndex={-1}
+              data-vistral-interactive=""
             >
               <Plus size={16} />
             </button>

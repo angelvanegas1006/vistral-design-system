@@ -15,6 +15,21 @@ import { Plus, Download, Settings } from 'lucide-react'
 const meta: Meta<typeof PageHeader> = {
   title: 'Components/Header',
   component: PageHeader,
+  argTypes: {
+    title: {
+      control: 'text',
+      description: 'Page title',
+    },
+    description: {
+      control: 'text',
+      description: 'Page description',
+    },
+    level: {
+      control: 'select',
+      options: ['h1', 'h2', 'h3'],
+      description: 'Title level',
+    },
+  },
   parameters: {
     layout: 'padded',
     docs: {

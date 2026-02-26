@@ -6,6 +6,21 @@ import { AlignLeft, AlignCenter, AlignRight, Grid, List, LayoutGrid } from 'luci
 const meta: Meta<typeof ToggleGroup> = {
   title: 'Components/ToggleGroup',
   component: ToggleGroup,
+  argTypes: {
+    multiple: {
+      control: 'boolean',
+      description: 'Allow multiple selection',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disabled state',
+    },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: 'Size variant',
+    },
+  },
   parameters: {
     layout: 'centered',
     docs: {

@@ -6,6 +6,20 @@ import { Tag, Star, Filter, User } from 'lucide-react'
 const meta: Meta<typeof Chip> = {
   title: 'Components/Chip',
   component: Chip,
+  argTypes: {
+    variant: { control: 'select', options: ['filled', 'outlined'] },
+    size: { control: 'select', options: ['sm', 'md'] },
+    selected: { control: 'boolean' },
+    active: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    rightElement: { control: 'select', options: ['remove', 'dropdown', 'count'] },
+    count: { control: 'number' },
+    showDivider: { control: 'boolean' },
+    children: { control: 'text' },
+    leftIcon: { table: { disable: true } },
+    onClick: { action: 'clicked' },
+    onRemove: { action: 'removed' },
+  },
   parameters: {
     layout: 'centered',
     docs: {
